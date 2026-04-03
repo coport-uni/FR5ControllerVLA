@@ -11,3 +11,6 @@ git clone https://github.com/coport-uni/FR5ControllerVLA.git
 # https://github.com/AgRoboticsResearch/lerobot_robot_piper
 pip install lerobot_robot_piper
 
+# Ready Piper
+bash find_all_can_port.sh
+bash can_activate.sh piper_leader 1000000 "3-4:1.0"
