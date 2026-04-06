@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:pypi.org)",
+      "Bash(python claude_test/test_piper_joint_read.py --can can0 --duration 3)",
+      "Read(//usr/bin/**)",
+      "Bash(/workspace/FR5ControllerVLA/.venv/bin/python --version)"
+    ]
+  }
+}

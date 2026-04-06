@@ -1,7 +1,7 @@
 #!/bin/bash
 declare -A USB_PORTS 
 
-USB_PORTS["3-4:1.0"]="can_leader:1000000"
+USB_PORTS["3-4:1.0"]="piper_leader:1000000"
 
 # Whether to ignore CAN quantity check (default false)
 IGNORE_CHECK=false

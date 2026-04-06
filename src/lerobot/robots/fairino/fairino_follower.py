@@ -263,13 +263,25 @@ class FairinoFollower(Robot):
             for val, lo, hi in zip(target_deg, lower, upper, strict=True)
         ]
 
-        # ServoJ uses 7 XMLRPC params (no 'id' on FW V3.9.1).
-        cmd_t = 1.0 / self.config.control_hz  # [s]
+        # The Fairino controller expects cmdT in [0.001 .. 0.016]s
+        # (i.e. 62–1000 Hz internal servo rate).  We use the SDK
+        # default 0.008s regardless of the teleop loop rate.
+        _SERVO_CMD_T = 0.008
         axis_pos = [0.0, 0.0, 0.0, 0.0]
-        ret = self._rpc.robot.ServoJ(
-            clamped_deg, axis_pos,
-            0.0, 0.0, cmd_t, 0.0, 0.0,
-        )
+
+        if self._use_xmlrpc_reads:
+            # XMLRPC-only path — call raw XMLRPC.
+            ret = self._rpc.robot.ServoJ(
+                clamped_deg, axis_pos,
+                0.0, 0.0, _SERVO_CMD_T, 0.0, 0.0,
+            )
+        else:
+            # Full SDK path — use the wrapper (handles safety).
+            ret = self._rpc.ServoJ(
+                clamped_deg, axis_pos,
+                acc=0.0, vel=0.0, cmdT=_SERVO_CMD_T,
+                filterT=0.0, gain=0.0,
+            )
 
         if ret != 0:
             logger.warning(

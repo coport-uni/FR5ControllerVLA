@@ -72,6 +72,10 @@ def make_robot_from_config(config: RobotConfig) -> Robot:
         from .fairino import FairinoFollower
 
         return FairinoFollower(config)
+    elif config.type == "piper_follower":
+        from .piper_follower import PiperFollower
+
+        return PiperFollower(config)
     elif config.type == "mock_robot":
         from tests.mocks.mock_robot import MockRobot
 
