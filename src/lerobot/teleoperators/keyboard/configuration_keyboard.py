@@ -66,3 +66,23 @@ class KeyboardRoverTeleopConfig(TeleoperatorConfig):
     angular_speed_ratio: float = 0.6
     min_linear_speed: float = 0.1
     min_angular_speed: float = 0.05
+
+
+@TeleoperatorConfig.register_subclass("keyboard_fairino")
+@dataclass
+class KeyboardFairinoTeleopConfig(TeleoperatorConfig):
+    """Configuration for keyboard Fairino FR5 teleoperator.
+
+    Controls a 6-DOF arm via joint-space keyboard commands.
+
+    Attributes:
+        step_size_deg: Default angular step per key press (degrees)
+        step_increment_deg: Amount to adjust step_size with +/- keys
+        min_step_deg: Minimum allowed step size
+        max_step_deg: Maximum allowed step size
+    """
+
+    step_size_deg: float = 1.0
+    step_increment_deg: float = 0.5
+    min_step_deg: float = 0.1
+    max_step_deg: float = 10.0

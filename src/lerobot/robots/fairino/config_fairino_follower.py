@@ -15,51 +15,46 @@
 # limitations under the License.
 
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from lerobot.cameras import CameraConfig
 
 from ..config import RobotConfig
 
+
 @RobotConfig.register_subclass("fairino_follower")
 @dataclass(kw_only=True)
 class FairinoFollowerConfig(RobotConfig):
-    '''
-    This function instance new robot class with given parameters.
-    '''
+    """Configuration for the Fairino FR5 6-DOF collaborative robot."""
 
-    # IP address 
-    ip_address : str = "192.168.58.2"
+    # Network
+    ip_address: str = "192.168.58.2"
 
-    # Kinematics info
+    # Kinematics
     num_joints: int = 6
 
     joint_names: list[str] = field(
         default_factory=lambda: [
             "joint1", "joint2", "joint3",
-            "joint4", "joint5", "joint6"
+            "joint4", "joint5", "joint6",
         ]
     )
+
+    # Joint limits in degrees (Fairino FR5 spec)
     joint_limits_lower: list[float] = field(
-        default_factory=lambda: [-175, -265, -160, -265, -175, -175]
+        default_factory=lambda: [-175.0, -265.0, -160.0, -265.0, -175.0, -175.0]
     )
     joint_limits_upper: list[float] = field(
-        default_factory=lambda: [175, 85, 160, 85, 175, 175]
+        default_factory=lambda: [175.0, 85.0, 160.0, 85.0, 175.0, 175.0]
     )
+
+    # Control parameters
     control_hz: float = 20.0
-    move_speed: float = 0.1
+    move_speed: float = 0.1  # 0.0 ~ 1.0, maps to 0-100% in SDK
 
-    # LeRobot은 basically use radian
-    use_radian: bool = True
-
-    # Camera setup. recycle from piper repo
+    # Cameras
     cameras: dict[str, CameraConfig] = field(default_factory=dict)
-    
-    disable_torque_on_disconnect: bool = True
-    
-    # `max_relative_target` limits the magnitude of the relative positional target vector for safety purposes.
-    # Set this to a positive scalar to have the same value for all motors, or a dictionary that maps motor
-    # names to the max_relative_target value for that motor.
+
+    # Safety
     max_relative_target: float | dict[str, float] | None = None
 
     @property

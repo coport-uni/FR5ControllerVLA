@@ -16,142 +16,262 @@
 
 import logging
 import time
-from functools import cached_property
-from pathlib import Path
 from typing import Any
 
-from lerobot.cameras import Camera
 from lerobot.cameras.utils import make_cameras_from_configs
-from lerobot.constants import HF_LEROBOT_CALIBRATION, ROBOTS
-from lerobot.errors import DeviceNotConnectedError
-from lerobot.motors import Motor, MotorCalibration, MotorNormMode
-from lerobot.robots import Robot
-from lerobot.robots.fairino_follower.config_fairino_follower import FairinoFollowerConfig
-from lerobot.robots.utils import ensure_safe_goal_position
+from lerobot.robots.robot import Robot
+from lerobot.types import RobotAction, RobotObservation
 
-from fairino import Robot
+from .config_fairino_follower import FairinoFollowerConfig
+from .fairino.Robot import RPC as FairinoRPC
 
 logger = logging.getLogger(__name__)
 
+
 class FairinoFollower(Robot):
-    '''
-    Declare class for later usage
-    '''
-    config_class: FairinoFollowerConfig
+    """
+    LeRobot-compatible wrapper for the Fairino FR5 6-DOF collaborative robot.
+
+    Communicates with the Fairino controller via XMLRPC (port 20003) and
+    receives real-time state feedback via TCP socket (port 20004).
+
+    Actions and observations use the flat-dict contract expected by LeRobot:
+        observation keys: "joint1.pos" .. "joint6.pos", plus camera images
+        action keys:      "joint1.pos" .. "joint6.pos"
+    All joint values are in **degrees** (the native Fairino unit).
+    """
+
+    config_class = FairinoFollowerConfig
     name = "fairino_follower"
-    cameras : dict[str, Camera] = {}
 
     def __init__(self, config: FairinoFollowerConfig):
-        '''
-        Link fairinoSDK to lerobot architecture
-        '''
         super().__init__(config)
         self.config = config
-        self._robot: Robot | None = None
+        self._rpc = None  # Fairino SDK RPC handle
         self._is_connected = False
-    
-    def connect(self) -> None:
-        '''
-        Connect fairino robot
-        '''
-        print(f"[Fairino] Connecting to {self.config.robot_ip}")
-        self._robot = FaiRobot.RPC(self.config.robot_ip)
+        self.cameras = {}
 
-        # Check joint position
-        ret, joints = self._robot.GetActualJointPosDegree()
+    # ------------------------------------------------------------------
+    # Abstract property implementations
+    # ------------------------------------------------------------------
+
+    @property
+    def observation_features(self) -> dict:
+        features = {}
+        for jname in self.config.joint_names:
+            features[f"{jname}.pos"] = float
+        for cam_name, cam_cfg in self.config.cameras.items():
+            features[f"observation.images.{cam_name}"] = (cam_cfg.height, cam_cfg.width, 3)
+        return features
+
+    @property
+    def action_features(self) -> dict:
+        return {f"{jname}.pos": float for jname in self.config.joint_names}
+
+    @property
+    def is_connected(self) -> bool:
+        return self._is_connected
+
+    @property
+    def is_calibrated(self) -> bool:
+        # Fairino has absolute encoders; no calibration needed.
+        return True
+
+    # ------------------------------------------------------------------
+    # Lifecycle
+    # ------------------------------------------------------------------
+
+    def connect(self, calibrate: bool = True) -> None:
+        if self._is_connected:
+            raise RuntimeError("[Fairino] Already connected.")
+
+        logger.info(f"[Fairino] Connecting to {self.config.ip_address} ...")
+        self._rpc = FairinoRPC(self.config.ip_address)
+
+        # Verify communication by reading joint positions
+        ret, joints = self._rpc.GetActualJointPosDegree()
         if ret != 0:
+            self._rpc = None
             raise ConnectionError(
-                f"[Fairino] Fail to connect / (Error code: {ret})\n"
+                f"[Fairino] Failed to connect (error code: {ret})"
             )
 
+        # Clean up any leftover servo session, then initialise into a
+        # known-good state:
+        #   ServoMoveEnd (ignore errors) → RobotEnable(0) → ResetAllError
+        #   → RobotEnable(1) → Mode(0) → ServoMoveStart
+
+        try:
+            self._rpc.ServoMoveEnd()
+        except Exception:
+            pass
+        time.sleep(0.2)
+        self._rpc.RobotEnable(0)
+        time.sleep(0.3)
+        self._rpc.ResetAllError()
+        time.sleep(0.3)
+        self._rpc.RobotEnable(1)
+        time.sleep(0.3)
+        self._rpc.Mode(0)
+        time.sleep(0.5)
+
+        # Start servo mode for real-time joint control
+        ret_servo = self._rpc.ServoMoveStart()
+        if ret_servo != 0:
+            logger.warning(f"[Fairino] ServoMoveStart returned {ret_servo}")
+        time.sleep(0.3)
+        logger.info("[Fairino] Robot enabled in auto mode (servo).")
+
         self._is_connected = True
-        print(f"[Fairino] Success to connect / (Joint_status: {joints})\n")
-        
-        # Check camera
-        for cam_name, cam_config in self.config.cameras.items():
-            cam_config.connect()
-            print(f"[Fairino] Success to connect / (Camera: {cam_name})\n")
-    
+        logger.info(f"[Fairino] Connected. Current joints (deg): {joints}")
+
+        # Connect cameras
+        if self.config.cameras:
+            self.cameras = make_cameras_from_configs(self.config.cameras)
+            for cam_name, cam in self.cameras.items():
+                cam.connect()
+                logger.info(f"[Fairino] Camera '{cam_name}' connected.")
+
     def disconnect(self) -> None:
-        '''
-        Disconnect fairino robot
-        '''
-        if self._robot is not None:
-            self._robot = None
-            self._is_connected = False
+        # Disconnect cameras first
+        for cam_name, cam in self.cameras.items():
+            cam.disconnect()
+            logger.info(f"[Fairino] Camera '{cam_name}' disconnected.")
 
-        print("[Fairino] Success to disconnect")
-    
-    def get_observation(self) -> dict[str, Any]:
-        """
-        Return fairino robot's joint and camera oberservation data
+        if self._rpc is not None:
+            try:
+                self._rpc.ServoMoveEnd()
+            except Exception:
+                pass
+            try:
+                self._rpc.CloseRPC()
+            except Exception:
+                pass
+            self._rpc = None
 
-        Ouput: dict with keys
-            "observation.state": (radian, shape: [6]), 
-            "observation.images.<cam_name>": camera_image array)
-        """
-        self._check_connected()
+        self._is_connected = False
+        logger.info("[Fairino] Disconnected.")
 
-        obs = {}
+    def calibrate(self) -> None:
+        # Fairino uses absolute encoders — nothing to calibrate.
+        pass
 
-        # joint status (degree)
-        ret, joints_deg = self._robot.GetActualJointPosDegree()
+    def configure(self) -> None:
+        pass
+
+    # ------------------------------------------------------------------
+    # Observation / Action
+    # ------------------------------------------------------------------
+
+    def get_observation(self) -> RobotObservation:
+        self._assert_connected()
+
+        obs: dict[str, Any] = {}
+
+        # Read joint positions in degrees
+        ret, joints_deg = self._rpc.GetActualJointPosDegree()
         if ret != 0:
-            raise RuntimeError(f"[Fairino] Fail to read joint / (error code: {ret})")
+            raise RuntimeError(f"[Fairino] Failed to read joints (error code: {ret})")
 
-        joints = np.array(joints_deg, dtype=np.float32)
+        for i, jname in enumerate(self.config.joint_names):
+            obs[f"{jname}.pos"] = joints_deg[i]
 
-        # degree2radian (for LeRobot standard)
-        if self.config.use_radian:
-            joints = np.deg2rad(joints)
-
-        obs["observation.state"] = joints
-
-        # camera_image
-        for cam_name, cam in self.config.cameras.items():
-            img = cam.read()
-            obs[f"observation.images.{cam_name}"] = img
+        # Read camera images
+        for cam_name, cam in self.cameras.items():
+            obs[f"observation.images.{cam_name}"] = cam.async_read()
 
         return obs
-    
-    def send_action(self, action: np.ndarray) -> np.ndarray:
+
+    def send_action(self, action: RobotAction) -> RobotAction:
         """
-        Move fairino robot's joint to target location
+        Send joint-position targets (degrees) to the Fairino robot via ServoJ.
 
-        Input: Target joint location (radian, shape: [6])
-        Output: Real joint location
+        Uses real-time servo mode (ServoJ) for low-latency control, which is
+        required for VLA inference and keyboard teleoperation.
+
+        Args:
+            action: dict with keys "joint1.pos" .. "joint6.pos", values in degrees.
+
+        Returns:
+            The clamped action that was actually sent (degrees).
         """
-        self._check_connected()
+        self._assert_connected()
 
-        # radian2degree (for Fairino standard)
-        if self.config.use_radian:
-            action_deg = np.rad2deg(action)
-        else:
-            action_deg = action.copy()
+        # Build target joint list (degrees)
+        target_deg = []
+        for jname in self.config.joint_names:
+            key = f"{jname}.pos"
+            target_deg.append(float(action[key]))
 
-        # Input filter
-        lower = np.array(self.config.joint_limits_lower)
-        upper = np.array(self.config.joint_limits_upper)
-        action_deg = np.clip(action_deg, lower, upper)
+        # Clamp to joint limits
+        lower = self.config.joint_limits_lower
+        upper = self.config.joint_limits_upper
+        clamped_deg = [
+            max(lo, min(hi, val))
+            for val, lo, hi in zip(target_deg, lower, upper)
+        ]
 
-        # Fairino SDK: MoveJ (관절 공간 이동)
-        # 파라미터: joint_pos(list), speed(%), acc(%), tol, ovl, blendT
-        joint_list = action_deg.tolist()
-        speed = self.config.move_speed * 100  # 0~100%
-
-        ret = self._robot.MoveJ(
-            joint_list,   # Target joint
-            speed,        # Speed (%)
-            speed,        # Velocity (%)
-            0,            # error_margin
-            100,          # override (%)
-            -1,           # disable blending (%) 
-            tool = 1,     # robot_specific_parameter
-            user = 0      # robot_specific_parameter  
+        # Send via ServoJ (direct XMLRPC, 7 params — no 'id' arg for this FW)
+        cmd_t = 1.0 / self.config.control_hz
+        axis_pos = [0.0, 0.0, 0.0, 0.0]
+        ret = self._rpc.robot.ServoJ(
+            clamped_deg, axis_pos, 0.0, 0.0, cmd_t, 0.0, 0.0,
         )
 
         if ret != 0:
-            print(f"[Fairino] Fail to move joint / (error code: {ret})")
+            logger.warning(f"[Fairino] ServoJ returned error code: {ret}")
 
-        return np.deg2rad(action_deg) if self.config.use_radian else action_deg
+        # Return the action that was actually sent
+        sent_action = {}
+        for i, jname in enumerate(self.config.joint_names):
+            sent_action[f"{jname}.pos"] = clamped_deg[i]
+        return sent_action
 
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+
+    def _assert_connected(self) -> None:
+        if not self._is_connected or self._rpc is None:
+            raise RuntimeError("[Fairino] Robot is not connected. Call connect() first.")
+
+    def get_joint_positions_deg(self) -> list[float]:
+        """Convenience: return current joint positions in degrees as a plain list."""
+        self._assert_connected()
+        ret, joints = self._rpc.GetActualJointPosDegree()
+        if ret != 0:
+            raise RuntimeError(f"[Fairino] Failed to read joints (error code: {ret})")
+        return list(joints)
+
+    def get_tcp_pose(self) -> list[float]:
+        """Convenience: return current TCP pose [x,y,z,rx,ry,rz] (mm/deg)."""
+        self._assert_connected()
+        ret, pose = self._rpc.GetActualTCPPose()
+        if ret != 0:
+            raise RuntimeError(f"[Fairino] Failed to read TCP pose (error code: {ret})")
+        return list(pose)
+
+    def stop_motion(self) -> None:
+        """Emergency stop the robot motion."""
+        if self._rpc is not None:
+            self._rpc.StopMotion()
+
+    def reset_errors(self) -> None:
+        """Clear robot error state, re-enable, set auto mode, and restart servo."""
+        if self._rpc is not None:
+    
+            try:
+                self._rpc.ServoMoveEnd()
+            except Exception:
+                pass
+            self._rpc.RobotEnable(0)
+            time.sleep(0.3)
+            self._rpc.ResetAllError()
+            time.sleep(0.3)
+            self._rpc.RobotEnable(1)
+            time.sleep(0.3)
+            self._rpc.Mode(0)
+            time.sleep(0.5)
+            self._rpc.ServoMoveStart()
+            time.sleep(0.3)
+            logger.info("[Fairino] Errors reset, robot re-enabled in auto mode (servo).")
