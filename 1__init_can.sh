@@ -1,8 +1,7 @@
 #!/bin/bash
 declare -A USB_PORTS 
 
-USB_PORTS["1-4.2:1.0"]="can_follower:1000000"
-USB_PORTS["1-1:1.0"]="can_leader:1000000"
+USB_PORTS["3-4:1.0"]="can_leader:1000000"
 
 # Whether to ignore CAN quantity check (default false)
 IGNORE_CHECK=false
@@ -59,7 +58,7 @@ else
 fi
 
 # Load the gs_usb module
-sudo modprobe gs_usb
+modprobe gs_usb
 if [ $? -ne 0 ]; then
     echo "[ERROR]: Unable to load gs_usb module."
     exit 1
@@ -87,7 +86,7 @@ echo -e "\n⚠️  [HINT]: Please make sure none of the above interface names co
 for iface in $SYS_INTERFACE; do
     # Get bus-info using ethtool
     echo "--------------------------- $iface ------------------------------"
-    BUS_INFO=$(sudo ethtool -i "$iface" | grep "bus-info" | awk '{print $2}')
+    BUS_INFO=$(ethtool -i "$iface" | grep "bus-info" | awk '{print $2}')
     
     if [ -z "$BUS_INFO" ];then
         echo "[ERROR]: Unable to get bus-info information for interface '$iface'."
@@ -111,9 +110,9 @@ for iface in $SYS_INTERFACE; do
             # Check if the interface name matches the target name
             if [ "$iface" != "$TARGET_NAME" ]; then
                 echo "[INFO]: Rename interface '$iface' to '$TARGET_NAME'"
-                sudo ip link set "$iface" down
-                sudo ip link set "$iface" name "$TARGET_NAME"
-                sudo ip link set "$TARGET_NAME" up
+                ip link set "$iface" down
+                ip link set "$iface" name "$TARGET_NAME"
+                ip link set "$TARGET_NAME" up
                 echo "[INFO]: The interface was renamed to '$TARGET_NAME' and reactivated."
             else
                 echo "[INFO]: The USB port '$BUS_INFO' interface name is already '$TARGET_NAME'"
@@ -127,7 +126,7 @@ for iface in $SYS_INTERFACE; do
             fi
             # if ip link show "$TARGET_NAME" &>/dev/null; then
             #     echo "[WARN]: Interface '$TARGET_NAME' already exists. Deleting to allow renaming."
-            #     sudo ip link delete "$TARGET_NAME"
+            #     ip link delete "$TARGET_NAME"
             # fi
             # If the interface is not active or the bit rate is different, set
             if [ "$IS_LINK_UP" = "yes" ]; then
@@ -137,17 +136,17 @@ for iface in $SYS_INTERFACE; do
             fi
             
             # Set the interface bit rate and activate it
-            sudo ip link set "$iface" down
-            sudo ip link set "$iface" type can bitrate $TARGET_BITRATE
-            sudo ip link set "$iface" up
+            ip link set "$iface" down
+            ip link set "$iface" type can bitrate $TARGET_BITRATE
+            ip link set "$iface" up
             echo "[INFO]: Interface '$iface' has been reset to bitrate $TARGET_BITRATE and activated."
             
             # Rename the interface to the target name
             if [ "$iface" != "$TARGET_NAME" ]; then
                 echo "[INFO]: Rename interface $iface to '$TARGET_NAME'"
-                sudo ip link set "$iface" down
-                sudo ip link set "$iface" name "$TARGET_NAME"
-                sudo ip link set "$TARGET_NAME" up
+                ip link set "$iface" down
+                ip link set "$iface" name "$TARGET_NAME"
+                ip link set "$TARGET_NAME" up
                 echo "[INFO]: The interface was renamed to '$TARGET_NAME' and reactivated."
             fi
         fi

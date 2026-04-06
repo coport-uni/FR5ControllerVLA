@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 
 # Copyright 2026 APPEAL Automation team. All rights reserved.
-
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing
+# permissions and limitations under the License.
+
+"""Configuration dataclass for the Fairino FR5 robot."""
 
 from dataclasses import dataclass, field
 
@@ -24,12 +26,24 @@ from ..config import RobotConfig
 @RobotConfig.register_subclass("fairino_follower")
 @dataclass(kw_only=True)
 class FairinoFollowerConfig(RobotConfig):
-    """Configuration for the Fairino FR5 6-DOF collaborative robot."""
+    """Settings for the Fairino FR5 6-DOF collaborative arm.
 
-    # Network
+    Attributes:
+        ip_address: Controller network address.
+        num_joints: Number of revolute joints.
+        joint_names: Ordered list of joint identifiers.
+        joint_limits_lower: Minimum angles [deg] per joint.
+        joint_limits_upper: Maximum angles [deg] per joint.
+        control_hz: ServoJ command rate [Hz].
+        move_speed: Velocity scale 0.0-1.0 (maps to 0-100%).
+        cameras: Optional camera configurations.
+        max_relative_target: Safety cap on per-step motion.
+    """
+
+    # -- network ---------------------------------------------
     ip_address: str = "192.168.58.2"
 
-    # Kinematics
+    # -- kinematics ------------------------------------------
     num_joints: int = 6
 
     joint_names: list[str] = field(
@@ -39,23 +53,33 @@ class FairinoFollowerConfig(RobotConfig):
         ]
     )
 
-    # Joint limits in degrees (Fairino FR5 spec)
+    # Joint limits [deg] from the FR5 datasheet.
     joint_limits_lower: list[float] = field(
-        default_factory=lambda: [-175.0, -265.0, -160.0, -265.0, -175.0, -175.0]
+        default_factory=lambda: [
+            -175.0, -265.0, -160.0,
+            -265.0, -175.0, -175.0,
+        ]
     )
     joint_limits_upper: list[float] = field(
-        default_factory=lambda: [175.0, 85.0, 160.0, 85.0, 175.0, 175.0]
+        default_factory=lambda: [
+            175.0, 85.0, 160.0,
+            85.0, 175.0, 175.0,
+        ]
     )
 
-    # Control parameters
+    # -- control ---------------------------------------------
     control_hz: float = 20.0
-    move_speed: float = 0.1  # 0.0 ~ 1.0, maps to 0-100% in SDK
+    move_speed: float = 0.1
 
-    # Cameras
-    cameras: dict[str, CameraConfig] = field(default_factory=dict)
+    # -- peripherals -----------------------------------------
+    cameras: dict[str, CameraConfig] = field(
+        default_factory=dict
+    )
 
-    # Safety
-    max_relative_target: float | dict[str, float] | None = None
+    # -- safety ----------------------------------------------
+    max_relative_target: (
+        float | dict[str, float] | None
+    ) = None
 
     @property
     def type(self) -> str:

@@ -19,7 +19,7 @@ echo "Both ethtool and can-utils are installed."
 # Iterate through all CAN interfaces
 for iface in $(ip -br link show type can | awk '{print $1}'); do
     # Use ethtool to get bus-info
-    BUS_INFO=$(sudo ethtool -i "$iface" | grep "bus-info" | awk '{print $2}')
+    BUS_INFO=$(ethtool -i "$iface" | grep "bus-info" | awk '{print $2}')
     
     if [ -z "$BUS_INFO" ];then
         echo "Error: Unable to get bus-info for interface $iface."

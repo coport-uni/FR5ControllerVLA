@@ -10,26 +10,16 @@
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing
+# permissions and limitations under the License.
 
-"""
-Keyboard teleoperation script for Fairino FR5 robot.
+"""Standalone keyboard teleoperation for the Fairino FR5.
 
-Usage:
+Usage::
+
     python -m lerobot.scripts.teleop_fairino --ip 192.168.58.2
-    python -m lerobot.scripts.teleop_fairino --ip 192.168.58.2 --step 2.0 --speed 0.3
-
-Keyboard controls:
-    1-6         Select active joint
-    W / Up      Increase selected joint angle
-    S / Down    Decrease selected joint angle
-    + / =       Increase step size
-    - / _       Decrease step size
-    P           Print current joint positions & TCP pose
-    R           Reset robot errors and re-enable
-    Q / Esc     Quit
+    python -m lerobot.scripts.teleop_fairino --step 2.0 --speed 0.3
 """
 
 import argparse
@@ -43,72 +33,106 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-JOINT_NAMES = ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"]
+JOINT_NAMES = [
+    "joint1", "joint2", "joint3",
+    "joint4", "joint5", "joint6",
+]
 
-# ── ANSI helpers for terminal display ──────────────────────────────────
-CLEAR_LINE = "\033[2K"
-MOVE_UP = "\033[A"
-BOLD = "\033[1m"
-RESET_STYLE = "\033[0m"
-GREEN = "\033[92m"
-YELLOW = "\033[93m"
-CYAN = "\033[96m"
+# ANSI terminal helpers.
+_CLR = "\033[2K"
+_UP = "\033[A"
+_BOLD = "\033[1m"
+_RST = "\033[0m"
+_GRN = "\033[92m"
+_YLW = "\033[93m"
+_CYN = "\033[96m"
+
+# Number of display lines to overwrite per frame.
+_DISPLAY_LINES = len(JOINT_NAMES) + 3
 
 
-def print_banner():
+def _print_banner() -> None:
+    """Show the keyboard-control reference banner."""
     print(f"""
-{BOLD}╔══════════════════════════════════════════════════════════╗
-║          Fairino FR5 Keyboard Teleoperation              ║
-╠══════════════════════════════════════════════════════════╣
-║  1-6        Select joint                                 ║
-║  W/↑        Joint angle +                                ║
-║  S/↓        Joint angle -                                ║
-║  +/=        Step size +    -  Step size -                ║
-║  P          Print state    R  Reset errors               ║
-║  Q/Esc      Quit                                         ║
-╚══════════════════════════════════════════════════════════╝{RESET_STYLE}
+{_BOLD}{'=' * 56}
+  Fairino FR5 Keyboard Teleoperation
+{'=' * 56}
+  1-6        Select joint
+  W / Up     Joint angle +     S / Down   Joint angle -
+  + / =      Step size +       -          Step size -
+  P          Print state       R          Reset errors
+  Q / Esc    Quit
+{'=' * 56}{_RST}
 """)
 
 
-def format_joints_display(joints_deg: list[float], selected: int, step: float) -> str:
-    lines = []
-    lines.append(f"  Step size: {CYAN}{step:.1f}{RESET_STYLE} deg")
-    lines.append("")
-    for i, (name, val) in enumerate(zip(JOINT_NAMES, joints_deg)):
-        marker = f"{GREEN}▶{RESET_STYLE}" if i == selected else " "
-        lines.append(f"  {marker} {name}: {val:>8.2f}°")
+def _format_joints(
+    joints_deg: list[float],
+    selected: int,
+    step: float,
+) -> str:
+    """Build a compact multi-line joint-state display."""
+    lines = [f"  Step: {_CYN}{step:.1f}{_RST} deg", ""]
+    for i, (name, val) in enumerate(
+        zip(JOINT_NAMES, joints_deg, strict=True)
+    ):
+        marker = f"{_GRN}>{_RST}" if i == selected else " "
+        lines.append(f"  {marker} {name}: {val:>8.2f} deg")
     return "\n".join(lines)
 
 
-def run_teleop(ip: str, step_size: float, speed: float, hz: float):
-    from lerobot.robots.fairino.config_fairino_follower import FairinoFollowerConfig
-    from lerobot.robots.fairino.fairino_follower import FairinoFollower
-    from lerobot.teleoperators.keyboard.configuration_keyboard import KeyboardFairinoTeleopConfig
-    from lerobot.teleoperators.keyboard.teleop_keyboard_fairino import KeyboardFairinoTeleop
+def run_teleop(
+    ip: str,
+    step_size: float,
+    speed: float,
+    hz: float,
+) -> None:
+    """Main teleoperation loop.
 
-    # ── Configure & connect robot ──
-    robot_cfg = FairinoFollowerConfig(id="fr5", ip_address=ip, move_speed=speed)
+    Args:
+        ip: Fairino controller IP address.
+        step_size: Initial angular step per keypress [deg].
+        speed: Movement speed scale (0.0 - 1.0).
+        hz: Control loop frequency [Hz].
+    """
+    # Lazy imports keep --help fast even without deps.
+    from lerobot.robots.fairino.config_fairino_follower import (
+        FairinoFollowerConfig,
+    )
+    from lerobot.robots.fairino.fairino_follower import (
+        FairinoFollower,
+    )
+    from lerobot.teleoperators.keyboard.configuration_keyboard import (
+        KeyboardFairinoTeleopConfig,
+    )
+    from lerobot.teleoperators.keyboard.teleop_keyboard_fairino import (
+        KeyboardFairinoTeleop,
+    )
+
+    robot_cfg = FairinoFollowerConfig(
+        id="fr5", ip_address=ip, move_speed=speed,
+    )
     robot = FairinoFollower(robot_cfg)
 
-    teleop_cfg = KeyboardFairinoTeleopConfig(id="kb_fairino", step_size_deg=step_size)
+    teleop_cfg = KeyboardFairinoTeleopConfig(
+        id="kb_fairino", step_size_deg=step_size,
+    )
     teleop = KeyboardFairinoTeleop(teleop_cfg)
 
     try:
         robot.connect()
-    except Exception as e:
-        logger.error(f"Failed to connect to robot at {ip}: {e}")
+    except Exception as exc:
+        logger.error("Cannot connect to %s: %s", ip, exc)
         sys.exit(1)
 
     teleop.connect()
+    _print_banner()
 
-    print_banner()
-
-    # Feed initial observation to teleop so it knows current joint positions
+    # Initialise teleop targets from actual joint state.
     obs = robot.get_observation()
     teleop.send_feedback(obs)
 
-    display_lines = len(JOINT_NAMES) + 3
-    print(format_joints_display(
+    print(_format_joints(
         [obs[f"{j}.pos"] for j in JOINT_NAMES],
         0, step_size,
     ))
@@ -117,68 +141,69 @@ def run_teleop(ip: str, step_size: float, speed: float, hz: float):
 
     try:
         while True:
-            loop_start = time.perf_counter()
+            t_start = time.perf_counter()
 
-            # ── Check control flags ──
             if teleop.quit_requested:
                 logger.info("Quit requested.")
                 break
-
             if teleop.reset_requested:
                 logger.info("Resetting robot errors ...")
                 robot.reset_errors()
 
-            # ── Get absolute target action from keyboard teleop ──
             action = teleop.get_action()
-
-            # ── Send to robot ──
             sent = robot.send_action(action)
 
-            # Feed back the observation so display stays up-to-date
             obs = robot.get_observation()
             teleop.send_feedback(obs)
 
-            # ── Update terminal display ──
-            current_joints = [sent[f"{j}.pos"] for j in JOINT_NAMES]
-            for _ in range(display_lines):
-                sys.stdout.write(MOVE_UP + CLEAR_LINE)
-            print(format_joints_display(
-                current_joints,
+            joints = [
+                sent[f"{j}.pos"] for j in JOINT_NAMES
+            ]
+            for _ in range(_DISPLAY_LINES):
+                sys.stdout.write(_UP + _CLR)
+            print(_format_joints(
+                joints,
                 teleop.selected_joint,
                 teleop.step_size,
             ))
 
-            # ── Rate limiting ──
-            elapsed = time.perf_counter() - loop_start
-            remaining = period - elapsed
+            remaining = period - (
+                time.perf_counter() - t_start
+            )
             if remaining > 0:
                 time.sleep(remaining)
 
     except KeyboardInterrupt:
-        logger.info("Interrupted by user (Ctrl+C).")
+        logger.info("Interrupted (Ctrl+C).")
     finally:
         teleop.disconnect()
         robot.disconnect()
-        print(f"\n{GREEN}Teleoperation ended.{RESET_STYLE}")
+        print(f"\n{_GRN}Teleoperation ended.{_RST}")
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Keyboard teleoperation for Fairino FR5 robot",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__,
+    """Parse CLI arguments and launch teleop."""
+    ap = argparse.ArgumentParser(
+        description="Keyboard teleop for Fairino FR5",
     )
-    parser.add_argument("--ip", type=str, default="192.168.58.2",
-                        help="Fairino controller IP address (default: 192.168.58.2)")
-    parser.add_argument("--step", type=float, default=1.0,
-                        help="Initial joint step size in degrees (default: 1.0)")
-    parser.add_argument("--speed", type=float, default=0.1,
-                        help="Movement speed 0.0-1.0, maps to 0-100%% in SDK (default: 0.1)")
-    parser.add_argument("--hz", type=float, default=20.0,
-                        help="Control loop frequency in Hz (default: 20.0)")
-    args = parser.parse_args()
-
-    run_teleop(ip=args.ip, step_size=args.step, speed=args.speed, hz=args.hz)
+    ap.add_argument(
+        "--ip", default="192.168.58.2",
+        help="Controller IP (default: 192.168.58.2)",
+    )
+    ap.add_argument(
+        "--step", type=float, default=1.0,
+        help="Initial step size [deg] (default: 1.0)",
+    )
+    ap.add_argument(
+        "--speed", type=float, default=0.1,
+        help="Move speed 0.0-1.0 (default: 0.1)",
+    )
+    ap.add_argument(
+        "--hz", type=float, default=20.0,
+        help="Control loop Hz (default: 20.0)",
+    )
+    args = ap.parse_args()
+    run_teleop(args.ip, args.step, args.speed, args.hz)
 
 
 if __name__ == "__main__":
