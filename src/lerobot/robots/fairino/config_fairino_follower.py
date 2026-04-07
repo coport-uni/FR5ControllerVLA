@@ -77,10 +77,36 @@ class FairinoFollowerConfig(RobotConfig):
         default_factory=dict
     )
 
+    # -- gripper ---------------------------------------------
+    # Enable gripper attached to tool flange.
+    gripper_enabled: bool = False
+
+    # Gripper manufacturer:
+    #   1=Robotiq, 2=慧灵, 3=天机, 4=大寰, 5=知行
+    gripper_company: int = 4
+
+    # Device number (manufacturer-specific).
+    #   Robotiq: 0=2F-85  天机: 0=TEG-110  大寰: 0=PGI-140
+    gripper_device: int = 0
+
+    # Gripper index (usually 1).
+    gripper_index: int = 1
+
+    # Default velocity for MoveGripper [0-100 %].
+    gripper_vel: int = 50
+
+    # Default force/torque for MoveGripper [0-100 %].
+    gripper_force: int = 50
+
     # -- safety ----------------------------------------------
     max_relative_target: (
         float | dict[str, float] | None
     ) = None
+
+    # Maximum joint velocity for the servo loop [deg/s].
+    # ServoJ rejects large position jumps, so the servo
+    # thread interpolates toward the target at this rate.
+    max_servo_speed: float = 60.0
 
     @property
     def type(self) -> str:

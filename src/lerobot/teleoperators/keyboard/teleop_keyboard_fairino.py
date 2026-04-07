@@ -30,6 +30,8 @@ Keyboard controls:
     S / Down    Decrease selected joint angle by step_size
     + / =       Increase step size
     - / _       Decrease step size
+    O           Open gripper  (increase position)
+    C           Close gripper (decrease position)
     P           Print current state info to logger
     R           Reset robot errors (sets reset_requested)
     Q           Quit (sets quit_requested)
@@ -193,21 +195,28 @@ class KeyboardFairinoTeleop(Teleoperator):
         # Initialised on the first ``send_feedback`` call.
         self._target_joints: list[float] | None = None
 
+        # Gripper target position [0-100 %].
+        self._target_gripper: float = 0.0
+
     # ---- properties (required by Teleoperator) --------------
 
     @property
     def action_features(self) -> dict:
-        """Action schema: six joint positions [deg]."""
-        return {
+        """Action schema: six joints [deg] + gripper [%]."""
+        features = {
             f"{j}.pos": float for j in JOINT_NAMES
         }
+        features["gripper.pos"] = float
+        return features
 
     @property
     def feedback_features(self) -> dict:
-        """Feedback schema: six joint positions [deg]."""
-        return {
+        """Feedback schema: six joints [deg] + gripper [%]."""
+        features = {
             f"{j}.pos": float for j in JOINT_NAMES
         }
+        features["gripper.pos"] = float
+        return features
 
     @property
     def is_connected(self) -> bool:
@@ -283,9 +292,17 @@ class KeyboardFairinoTeleop(Teleoperator):
             return
 
         self._target_joints = joints
+
+        if "gripper.pos" in feedback:
+            self._target_gripper = float(
+                feedback["gripper.pos"]
+            )
+
         logger.info(
-            "[KeyboardFairino] Targets initialised: %s",
+            "[KeyboardFairino] Targets initialised: %s "
+            "gripper=%.0f%%",
             [f"{j:.2f}" for j in joints],
+            self._target_gripper,
         )
 
     @check_if_not_connected
@@ -337,6 +354,25 @@ class KeyboardFairinoTeleop(Teleoperator):
                 self.config.min_step_deg,
             )
 
+        # Gripper keys (O=open, C=close).
+        grip_step = self.config.gripper_step_pct
+        if pressed("o") or pressed("O"):
+            self._target_gripper = min(
+                100.0, self._target_gripper + grip_step,
+            )
+            logger.info(
+                "[KeyboardFairino] Gripper OPEN -> %.0f%%",
+                self._target_gripper,
+            )
+        if pressed("c") or pressed("C"):
+            self._target_gripper = max(
+                0.0, self._target_gripper - grip_step,
+            )
+            logger.info(
+                "[KeyboardFairino] Gripper CLOSE -> %.0f%%",
+                self._target_gripper,
+            )
+
         # Utility keys.
         if pressed("p") or pressed("P"):
             self._log_state()
@@ -352,19 +388,23 @@ class KeyboardFairinoTeleop(Teleoperator):
 
         # Build absolute target action.
         if self._target_joints is None:
-            return {
+            action = {
                 f"{j}.pos": 0.0 for j in JOINT_NAMES
             }
+            action["gripper.pos"] = self._target_gripper
+            return action
 
         if abs(delta) > 1e-9:
             self._target_joints[self.selected_joint] += (
                 delta
             )
 
-        return {
+        action = {
             f"{j}.pos": self._target_joints[i]
             for i, j in enumerate(JOINT_NAMES)
         }
+        action["gripper.pos"] = self._target_gripper
+        return action
 
     # ---- private helpers ------------------------------------
 
@@ -379,8 +419,10 @@ class KeyboardFairinoTeleop(Teleoperator):
         if self._target_joints is not None:
             logger.info(
                 "[KeyboardFairino] Targets (deg): %s  "
-                "selected=joint%d  step=%.1f",
+                "selected=joint%d  step=%.1f  "
+                "gripper=%.0f%%",
                 [f"{j:.2f}" for j in self._target_joints],
                 self.selected_joint + 1,
                 self.step_size,
+                self._target_gripper,
             )

@@ -36,6 +36,7 @@ from .factory import (
     make_default_robot_action_processor,
     make_default_robot_observation_processor,
     make_default_teleop_action_processor,
+    make_piper_fairino_processors,
 )
 from .gym_action_processor import (
     Numpy2TorchActionProcessorStep,
@@ -100,6 +101,7 @@ __all__ = [
     "make_default_teleop_action_processor",
     "make_default_robot_action_processor",
     "make_default_robot_observation_processor",
+    "make_piper_fairino_processors",
     "MapDeltaActionToRobotActionStep",
     "MapTensorToDeltaActionDictStep",
     "NormalizerProcessorStep",

@@ -86,3 +86,6 @@ class KeyboardFairinoTeleopConfig(TeleoperatorConfig):
     step_increment_deg: float = 0.5
     min_step_deg: float = 0.1
     max_step_deg: float = 10.0
+
+    # Gripper step per key press [0-100 %].
+    gripper_step_pct: float = 5.0

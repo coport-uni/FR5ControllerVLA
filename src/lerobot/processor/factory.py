@@ -61,3 +61,30 @@ def make_default_processors():
     robot_action_processor = make_default_robot_action_processor()
     robot_observation_processor = make_default_robot_observation_processor()
     return (teleop_action_processor, robot_action_processor, robot_observation_processor)
+
+
+def make_piper_fairino_processors():
+    """Build processors for PiPER leader -> Fairino FR5 follower.
+
+    Inserts a ``PiperToFairinoStep`` into the teleop action
+    processor so that normalised piper values (-100..100) are
+    mapped to Fairino joint degrees before being sent.
+    """
+    from .piper_fairino_processor import PiperToFairinoStep
+
+    teleop_action_processor = RobotProcessorPipeline[
+        tuple[RobotAction, RobotObservation], RobotAction
+    ](
+        steps=[PiperToFairinoStep()],
+        to_transition=robot_action_observation_to_transition,
+        to_output=transition_to_robot_action,
+    )
+    robot_action_processor = make_default_robot_action_processor()
+    robot_observation_processor = (
+        make_default_robot_observation_processor()
+    )
+    return (
+        teleop_action_processor,
+        robot_action_processor,
+        robot_observation_processor,
+    )

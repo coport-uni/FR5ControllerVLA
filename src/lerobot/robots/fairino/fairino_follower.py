@@ -32,6 +32,7 @@ import contextlib
 import logging
 import threading
 import time
+import xmlrpc.client
 from typing import Any
 
 from lerobot.cameras.utils import make_cameras_from_configs
@@ -43,11 +44,17 @@ from .fairino.Robot import RPC as FairinoRPC  # noqa: N811
 
 logger = logging.getLogger(__name__)
 
+
 # Timing constants for the hardware initialisation sequence.
 # Each pause gives the controller time to process the command.
 _SETTLE_SHORT_S = 0.2   # [s] after ServoMoveEnd cleanup
 _SETTLE_MID_S = 0.3     # [s] between enable / reset / mode
 _SETTLE_LONG_S = 0.5    # [s] after Mode(0) before ServoMoveStart
+
+# Joint-read retry parameters for transient failures.
+_READ_RETRIES = 3
+_READ_RETRY_DELAY_S = 0.05
+
 
 
 class FairinoFollower(Robot):
@@ -78,6 +85,16 @@ class FairinoFollower(Robot):
         self._servo_target: list[float] = [0.0] * 6
         self._servo_lock = threading.Lock()
         self._servo_running = False
+        # Dedicated XMLRPC proxy for the servo thread.
+        # ServerProxy is NOT thread-safe, so the servo loop
+        # must not share a proxy with the main thread.
+        self._servo_proxy = None
+
+        # Gripper state.
+        self._gripper_pos: float = 0.0
+        self._last_gripper_cmd: float = -1.0
+        # Pending gripper command consumed by the servo loop.
+        self._pending_gripper: int | None = None
 
     # ---- properties (required by Robot base class) ---------
 
@@ -87,6 +104,8 @@ class FairinoFollower(Robot):
         features = {}
         for jname in self.config.joint_names:
             features[f"{jname}.pos"] = float
+        if self.config.gripper_enabled:
+            features["gripper.pos"] = float
         for cam_name, cam_cfg in self.config.cameras.items():
             key = f"observation.images.{cam_name}"
             features[key] = (
@@ -97,10 +116,13 @@ class FairinoFollower(Robot):
     @property
     def action_features(self) -> dict:
         """Return action schema (works when disconnected)."""
-        return {
+        features = {
             f"{jname}.pos": float
             for jname in self.config.joint_names
         }
+        if self.config.gripper_enabled:
+            features["gripper.pos"] = float
+        return features
 
     @property
     def is_connected(self) -> bool:
@@ -172,6 +194,7 @@ class FairinoFollower(Robot):
         # Initialise the servo target to the current position
         # so the robot does not jump on the first command.
         self._servo_target = list(joints)
+        self._create_servo_proxy()
         self._start_servo_thread()
 
         self._is_connected = True
@@ -192,6 +215,10 @@ class FairinoFollower(Robot):
                     cam_name,
                 )
 
+        # Activate gripper if configured.
+        if self.config.gripper_enabled:
+            self._initialise_gripper()
+
     def disconnect(self) -> None:
         """Stop servo thread, end servo mode, and release RPC."""
         self._stop_servo_thread()
@@ -204,6 +231,12 @@ class FairinoFollower(Robot):
             )
 
         if self._rpc is not None:
+            # Deactivate gripper before closing.
+            if self.config.gripper_enabled:
+                with contextlib.suppress(Exception):
+                    self._rpc.ActGripper(
+                        self.config.gripper_index, 0,
+                    )
             with contextlib.suppress(Exception):
                 self._rpc.ServoMoveEnd()
             with contextlib.suppress(Exception):
@@ -242,6 +275,9 @@ class FairinoFollower(Robot):
 
         for i, jname in enumerate(self.config.joint_names):
             obs[f"{jname}.pos"] = joints_deg[i]
+
+        if self.config.gripper_enabled:
+            obs["gripper.pos"] = self._read_gripper_pos()
 
         for cam_name, cam in self.cameras.items():
             key = f"observation.images.{cam_name}"
@@ -283,10 +319,23 @@ class FairinoFollower(Robot):
         with self._servo_lock:
             self._servo_target = list(clamped_deg)
 
-        return {
+        result = {
             f"{jname}.pos": clamped_deg[i]
             for i, jname in enumerate(self.config.joint_names)
         }
+
+        # Send gripper command if present and changed.
+        if (
+            self.config.gripper_enabled
+            and "gripper.pos" in action
+        ):
+            grip = max(0.0, min(100.0, float(
+                action["gripper.pos"]
+            )))
+            result["gripper.pos"] = grip
+            self._send_gripper_cmd(grip)
+
+        return result
 
     # ---- convenience helpers --------------------------------
 
@@ -408,6 +457,9 @@ class FairinoFollower(Robot):
         rpc.ServoMoveEnd = proxy.ServoMoveEnd
         rpc.StopMotion = proxy.StopMotion
         rpc.GetActualTCPPose = proxy.GetActualTCPPose
+        rpc.SetGripperConfig = proxy.SetGripperConfig
+        rpc.ActGripper = proxy.ActGripper
+        rpc.MoveGripper = proxy.MoveGripper
         rpc.CloseRPC = lambda: None
         self._rpc = rpc
 
@@ -419,23 +471,82 @@ class FairinoFollower(Robot):
         state-packet cache.  When TCP is unavailable we
         fall back to a direct XMLRPC call.
 
+        Retries up to ``_READ_RETRIES`` times on transient
+        failures before returning an error code.
+
+        Returns:
+            (error_code, [j1..j6]) in degrees.
+        """
+        for attempt in range(_READ_RETRIES):
+            ret, joints = self._read_joints_once()
+            if ret == 0:
+                return 0, joints
+            if attempt < _READ_RETRIES - 1:
+                logger.debug(
+                    "[Fairino] Joint read retry %d/%d "
+                    "(err %d)",
+                    attempt + 1, _READ_RETRIES, ret,
+                )
+                time.sleep(_READ_RETRY_DELAY_S)
+        return ret, joints
+
+    def _read_joints_once(
+        self,
+    ) -> tuple[int, list[float]]:
+        """Single attempt to read joint positions.
+
         Returns:
             (error_code, [j1..j6]) in degrees.
         """
         if not self._use_xmlrpc_reads:
-            return self._rpc.GetActualJointPosDegree()
+            try:
+                result = self._rpc.GetActualJointPosDegree()
+            except Exception as exc:
+                logger.warning(
+                    "[Fairino] SDK joint read error: %s",
+                    exc,
+                )
+                return -1, [0.0] * 6
+
+            # The SDK normally returns (0, [j1..j6]).
+            # The @xmlrpc_timeout decorator returns a bare
+            # int (-4) when RPC.is_conect is False.
+            if isinstance(result, tuple):
+                return result[0], list(result[1])
+            return int(result), [0.0] * 6
 
         # XMLRPC fallback.
         try:
-            result = self._rpc.robot.GetActualJointPosDegree(1)
+            result = (
+                self._rpc.robot.GetActualJointPosDegree(1)
+            )
             if result[0] == 0:
                 return 0, list(result[1:7])
             return result[0], [0.0] * 6
         except Exception as exc:
             logger.warning(
-                "[Fairino] XMLRPC joint read error: %s", exc
+                "[Fairino] XMLRPC joint read error: %s",
+                exc,
             )
             return -1, [0.0] * 6
+
+    def _create_servo_proxy(self) -> None:
+        """Create a dedicated XMLRPC proxy for the servo thread.
+
+        ``xmlrpc.client.ServerProxy`` is **not** thread-safe.
+        The servo loop runs at 100 Hz in a background thread,
+        so it needs its own proxy to avoid ``CannotSendRequest``
+        errors when the main thread issues concurrent calls.
+
+        The servo thread also handles gripper commands: it
+        pauses ServoJ, sends MoveGripper, then resumes,
+        because the Fairino controller blocks MoveGripper
+        while servo mode is active.
+        """
+        link = (
+            f"http://{self.config.ip_address}:20003"
+        )
+        self._servo_proxy = xmlrpc.client.ServerProxy(link)
 
     def _start_servo_thread(self) -> None:
         """Launch the background thread that streams ServoJ."""
@@ -455,28 +566,64 @@ class FairinoFollower(Robot):
         if self._servo_thread is not None:
             self._servo_thread.join(timeout=2.0)
             self._servo_thread = None
+        self._servo_proxy = None
 
     def _servo_loop(self) -> None:
         """Send ServoJ commands at ``servo_hz`` in a tight loop.
 
-        Reads the latest target from ``_servo_target`` under
-        a lock and sends it to the controller.  The ``cmdT``
-        parameter matches the actual loop period so the
-        controller never times out.
+        Also handles gripper commands: the Fairino controller
+        blocks ``MoveGripper`` while servo mode is active, so
+        the loop temporarily pauses servo (``ServoMoveEnd``),
+        sends the gripper command, then resumes
+        (``ServoMoveStart``).  This keeps everything on a
+        single XMLRPC proxy (``_servo_proxy``), avoiding
+        thread-safety issues entirely.
+
+        To avoid ServoJ rejecting large position jumps, the
+        loop interpolates toward the target at a maximum
+        velocity of ``config.max_servo_speed`` deg/s.
         """
         period = 1.0 / self.config.servo_hz
         cmd_t = period
         axis_pos = [0.0, 0.0, 0.0, 0.0]
+        max_step = (
+            self.config.max_servo_speed * period
+        )
+        proxy = self._servo_proxy
+
+        # Start from the current servo target (set to the
+        # actual joint position during connect()).
+        with self._servo_lock:
+            commanded = list(self._servo_target)
 
         while self._servo_running:
             t0 = time.perf_counter()
 
+            # ---- handle pending gripper command --------
+            grip_cmd = self._pending_gripper
+            if grip_cmd is not None:
+                self._pending_gripper = None
+                self._exec_gripper_in_servo(
+                    proxy, grip_cmd,
+                )
+
+            # ---- normal ServoJ -------------------------
             with self._servo_lock:
                 target = list(self._servo_target)
 
+            # Ramp each joint toward the target.
+            for i in range(len(commanded)):
+                delta = target[i] - commanded[i]
+                if abs(delta) > max_step:
+                    commanded[i] += (
+                        max_step if delta > 0 else -max_step
+                    )
+                else:
+                    commanded[i] = target[i]
+
             try:
-                ret = self._rpc.robot.ServoJ(
-                    target, axis_pos,
+                ret = proxy.ServoJ(
+                    commanded, axis_pos,
                     0.0, 0.0, cmd_t, 0.0, 0.0,
                 )
                 if ret != 0:
@@ -495,6 +642,145 @@ class FairinoFollower(Robot):
             remaining = period - elapsed
             if remaining > 0:
                 time.sleep(remaining)
+
+    def _exec_gripper_in_servo(
+        self,
+        proxy: xmlrpc.client.ServerProxy,
+        pos_int: int,
+    ) -> None:
+        """Pause servo, send MoveGripper, resume servo.
+
+        The Fairino controller rejects ``MoveGripper`` while
+        servo mode is active.  This helper runs entirely on
+        the servo thread's proxy so there are no thread-safety
+        issues.
+
+        The pause is brief (~100 ms total) and the robot holds
+        its last commanded position during the gap.
+        """
+        cfg = self.config
+        try:
+            proxy.ServoMoveEnd()
+            time.sleep(0.02)
+
+            ret = proxy.MoveGripper(
+                int(cfg.gripper_index),
+                pos_int,
+                int(cfg.gripper_vel),
+                int(cfg.gripper_force),
+                30000,  # maxtime [ms]
+                1,      # block: 1=non-blocking
+                0,      # type=parallel
+                0.0, 0, 0,
+            )
+            if ret != 0:
+                logger.warning(
+                    "[Fairino] MoveGripper -> %d%% "
+                    "FAILED (err %d)",
+                    pos_int, ret,
+                )
+            else:
+                logger.info(
+                    "[Fairino] Gripper -> %d%%", pos_int,
+                )
+
+            time.sleep(0.02)
+            proxy.ServoMoveStart()
+            time.sleep(0.02)
+        except Exception as exc:
+            logger.warning(
+                "[Fairino] Gripper servo-pause err: %s",
+                exc,
+            )
+            # Try to recover servo mode.
+            with contextlib.suppress(Exception):
+                proxy.ServoMoveStart()
+
+    # ---- gripper helpers ------------------------------------
+
+    def _initialise_gripper(self) -> None:
+        """Configure and activate the gripper.
+
+        Calls SetGripperConfig, then resets and activates
+        the gripper at the configured index.
+        """
+        cfg = self.config
+        # All 4 args are required by the XMLRPC protocol;
+        # the SDK wrapper has Python defaults but the raw
+        # proxy does not.
+        ret = self._rpc.SetGripperConfig(
+            cfg.gripper_company, cfg.gripper_device, 0, 0,
+        )
+        if ret != 0:
+            logger.warning(
+                "[Fairino] SetGripperConfig err: %d", ret,
+            )
+        time.sleep(_SETTLE_MID_S)
+
+        # Reset then activate.
+        self._rpc.ActGripper(cfg.gripper_index, 0)
+        time.sleep(_SETTLE_LONG_S)
+        ret = self._rpc.ActGripper(cfg.gripper_index, 1)
+        if ret != 0:
+            logger.warning(
+                "[Fairino] ActGripper err: %d", ret,
+            )
+        time.sleep(1.0)
+
+        # Read initial position.
+        self._gripper_pos = self._read_gripper_pos()
+        self._last_gripper_cmd = self._gripper_pos
+        logger.info(
+            "[Fairino] Gripper activated (pos=%.0f%%).",
+            self._gripper_pos,
+        )
+
+    def _read_gripper_pos(self) -> float:
+        """Read the current gripper position [0-100 %].
+
+        Uses the state-packet cache when TCP is connected,
+        otherwise falls back to the last commanded position.
+        """
+        if not self._use_xmlrpc_reads:
+            try:
+                result = (
+                    self._rpc.GetGripperCurPosition()
+                )
+                if isinstance(result, tuple) and len(result) >= 3:
+                    if result[0] == 0:
+                        self._gripper_pos = float(
+                            result[2]
+                        )
+                        return self._gripper_pos
+            except Exception as exc:
+                logger.debug(
+                    "[Fairino] Gripper read err: %s", exc,
+                )
+        # Fallback: return last known position.
+        return self._gripper_pos
+
+    def _send_gripper_cmd(self, pos: float) -> None:
+        """Queue a gripper command for the servo loop.
+
+        The Fairino controller blocks ``MoveGripper`` while
+        servo mode is active.  Instead of calling XMLRPC from
+        the main thread, we set ``_pending_gripper`` which the
+        servo loop picks up on its next iteration: it pauses
+        servo, sends MoveGripper, and resumes.
+
+        Skips when the new position is within 1% of the last
+        command to avoid unnecessary servo pauses.
+
+        Args:
+            pos: Target position [0-100 %].
+        """
+        if abs(pos - self._last_gripper_cmd) < 1.0:
+            return
+        self._last_gripper_cmd = pos
+        self._gripper_pos = pos
+        self._pending_gripper = int(pos)
+
+    # ---- servo helpers ------------------------------------
 
     def _initialise_servo_mode(self) -> None:
         """Run the full enable-and-servo startup sequence.

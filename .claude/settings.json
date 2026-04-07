@@ -4,7 +4,16 @@
       "WebFetch(domain:pypi.org)",
       "Bash(python claude_test/test_piper_joint_read.py --can can0 --duration 3)",
       "Read(//usr/bin/**)",
-      "Bash(/workspace/FR5ControllerVLA/.venv/bin/python --version)"
+      "Bash(/workspace/FR5ControllerVLA/.venv/bin/python --version)",
+      "Bash(ip link:*)",
+      "Bash(python claude_test/test_fr5_keyboard_sim.py)",
+      "Bash(/opt/conda/envs/lerobot/bin/python claude_test/test_fr5_keyboard_sim.py)",
+      "Bash(/opt/conda/envs/lerobot/bin/python -c \"from lerobot.robots.fairino.fairino_follower import FairinoFollower; print\\('import OK'\\)\")",
+      "Bash(/opt/conda/envs/lerobot/bin/ruff check:*)",
+      "Bash(ls -la /workspace/FR5ControllerVLA/src/lerobot/robots/fairino/*.py)",
+      "Bash(grep -l \"gripper\\\\|Gripper\\\\|MoveGripper\\\\|ActGripper\" /workspace/FR5ControllerVLA/src/lerobot/robots/fairino/fairino/example/*.py)",
+      "Bash(/opt/conda/envs/lerobot/bin/python claude_test/test_fr5_gripper.py)",
+      "Bash(/opt/conda/envs/lerobot/bin/python claude_test/test_fr5_keyboard_10s.py)"
     ]
   }
 }
