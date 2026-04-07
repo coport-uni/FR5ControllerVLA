@@ -30,6 +30,7 @@ All joint values are in **degrees** (Fairino's native unit).
 
 import contextlib
 import logging
+import threading
 import time
 from typing import Any
 
@@ -71,6 +72,12 @@ class FairinoFollower(Robot):
         self._is_connected = False
         self._use_xmlrpc_reads = False
         self.cameras = {}
+
+        # Internal servo thread state.
+        self._servo_thread: threading.Thread | None = None
+        self._servo_target: list[float] = [0.0] * 6
+        self._servo_lock = threading.Lock()
+        self._servo_running = False
 
     # ---- properties (required by Robot base class) ---------
 
@@ -162,6 +169,11 @@ class FairinoFollower(Robot):
 
         self._initialise_servo_mode()
 
+        # Initialise the servo target to the current position
+        # so the robot does not jump on the first command.
+        self._servo_target = list(joints)
+        self._start_servo_thread()
+
         self._is_connected = True
         logger.info(
             "[Fairino] Connected. Joints (deg): %s",
@@ -181,7 +193,9 @@ class FairinoFollower(Robot):
                 )
 
     def disconnect(self) -> None:
-        """End servo mode, close cameras, and release RPC."""
+        """Stop servo thread, end servo mode, and release RPC."""
+        self._stop_servo_thread()
+
         for cam_name, cam in self.cameras.items():
             cam.disconnect()
             logger.info(
@@ -236,16 +250,17 @@ class FairinoFollower(Robot):
         return obs
 
     def send_action(self, action: RobotAction) -> RobotAction:
-        """Send joint targets [deg] via ServoJ.
+        """Update the servo target [deg].
 
-        Targets are clamped to the configured joint limits
-        before transmission.
+        The internal servo thread continuously sends the
+        latest target to the controller at ``servo_hz``.
+        This method only updates the shared target variable.
 
         Args:
             action: Dict with "joint{1..6}.pos" in degrees.
 
         Returns:
-            Dict of the clamped values actually sent.
+            Dict of the clamped values that will be sent.
         """
         self._assert_connected()
 
@@ -260,33 +275,13 @@ class FairinoFollower(Robot):
         upper = self.config.joint_limits_upper
         clamped_deg = [
             max(lo, min(hi, val))
-            for val, lo, hi in zip(target_deg, lower, upper, strict=True)
+            for val, lo, hi in zip(
+                target_deg, lower, upper, strict=True,
+            )
         ]
 
-        # The Fairino controller expects cmdT in [0.001 .. 0.016]s
-        # (i.e. 62–1000 Hz internal servo rate).  We use the SDK
-        # default 0.008s regardless of the teleop loop rate.
-        _SERVO_CMD_T = 0.008
-        axis_pos = [0.0, 0.0, 0.0, 0.0]
-
-        if self._use_xmlrpc_reads:
-            # XMLRPC-only path — call raw XMLRPC.
-            ret = self._rpc.robot.ServoJ(
-                clamped_deg, axis_pos,
-                0.0, 0.0, _SERVO_CMD_T, 0.0, 0.0,
-            )
-        else:
-            # Full SDK path — use the wrapper (handles safety).
-            ret = self._rpc.ServoJ(
-                clamped_deg, axis_pos,
-                acc=0.0, vel=0.0, cmdT=_SERVO_CMD_T,
-                filterT=0.0, gain=0.0,
-            )
-
-        if ret != 0:
-            logger.warning(
-                "[Fairino] ServoJ error code: %d", ret
-            )
+        with self._servo_lock:
+            self._servo_target = list(clamped_deg)
 
         return {
             f"{jname}.pos": clamped_deg[i]
@@ -323,9 +318,11 @@ class FairinoFollower(Robot):
     def reset_errors(self) -> None:
         """Clear errors, re-enable, and restart servo mode."""
         if self._rpc is not None:
+            self._stop_servo_thread()
             with contextlib.suppress(Exception):
                 self._rpc.ServoMoveEnd()
             self._initialise_servo_mode()
+            self._start_servo_thread()
             logger.info(
                 "[Fairino] Errors reset; servo restarted."
             )
@@ -440,13 +437,80 @@ class FairinoFollower(Robot):
             )
             return -1, [0.0] * 6
 
+    def _start_servo_thread(self) -> None:
+        """Launch the background thread that streams ServoJ."""
+        self._servo_running = True
+        self._servo_thread = threading.Thread(
+            target=self._servo_loop, daemon=True,
+        )
+        self._servo_thread.start()
+        logger.info(
+            "[Fairino] Servo thread started at %d Hz.",
+            int(self.config.servo_hz),
+        )
+
+    def _stop_servo_thread(self) -> None:
+        """Signal the servo thread to stop and wait for it."""
+        self._servo_running = False
+        if self._servo_thread is not None:
+            self._servo_thread.join(timeout=2.0)
+            self._servo_thread = None
+
+    def _servo_loop(self) -> None:
+        """Send ServoJ commands at ``servo_hz`` in a tight loop.
+
+        Reads the latest target from ``_servo_target`` under
+        a lock and sends it to the controller.  The ``cmdT``
+        parameter matches the actual loop period so the
+        controller never times out.
+        """
+        period = 1.0 / self.config.servo_hz
+        cmd_t = period
+        axis_pos = [0.0, 0.0, 0.0, 0.0]
+
+        while self._servo_running:
+            t0 = time.perf_counter()
+
+            with self._servo_lock:
+                target = list(self._servo_target)
+
+            try:
+                ret = self._rpc.robot.ServoJ(
+                    target, axis_pos,
+                    0.0, 0.0, cmd_t, 0.0, 0.0,
+                )
+                if ret != 0:
+                    logger.debug(
+                        "[Fairino] ServoJ err: %d", ret,
+                    )
+            except Exception:
+                if not self._servo_running:
+                    break
+                logger.debug(
+                    "[Fairino] ServoJ call failed.",
+                    exc_info=True,
+                )
+
+            elapsed = time.perf_counter() - t0
+            remaining = period - elapsed
+            if remaining > 0:
+                time.sleep(remaining)
+
     def _initialise_servo_mode(self) -> None:
         """Run the full enable-and-servo startup sequence.
 
-        The sequence clears residual errors from a previous
-        session and transitions the controller to auto-mode
-        servo control.
+        The sequence clears residual servo state from a
+        previous (possibly crashed) session, then transitions
+        the controller to auto-mode servo control:
+            ServoMoveEnd → RobotEnable(0) → ResetAllError
+            → RobotEnable(1) → Mode(0) → ServoMoveStart
         """
+        # Clean up any stale servo session left by a
+        # previous run that did not disconnect cleanly.
+        with contextlib.suppress(Exception):
+            self._rpc.ServoMoveEnd()
+        time.sleep(_SETTLE_SHORT_S)
+
         self._rpc.RobotEnable(0)
         time.sleep(_SETTLE_MID_S)
         self._rpc.ResetAllError()

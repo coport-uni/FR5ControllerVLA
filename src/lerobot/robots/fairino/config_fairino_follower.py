@@ -69,6 +69,7 @@ class FairinoFollowerConfig(RobotConfig):
 
     # -- control ---------------------------------------------
     control_hz: float = 20.0
+    servo_hz: float = 100.0
     move_speed: float = 0.1
 
     # -- peripherals -----------------------------------------
