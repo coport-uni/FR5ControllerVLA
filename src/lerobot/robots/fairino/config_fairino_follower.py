@@ -106,7 +106,7 @@ class FairinoFollowerConfig(RobotConfig):
     # Maximum joint velocity for the servo loop [deg/s].
     # ServoJ rejects large position jumps, so the servo
     # thread interpolates toward the target at this rate.
-    max_servo_speed: float = 60.0
+    max_servo_speed: float = 78.0
 
     @property
     def type(self) -> str:

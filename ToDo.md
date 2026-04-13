@@ -34,6 +34,10 @@
 - [x] Verify FairinoLeader + FairinoFollower end-to-end: SUCCESS (all joints err=0.00°)
 - [x] Run ruff check and format on all modified files
 
+## 2026-04-13: Increase follower servo speed by 30%
+
+- [x] Change `max_servo_speed` from 60.0 to 78.0 deg/s in config
+
 ## 2026-04-13: piper_follower HardwareAdd.md 준수 수정
 
 - [x] `get_status()` 버그 수정 (print를 dict 리터럴 안에 사용 → set 반환)
