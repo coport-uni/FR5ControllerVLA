@@ -73,13 +73,19 @@ class FairinoLeader(Teleoperator):
 
     @property
     def action_features(self) -> dict:
-        """Action schema: six joint positions [deg]."""
-        return {f"{jname}.pos": float for jname in self.config.joint_names}
+        """Action schema: joint positions [deg] + optional gripper [%]."""
+        features = {f"{jname}.pos": float for jname in self.config.joint_names}
+        if self.config.gripper_enabled:
+            features["gripper.pos"] = float
+        return features
 
     @property
     def feedback_features(self) -> dict:
         """Feedback schema (unused -- leader needs no feedback)."""
-        return {f"{jname}.pos": float for jname in self.config.joint_names}
+        features = {f"{jname}.pos": float for jname in self.config.joint_names}
+        if self.config.gripper_enabled:
+            features["gripper.pos"] = float
+        return features
 
     @property
     def is_connected(self) -> bool:
@@ -144,6 +150,11 @@ class FairinoLeader(Teleoperator):
             self._rpc = None
             raise ConnectionError(f"[FairinoLeader] Connection failed (err {ret})")
 
+        # Activate gripper BEFORE drag-teach because
+        # MoveGripper is blocked in drag-teach mode.
+        if self.config.gripper_enabled:
+            self._initialise_gripper()
+
         # Enable robot and enter drag-teach mode.
         self._enter_drag_teach()
 
@@ -156,6 +167,12 @@ class FairinoLeader(Teleoperator):
     def disconnect(self) -> None:
         """Exit drag-teach mode and release RPC resources."""
         if self._rpc is not None:
+            if self.config.gripper_enabled:
+                with contextlib.suppress(Exception):
+                    self._rpc.ActGripper(
+                        self.config.gripper_index,
+                        0,
+                    )
             with contextlib.suppress(Exception):
                 self._rpc.DragTeachSwitch(0)
             logger.info("[FairinoLeader] Drag-teach mode exited.")
@@ -175,10 +192,11 @@ class FairinoLeader(Teleoperator):
     # ---- action / feedback ------------------------------------
 
     def get_action(self) -> RobotAction:
-        """Read current joint positions from the leader arm.
+        """Read current joint positions and gripper from the leader.
 
         Returns:
-            Dict with "joint{1..6}.pos" angles [deg].
+            Dict with "joint{1..6}.pos" [deg] and optionally
+            "gripper.pos" [0-100 %].
 
         Raises:
             RuntimeError: If the joint query fails.
@@ -189,7 +207,12 @@ class FairinoLeader(Teleoperator):
         if ret != 0:
             raise RuntimeError(f"[FairinoLeader] Joint read failed (err {ret})")
 
-        return {f"{jname}.pos": joints_deg[i] for i, jname in enumerate(self.config.joint_names)}
+        action = {f"{jname}.pos": joints_deg[i] for i, jname in enumerate(self.config.joint_names)}
+
+        if self.config.gripper_enabled:
+            action["gripper.pos"] = self._read_gripper_pos()
+
+        return action
 
     def send_feedback(
         self,
@@ -285,8 +308,62 @@ class FairinoLeader(Teleoperator):
         rpc.ResetAllError = proxy.ResetAllError
         rpc.DragTeachSwitch = proxy.DragTeachSwitch
         rpc.IsInDragTeach = proxy.IsInDragTeach
+        rpc.SetGripperConfig = proxy.SetGripperConfig
+        rpc.ActGripper = proxy.ActGripper
         rpc.CloseRPC = lambda: None
         self._rpc = rpc
+
+    def _initialise_gripper(self) -> None:
+        """Activate gripper in low-force passive mode.
+
+        Sets force to 1% so the operator can freely move
+        the gripper by hand while position feedback updates.
+        """
+        cfg = self.config
+        ret = self._rpc.SetGripperConfig(
+            cfg.gripper_company,
+            cfg.gripper_device,
+            0,
+            0,
+        )
+        if ret != 0:
+            logger.warning("[FairinoLeader] SetGripperConfig err: %d", ret)
+        time.sleep(_SETTLE_MID_S)
+
+        self._rpc.ActGripper(cfg.gripper_index, 0)
+        time.sleep(0.5)
+        ret = self._rpc.ActGripper(cfg.gripper_index, 1)
+        if ret != 0:
+            logger.warning("[FairinoLeader] ActGripper err: %d", ret)
+        time.sleep(1.0)
+
+        # Move to midpoint with minimal force so the
+        # gripper can be manipulated by hand.
+        self._rpc.MoveGripper(
+            cfg.gripper_index,
+            50,
+            10,
+            1,
+            30000,
+            0,
+            0,
+            0.0,
+            0,
+            0,
+        )
+        time.sleep(1.0)
+        logger.info("[FairinoLeader] Gripper activated (passive, force=1%%).")
+
+    def _read_gripper_pos(self) -> float:
+        """Read current gripper position [0-100 %]."""
+        if not self._use_xmlrpc_reads:
+            try:
+                result = self._rpc.GetGripperCurPosition()
+                if isinstance(result, tuple) and len(result) >= 3 and result[0] == 0:
+                    return float(result[2])
+            except Exception as exc:
+                logger.debug("[FairinoLeader] Gripper read err: %s", exc)
+        return 0.0
 
     def _read_joints(self) -> tuple[int, list[float]]:
         """Read joint positions with retries.

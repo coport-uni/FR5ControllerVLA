@@ -38,6 +38,12 @@ class FairinoLeaderConfig(TeleoperatorConfig):
 
     ip_address: str = "192.168.59.2"
 
+    # -- gripper -----------------------------------------
+    gripper_enabled: bool = False
+    gripper_company: int = 4  # 4=大寰
+    gripper_device: int = 0  # 0=PGI-140
+    gripper_index: int = 1
+
     joint_names: list[str] = field(
         default_factory=lambda: [
             "joint1",

@@ -8,6 +8,8 @@ conda activate lerobot
 lerobot-teleoperate \
     --robot.type=fairino_follower \
     --robot.ip_address=192.168.58.2 \
+    --robot.gripper_enabled=true \
     --teleop.type=fairino_leader \
     --teleop.ip_address=192.168.59.2 \
+    --teleop.gripper_enabled=true \
     --display_data=false

@@ -38,6 +38,15 @@
 
 - [x] Change `max_servo_speed` from 60.0 to 78.0 deg/s in config
 
+## 2026-04-13: Add gripper support to FairinoLeader
+
+- [x] Add gripper config fields to `config_fairino_leader.py`
+- [x] Add gripper read/init to `fairino_leader.py`
+- [x] Update `4__fr5_leader_follower.sh` with gripper flags
+- [x] Ruff check passed
+- [x] Gripper passive mode: MoveGripper(force=1%) before DragTeachSwitch enables hand control
+- [x] End-to-end test: leader gripper hand movement mirrored to follower
+
 ## 2026-04-13: piper_follower HardwareAdd.md 준수 수정
 
 - [x] `get_status()` 버그 수정 (print를 dict 리터럴 안에 사용 → set 반환)
