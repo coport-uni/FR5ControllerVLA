@@ -16,6 +16,7 @@ These are **not** production tests -- they are preserved here for reference.
 | `test_fairino_debug7.py` | Edge cases and additional diagnostics |
 | `test_fairino_joint1.py` | Single joint movement test |
 | `teleop_fairino_basic.py`| Early teleop using LeRobot's basic KeyboardTeleop |
+| `test_fr5_leader_follower.py` | Diagnose FR5-to-FR5 leader-follower: drag-teach read + ServoJ write |
 
 ## Key Findings
 
@@ -23,3 +24,6 @@ These are **not** production tests -- they are preserved here for reference.
 - Init sequence: `RobotEnable(0)` -> `ResetAllError` -> `RobotEnable(1)` -> `Mode(0)` -> `ServoMoveStart`.
 - ServoJ XMLRPC call takes **7 params** (no `id` arg); the SDK wrapper passes 8.
 - `main_code=1` indicates a residual error state; must disable-then-enable to clear.
+- **Init settle times must be ≥1 s** per step; 0.2–0.3 s causes persistent ServoJ error 101.
+- **ServoJ must run from the main thread**; daemon threads always get error 101 on this firmware.
+- Hold-position ServoJ (same position) returns 101; after ~40 consecutive 101s the controller terminates the session (error 14).

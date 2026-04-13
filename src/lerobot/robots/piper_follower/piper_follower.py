@@ -22,23 +22,23 @@ from typing import Any
 
 from lerobot.cameras import Camera
 from lerobot.cameras.utils import make_cameras_from_configs
-from lerobot.constants import HF_LEROBOT_CALIBRATION, ROBOTS
 from lerobot.errors import DeviceNotConnectedError
 from lerobot.motors import Motor, MotorCalibration, MotorNormMode
 from lerobot.motors.piper import PiperMotorsBus
 from lerobot.robots import Robot
-from lerobot.robots.piper_follower.config_piper_follower import PiperFollowerConfig
+from lerobot.robots.piper_follower.config_piper_follower import (
+    PiperFollowerConfig,
+)
 from lerobot.robots.utils import ensure_safe_goal_position
 
 logger = logging.getLogger(__name__)
 
-class PiperFollower(Robot):
 
+class PiperFollower(Robot):
     # Set these in ALL subclasses
     config_class: PiperFollowerConfig
     name = "piper_follower"
-    cameras : dict[str, Camera] = {}
-
+    cameras: dict[str, Camera] = {}
 
     def __init__(self, config: PiperFollowerConfig):
         super().__init__(config)
@@ -59,13 +59,13 @@ class PiperFollower(Robot):
             },
             calibration={
                 "joint1": MotorCalibration(1, 0, 0, -150000, 150000),
-                "joint2": MotorCalibration(2, 0, 0,       0, 180000),
-                "joint3": MotorCalibration(3, 0, 0, -170000, 0     ),
+                "joint2": MotorCalibration(2, 0, 0, 0, 180000),
+                "joint3": MotorCalibration(3, 0, 0, -170000, 0),
                 "joint4": MotorCalibration(4, 0, 0, -100000, 100000),
-                "joint5": MotorCalibration(5, 0, 0,  -65000, 65000 ),
+                "joint5": MotorCalibration(5, 0, 0, -65000, 65000),
                 "joint6": MotorCalibration(6, 0, 0, -100000, 130000),
                 "gripper": MotorCalibration(7, 0, 0, 0, 68000),
-            }
+            },
         )
         self.cameras = make_cameras_from_configs(config.cameras)
 
@@ -78,9 +78,7 @@ class PiperFollower(Robot):
 
     @property
     def _cameras_ft(self) -> dict[str, tuple]:
-        return {
-            cam: (self.cameras[cam].height, self.cameras[cam].width, 3) for cam in self.cameras
-        }
+        return {cam: (self.cameras[cam].height, self.cameras[cam].width, 3) for cam in self.cameras}
 
     @cached_property
     def observation_features(self) -> dict:
@@ -98,9 +96,9 @@ class PiperFollower(Robot):
     def get_cameras(self) -> dict[str, Camera]:
         return self.cameras
 
-    def connect(self, calibrate: bool = True) -> bool:
+    def connect(self, calibrate: bool = True) -> None:
         if not self.bus.connect():
-            return False
+            raise ConnectionError(f"{self} failed to open CAN port.")
         logger.info(f"{self} connected.")
         while not self.bus.enable_torque():
             logger.info(f"{self} retry torque on.")
@@ -110,7 +108,6 @@ class PiperFollower(Robot):
 
         for cam in self.cameras.values():
             cam.connect()
-        return True
 
     @property
     def is_calibrated(self) -> bool:
@@ -118,7 +115,6 @@ class PiperFollower(Robot):
 
     def calibrate(self) -> None:
         self.bus.clear_gripper()
-        return True
 
     def _load_calibration(self, fpath: Path | None = None) -> None:
         pass
@@ -155,7 +151,10 @@ class PiperFollower(Robot):
 
         return obs_dict
 
-    def send_action(self, action: dict[str, Any], is_conv : bool = True) -> dict[str, Any]:
+    def send_action(
+        self,
+        action: dict[str, Any],
+    ) -> dict[str, Any]:
         if not self.is_connected:
             raise DeviceNotConnectedError(f"{self} is not connected.")
 
@@ -166,14 +165,19 @@ class PiperFollower(Robot):
             else:
                 goal_pos[key] = val
 
-        # Cap goal position when too far away from present position.
-        # /!\ Slower fps expected due to reading from the follower.
+        # Cap goal position when too far from present position.
+        # Slower fps expected due to reading from the follower.
         if self.config.max_relative_target is not None:
-            present_pos = self.bus.sync_read("Present_Position")
+            present_pos = self.bus.sync_read(
+                "Present_Position",
+            )
             goal_present_pos = {key: (g_pos, present_pos[key]) for key, g_pos in goal_pos.items()}
-            goal_pos = ensure_safe_goal_position(goal_present_pos, self.config.max_relative_target)
+            goal_pos = ensure_safe_goal_position(
+                goal_present_pos,
+                self.config.max_relative_target,
+            )
 
-        self.bus.set_action(goal_pos, is_conv)
+        self.bus.set_action(goal_pos)
         return {f"{motor}.pos": val for motor, val in goal_pos.items()}
 
     def parking(self):
@@ -182,9 +186,9 @@ class PiperFollower(Robot):
     def disconnect(self, disable_torque: bool = False) -> None:
         self.bus.disconnect(disable_torque)
 
-    def get_status(self):
-        rlt = {
-            print(self.bus.piper.GetArmGripperMsgs()),
-            print(self.bus.piper.GetArmGripperCtrl()),
+    def get_status(self) -> dict[str, Any]:
+        """Return current gripper message and control state."""
+        return {
+            "gripper_msgs": (self.bus.piper.GetArmGripperMsgs()),
+            "gripper_ctrl": (self.bus.piper.GetArmGripperCtrl()),
         }
-        return rlt

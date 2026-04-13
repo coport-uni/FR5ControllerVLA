@@ -103,6 +103,10 @@ def make_teleoperator_from_config(config: TeleoperatorConfig) -> "Teleoperator":
         from .piper_leader import PiperLeader
 
         return PiperLeader(config)
+    elif config.type == "fairino_leader":
+        from .fairino_leader import FairinoLeader
+
+        return FairinoLeader(config)
     else:
         try:
             return cast("Teleoperator", make_device_from_device_class(config))
