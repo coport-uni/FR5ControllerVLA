@@ -219,8 +219,8 @@ robot.send_action(robot_action)
 **Init sequence** (in `connect()`): `ServoMoveEnd()` (cleanup) → `RobotEnable(0)` → `ResetAllError()` → `RobotEnable(1)` → `Mode(0)` → `ServoMoveStart()`. This handles stale servo sessions and error states.
 
 **Key files**:
-- `robots/fairino/fairino_follower.py` — Robot class, uses ServoJ via direct XMLRPC (`self._rpc.robot.ServoJ(...)`)
-- `robots/fairino/config_fairino_follower.py` — Config: IP, joint limits, control_hz (default 20)
+- `robots/fairino_follower/fairino_follower.py` — Robot class, uses ServoJ via direct XMLRPC (`self._rpc.robot.ServoJ(...)`)
+- `robots/fairino_follower/config_fairino_follower.py` — Config: IP, joint limits, control_hz (default 20)
 - `teleoperators/keyboard/teleop_keyboard_fairino.py` — Keyboard teleop, outputs **absolute** positions (tracks internal target state, initialized via `send_feedback`)
 - `scripts/teleop_fairino.py` — Standalone teleop CLI with terminal display
 

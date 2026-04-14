@@ -44,8 +44,9 @@
 - [x] Add gripper read/init to `fairino_leader.py`
 - [x] Update `4__fr5_leader_follower.sh` with gripper flags
 - [x] Ruff check passed
-- [x] Gripper passive mode: MoveGripper(force=1%) before DragTeachSwitch enables hand control
-- [x] End-to-end test: leader gripper hand movement mirrored to follower
+- [x] Gripper control via keyboard O/C (hardware drag not viable)
+- [x] Reuse _StdinReader from keyboard teleop for O/C keys
+- [ ] User terminal test with 4__fr5_leader_follower.sh
 
 ## 2026-04-13: piper_follower HardwareAdd.md 준수 수정
 
@@ -55,3 +56,23 @@
 - [x] `calibrate()` 에서 `return True` 제거
 - [x] 미사용 import 정리 (`HF_LEROBOT_CALIBRATION`, `ROBOTS` — `Path`는 type hint에 필요하여 유지)
 - [x] ruff check 통과 확인
+
+## 2026-04-14: fairino_leader / fairino_follower HardwareAdd.md 준수 점검
+
+- [x] fairino_follower 디렉토리/파일 구조 확인 (완전 준수)
+- [x] fairino_follower 네이밍 패턴 확인 (완전 준수)
+- [x] fairino_follower @RobotConfig.register_subclass() 등록 확인
+- [x] fairino_follower 필수 메서드 확인 (모두 정확)
+- [x] fairino_follower __init__.py export 확인
+- [x] fairino_follower robots/utils.py factory 등록 확인 — **버그 발견** (`.fairino` → `.fairino_follower`)
+- [x] fairino_leader 디렉토리/파일 구조 확인 (완전 준수)
+- [x] fairino_leader 네이밍 패턴 확인 (완전 준수)
+- [x] fairino_leader @TeleoperatorConfig.register_subclass() 등록 확인
+- [x] fairino_leader 필수 메서드 확인 (모두 정확)
+- [x] fairino_leader __init__.py export 확인
+- [x] fairino_leader teleoperators/utils.py factory 등록 확인
+- [x] `robots/utils.py:72` import 경로 수정 (`.fairino` → `.fairino_follower`)
+- [x] CLAUDE.md 문서 경로 업데이트 (`robots/fairino/` → `robots/fairino_follower/`)
+- [x] Ruff check/format 통과
+- [x] Import 검증 성공 (make_robot_from_config → FairinoFollower)
+- [ ] commit + push

@@ -69,7 +69,7 @@ def make_robot_from_config(config: RobotConfig) -> Robot:
 
         return BiOpenArmFollower(config)
     elif config.type == "fairino_follower":
-        from .fairino import FairinoFollower
+        from .fairino_follower import FairinoFollower
 
         return FairinoFollower(config)
     elif config.type == "piper_follower":
