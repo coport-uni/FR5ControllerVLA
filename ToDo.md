@@ -129,3 +129,11 @@
 - [x] Ruff check/format 통과 확인
 - [x] `lerobot-record --help` 로 fairino_follower/leader 인식 여부 검증
 - [x] gh issue 등록 + commit + push
+
+## 2026-04-15: 5__fr5_record.sh RealSense 에러 진단 및 검증
+
+- [x] `lsusb` / `pyrealsense2.context().query_devices()` 로 D455 SN 333422300435 인식 확인 (USB 3.2, FW 5.13.0.55)
+- [x] `lerobot-find-cameras realsense` 정상 동작 확인
+- [x] RealSense 640x480@30fps connect/read/disconnect 직접 검증
+- [x] OpenCV `/dev/video18`, `/dev/video19` 640x480@20fps 검증
+- [x] 결론: 카메라 설정 정상. 에러는 직전 프로세스 점유로 인한 transient busy 로 추정
