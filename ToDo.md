@@ -106,3 +106,14 @@
 - [x] Ruff check/format 통과 확인
 - [x] 런타임 import 검증
 - [x] gh issue 등록 (#11) + commit + push
+
+## 2026-04-15: find_cameras.py RealSense/OpenCV 필터 + warmup 수정 (#12)
+
+- [x] RealSense V4L2 노드를 OpenCV 스캔에서 필터링 (`/sys/class/video4linux/<dev>/name` 기반)
+- [x] RealSense `warmup_s` 를 1초 → 5초 로 상향 (D400 시리즈 첫 프레임 지연 대비)
+- [x] `pyrealsense2` 를 lerobot conda 환경에 설치
+- [x] Ruff check/format 통과
+- [x] `./2__find_camera.sh opencv` 검증 — 경고 없이 HikVision 3대 저장
+- [x] `./2__find_camera.sh realsense` 엔드투엔드 이미지 저장 — USB 3.2 포트로 이동 후 1280x720 RGB PNG 정상 저장
+- [x] 기본(둘 다) 모드 검증 — 경고 없이 RealSense + HikVision 3대 모두 저장
+- [x] commit + push + issue close

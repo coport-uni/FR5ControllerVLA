@@ -46,9 +46,28 @@ from lerobot.cameras.realsense.configuration_realsense import RealSenseCameraCon
 logger = logging.getLogger(__name__)
 
 
+def _is_realsense_v4l_node(dev_path: str) -> bool:
+    """
+    Returns True when ``dev_path`` (e.g. ``/dev/video2``) belongs to an
+    Intel RealSense device. RealSense exposes depth/IR/metadata nodes
+    that OpenCV cannot decode, so the caller should filter them out
+    of any generic UVC scan to avoid spurious read failures.
+    """
+    if not dev_path.startswith("/dev/video"):
+        return False
+    name_file = Path("/sys/class/video4linux") / Path(dev_path).name / "name"
+    try:
+        return "realsense" in name_file.read_text().lower()
+    except OSError:
+        return False
+
+
 def find_all_opencv_cameras() -> list[dict[str, Any]]:
     """
     Finds all available OpenCV cameras plugged into the system.
+    RealSense V4L2 nodes are excluded because their depth/metadata
+    endpoints cannot be decoded through OpenCV's default frame-grab
+    path and only produce noisy warnings.
 
     Returns:
         A list of all available OpenCV cameras with their metadata.
@@ -57,9 +76,19 @@ def find_all_opencv_cameras() -> list[dict[str, Any]]:
     logger.info("Searching for OpenCV cameras...")
     try:
         opencv_cameras = OpenCVCamera.find_cameras()
+        skipped = 0
         for cam_info in opencv_cameras:
+            cam_id = str(cam_info.get("id", ""))
+            if _is_realsense_v4l_node(cam_id):
+                skipped += 1
+                continue
             all_opencv_cameras_info.append(cam_info)
-        logger.info(f"Found {len(opencv_cameras)} OpenCV cameras.")
+        if skipped:
+            logger.info(
+                f"Skipped {skipped} RealSense V4L2 node(s); use "
+                f"`find_cameras realsense` to access them via pyrealsense2."
+            )
+        logger.info(f"Found {len(all_opencv_cameras_info)} OpenCV cameras.")
     except Exception as e:
         logger.error(f"Error finding OpenCV cameras: {e}")
 
@@ -169,9 +198,15 @@ def create_camera_instance(cam_meta: dict[str, Any]) -> dict[str, Any] | None:
             )
             instance = OpenCVCamera(cv_config)
         elif cam_type == "RealSense":
+            # NOTE: D400-series cameras occasionally need more than the
+            # default 1 s before the first frame is ready, especially
+            # when the USB bus was just disturbed by probing /dev/video*
+            # nodes. Bumping the warmup window avoids spurious connect()
+            # timeouts from the 1000 ms async_read() inside connect().
             rs_config = RealSenseCameraConfig(
                 serial_number_or_name=cam_id,
                 color_mode=ColorMode.RGB,
+                warmup_s=5,
             )
             instance = RealSenseCamera(rs_config)
         else:
