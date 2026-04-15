@@ -84,3 +84,11 @@
 - [x] RealSense 뎁스/메타데이터 노드(`/dev/video2`, `/dev/video4`) 경고 회피 경로 확보
 - [x] Shell 스크립트 동작 검증 (문법 체크)
 - [x] commit + push + gh issue 등록/close (#8)
+
+## 2026-04-15: fairino_leader 그리퍼 초기화 버그 수정
+
+- [x] `FairinoLeader._gripper_pos` 가 0.0 으로 고정 시작되어 첫 루프에서 팔로워 그리퍼가 강제로 완전히 닫히는 문제 확인
+- [x] `FairinoLeader.send_feedback()` 를 첫 호출 한정으로 `feedback["gripper.pos"]` 로 `_gripper_pos` 초기화하도록 수정 (`KeyboardFairinoTeleop` 패턴과 동일)
+- [x] `_gripper_initialised` 플래그 추가하여 이후 호출은 무시 (키보드 입력 권한 유지)
+- [x] Ruff check/format 통과 확인
+- [x] gh issue 등록 (#9) + commit + push
