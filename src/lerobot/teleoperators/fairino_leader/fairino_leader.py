@@ -136,7 +136,7 @@ class FairinoLeader(Teleoperator):
         )
 
         if tcp_ok:
-            from lerobot.robots.fairino.fairino.Robot import (
+            from lerobot.robots.fairino_follower.fairino.Robot import (
                 RPC as FairinoRPC,  # noqa: N811
             )
 

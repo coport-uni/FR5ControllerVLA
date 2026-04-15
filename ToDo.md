@@ -99,3 +99,10 @@
 - [x] `fairino` → `fairino_follower` 로 교체
 - [x] Ruff check/format 통과 확인
 - [x] gh issue 등록 (#10) + commit + push
+
+## 2026-04-15: fairino_leader.py 내부 fairino SDK import 경로 수정
+
+- [x] `src/lerobot/teleoperators/fairino_leader/fairino_leader.py:139` 의 lazy import `lerobot.robots.fairino.fairino.Robot` → `lerobot.robots.fairino_follower.fairino.Robot` 로 수정
+- [x] Ruff check/format 통과 확인
+- [x] 런타임 import 검증
+- [x] gh issue 등록 (#11) + commit + push
