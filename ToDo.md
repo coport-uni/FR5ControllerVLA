@@ -75,4 +75,12 @@
 - [x] CLAUDE.md 문서 경로 업데이트 (`robots/fairino/` → `robots/fairino_follower/`)
 - [x] Ruff check/format 통과
 - [x] Import 검증 성공 (make_robot_from_config → FairinoFollower)
-- [ ] commit + push
+- [x] commit + push (bb8c235f) + issue #7 close
+
+## 2026-04-15: 2__find_camera.sh RealSense/OpenCV 분리
+
+- [x] `2__find_camera.sh` 에 카메라 타입 인자 지원 추가 (realsense/opencv/all)
+- [x] 기본값을 `all` 로 두되, 인자 전달 시 해당 타입만 탐색
+- [x] RealSense 뎁스/메타데이터 노드(`/dev/video2`, `/dev/video4`) 경고 회피 경로 확보
+- [x] Shell 스크립트 동작 검증 (문법 체크)
+- [x] commit + push + gh issue 등록/close (#8)
