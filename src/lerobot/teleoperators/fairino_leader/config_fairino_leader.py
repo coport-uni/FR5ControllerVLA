@@ -38,11 +38,30 @@ class FairinoLeaderConfig(TeleoperatorConfig):
 
     ip_address: str = "192.168.59.2"
 
-    # -- gripper -----------------------------------------
+    # -- gripper (drag-teach: operator moves jaws by hand) --
+    # The gripper is activated with a weak holding force so the
+    # operator can back-drive the jaws; ``get_action()`` reads
+    # the live position each loop and forwards it to the
+    # follower.
     gripper_enabled: bool = False
-    gripper_company: int = 4  # 4=大寰
-    gripper_device: int = 0  # 0=PGI-140
+
+    # Gripper manufacturer (matches follower).
+    #   1=Robotiq, 2=慧灵, 3=天机, 4=大寰, 5=知行
+    gripper_company: int = 4
+
+    # Device number (manufacturer-specific).
+    gripper_device: int = 0
+
+    # Gripper index (usually 1).
     gripper_index: int = 1
+
+    # Velocity for the compliance MoveGripper call [0-100 %].
+    gripper_vel: int = 50
+
+    # Holding force applied during drag-teach [0-100 %].
+    # Low values (e.g. 1) keep the jaws easy to move by hand;
+    # higher values (e.g. 20) add resistance for test runs.
+    gripper_force: int = 1
 
     joint_names: list[str] = field(
         default_factory=lambda: [

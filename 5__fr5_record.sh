@@ -22,11 +22,12 @@ lerobot-record \
     --teleop.type=fairino_leader \
     --teleop.ip_address=192.168.59.2 \
     --teleop.gripper_enabled=true \
+    --teleop.gripper_force=20 \
     --teleop.id=fr5_leader \
     --display_data=false \
-    --dataset.repo_id=${HF_USER}/FR5_pick_red_colored_marker_to_box \
+    --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --dataset.num_episodes=10 \
     --dataset.fps=20 \
-    --dataset.single_task="Pick the red marker and put in the box" \
+    --dataset.single_task="red_colored_marker_to_box" \
     --dataset.streaming_encoding=true \
     --dataset.encoder_threads=2

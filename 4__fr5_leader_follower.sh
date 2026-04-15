@@ -12,4 +12,5 @@ lerobot-teleoperate \
     --teleop.type=fairino_leader \
     --teleop.ip_address=192.168.59.2 \
     --teleop.gripper_enabled=true \
+    --teleop.gripper_force=20 \
     --display_data=false

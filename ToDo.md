@@ -137,3 +137,16 @@
 - [x] RealSense 640x480@30fps connect/read/disconnect 직접 검증
 - [x] OpenCV `/dev/video18`, `/dev/video19` 640x480@20fps 검증
 - [x] 결론: 카메라 설정 정상. 에러는 직전 프로세스 점유로 인한 transient busy 로 추정
+
+## 2026-04-15: FairinoLeader 그리퍼 드래그-티치 방식으로 전환
+
+- [x] `FairinoLeaderConfig` 에 gripper 하드웨어 필드 추가 (company, device, index, vel, force=1)
+- [x] `FairinoLeader` 에서 키보드 관련 코드 제거 (`_StdinReader`, `_key_queue`, `_process_gripper_keys`, keyboard import)
+- [x] `_initialise_gripper()` 추가: SetGripperConfig + ActGripper + 낮은 force 로 MoveGripper(block=0) → 손으로 back-drive 가능한 컴플라이언스 상태
+- [x] `_read_gripper_pos()` 추가: GetGripperCurPosition 으로 실시간 위치 읽기
+- [x] `get_action()` 에서 실제 그리퍼 위치를 읽어 `gripper.pos` 로 반환
+- [x] `disconnect()` 에서 ActGripper(0) 로 비활성화
+- [x] `4__fr5_leader_follower.sh`, `5__fr5_record.sh` 에 테스트용 `--teleop.gripper_force=20` 추가
+- [x] Ruff check/format 통과
+- [x] 런타임 import 검증
+- [x] gh issue 등록 (#15) + commit + push

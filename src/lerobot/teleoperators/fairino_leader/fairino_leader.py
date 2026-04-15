@@ -29,12 +29,10 @@ Communication uses the same dual-channel SDK as the follower:
 import contextlib
 import logging
 import time
-from queue import Queue
 from typing import Any
 
 from lerobot.types import RobotAction
 
-from ..keyboard.teleop_keyboard_fairino import _StdinReader
 from ..teleoperator import Teleoperator
 from .config_fairino_leader import FairinoLeaderConfig
 
@@ -43,10 +41,16 @@ logger = logging.getLogger(__name__)
 # Timing constants for the hardware init sequence.
 _SETTLE_SHORT_S = 0.2
 _SETTLE_MID_S = 0.3
+_SETTLE_LONG_S = 0.5
 
 # Joint-read retry parameters.
 _READ_RETRIES = 3
 _READ_RETRY_DELAY_S = 0.05
+
+# MoveGripper maxtime [ms] -- large so the command never
+# times out; the controller stops when ActGripper(0) is
+# issued on disconnect.
+_GRIPPER_MAXTIME_MS = 30000
 
 
 class FairinoLeader(Teleoperator):
@@ -71,9 +75,9 @@ class FairinoLeader(Teleoperator):
         self._is_connected = False
         self._use_xmlrpc_reads = False
 
-        # Keyboard gripper control (O=open, C=close).
-        self._key_queue: Queue = Queue()
-        self._reader: _StdinReader | None = None
+        # Last-known gripper position [0-100 %].  Updated from
+        # hardware in ``get_action()``; only used as a fallback
+        # value if the read ever fails.
         self._gripper_pos: float = 0.0
         self._gripper_initialised: bool = False
 
@@ -161,13 +165,10 @@ class FairinoLeader(Teleoperator):
         # Enable robot and enter drag-teach mode.
         self._enter_drag_teach()
 
-        # Start keyboard listener for gripper O/C keys.
+        # Activate the gripper in low-force compliance mode so
+        # the operator can drag the jaws by hand.
         if self.config.gripper_enabled:
-            self._reader = _StdinReader(self._key_queue)
-            self._reader.start()
-            logger.info(
-                "[FairinoLeader] Keyboard gripper: O=open, C=close",
-            )
+            self._initialise_gripper()
 
         self._is_connected = True
         logger.info(
@@ -177,11 +178,13 @@ class FairinoLeader(Teleoperator):
 
     def disconnect(self) -> None:
         """Exit drag-teach mode and release RPC resources."""
-        if self._reader is not None:
-            self._reader.stop()
-            self._reader.join(timeout=2.0)
-            self._reader = None
         if self._rpc is not None:
+            if self.config.gripper_enabled:
+                with contextlib.suppress(Exception):
+                    self._rpc.ActGripper(
+                        self.config.gripper_index,
+                        0,
+                    )
             with contextlib.suppress(Exception):
                 self._rpc.DragTeachSwitch(0)
             logger.info("[FairinoLeader] Drag-teach mode exited.")
@@ -200,13 +203,12 @@ class FairinoLeader(Teleoperator):
 
     # ---- action / feedback ------------------------------------
 
-    # Gripper step size per key press [%].
-    _GRIPPER_STEP = 10.0
-
     def get_action(self) -> RobotAction:
-        """Read joints from drag-teach, gripper from keyboard.
+        """Read live joint and gripper positions.
 
-        Keyboard O=open (+step), C=close (-step).
+        Joints come from drag-teach; the gripper position is
+        read from the controller each loop so the follower
+        can mirror the operator's hand motion of the jaws.
 
         Returns:
             Dict with "joint{1..6}.pos" [deg] and optionally
@@ -224,33 +226,9 @@ class FairinoLeader(Teleoperator):
         action = {f"{jname}.pos": joints_deg[i] for i, jname in enumerate(self.config.joint_names)}
 
         if self.config.gripper_enabled:
-            self._process_gripper_keys()
-            action["gripper.pos"] = self._gripper_pos
+            action["gripper.pos"] = self._read_gripper_pos()
 
         return action
-
-    def _process_gripper_keys(self) -> None:
-        """Drain keyboard queue and update gripper target."""
-        while not self._key_queue.empty():
-            key = self._key_queue.get_nowait()
-            if key in ("o", "O"):
-                self._gripper_pos = min(
-                    100.0,
-                    self._gripper_pos + self._GRIPPER_STEP,
-                )
-                logger.info(
-                    "[FairinoLeader] Gripper OPEN -> %.0f%%",
-                    self._gripper_pos,
-                )
-            elif key in ("c", "C"):
-                self._gripper_pos = max(
-                    0.0,
-                    self._gripper_pos - self._GRIPPER_STEP,
-                )
-                logger.info(
-                    "[FairinoLeader] Gripper CLOSE -> %.0f%%",
-                    self._gripper_pos,
-                )
 
     def send_feedback(
         self,
@@ -370,6 +348,10 @@ class FairinoLeader(Teleoperator):
         rpc.ResetAllError = proxy.ResetAllError
         rpc.DragTeachSwitch = proxy.DragTeachSwitch
         rpc.IsInDragTeach = proxy.IsInDragTeach
+        rpc.SetGripperConfig = proxy.SetGripperConfig
+        rpc.ActGripper = proxy.ActGripper
+        rpc.MoveGripper = proxy.MoveGripper
+        rpc.GetGripperCurPosition = proxy.GetGripperCurPosition
         rpc.CloseRPC = lambda: None
         self._rpc = rpc
 
@@ -427,3 +409,78 @@ class FairinoLeader(Teleoperator):
                 exc,
             )
             return -1, [0.0] * 6
+
+    # ---- gripper helpers --------------------------------------
+
+    def _initialise_gripper(self) -> None:
+        """Activate the gripper in low-force compliance mode.
+
+        SetGripperConfig + ActGripper(1) turn the gripper on,
+        then a non-blocking MoveGripper toward the fully-open
+        position with ``gripper_force`` as the holding force
+        lets the operator back-drive the jaws by hand.
+        """
+        cfg = self.config
+        ret = self._rpc.SetGripperConfig(
+            cfg.gripper_company,
+            cfg.gripper_device,
+            0,
+            0,
+        )
+        if ret != 0:
+            logger.warning(
+                "[FairinoLeader] SetGripperConfig err: %d",
+                ret,
+            )
+        time.sleep(_SETTLE_MID_S)
+
+        self._rpc.ActGripper(cfg.gripper_index, 0)
+        time.sleep(_SETTLE_LONG_S)
+        ret = self._rpc.ActGripper(cfg.gripper_index, 1)
+        if ret != 0:
+            logger.warning(
+                "[FairinoLeader] ActGripper err: %d",
+                ret,
+            )
+        time.sleep(1.0)
+
+        # Issue a non-blocking MoveGripper toward the closed
+        # position with the configured low force, which makes
+        # the jaws back-drivable by hand.
+        with contextlib.suppress(Exception):
+            self._rpc.MoveGripper(
+                int(cfg.gripper_index),
+                0,
+                int(cfg.gripper_vel),
+                int(cfg.gripper_force),
+                _GRIPPER_MAXTIME_MS,
+                0,
+                0,
+                0.0,
+                0,
+                0,
+            )
+
+        self._gripper_pos = self._read_gripper_pos()
+        logger.info(
+            "[FairinoLeader] Gripper compliant (pos=%.0f%%, force=%d).",
+            self._gripper_pos,
+            cfg.gripper_force,
+        )
+
+    def _read_gripper_pos(self) -> float:
+        """Read the current gripper position [0-100 %].
+
+        Falls back to the last-known value if the controller
+        returns an error or unexpected payload.
+        """
+        try:
+            result = self._rpc.GetGripperCurPosition()
+            if isinstance(result, tuple) and len(result) >= 3 and result[0] == 0:
+                self._gripper_pos = float(result[2])
+        except Exception as exc:
+            logger.debug(
+                "[FairinoLeader] Gripper read err: %s",
+                exc,
+            )
+        return self._gripper_pos
