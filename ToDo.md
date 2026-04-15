@@ -92,3 +92,10 @@
 - [x] `_gripper_initialised` 플래그 추가하여 이후 호출은 무시 (키보드 입력 권한 유지)
 - [x] Ruff check/format 통과 확인
 - [x] gh issue 등록 (#9) + commit + push
+
+## 2026-04-15: lerobot_teleoperate.py fairino import 경로 수정
+
+- [x] `src/lerobot/scripts/lerobot_teleoperate.py:78` 에서 `fairino` 를 import 하지만 실제 모듈명은 `fairino_follower` 이므로 ImportError 발생
+- [x] `fairino` → `fairino_follower` 로 교체
+- [x] Ruff check/format 통과 확인
+- [x] gh issue 등록 (#10) + commit + push
