@@ -106,6 +106,7 @@ from lerobot.robots import (  # noqa: F401
     bi_openarm_follower,
     bi_so_follower,
     earthrover_mini_plus,
+    fairino_follower,  # noqa: F401
     hope_jr,
     koch_follower,
     make_robot_from_config,
@@ -120,6 +121,7 @@ from lerobot.teleoperators import (  # noqa: F401
     TeleoperatorConfig,
     bi_openarm_leader,
     bi_so_leader,
+    fairino_leader,  # noqa: F401
     homunculus,
     koch_leader,
     make_teleoperator_from_config,

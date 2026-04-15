@@ -117,3 +117,15 @@
 - [x] `./2__find_camera.sh realsense` 엔드투엔드 이미지 저장 — USB 3.2 포트로 이동 후 1280x720 RGB PNG 정상 저장
 - [x] 기본(둘 다) 모드 검증 — 경고 없이 RealSense + HikVision 3대 모두 저장
 - [x] commit + push + issue close
+
+## 2026-04-15: 5__fr5_record.sh + lerobot_record.py fairino 등록 (#13)
+
+- [x] `src/lerobot/scripts/lerobot_record.py` 에 `fairino_follower`/`fairino_leader` import 추가 (RobotConfig/TeleoperatorConfig subclass 등록용)
+- [x] `5__fr5_record.sh` 작성
+  - Leader 192.168.59.2, Follower 192.168.58.2, gripper 활성화
+  - Cameras: top_left `/dev/video18`, top_right `/dev/video19` (OpenCV 640x480@20), hand RealSense SN 333422300435 (640x480@30)
+  - dataset.repo_id=${HF_USER}/FR5_pick_red_colored_marker_to_box, num_episodes=10, fps=20
+  - single_task="Pick the red marker and put in the box"
+- [x] Ruff check/format 통과 확인
+- [x] `lerobot-record --help` 로 fairino_follower/leader 인식 여부 검증
+- [x] gh issue 등록 + commit + push
