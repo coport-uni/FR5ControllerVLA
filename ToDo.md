@@ -173,3 +173,9 @@
 - [x] `say()` 를 `shutil.which` 체크로 하드닝 (TTS 없는 환경에서도 로그만 남기고 조용히 지나가도록)
 - [x] `log_say` 호출이 FileNotFoundError 없이 완료됨 확인
 - [x] ruff check/format, commit, push
+
+## 2026-04-16: requirements-ubuntu.txt 를 현재 venv 설치 상태로 최신화 (pip freeze)
+
+- [x] `.venv/bin/pip freeze` 로 현재 설치된 패키지 버전 수집 (117개 + editable lerobot)
+- [x] `requirements-ubuntu.txt` 를 freeze 출력으로 덮어쓰기 (헤더: 생성 방식·일자, `-e .[all]` 유지, editable git+ 라인 제거)
+- [x] gh issue 등록 + commit + push
