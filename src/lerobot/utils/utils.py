@@ -19,6 +19,7 @@ import logging
 import os
 import platform
 import select
+import shutil
 import subprocess
 import sys
 import time
@@ -129,6 +130,11 @@ def say(text: str, blocking: bool = False):
 
     else:
         raise RuntimeError("Unsupported operating system for text-to-speech.")
+
+    # Skip when the TTS backend is not installed (headless containers).
+    if shutil.which(cmd[0]) is None:
+        logging.debug("TTS backend '%s' not found; skipping say().", cmd[0])
+        return
 
     if blocking:
         subprocess.run(cmd, check=True)

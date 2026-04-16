@@ -150,3 +150,26 @@
 - [x] Ruff check/format 통과
 - [x] 런타임 import 검증
 - [x] gh issue 등록 (#15) + commit + push
+
+## 2026-04-15: Docker GUI(X server) 셋업 및 PNG 표시 검증
+
+- [x] X11 연결 진단 (DISPLAY=:31, /tmp/.X11-unix/X31 → VS Code 포워더 → 호스트 Xwayland :0)
+- [x] 호스트 Xwayland MIT 쿠키를 컨테이너 xauth에 등록 (`/proc/<xwayland-pid>/root/run/user/1000/.mutter-Xwaylandauth.*`)
+- [x] `x11-apps` `x11-utils` `feh` `xauth` 설치
+- [x] `xdpyinfo`로 X 서버 연결 검증 성공
+- [x] feh 창이 NUC 모니터에 표시됨을 확인 (호스트 모드 동작)
+- [x] `claude_test/show_image.sh` 작성 + `claude_test/README.md` 갱신
+- [x] 사용자가 `ssh -X`로 NUC 접속 시 `xclock` 노트북 표시 동작 확인
+- [x] `Xserver.sh` 작성: NUC SSH 세션의 `DISPLAY`/`XAUTHORITY`를 컨테이너로 brige
+- [x] `show_image.sh`에 `--mode=ssh` 분기 추가 (SSH X11 forwarded display 사용)
+- [ ] 사용자가 컨테이너에서 `source Xserver.sh && claude_test/show_image.sh outputs/captured_images/realsense_333422300435.png` 실행하여 노트북 화면 표시 검증
+- [ ] commit + push
+
+## 2026-04-16: Fix spd-say FileNotFoundError in 5__fr5_record.sh
+
+- [x] 원인 확인: `src/lerobot/utils/utils.py:111 say()`가 `spd-say`를 Popen → 미설치 시 FileNotFoundError
+- [x] `speech-dispatcher` apt 설치로 `spd-say` 제공 (gh issue #17)
+- [x] `spd-say` 단독 실행 검증 (exit=0, 서버 미기동은 경고만)
+- [x] `say()` 를 `shutil.which` 체크로 하드닝 (TTS 없는 환경에서도 로그만 남기고 조용히 지나가도록)
+- [x] `log_say` 호출이 FileNotFoundError 없이 완료됨 확인
+- [x] ruff check/format, commit, push
