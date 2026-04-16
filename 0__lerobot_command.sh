@@ -9,7 +9,11 @@ apt-get install cmake build-essential python3-dev pkg-config libavformat-dev lib
 git clone https://github.com/coport-uni/FR5ControllerVLA.git
 
 # https://github.com/AgRoboticsResearch/lerobot_robot_piper
-pip install lerobot_robot_piper
+pip install lerobot_robot_piper piper_sdk wego_piper
+pip install huggingface_hub
+pip install -e .[all]
+hf auth login
+hf auth whoami
 
 # Ready Piper
 bash find_all_can_port.sh

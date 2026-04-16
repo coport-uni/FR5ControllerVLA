@@ -1,4 +1,4 @@
-source /opt/conda/etc/profile.d/conda.sh
+source /home/inno-controller/anaconda3/etc/profile.d/conda.sh
 conda activate lerobot
 
 # Usage: ./2__find_camera.sh [realsense|opencv]
@@ -8,5 +8,5 @@ conda activate lerobot
 # or "opencv" to restrict the search and avoid the warnings.
 CAMERA_TYPE="${1:-}"
 
-python ./src/lerobot/find_cameras.py ${CAMERA_TYPE}
+lerobot-find-cameras ${CAMERA_TYPE}
 nautilus ./outputs/captured_images

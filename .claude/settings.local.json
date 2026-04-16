@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/bin/python -c ':*)",
+      "WebFetch(domain:api.github.com)",
+      "Read(//root/.claude/**)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)"
+    ]
+  }
+}

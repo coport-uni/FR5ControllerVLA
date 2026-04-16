@@ -17,6 +17,8 @@ These are **not** production tests -- they are preserved here for reference.
 | `test_fairino_joint1.py` | Single joint movement test |
 | `teleop_fairino_basic.py`| Early teleop using LeRobot's basic KeyboardTeleop |
 | `test_fr5_leader_follower.py` | Diagnose FR5-to-FR5 leader-follower: drag-teach read + ServoJ write |
+| `show_image.sh` | Open an image with `feh` on the NUC's Xwayland :0 (default) or on a laptop via SSH X11-forwarded display. Usage: `claude_test/show_image.sh [--mode=ssh\|host] <png>`. In ssh mode reads `CLAUDE_SSH_DISPLAY` / `CLAUDE_SSH_XAUTH` (set by sourcing `Xserver.sh` at the repo root). |
+| `debug_leader_follower.py` | Minimal XMLRPC-only leader-follower test: init drag-teach on leader, ServoMoveStart on follower, mirror joints for 10s via ServoJ. Reports per-step errors and final position diff. |
 
 ## Key Findings
 

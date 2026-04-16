@@ -4,7 +4,7 @@
 # Follower (192.168.58.2): mirrors leader via ServoJ.
 # Observations: two HikVision OpenCV cameras (top_left, top_right) +
 # one Intel RealSense (hand).
-source /opt/conda/etc/profile.d/conda.sh
+source /home/inno-controller/anaconda3/etc/profile.d/conda.sh
 conda activate lerobot
 
 HF_USER=$(hf auth whoami 2>/dev/null | head -n 1)
