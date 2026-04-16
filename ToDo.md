@@ -179,3 +179,21 @@
 - [x] `.venv/bin/pip freeze` 로 현재 설치된 패키지 버전 수집 (117개 + editable lerobot)
 - [x] `requirements-ubuntu.txt` 를 freeze 출력으로 덮어쓰기 (헤더: 생성 방식·일자, `-e .[all]` 유지, editable git+ 라인 제거)
 - [x] gh issue 등록 + commit + push
+
+## 2026-04-16: 5__fr5_record.sh 카메라 fps 설정 점검
+
+- [x] LeRobot dataset v3 문서 확인 (카메라 fps vs dataset fps 관계)
+- [x] lerobot-record 소스 코드에서 카메라 fps 처리 희름 분석
+- [x] RealSense hand 카메라 fps(30)와 dataset fps(20) 불일치 식별
+- [x] 사용자가 전체 카메라 30fps로 통일 (5__fr5_record.sh 이미 업데이트됨)
+- [ ] dataset.fps=20 → 30 변경 여부 사용자 결정 대기
+
+## 2026-04-16: FairinoFollower 카메라 키 convention 수정 (KeyError: 'top_left')
+
+- [x] 원인 분석: `build_dataset_frame`이 short key("top_left") 기대하나 Fairino는 full key("observation.images.top_left") 반환
+- [x] SO follower 참조 구현 확인 — `observation_features`와 `get_observation()` 모두 short key 사용
+- [x] `observation_features`에서 카메라 키를 short key로 변경 (cam_name만 사용)
+- [x] `get_observation()`에서 카메라 키를 short key로 변경
+- [x] `robots/fairino/` 의 old copy도 동일 수정 적용
+- [x] ruff check/format 통과
+- [ ] commit + push + gh issue close

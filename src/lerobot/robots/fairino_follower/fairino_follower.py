@@ -110,8 +110,11 @@ class FairinoFollower(Robot):
         if self.config.gripper_enabled:
             features["gripper.pos"] = float
         for cam_name, cam_cfg in self.config.cameras.items():
-            key = f"observation.images.{cam_name}"
-            features[key] = (cam_cfg.height, cam_cfg.width, 3)
+            features[cam_name] = (
+                cam_cfg.height,
+                cam_cfg.width,
+                3,
+            )
         return features
 
     @property
@@ -261,8 +264,7 @@ class FairinoFollower(Robot):
             obs["gripper.pos"] = self._read_gripper_pos()
 
         for cam_name, cam in self.cameras.items():
-            key = f"observation.images.{cam_name}"
-            obs[key] = cam.async_read()
+            obs[cam_name] = cam.async_read()
 
         return obs
 
