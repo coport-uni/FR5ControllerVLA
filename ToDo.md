@@ -206,3 +206,15 @@
 - [x] `robots/fairino/` 의 old copy 없음 (fairino_leader는 teleoperators에만 존재)
 - [x] ruff check/format 통과
 - [x] gh issue #21 등록 + commit + push
+
+## 2026-04-20: FairinoFollower 그리퍼 조작 시 제어 루프 60Hz → 1Hz 하락 해소
+
+- [x] 원인 분석: `_send_gripper_cmd()`가 메인 제어 루프에서 동기 실행
+      (`ServoMoveEnd → sleep(0.02) → MoveGripper → sleep(0.02) → ServoMoveStart → sleep(0.02)`)
+- [x] 그리퍼 워커 스레드 도입 — 메인 루프는 latest-wins 슬롯에 타깃만 넣고 즉시 리턴
+- [x] `connect()` 에서 워커 기동, `disconnect()` 에서 정상 종료 + join
+- [x] 워커용 별도 `xmlrpc.client.ServerProxy` (`_gripper_proxy`) 분리 — Transport 레이스 방지
+- [x] ServoJ 복구 경로(`_recover_servo_session`) 재사용 확인
+- [x] ruff check / ruff format 통과
+- [x] 사용자 하드웨어 테스트 통과 (그리퍼 연속 조작 중 60Hz 유지 확인)
+- [x] gh issue #22 등록 + commit + push + close

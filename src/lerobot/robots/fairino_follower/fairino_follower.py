@@ -35,6 +35,7 @@ non-main threads.
 
 import contextlib
 import logging
+import threading
 import time
 import xmlrpc.client
 from typing import Any
@@ -92,12 +93,32 @@ class FairinoFollower(Robot):
         # XMLRPC proxy used exclusively for ServoJ.
         self._servo_proxy = None
 
+        # Separate XMLRPC proxy for the gripper worker thread.
+        # xmlrpc.client.ServerProxy shares a single Transport,
+        # so we keep main-thread (ServoJ) and worker-thread
+        # (MoveGripper / ServoMoveEnd / ServoMoveStart) on
+        # distinct proxies to avoid transport races.
+        self._gripper_proxy = None
+
         # Interpolation state for velocity-limited ramp.
         self._commanded: list[float] = [0.0] * 6
 
         # Gripper state.
         self._gripper_pos: float = 0.0
         self._last_gripper_cmd: float = -1.0
+
+        # Gripper worker thread -- offloads the blocking
+        # ServoMoveEnd / MoveGripper / ServoMoveStart sequence
+        # off the control-loop thread so send_action() keeps
+        # running at the configured control_hz even while the
+        # gripper is actively moving.
+        self._gripper_worker: threading.Thread | None = None
+        self._gripper_stop_event = threading.Event()
+        self._gripper_wake_event = threading.Event()
+        self._gripper_lock = threading.Lock()
+        # Latest-wins slot -- older targets are overwritten
+        # before the worker consumes them.
+        self._gripper_target_pending: float | None = None
 
     # ---- properties (required by Robot base class) ---------
 
@@ -184,9 +205,11 @@ class FairinoFollower(Robot):
         self._initialise_servo_mode()
         self._commanded = list(joints)
 
-        # Create the servo proxy used by send_action().
+        # Create the servo proxy used by send_action(), plus
+        # a second proxy dedicated to the gripper worker.
         link = f"http://{self.config.ip_address}:20003"
         self._servo_proxy = xmlrpc.client.ServerProxy(link)
+        self._gripper_proxy = xmlrpc.client.ServerProxy(link)
 
         self._is_connected = True
         logger.info(
@@ -205,9 +228,14 @@ class FairinoFollower(Robot):
 
         if self.config.gripper_enabled:
             self._initialise_gripper()
+            self._start_gripper_worker()
 
     def disconnect(self) -> None:
         """End servo mode and release RPC resources."""
+        # Stop the gripper worker first so it cannot race the
+        # RPC teardown below.
+        self._stop_gripper_worker()
+
         for cam_name, cam in self.cameras.items():
             cam.disconnect()
             logger.info(
@@ -229,6 +257,7 @@ class FairinoFollower(Robot):
             self._rpc = None
 
         self._servo_proxy = None
+        self._gripper_proxy = None
         self._is_connected = False
         logger.info("[Fairino] Disconnected.")
 
@@ -338,7 +367,7 @@ class FairinoFollower(Robot):
         if self.config.gripper_enabled and "gripper.pos" in action:
             grip = max(0.0, min(100.0, float(action["gripper.pos"])))
             result["gripper.pos"] = grip
-            self._send_gripper_cmd(grip)
+            self._enqueue_gripper_cmd(grip)
 
         return result
 
@@ -554,11 +583,15 @@ class FairinoFollower(Robot):
                 )
         return self._gripper_pos
 
-    def _send_gripper_cmd(self, pos: float) -> None:
-        """Send a gripper command, pausing servo mode.
+    def _enqueue_gripper_cmd(self, pos: float) -> None:
+        """Queue a gripper target for the worker thread.
 
-        The Fairino controller blocks ``MoveGripper`` while
-        servo mode is active, so we pause/resume around it.
+        Runs on the main control-loop thread.  Drops commands
+        smaller than 1 % away from the last request to avoid
+        waking the worker on micro-motions, then stores the
+        latest target in a size-1 slot.  Previous un-consumed
+        targets are overwritten (latest-wins), so the worker
+        never builds a backlog.
 
         Args:
             pos: Target position [0-100 %].
@@ -567,10 +600,82 @@ class FairinoFollower(Robot):
             return
         self._last_gripper_cmd = pos
         self._gripper_pos = pos
-        pos_int = int(pos)
+        with self._gripper_lock:
+            self._gripper_target_pending = pos
+        self._gripper_wake_event.set()
 
+    def _start_gripper_worker(self) -> None:
+        """Spawn the background thread that drives the gripper."""
+        self._gripper_stop_event.clear()
+        self._gripper_wake_event.clear()
+        self._gripper_target_pending = None
+        self._gripper_worker = threading.Thread(
+            target=self._gripper_worker_loop,
+            name="fairino-gripper",
+            daemon=True,
+        )
+        self._gripper_worker.start()
+
+    def _stop_gripper_worker(self) -> None:
+        """Signal the worker to exit and join it."""
+        worker = self._gripper_worker
+        if worker is None:
+            return
+        self._gripper_stop_event.set()
+        self._gripper_wake_event.set()
+        worker.join(timeout=2.0)
+        self._gripper_worker = None
+
+    def _gripper_worker_loop(self) -> None:
+        """Worker loop: apply the latest queued target.
+
+        The XMLRPC sequence (ServoMoveEnd -> MoveGripper ->
+        ServoMoveStart) used to run inline in send_action(),
+        which stalled the main control loop at ~1 Hz while
+        the gripper was moving.  Running it here keeps the
+        main loop at the configured control_hz.  ServoJ
+        issued from the main thread during the pause window
+        may return _SERVO_SESSION_LOST; _recover_servo_session
+        already handles that case.
+        """
+        while not self._gripper_stop_event.is_set():
+            self._gripper_wake_event.wait(timeout=0.5)
+            if self._gripper_stop_event.is_set():
+                break
+            self._gripper_wake_event.clear()
+
+            with self._gripper_lock:
+                target = self._gripper_target_pending
+                self._gripper_target_pending = None
+            if target is None:
+                continue
+
+            try:
+                self._run_gripper_cmd(float(target))
+            except Exception as exc:
+                logger.warning(
+                    "[Fairino] Gripper worker err: %s",
+                    exc,
+                )
+
+    def _run_gripper_cmd(self, pos: float) -> None:
+        """Pause servo mode, command the gripper, resume servo.
+
+        The Fairino controller blocks ``MoveGripper`` while
+        servo mode is active, so we pause/resume around it.
+        Called from the gripper worker thread; the main
+        control thread keeps issuing ServoJ during the pause
+        window and recovers via _recover_servo_session when
+        the controller reports the session was torn down.
+
+        Args:
+            pos: Target position [0-100 %].
+        """
+        pos_int = int(pos)
         cfg = self.config
-        proxy = self._servo_proxy
+        proxy = self._gripper_proxy
+        if proxy is None:
+            return
         try:
             proxy.ServoMoveEnd()
             time.sleep(0.02)
