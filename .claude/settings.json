@@ -74,7 +74,19 @@
       "Bash(sudo mkdir *)",
       "Bash(sudo chown *)",
       "Bash(ruff format *)",
-      "Bash(ruff check *)"
+      "Bash(ruff check *)",
+      "Bash(grep -n \"cameras\" /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino_follower/*.py)",
+      "Bash(find . -name \"*.py\" -type f -exec grep -l \"ChoiceRegistry\\\\|register_subclass\" {} \\\\;)",
+      "Bash(grep -rn \"register_subclass\" /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/cameras/*/configuration*.py)",
+      "Bash(sudo chmod *)",
+      "Bash(RUFF_CACHE_DIR=/tmp/ruff_cache ruff check /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino_follower/fairino_follower.py --config /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/ruff.toml)",
+      "Bash(RUFF_CACHE_DIR=/tmp/ruff_cache ruff check /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino_follower/fairino_follower.py)",
+      "Bash(RUFF_CACHE_DIR=/tmp/ruff_cache ruff format --check /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino_follower/fairino_follower.py)",
+      "Bash(RUFF_CACHE_DIR=/tmp/ruff_cache ruff check /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino/fairino_follower.py)",
+      "Bash(RUFF_CACHE_DIR=/tmp/ruff_cache ruff format --check /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino/fairino_follower.py)",
+      "Bash(v4l2-ctl -d /dev/video18 --list-formats-ext)",
+      "Bash(v4l2-ctl -d /dev/video19 --list-formats-ext)",
+      "Bash(/home/inno-controller/anaconda3/envs/lerobot/bin/python -c \"import cv2; print\\(cv2.__version__\\)\")"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",

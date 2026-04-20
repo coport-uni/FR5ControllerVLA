@@ -10,7 +10,7 @@ git clone https://github.com/coport-uni/FR5ControllerVLA.git
 
 # https://github.com/AgRoboticsResearch/lerobot_robot_piper
 pip install lerobot_robot_piper piper_sdk wego_piper
-pip install huggingface_hub
+pip install huggingface_hub onvif
 pip install -e .[all]
 hf auth login
 hf auth whoami

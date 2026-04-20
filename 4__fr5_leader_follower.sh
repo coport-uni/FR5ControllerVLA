@@ -13,4 +13,4 @@ lerobot-teleoperate \
     --teleop.ip_address=192.168.59.2 \
     --teleop.gripper_enabled=true \
     --teleop.gripper_force=1 \
-    --display_data=false
+    --display_data=true

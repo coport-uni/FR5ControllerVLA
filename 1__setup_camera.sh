@@ -21,7 +21,7 @@
 
 set -euo pipefail
 
-source /opt/conda/etc/profile.d/conda.sh
+source /home/inno-controller/anaconda3/etc/profile.d/conda.sh
 conda activate lerobot
 
 python3 hkvision_related/goto_preset_all_ipcamera.py
@@ -38,8 +38,8 @@ rtsp_path="ISAPI/streaming/channels/02"
 log_dir="/tmp/rtsp_to_v4l2"
 
 setup_loopback() {
-    apt-get update
-    apt-get install -y \
+    sudo apt-get update
+    sudo apt-get install -y \
         v4l2loopback-dkms \
         v4l2loopback-utils \
         ffmpeg
@@ -59,8 +59,8 @@ setup_loopback() {
     done
 
     if [ "${need_reload}" -eq 1 ]; then
-        modprobe -r v4l2loopback || true
-        modprobe v4l2loopback \
+        sudo modprobe -r v4l2loopback || true
+        sudo modprobe v4l2loopback \
             devices=3 \
             video_nr="${nrs_csv}" \
             card_label="${labels_csv}" \
