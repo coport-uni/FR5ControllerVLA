@@ -196,4 +196,13 @@
 - [x] `get_observation()`에서 카메라 키를 short key로 변경
 - [x] `robots/fairino/` 의 old copy도 동일 수정 적용
 - [x] ruff check/format 통과
-- [ ] commit + push + gh issue close
+- [x] commit (29262708) + push + gh issue #20 close
+
+## 2026-04-20: FairinoLeader 그리퍼 30초 후 잠김 해소
+
+- [x] 원인 분석: `_GRIPPER_MAXTIME_MS = 30000`으로 MoveGripper가 30초 후 종료 → compliance 해제 → 그리퍼 잠김
+- [x] `_GRIPPER_MAXTIME_MS = -1`로 변경 (SDK가 지원하는 무한 유지 값)
+- [x] 관련 주석 업데이트
+- [x] `robots/fairino/` 의 old copy 없음 (fairino_leader는 teleoperators에만 존재)
+- [x] ruff check/format 통과
+- [x] gh issue #21 등록 + commit + push

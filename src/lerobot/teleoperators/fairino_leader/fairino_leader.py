@@ -47,10 +47,11 @@ _SETTLE_LONG_S = 0.5
 _READ_RETRIES = 3
 _READ_RETRY_DELAY_S = 0.05
 
-# MoveGripper maxtime [ms] -- large so the command never
-# times out; the controller stops when ActGripper(0) is
-# issued on disconnect.
-_GRIPPER_MAXTIME_MS = 30000
+# MoveGripper maxtime [ms] -- -1 means "no timeout", so the
+# compliance command stays active for the whole session and
+# keeps the jaws back-drivable by hand.  The controller stops
+# when ActGripper(0) is issued on disconnect.
+_GRIPPER_MAXTIME_MS = -1
 
 
 class FairinoLeader(Teleoperator):
