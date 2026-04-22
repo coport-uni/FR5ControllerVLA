@@ -173,3 +173,6 @@ wandb/
 *.urdf
 *.xml
 *.part
+
+# Datasets
+outputs/datasets/
