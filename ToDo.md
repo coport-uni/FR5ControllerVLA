@@ -434,3 +434,23 @@
       isolation. Real fix would gate the dir check on `is_main_process`
       or move it after the first barrier — not in scope for this issue.
 - [x] commit + push (719b20e0) + close issue (#34)
+
+## 2026-04-22: ACT 100-step bench at per-rank batch=32 (counterpart to #34)
+
+- Same `7__train_act.sh`-style launch as #34, but per-rank
+  `batch_size=32` instead of 64. Weak scaling:
+  - 1 GPU: batch=32 (effective=32)
+  - 2 GPU: batch=32 per rank (effective=64)
+- 5 trials per group, 100 steps, append rows to the existing
+  `claude_test/accelerate_mgpu_evidence/bench_1v2gpu.csv`.
+- [x] Create gh issue (#35)
+- [x] Run 10 trials via bench script (`--model act --batch 32`)
+- [x] Verify CSV (10 new rows, no NA — final 40 rows)
+- [x] Extend `bench_1v2gpu_summary.md` with a batch=32 section
+      Result (1-GPU → 2-GPU, ACT per-rank batch=32):
+        samples/s 110.34 → 157.64 — speedup 1.43× (+42.9 %)
+        loop_s 29.00±0.63 → 40.60±1.20
+        scaling efficiency 71.4 % (vs 70.5 % at batch=64 — same within
+        noise; allreduce of ~104 MB bf16 grad scales with model size,
+        not batch size).
+- [ ] commit + push + close issue

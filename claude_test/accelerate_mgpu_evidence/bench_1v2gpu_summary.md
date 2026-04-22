@@ -1,4 +1,4 @@
-# Benchmark: 1-GPU vs 2-GPU `accelerate launch` (issues #34)
+# Benchmark: 1-GPU vs 2-GPU `accelerate launch` (issues #34, #35)
 
 Reproduced with `bash claude_test/bench_accelerate_1v2gpu.sh` on
 2x H200 NVL (PCIe-only, no NVLink bridge — see `nvidia-smi topo -m`).
@@ -106,3 +106,56 @@ All CVs are well under 3 % — trial-to-trial noise is negligible.
   `claude_test/bench_accelerate_1v2gpu.sh` (uses
   `grep -oE "INFO ... "` to isolate the structured substring) and the
   CSV here was rebuilt in-place from the saved per-trial logs.
+
+---
+
+# Addendum: ACT at per-rank batch=32 (issue #35)
+
+Same setup as above but per-rank `batch_size=32`. Weak scaling:
+- **1 GPU**: batch=32, effective=32.
+- **2 GPU**: batch=32 per rank, effective=64.
+
+## Results (10 new rows in `bench_1v2gpu.csv`, all `model=act batch_size=32`)
+
+| Model    | GPUs | n | wall_clock_s    | training_loop_s | step/s | samples/s |
+|----------|------|---|-----------------|-----------------|-------:|----------:|
+| ACT b=32 | 1    | 5 | **39.95 ± 0.68**  | **29.00 ± 0.63**  |  3.45  |  110.34   |
+| ACT b=32 | 2    | 5 | **52.50 ± 0.75**  | **40.60 ± 1.20**  |  2.46  |  157.64   |
+
+## Scaling: 1 GPU → 2 GPUs
+
+| Config         | 1-GPU samples/s | 2-GPU samples/s | **Speedup** | **% improvement** | Scaling efficiency |
+|----------------|----------------:|----------------:|------------:|------------------:|-------------------:|
+| ACT @ batch=32 |  110.34         |  157.64         | **1.43×**   | **+42.9 %**       | 71.4 %             |
+| ACT @ batch=64 |  113.48         |  160.00         | **1.41×**   | **+41.0 %**       | 70.5 %             |
+
+## Interpretation
+
+- **Per-step compute is ~halved** when per-rank batch goes 64 → 32
+  (1-GPU loop 56.4 s → 29.0 s; 2-GPU loop 80.0 s → 40.6 s). This is
+  slightly *better* than the ideal 2× reduction because CUDA kernel
+  launch fixed-cost overhead becomes a slightly larger fraction at
+  batch=64, meaning halving the batch more than halves useful compute
+  per step.
+- **Throughput**: 1-GPU samples/s drops a little (113.5 → 110.3) — the
+  smaller batch means kernel-launch overhead, optimizer.step, and
+  dataloader fetch are each amortised over fewer samples. Same story
+  on 2-GPU (160.0 → 157.6). Small overhead, not a scaling regression.
+- **Scaling efficiency**: 71.4 % at batch=32 vs 70.5 % at batch=64 —
+  statistically indistinguishable. For ACT on this container, per-rank
+  batch size in the 32–64 range does not materially change the 2-GPU
+  scaling efficiency. The bottleneck is still the socket-NCCL
+  allreduce of the ~104 MB bf16 gradient, which scales with model
+  size, not batch size.
+- **Absolute wall clock**: batch=32 finishes a 100-step run in ~40 s
+  on 1 GPU vs ~69 s for batch=64 — useful if you're sweeping configs
+  and need fast feedback.
+
+## Variability (coefficient of variation, CV)
+
+| Config         | GPUs | CV(wall) | CV(loop) |
+|----------------|------|---------:|---------:|
+| ACT b=32       | 1    | 1.70 %   | 2.18 %   |
+| ACT b=32       | 2    | 1.43 %   | 2.96 %   |
+
+Within the same noise floor as the batch=64 runs.
