@@ -397,3 +397,40 @@
       interrupted runs, wandb `Runtime` is authoritative.
 - [x] gh issue 등록 (#33)
 - [ ] commit + push
+
+## 2026-04-22: Benchmark 1-GPU vs 2-GPU accelerate (time to step 100, 5 trials each)
+
+- Reference: builds on issue #30 (multi-GPU enablement).
+- Question being measured: real wall-clock + training-loop time for the
+  ACT pipeline on the FR5 dataset, comparing
+  `accelerate launch --num_processes=1` vs
+  `accelerate launch --multi_gpu --num_processes=2`, weak scaling
+  (per-rank `batch_size=64`), 5 trials each.
+- Output: simple CSV at
+  `claude_test/accelerate_mgpu_evidence/bench_1v2gpu.csv`
+  with `trial,num_gpus,wall_clock_s,training_loop_s,final_loss,timestamp`.
+- [x] Create gh issue (#34)
+- [x] Write `claude_test/bench_accelerate_1v2gpu.sh`
+- [x] Update `claude_test/README.md`
+- [x] Run benchmark — extended to 3 models (ACT, Pi0, Pi0.5) at
+      100 steps × 5 trials × 2 GPU configs = 30 runs. CSV at
+      `claude_test/accelerate_mgpu_evidence/bench_1v2gpu.csv` with
+      schema `model,trial,num_gpus,target_steps,batch_size,wall_clock_s,
+      training_loop_s,final_loss,timestamp`.
+- [x] Verify CSV (30 rows + header, no NA after Pi0.5 trial 4 retry)
+      Result (1-GPU → 2-GPU samples/s improvement):
+        ACT  : 113.48 → 160.00 samples/s — speedup 1.41× (+41.0 %)
+        Pi0  :  15.46 →  19.00 samples/s — speedup 1.23× (+22.9 %)
+        Pi0.5:  13.91 →  16.83 samples/s — speedup 1.21× (+21.0 %)
+      Larger models scale worse here because socket NCCL fallback is
+      bandwidth-bound; the host NUC with native P2P should approach
+      the ideal 2× weak-scaling for Pi0/Pi0.5 too. See
+      `claude_test/accelerate_mgpu_evidence/bench_1v2gpu_summary.md`.
+- [x] Side-finding: `FileExistsError` race in
+      `src/lerobot/configs/train.py:122` between rank 0's
+      `output_dir.mkdir()` (after `Accelerator()` init at
+      `lerobot_train.py:204-205`) and rank 1's `cfg.validate()`.
+      Observed twice across the sweeps; re-ran the affected trials in
+      isolation. Real fix would gate the dir check on `is_main_process`
+      or move it after the first barrier — not in scope for this issue.
+- [ ] commit + push + close issue

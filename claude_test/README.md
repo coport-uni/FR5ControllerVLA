@@ -22,6 +22,9 @@ These are **not** production tests -- they are preserved here for reference.
 | `accelerate_mgpu_evidence/train.log` | ACT multi-GPU training log from the issue #30 verification run on 2x H200 (batch 64 per rank, effective 128, bf16). Reached step 460 in ~6 min with loss 24.25 → 1.69 and no errors — confirms `accelerate launch` wiring end-to-end. |
 | `accelerate_mgpu_evidence/gpu_samples.log` | `nvidia-smi` snapshots (10 s interval) during the same run. Both GPUs hold ~44 GB and alternate 95-100% util, confirming both H200s are live. |
 | `accelerate_mgpu_evidence/smoke_nccl_socket_ok.log` | Minimal 2-proc `accelerate launch` smoke test (no LeRobot) showing that with `NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1` the first allreduce completes in 0.65 s; without them the same collective hangs past any timeout inside this Docker container. |
+| `bench_accelerate_1v2gpu.sh` | Issue #34 benchmark: time to step 100 for `accelerate launch --num_processes=1` vs `--multi_gpu --num_processes=2`. Weak scaling (per-rank batch=64), 5 trials each, writes `accelerate_mgpu_evidence/bench_1v2gpu.csv` with both wall-clock and training-loop time per trial, then prints a mean±std summary. |
+| `accelerate_mgpu_evidence/bench_1v2gpu.csv` | Output of the above benchmark (`trial,num_gpus,wall_clock_s,training_loop_s,final_loss,timestamp`). |
+| `accelerate_mgpu_evidence/bench_1v2gpu_summary.md` | Human-readable summary table + interpretation notes for the bench above (1-GPU vs 2-GPU mean ± std, samples/s, scaling efficiency, plus the FileExistsError race observed on one 2-GPU trial). |
 
 ## Key Findings
 
