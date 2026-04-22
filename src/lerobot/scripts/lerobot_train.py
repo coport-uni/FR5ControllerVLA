@@ -17,6 +17,7 @@ import dataclasses
 import logging
 import time
 from contextlib import nullcontext
+from datetime import datetime
 from pprint import pformat
 from typing import Any
 
@@ -186,7 +187,17 @@ def train(cfg: TrainPipelineConfig, accelerator: Accelerator | None = None):
             cpu=force_cpu,
         )
 
-    init_logging(accelerator=accelerator)
+    # Attach a FileHandler on the main process so train logs survive the
+    # terminal. Filename includes a timestamp so resume/re-runs keep
+    # their own log. Per-line timestamps come from init_logging's
+    # existing formatter.
+    log_file = None
+    if accelerator.is_main_process and cfg.output_dir is not None:
+        cfg.output_dir.mkdir(parents=True, exist_ok=True)
+        log_stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        log_file = cfg.output_dir / f"train_{log_stamp}.log"
+
+    init_logging(log_file=log_file, accelerator=accelerator)
 
     # Determine if this is the main process (for logging and checkpointing)
     # When using accelerate, only the main process should log to avoid duplicate outputs

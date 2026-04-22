@@ -359,3 +359,32 @@
       capture a snapshot/log for evidence
 - [x] gh issue 등록 (#30)
 - [ ] commit + push
+
+## 2026-04-22: Save timestamped train.log to output_dir from lerobot_train.py (#33)
+
+- Reason: `lerobot_train.py` currently calls `init_logging` without a
+  `log_file`, so console output is lost unless the user pipes it
+  manually. A per-run log file inside `output_dir` makes post-hoc
+  inspection (including total training time) reproducible.
+- Per-line timestamps are already produced by `init_logging`'s
+  `custom_format` (`YYYY-MM-DD HH:MM:SS`); this task adds a timestamp
+  to the log *filename* so resume / re-runs don't collide.
+- [x] `src/lerobot/scripts/lerobot_train.py`: add `from datetime import datetime`
+- [x] `src/lerobot/scripts/lerobot_train.py:189`: build
+      `output_dir/train_<YYYYMMDD-HHMMSS>.log` on main process only and
+      pass it to `init_logging(log_file=...)`; non-main ranks keep
+      `log_file=None`
+- [x] Ruff check/format on modified file
+- [x] Import smoke: `python -c "from lerobot.scripts import lerobot_train"`
+- [x] End-to-end verify by running the pi0 command from
+      `7__train_pi0.sh` for ~5 min (SIGTERM 143 at 310s) — file
+      `outputs/train/fr5_pi0_logtest/train_20260422-052754.log`
+      (47 KB, 327 lines) was created with timestamped lines; first
+      vs. last line delta is parseable by `datetime.strptime`.
+      Note: pi0 spent most of the 5 min in silent `torch.compile`
+      (last log line was "Start offline training…"); wall-time
+      from log is only meaningful when training actually reaches
+      step logging or finishes with "End of training". For
+      interrupted runs, wandb `Runtime` is authoritative.
+- [x] gh issue 등록 (#33)
+- [ ] commit + push
