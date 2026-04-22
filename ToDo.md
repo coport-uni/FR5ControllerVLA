@@ -453,4 +453,4 @@
         scaling efficiency 71.4 % (vs 70.5 % at batch=64 — same within
         noise; allreduce of ~104 MB bf16 grad scales with model size,
         not batch size).
-- [ ] commit + push + close issue
+- [x] commit + push (a9ff2571) + close issue (#35)
