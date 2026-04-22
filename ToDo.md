@@ -339,24 +339,33 @@
 ## 2026-04-22: Apply HuggingFace `accelerate` for multi-GPU training (#30)
 
 - Reference: https://huggingface.co/docs/lerobot/multi_gpu_training
-- Target: `7__train_act.sh` launch script (working ACT pipeline).
-- Method: Use `accelerate launch --multi_gpu --num_processes=2
+- Target: `7__train_act.sh` launch script (working ACT pipeline) plus the
+  shared training entry `src/lerobot/scripts/lerobot_train.py`.
+- Method: `accelerate launch --multi_gpu --num_processes=2
   --mixed_precision=bf16 $(which lerobot-train) ...`. `lerobot_train.py`
   already auto-detects `accelerate` (Accelerator init, prepare,
-  main-process-gated checkpoint/wandb, MetricsTracker cross-process) —
-  no Python edits required.
+  main-process-gated checkpoint/wandb, MetricsTracker cross-process).
 - Purpose: leverage 2x H200 GPUs to speed up FR5 policy training.
 - [x] Review `https://huggingface.co/docs/lerobot/multi_gpu_training`
-- [x] Audit `src/lerobot/scripts/lerobot_train.py` — already
-      accelerate-ready; no code changes required
+- [x] Audit `src/lerobot/scripts/lerobot_train.py`
 - [x] Update `7__train_act.sh` to use
       `accelerate launch --multi_gpu --num_processes=2
       --mixed_precision=bf16 $(which lerobot-train) ...`
-- [x] `bash -n` syntax check on `7__train_act.sh`
-- [ ] Run the training for ~5 minutes on 2x H200 and verify no errors
-- [ ] During the run, confirm both GPUs are actively utilized via
-      `nvidia-smi` (non-zero utilization and memory on both devices) and
-      capture a snapshot/log for evidence
+- [x] Patch `lerobot_train.py` with
+      `InitProcessGroupKwargs(timeout=1h)` so slow one-time startup
+      stalls do not trigger the 10-minute default NCCL watchdog
+- [x] `bash -n` syntax check on `7__train_act.sh`; ruff check/format on
+      `lerobot_train.py`
+- [x] Diagnose container-specific hang: NCCL P2P/CUMEM transport fails
+      silently on the first allreduce inside this Docker container.
+      Workaround for in-container tests only:
+      `NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1` forces socket transport.
+      Host NUC is unaffected; no changes to `7__train_act.sh` needed.
+- [x] Run the training for ~5 minutes on 2x H200 and verify no errors
+      (result: reached step 460 in ~6 min, loss 24.25 → 1.69, no errors)
+- [x] Confirm both GPUs actively utilized via `nvidia-smi` (both held
+      ~44 GB and alternated 95-100% util; evidence saved under
+      `claude_test/accelerate_mgpu_evidence/`)
 - [x] gh issue 등록 (#30)
 - [ ] commit + push
 

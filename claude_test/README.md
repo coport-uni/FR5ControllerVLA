@@ -19,6 +19,9 @@ These are **not** production tests -- they are preserved here for reference.
 | `test_fr5_leader_follower.py` | Diagnose FR5-to-FR5 leader-follower: drag-teach read + ServoJ write |
 | `show_image.sh` | Open an image with `feh` on the NUC's Xwayland :0 (default) or on a laptop via SSH X11-forwarded display. Usage: `claude_test/show_image.sh [--mode=ssh\|host] <png>`. In ssh mode reads `CLAUDE_SSH_DISPLAY` / `CLAUDE_SSH_XAUTH` (set by sourcing `Xserver.sh` at the repo root). |
 | `debug_leader_follower.py` | Minimal XMLRPC-only leader-follower test: init drag-teach on leader, ServoMoveStart on follower, mirror joints for 10s via ServoJ. Reports per-step errors and final position diff. |
+| `accelerate_mgpu_evidence/train.log` | ACT multi-GPU training log from the issue #30 verification run on 2x H200 (batch 64 per rank, effective 128, bf16). Reached step 460 in ~6 min with loss 24.25 → 1.69 and no errors — confirms `accelerate launch` wiring end-to-end. |
+| `accelerate_mgpu_evidence/gpu_samples.log` | `nvidia-smi` snapshots (10 s interval) during the same run. Both GPUs hold ~44 GB and alternate 95-100% util, confirming both H200s are live. |
+| `accelerate_mgpu_evidence/smoke_nccl_socket_ok.log` | Minimal 2-proc `accelerate launch` smoke test (no LeRobot) showing that with `NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1` the first allreduce completes in 0.65 s; without them the same collective hangs past any timeout inside this Docker container. |
 
 ## Key Findings
 
