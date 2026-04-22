@@ -290,10 +290,10 @@
 ## 2026-04-21: .gitignore 에 outputs/datasets/ 추가 + 대용량 파일 히스토리 정리 (#29)
 
 - [x] `.gitignore` 에 `datasets/` 추가 (초기 시도 — 경로 오해)
-- [ ] `.gitignore` 패턴을 `outputs/datasets/` 로 교정
+- [x] `.gitignore` 패턴을 `outputs/datasets/` 로 교정
 - [x] 푸쉬 시도 — GitHub pre-receive hook 거부 (`1cb4a25d dataset_production_go` 에 100MB+ MP4 9개 포함)
-- [ ] `git reset --soft HEAD~2` 로 로컬 미푸쉬 커밋 2개 해제
-- [ ] `git rm -r --cached outputs/datasets/` 로 대용량 파일 트래킹 해제 (디스크 보존)
-- [ ] 정상 파일만 다시 커밋 (`dataset_production_go` 내용 유지) + `.gitignore` 업데이트 커밋
-- [ ] `git push origin main`
+- [x] `git reset --soft` 로 로컬 미푸쉬 커밋(1cb4a25d, 449b0a7b, a8373b05) 해제
+- [x] `git rm -r --cached outputs/datasets/` 로 대용량 파일 트래킹 해제 (디스크 보존)
+- [x] 2개 커밋으로 재구성: `e2e34ee8 Rewrite 6/8/9 scripts ...` + `0757ff02 Ignore outputs/datasets/`
+- [x] `git push origin main` 성공 (1d0003aa..0757ff02)
 - [x] gh issue 등록 (#29)
