@@ -297,3 +297,65 @@
 - [x] 2개 커밋으로 재구성: `e2e34ee8 Rewrite 6/8/9 scripts ...` + `0757ff02 Ignore outputs/datasets/`
 - [x] `git push origin main` 성공 (1d0003aa..0757ff02)
 - [x] gh issue 등록 (#29)
+
+## 2026-04-22: Create model-specific train scripts (ACT, Pi0, Pi0.5) (#31)
+
+- [x] Delete existing `7__train.sh` (smolvla/piper dataset — no longer relevant)
+- [x] Create `7__train_act.sh` based on PiPERControllerVLA `7__train.sh`
+      reference, adapted for FR5 dataset
+      `coport-uni/FR5_pick_red_colored_marker_to_box`
+      (ref: https://github.com/coport-uni/PiPERControllerVLA/blob/main/7__train.sh)
+      — note: uses `./src/lerobot/scripts/lerobot_train.py` (PiPER ref path
+      `scripts/train.py` no longer exists in this repo)
+- [x] Create `7__train_pi0.sh` following LeRobot Pi0 docs
+      (ref: https://huggingface.co/docs/lerobot/pi0)
+- [x] Create `7__train_pi05.sh` following LeRobot Pi0.5 docs
+      (ref: https://huggingface.co/docs/lerobot/pi05)
+- [x] `bash -n` syntax check for all three scripts
+- [x] gh issue 등록 (#31)
+- [x] Switch `7__train_act.sh` to `lerobot-train` CLI per LeRobot ACT docs
+      (https://huggingface.co/docs/lerobot/act)
+- [x] Smoke test — all three scripts train on the FR5 dataset without
+      error:
+      - ACT  : 300 steps, loss 6.923 @ step 200, ckpt 000200/000300
+      - Pi0  : 20 steps,  ckpt 000010/000020/last, "End of training"
+      - Pi0.5: 20 steps,  ckpt 000010/000020/last, "End of training"
+      (ran with container's conda; shell scripts themselves reference the
+      host's `/home/inno-controller/anaconda3/...` path like other scripts.)
+- [ ] commit + push
+
+## 2026-04-22: Fix GR00TN15Config dataclass bug blocking lerobot imports (#32)
+
+- [x] Create gh issue (#32)
+- [x] Fix `src/lerobot/policies/groot/groot_n1.py` `GR00TN15Config`
+      — added `default=None` to the four `init=False` fields
+      (`backbone_cfg`, `action_head_cfg`, `action_horizon`, `action_dim`)
+      so they precede `compute_dtype` legally on Python 3.12
+- [x] Ruff check/format on modified file (explicit run: all passed)
+- [x] Import smoke: `from lerobot.policies.groot.groot_n1 import GR00TN15Config`
+- [x] Verify `lerobot-train --help` loads without TypeError
+- [ ] commit + push (bundled with #31)
+
+## 2026-04-22: Apply HuggingFace `accelerate` for multi-GPU training (#30)
+
+- Reference: https://huggingface.co/docs/lerobot/multi_gpu_training
+- Target: `7__train_act.sh` launch script (working ACT pipeline).
+- Method: Use `accelerate launch --multi_gpu --num_processes=2
+  --mixed_precision=bf16 $(which lerobot-train) ...`. `lerobot_train.py`
+  already auto-detects `accelerate` (Accelerator init, prepare,
+  main-process-gated checkpoint/wandb, MetricsTracker cross-process) —
+  no Python edits required.
+- Purpose: leverage 2x H200 GPUs to speed up FR5 policy training.
+- [x] Review `https://huggingface.co/docs/lerobot/multi_gpu_training`
+- [x] Audit `src/lerobot/scripts/lerobot_train.py` — already
+      accelerate-ready; no code changes required
+- [x] Update `7__train_act.sh` to use
+      `accelerate launch --multi_gpu --num_processes=2
+      --mixed_precision=bf16 $(which lerobot-train) ...`
+- [x] `bash -n` syntax check on `7__train_act.sh`
+- [ ] Run the training for ~5 minutes on 2x H200 and verify no errors
+- [ ] During the run, confirm both GPUs are actively utilized via
+      `nvidia-smi` (non-zero utilization and memory on both devices) and
+      capture a snapshot/log for evidence
+- [x] gh issue 등록 (#30)
+- [ ] commit + push

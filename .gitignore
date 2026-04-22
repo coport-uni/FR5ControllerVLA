@@ -176,3 +176,11 @@ wandb/
 
 # Datasets
 outputs/datasets/
+
+# Training artifacts (checkpoints / logs). Big safetensors will blow past
+# GitHub's 100 MB file limit and are reproducible from scripts.
+outputs/smoke_logs/
+outputs/train/
+
+# Claude Code scheduled-task state
+.claude/scheduled_tasks.lock
