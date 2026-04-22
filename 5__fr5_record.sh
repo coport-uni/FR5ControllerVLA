@@ -10,13 +10,19 @@ conda activate lerobot
 HF_USER=$(hf auth whoami 2>/dev/null | head -n 1)
 echo "$HF_USER"
 
-# hand: {type: intelrealsense, serial_number_or_name: '333422300435', width: 640, height: 480, fps: 30}
+export HF_HUB_ENABLE_HF_TRANSFER=1
+
+# Alternative hand camera: OpenCV instead of RealSense.
 # hand: {type: opencv, index_or_path: '/dev/video4', width: 640, height: 480, fps: 30}
-# top_right: {type: opencv, index_or_path: '/dev/video19', width: 640, height: 480, fps: 30}, \
 
 # Right Arrow (→): End episode and move to next
 # Left Arrow (←): Cancel episode and re-record
 # Escape (ESC): Stop session and upload dataset
+
+hf download \
+    --repo-type dataset \
+    coport-uni/FR5_pick_red_colored_marker_to_box \
+    --local-dir /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_pick_red_colored_marker_to_box
 
 lerobot-record \
     --robot.type=fairino_follower \
@@ -30,13 +36,14 @@ lerobot-record \
     --teleop.type=fairino_leader \
     --teleop.ip_address=192.168.59.2 \
     --teleop.gripper_enabled=true \
-    --teleop.gripper_force=0 \
+    --teleop.gripper_force=1 \
     --teleop.id=fr5_leader \
     --display_data=true \
+    --dataset.root="/home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_pick_red_colored_marker_to_box" \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --dataset.episode_time_s=60 \
     --dataset.reset_time_s=30 \
-    --dataset.num_episodes=1 \
+    --dataset.num_episodes=10 \
     --dataset.fps=20 \
     --dataset.single_task="pick_red_colored_marker_to_box" \
     --dataset.streaming_encoding=true \

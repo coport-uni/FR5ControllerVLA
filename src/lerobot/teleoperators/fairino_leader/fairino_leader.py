@@ -28,7 +28,9 @@ Communication uses the same dual-channel SDK as the follower:
 
 import contextlib
 import logging
+import threading
 import time
+import xmlrpc.client
 from typing import Any
 
 from lerobot.types import RobotAction
@@ -47,11 +49,17 @@ _SETTLE_LONG_S = 0.5
 _READ_RETRIES = 3
 _READ_RETRY_DELAY_S = 0.05
 
-# MoveGripper maxtime [ms] -- 10 minutes.  The SDK does not
-# accept -1 as "infinite", so use a long finite window that
-# covers a typical teleop session.  The controller stops when
-# ActGripper(0) is issued on disconnect.
-_GRIPPER_MAXTIME_MS = 600000
+# MoveGripper maxtime [ms] -- int32 max (~24.8 days).  The
+# SDK rejects -1, 600000 (10 min) expired mid-session
+# (issue #24), and even int32 max was observed to expire in
+# practice -- so we also run a periodic keepalive thread
+# that re-issues MoveGripper while the leader is idle.
+# The controller stops when ActGripper(0) is issued on disconnect.
+_GRIPPER_MAXTIME_MS = 2147483647
+
+# Keepalive worker timings.
+_KEEPALIVE_POLL_S = 1.0
+_KEEPALIVE_JOIN_TIMEOUT_S = 2.0
 
 
 class FairinoLeader(Teleoperator):
@@ -81,6 +89,26 @@ class FairinoLeader(Teleoperator):
         # value if the read ever fails.
         self._gripper_pos: float = 0.0
         self._gripper_initialised: bool = False
+
+        # Gripper keepalive worker -- a separate ServerProxy is
+        # used because xmlrpc.client transports aren't
+        # thread-safe; the follower's gripper worker follows the
+        # same pattern.  Activity tracking lets the worker tell
+        # idle vs. active periods apart.
+        self._keepalive_rpc: xmlrpc.client.ServerProxy | None = None
+        self._keepalive_thread: threading.Thread | None = None
+        self._keepalive_stop: threading.Event = threading.Event()
+        self._keepalive_active: threading.Event = threading.Event()
+        self._last_activity_time: float = 0.0
+        self._last_joint_pos: list[float] | None = None
+        self._last_gripper_pos_for_activity: float = 0.0
+
+        # Gripper position reported to the follower.  While a
+        # keepalive nudge is in progress, this value stays
+        # frozen at the pre-nudge read so the follower does not
+        # mirror the ~1 % wobble.  Only the leader hardware
+        # moves during keepalive; the follower stays put.
+        self._reported_gripper_pos: float = 0.0
 
     # ---- properties (required by Teleoperator) ----------------
 
@@ -170,6 +198,8 @@ class FairinoLeader(Teleoperator):
         # the operator can drag the jaws by hand.
         if self.config.gripper_enabled:
             self._initialise_gripper()
+            if self.config.gripper_keepalive_enabled:
+                self._start_keepalive()
 
         self._is_connected = True
         logger.info(
@@ -179,6 +209,10 @@ class FairinoLeader(Teleoperator):
 
     def disconnect(self) -> None:
         """Exit drag-teach mode and release RPC resources."""
+        # Tear down the keepalive worker first so it cannot race
+        # with ActGripper(0) or CloseRPC() below.
+        self._stop_keepalive()
+
         if self._rpc is not None:
             if self.config.gripper_enabled:
                 with contextlib.suppress(Exception):
@@ -227,7 +261,29 @@ class FairinoLeader(Teleoperator):
         action = {f"{jname}.pos": joints_deg[i] for i, jname in enumerate(self.config.joint_names)}
 
         if self.config.gripper_enabled:
-            action["gripper.pos"] = self._read_gripper_pos()
+            live_pos = self._read_gripper_pos()
+            # Mask keepalive-induced wobble from the follower:
+            # only refresh the reported position when the
+            # keepalive worker is not currently nudging the
+            # leader's jaws.  Otherwise the follower would
+            # mirror a jitter that is only meant to refresh
+            # the leader's compliance timer.
+            if not self._keepalive_active.is_set():
+                self._reported_gripper_pos = live_pos
+            action["gripper.pos"] = self._reported_gripper_pos
+
+        # Activity tracker for the keepalive worker.  Skip while
+        # the worker is nudging so our own motions don't reset
+        # the idle clock.
+        if (
+            self.config.gripper_enabled
+            and self.config.gripper_keepalive_enabled
+            and not self._keepalive_active.is_set()
+        ):
+            self._update_activity(
+                joints_deg,
+                float(action.get("gripper.pos", self._gripper_pos)),
+            )
 
         return action
 
@@ -338,7 +394,6 @@ class FairinoLeader(Teleoperator):
         Used when TCP 20004 is unavailable.
         """
         import types
-        import xmlrpc.client
 
         link = f"http://{self.config.ip_address}:20003"
         proxy = xmlrpc.client.ServerProxy(link)
@@ -417,9 +472,13 @@ class FairinoLeader(Teleoperator):
         """Activate the gripper in low-force compliance mode.
 
         SetGripperConfig + ActGripper(1) turn the gripper on,
-        then a non-blocking MoveGripper toward the fully-open
-        position with ``gripper_force`` as the holding force
-        lets the operator back-drive the jaws by hand.
+        then a non-blocking MoveGripper at the current position
+        with ``gripper_force`` as the holding force lets the
+        operator back-drive the jaws by hand.  Targeting the
+        current position (instead of a hardcoded 0) prevents
+        the jaws from slowly drifting closed when the operator
+        isn't touching them -- that drift would otherwise be
+        mirrored by the follower.
         """
         cfg = self.config
         ret = self._rpc.SetGripperConfig(
@@ -445,13 +504,16 @@ class FairinoLeader(Teleoperator):
             )
         time.sleep(1.0)
 
-        # Issue a non-blocking MoveGripper toward the closed
-        # position with the configured low force, which makes
-        # the jaws back-drivable by hand.
+        # Read the current jaw position before issuing the
+        # compliance command so we hold in place rather than
+        # drifting toward any particular target.
+        current_pos = self._read_gripper_pos()
+        hold_target = int(round(current_pos))
+
         with contextlib.suppress(Exception):
             self._rpc.MoveGripper(
                 int(cfg.gripper_index),
-                0,
+                hold_target,
                 int(cfg.gripper_vel),
                 int(cfg.gripper_force),
                 _GRIPPER_MAXTIME_MS,
@@ -485,3 +547,153 @@ class FairinoLeader(Teleoperator):
                 exc,
             )
         return self._gripper_pos
+
+    # ---- gripper keepalive ------------------------------------
+
+    def _update_activity(
+        self,
+        joints_deg: list[float],
+        gripper_pct: float,
+    ) -> None:
+        """Refresh activity timestamp if joints or gripper moved.
+
+        Compares the current joint angles and gripper position to
+        the last snapshot.  A change in any joint greater than
+        ``gripper_idle_joint_deg`` or a gripper delta greater than
+        ``gripper_idle_pos_pct`` counts as activity.  The first
+        call (``_last_joint_pos is None``) is also treated as
+        activity so the idle timer starts counting from a known
+        baseline rather than t=0.
+        """
+        cfg = self.config
+        moved = False
+        if self._last_joint_pos is None:
+            moved = True
+        else:
+            for cur, prev in zip(joints_deg, self._last_joint_pos, strict=True):
+                if abs(cur - prev) > cfg.gripper_idle_joint_deg:
+                    moved = True
+                    break
+            if (
+                not moved
+                and abs(gripper_pct - self._last_gripper_pos_for_activity) > cfg.gripper_idle_pos_pct
+            ):
+                moved = True
+
+        self._last_joint_pos = list(joints_deg)
+        self._last_gripper_pos_for_activity = float(gripper_pct)
+        if moved:
+            self._last_activity_time = time.monotonic()
+
+    def _start_keepalive(self) -> None:
+        """Spin up the gripper-compliance refresh worker."""
+        link = f"http://{self.config.ip_address}:20003"
+        self._keepalive_rpc = xmlrpc.client.ServerProxy(link)
+        self._keepalive_stop.clear()
+        self._keepalive_active.clear()
+        self._last_activity_time = time.monotonic()
+        self._last_joint_pos = None
+        self._last_gripper_pos_for_activity = float(self._gripper_pos)
+        self._reported_gripper_pos = float(self._gripper_pos)
+        self._keepalive_thread = threading.Thread(
+            target=self._keepalive_loop,
+            name="FairinoLeaderKeepalive",
+            daemon=True,
+        )
+        self._keepalive_thread.start()
+        logger.info(
+            "[FairinoLeader] Gripper keepalive started (interval=%.1fs, nudge=%.1f%%).",
+            self.config.gripper_keepalive_interval_s,
+            self.config.gripper_nudge_pct,
+        )
+
+    def _stop_keepalive(self) -> None:
+        """Signal the keepalive worker to exit and join it."""
+        if self._keepalive_thread is not None:
+            self._keepalive_stop.set()
+            self._keepalive_thread.join(
+                timeout=_KEEPALIVE_JOIN_TIMEOUT_S,
+            )
+            self._keepalive_thread = None
+        # ServerProxy has no explicit close method.
+        self._keepalive_rpc = None
+
+    def _keepalive_loop(self) -> None:
+        """Re-issue MoveGripper during idle periods.
+
+        When neither the joints nor the gripper have moved for at
+        least ``gripper_keepalive_interval_s`` seconds, nudge the
+        gripper by ``gripper_nudge_pct`` % and then return to the
+        original position.  Each MoveGripper call restarts the
+        controller's compliance timer, which is what keeps the
+        jaws back-drivable after long idle periods.
+        """
+        cfg = self.config
+        interval_s = float(cfg.gripper_keepalive_interval_s)
+        settle_s = float(cfg.gripper_nudge_settle_s)
+        nudge_pct = float(cfg.gripper_nudge_pct)
+
+        while not self._keepalive_stop.is_set():
+            if self._keepalive_stop.wait(_KEEPALIVE_POLL_S):
+                break
+            idle_s = time.monotonic() - self._last_activity_time
+            if idle_s < interval_s:
+                continue
+
+            current = float(self._gripper_pos)
+            # Nudge in whichever direction stays within [0, 100].
+            if current >= nudge_pct:
+                nudge_target = int(round(current - nudge_pct))
+            else:
+                nudge_target = int(round(current + nudge_pct))
+            return_target = int(round(current))
+
+            self._keepalive_active.set()
+            try:
+                logger.debug(
+                    "[FairinoLeader] Keepalive nudge %d%% -> %d%%",
+                    return_target,
+                    nudge_target,
+                )
+                self._issue_move_gripper(nudge_target)
+                if self._keepalive_stop.wait(settle_s):
+                    break
+                self._issue_move_gripper(return_target)
+                if self._keepalive_stop.wait(settle_s):
+                    break
+            except Exception as exc:
+                logger.warning(
+                    "[FairinoLeader] Keepalive err: %s",
+                    exc,
+                )
+            finally:
+                self._keepalive_active.clear()
+                # Reset idle clock so the next nudge waits a full
+                # interval; also rebaseline activity tracking so
+                # our own movement isn't re-detected next loop.
+                self._last_activity_time = time.monotonic()
+                self._last_gripper_pos_for_activity = float(self._gripper_pos)
+
+    def _issue_move_gripper(self, pos_int: int) -> None:
+        """Issue a non-blocking MoveGripper via the keepalive proxy.
+
+        Uses the separate ServerProxy to avoid contention with the
+        main thread's ``self._rpc``.  Parameters mirror the initial
+        compliance command issued in ``_initialise_gripper()``.
+        """
+        cfg = self.config
+        proxy = self._keepalive_rpc
+        if proxy is None:
+            return
+        proxy.MoveGripper(
+            int(cfg.gripper_index),
+            int(pos_int),
+            int(cfg.gripper_vel),
+            int(cfg.gripper_force),
+            _GRIPPER_MAXTIME_MS,
+            0,
+            0,
+            0.0,
+            0,
+            0,
+        )

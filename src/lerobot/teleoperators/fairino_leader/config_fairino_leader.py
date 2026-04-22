@@ -63,6 +63,31 @@ class FairinoLeaderConfig(TeleoperatorConfig):
     # higher values (e.g. 20) add resistance for test runs.
     gripper_force: int = 1
 
+    # -- gripper keepalive ----------------------------------
+    # Compliance-refresh worker.  Even maxtime = int32 max
+    # (issue #24) expires in practice, so we re-issue
+    # MoveGripper while the leader is idle to keep jaws
+    # back-drivable.  The nudge magnitude must be smaller
+    # than the idle position threshold (otherwise the nudge
+    # itself would count as activity and reset the clock).
+    gripper_keepalive_enabled: bool = True
+
+    # Idle duration before a nudge is issued [s].
+    gripper_keepalive_interval_s: float = 10.0
+
+    # Per-joint change threshold to count as activity [deg].
+    gripper_idle_joint_deg: float = 0.1
+
+    # Gripper position change threshold for activity [%].
+    # Must exceed ``gripper_nudge_pct`` to avoid self-trigger.
+    gripper_idle_pos_pct: float = 2.0
+
+    # Nudge magnitude [%] -- how far the jaws briefly move.
+    gripper_nudge_pct: float = 1.0
+
+    # Delay between nudge-out and nudge-back [s].
+    gripper_nudge_settle_s: float = 0.3
+
     joint_names: list[str] = field(
         default_factory=lambda: [
             "joint1",

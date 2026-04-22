@@ -86,7 +86,21 @@
       "Bash(RUFF_CACHE_DIR=/tmp/ruff_cache ruff format --check /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/src/lerobot/robots/fairino/fairino_follower.py)",
       "Bash(v4l2-ctl -d /dev/video18 --list-formats-ext)",
       "Bash(v4l2-ctl -d /dev/video19 --list-formats-ext)",
-      "Bash(/home/inno-controller/anaconda3/envs/lerobot/bin/python -c \"import cv2; print\\(cv2.__version__\\)\")"
+      "Bash(/home/inno-controller/anaconda3/envs/lerobot/bin/python -c \"import cv2; print\\(cv2.__version__\\)\")",
+      "Bash(python3 -c \"import xmlrpc.client; help\\(xmlrpc.client.ServerProxy.__init__\\)\")",
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA show 42d66938 --stat)",
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA show 42d66938)",
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA checkout main)",
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA branch -d fix/fairino-gripper-worker-thread)",
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA push origin main)",
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA log --oneline -p --all -- src/lerobot/teleoperators/fairino_leader/fairino_leader.py)",
+      "Bash(.venv/bin/python -c \"from lerobot.teleoperators.fairino_leader import FairinoLeader, FairinoLeaderConfig; cfg = FairinoLeaderConfig\\(gripper_enabled=True\\); print\\('OK:', cfg.gripper_keepalive_enabled, cfg.gripper_keepalive_interval_s, cfg.gripper_nudge_pct\\)\")",
+      "Bash(python -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(.venv/bin/python -c \"import lerobot; print\\(lerobot.__file__\\)\")",
+      "Bash(/home/inno-controller/anaconda3/envs/lerobot/bin/python -c ' *)",
+      "Read(//dev/**)",
+      "Bash(gh repo *)",
+      "Bash(bash -n /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/5__fr5_record.sh)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",

@@ -218,3 +218,82 @@
 - [x] ruff check / ruff format 통과
 - [x] 사용자 하드웨어 테스트 통과 (그리퍼 연속 조작 중 60Hz 유지 확인)
 - [x] gh issue #22 등록 + commit + push + close
+
+## 2026-04-20: (취소) Follower 30초 비활성 오판
+
+- [x] 사용자가 실제로는 leader 그리퍼 락 문제를 지적. Follower 방향으로 생성한 issue #23 close, 본 항목 취소.
+
+## 2026-04-20: FairinoLeader 그리퍼 10분 후 락 문제 (issue #24)
+
+- [x] 이력 확인: `42d66938` (-1) → `bcd839d1` (600000, "SDK 가 -1 거부") 로 변경된 상태
+- [x] 원인: `MoveGripper(..., maxtime=600000, ...)` 가 10분 뒤 만료 → compliance 해제 → 잠김
+- [x] gh issue #24 등록
+- [x] 방식 선택: (B) `_GRIPPER_MAXTIME_MS` 상향 시도 (keepalive 스레드는 실패 시 폴백)
+- [x] `_GRIPPER_MAXTIME_MS` 를 int32 최대값(`2147483647`, ~24.8일)으로 변경 + 코멘트 업데이트
+- [x] ruff check / format 통과
+- [x] 사용자 하드웨어 테스트: **실패** — int32 max 값에도 불구하고 일정 시간 후 락 재현
+- [x] 폴백 결정: (A) keepalive 스레드로 전환 → 아래 2026-04-21 항목에서 진행
+
+## 2026-04-21: FairinoLeader 그리퍼 keepalive 스레드 도입 (issue #24 폴백)
+
+- [ ] `config_fairino_leader.py` 에 keepalive 필드 추가 (enabled, interval, idle thresholds, nudge pct, settle)
+- [ ] `fairino_leader.py` 에 `threading` / `xmlrpc.client` import 추가
+- [ ] `__init__` 에 keepalive 상태 필드 추가 (`_keepalive_rpc`, `_keepalive_thread`, events, activity tracker)
+- [ ] `_update_activity()` helper 추가 + `get_action()` 말미에 활동 감지 훅
+- [ ] `_keepalive_loop()` + `_issue_move_gripper()` helper 구현 (워커 스레드 본체)
+- [ ] `_start_keepalive()` / `_stop_keepalive()` helper 추가
+- [ ] `connect()` 에서 `_initialise_gripper()` 뒤에 `_start_keepalive()` 호출
+- [ ] `disconnect()` 시작부에 `_stop_keepalive()` 호출 (ActGripper(0)/CloseRPC 와의 경합 방지)
+- [x] ruff check / format 통과
+- [ ] import smoke: `from lerobot.teleoperators.fairino_leader import FairinoLeader, FairinoLeaderConfig`
+- [x] gh issue 등록 (#25)
+- [x] 후속 수정 1: `_initialise_gripper()` 의 compliance target 을 하드코딩된 `0` → 현재 위치로 변경
+- [x] 후속 수정 2: `get_action()` 이 keepalive 진행 중에는 live read 대신 frozen 값을 반환하도록 마스킹 → nudge 가 Leader 하드웨어만 움직이고 Follower 로 전달되지 않음 (`_reported_gripper_pos`)
+- [ ] 사용자 하드웨어 테스트 3차: Leader 하드웨어 drift 여부 + Follower 정지 여부 + keepalive nudge 로그 확인
+- [ ] 사용자 하드웨어 soak 테스트: 15분 이상 유휴 후 back-drive 유지 확인
+- [ ] 성공 시 commit + push + issue close
+
+## 2026-04-21: 1__setup_camera.sh 재실행 시 OpenCV v4l2loopback 오픈 행 문제
+
+- [x] 증상: `2__find_camera.sh opencv` 실행 시 `/dev/video18/19/20` 에서 `cv2.VideoCapture.open` 이 블록 (RealSense `/dev/video2/4` 는 정상). VLC 로 RTSP 직접 재생은 정상.
+- [x] 재현: `1__setup_camera.sh` 를 이미 v4l2loopback + ffmpeg 가 붙어있는 상태에서 재실행하면 기존 writer 가 남아있어 OpenCV reader 가 프레임을 못 받는 것으로 추정.
+- [x] 워크어라운드: `hkvision_related/rtsp_to_v4l2_teardown.sh` 로 기존 ffmpeg writer + v4l2loopback 모듈을 정리한 뒤 `1__setup_camera.sh` 실행하면 OpenCV 에서도 정상 열림.
+- [ ] 근본 수정안 검토: `1__setup_camera.sh setup_loopback` 초입에서 teardown 을 호출하거나, 기존 ffmpeg writer 감지 시 재시작하도록 가드 추가
+- [x] gh issue 등록 (#26)
+
+## 2026-04-21: 5__fr5_record.sh git clone 실패 수정 — `hf download` 로 교체
+
+- [x] 원인: (1) 기존 `outputs/datasets/FR5_pick_red_colored_marker_to_box/` 디렉터리가 이미 존재하여 `git clone` 이 *destination path already exists* 로 실패, (2) 설령 clone 이 성공해도 `.parquet`/`.mp4` 가 LFS 포인터 파일로만 받아져 resume 시 `LeRobotDataset.load_hf_dataset()` 가 실패
+- [x] 손상된 기존 디렉터리 제거 (LFS 포인터 파일 296K만 존재)
+- [x] `5__fr5_record.sh` 의 `git clone` 라인을 `hf download --repo-type dataset coport-uni/FR5_pick_red_colored_marker_to_box --local-dir <root>` 로 교체
+- [x] `bash -n` 구문 체크 통과 (ruff 대상 아님)
+- [x] gh issue 등록 (#27)
+- [ ] commit + push (사용자 요청으로 보류)
+- [ ] 사용자 하드웨어 검증: `./5__fr5_record.sh` 실행 시 `hf download` 로 parquet/mp4 본체가 받아지고 `lerobot-record` 가 episode 5/10 에서 resume 되는지 확인
+
+## 2026-04-21: 6/8/9번 스크립트 FR5용 재작성 + 5번 오타 수정 (#28)
+
+- [x] `5__fr5_record.sh:13` `HF_HUB_ENABLE_HF_TRANSER` → `HF_HUB_ENABLE_HF_TRANSFER` 오타 수정
+- [x] `5__fr5_record.sh` lines 15, 17 중복 주석 제거 (line 16만 유지)
+- [x] `6__replay.sh` 전체 재작성 (piper → fairino_follower, FR5 데이터셋 사용)
+- [x] `8__run_server.sh` 경로 수정 (`scripts/server/policy_server.py` → `async_inference.policy_server`, conda 경로 anaconda3)
+- [x] `9__run_client.sh` 전체 재작성 (piper → fairino_follower, `async_inference/robot_client.py` 호출)
+- [x] `src/lerobot/scripts/lerobot_replay.py` 에 `fairino_follower` import 추가
+- [x] `src/lerobot/async_inference/robot_client.py` 에 `fairino_follower` import 추가
+- [x] Ruff check/format 통과 확인
+- [x] `bash -n` 구문 체크
+- [x] gh issue 등록 (#28)
+- [ ] commit + push
+- [ ] 사용자 하드웨어 검증: 6번 replay, 8+9번 async inference 실제 동작
+- [ ] 9번 `PRETRAINED` 값 실제 FR5 정책 체크포인트로 설정 (학습 완료 후)
+
+## 2026-04-21: .gitignore 에 outputs/datasets/ 추가 + 대용량 파일 히스토리 정리 (#29)
+
+- [x] `.gitignore` 에 `datasets/` 추가 (초기 시도 — 경로 오해)
+- [ ] `.gitignore` 패턴을 `outputs/datasets/` 로 교정
+- [x] 푸쉬 시도 — GitHub pre-receive hook 거부 (`1cb4a25d dataset_production_go` 에 100MB+ MP4 9개 포함)
+- [ ] `git reset --soft HEAD~2` 로 로컬 미푸쉬 커밋 2개 해제
+- [ ] `git rm -r --cached outputs/datasets/` 로 대용량 파일 트래킹 해제 (디스크 보존)
+- [ ] 정상 파일만 다시 커밋 (`dataset_production_go` 내용 유지) + `.gitignore` 업데이트 커밋
+- [ ] `git push origin main`
+- [x] gh issue 등록 (#29)
