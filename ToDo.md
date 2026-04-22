@@ -433,4 +433,4 @@
       Observed twice across the sweeps; re-ran the affected trials in
       isolation. Real fix would gate the dir check on `is_main_process`
       or move it after the first barrier — not in scope for this issue.
-- [ ] commit + push + close issue
+- [x] commit + push (719b20e0) + close issue (#34)
