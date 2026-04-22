@@ -367,7 +367,7 @@
       ~44 GB and alternated 95-100% util; evidence saved under
       `claude_test/accelerate_mgpu_evidence/`)
 - [x] gh issue 등록 (#30)
-- [ ] commit + push
+- [x] commit + push (048b3ad5)
 
 ## 2026-04-22: Save timestamped train.log to output_dir from lerobot_train.py (#33)
 
