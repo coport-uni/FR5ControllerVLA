@@ -601,5 +601,77 @@
       automatically, rather than silently hanging on parquet
       locks. Worth its own issue if it bites again.
 
+## 2026-04-23: Apply conda-portable + NCCL workaround to 7__train_pi0.sh and 7__train_pi05.sh
 
+- Ran `7__train_act.sh` post-cache-clear and caught a second
+  container-only hang with py-spy: both ranks spinning on
+  `accelerator.wait_for_everyone() -> torch.distributed.barrier()`
+  at `src/lerobot/scripts/lerobot_train.py:244`. This is the
+  NCCL P2P/CUMEM silent-fail previously documented for this
+  Docker image in issue #30; workaround is
+  `NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1` to force socket
+  transport. User opted to apply that env fix to
+  `7__train_act.sh` manually (option 2) and asked me to also
+  carry the same treatment to the sibling scripts.
+- Scope this turn: `7__train_pi0.sh` and `7__train_pi05.sh`.
+  Both currently source the FR5-control-PC anaconda path
+  (`/home/inno-controller/anaconda3/...`) and have no NCCL env
+  vars. Even though the scripts are single-GPU today, exporting
+  the two NCCL vars is harmless (ignored without
+  `torch.distributed`), and lets us just add
+  `accelerate launch --multi_gpu` later without re-debugging the
+  same container hang. The conda-portable block is the same one
+  landed in `7__train_act.sh` at commit f611faf8.
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#42)
+- [x] Replace conda source line in `7__train_pi0.sh` with the
+      portable loop and add `NCCL_P2P_DISABLE=1`/
+      `NCCL_SHM_DISABLE=1` exports (with a comment tying them
+      to issue #30)
+- [x] Same edits in `7__train_pi05.sh`
+- [x] `bash -n` syntax check on both scripts (both pass)
+- [x] Runtime smoke: the new conda loop selects `/opt/conda` on
+      this host, `conda activate lerobot` succeeds,
+      `lerobot-train` resolves, and both NCCL env vars are set
+      in the spawned shell.
+- [ ] Commit, push, close gh issue
+
+## 2026-04-23: Sync project CLAUDE.md with updated CommonClaude repo
+
+### Background
+User updated https://github.com/coport-uni/CommonClaude. The project
+CLAUDE.md needs to absorb the new sections while preserving all
+Fairino/FR5-specific content (Architecture, CLI Entry Points, Adding
+a New Robot) and project-specific overrides (ruff 110 cols via
+pyproject.toml, 80 cols for new Fairino code).
+
+### Plan
+Add five new sections to CLAUDE.md, keeping existing structure intact:
+  1. Rule Priority (note that this project-level CLAUDE.md overrides
+     the global CommonClaude ruleset — specific beats general)
+  2. Research Before Coding
+  3. Exceptions (claude_test/ waivers; one-off script magic-number
+     waiver; ToDo.md checkbox-update carve-out against append-only)
+  4. Learned Patterns Reference (consult LearnedPatterns.md before
+     drafting a new ToDo entry; append new patterns on completion)
+  5. Learned Patterns Bootstrap (how to generate LearnedPatterns.md
+     from ToDo.md `[x]` items when absent)
+Generate `LearnedPatterns.md` now by running the §10 Bootstrap
+procedure against this project's ToDo.md. Preserve project-specific
+overrides (ruff 110 cols / 80 for new Fairino code, pyproject.toml
+is the ruff config source, not a repo-root ruff.toml) and all
+Architecture / FR5 content.
+
+### Work items
+- [x] Append new sections to CLAUDE.md without breaking existing
+      layout (Overview, Build & Test, MIT Code Convention, Debug,
+      Task Management, Testing, Linting, Architecture, Adding a
+      New Robot all stay as-is)
+- [x] Clarify in CLAUDE.md Linting that 110 cols is a project
+      override vs CommonClaude's global 80
+- [x] Generate LearnedPatterns.md via the §10 Bootstrap against
+      this project's ToDo.md Completed items
+- [x] GitHub issue register (#41)
+- [x] Commit and push (Closes #41)
+- [x] GitHub issue update (auto-closed by commit)
 

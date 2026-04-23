@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A fork of [HuggingFace LeRobot](https://github.com/huggingface/lerobot) (v0.5.1) with Fairino FR5 6-DOF collaborative robot integration for VLA (Vision-Language-Action) research. The Fairino-specific code lives alongside the standard LeRobot framework.
 
+## Rule Priority
+
+This project-level `CLAUDE.md` takes precedence over the global [CommonClaude](https://github.com/coport-uni/CommonClaude) ruleset. Specific rules beat general ones — when a conflict arises, the more-specific context wins (e.g. this project's 110-column ruff limit overrides CommonClaude's global 80-column rule).
+
 ## Build & Test Commands
 
 ```bash
@@ -175,13 +179,94 @@ All Python code must pass **Ruff** checks before committing.
 
 ### Rules
 
-1. **Line length**: 110 columns project-wide (`ruff.toml`); **80 columns** for new Fairino code.
+1. **Line length**: 110 columns project-wide (configured in `pyproject.toml`, which is this project's override of CommonClaude's global 80-column rule). Keep **new Fairino code at 80 columns** to stay compatible with the upstream MIT convention.
 2. **Run on every commit**: Before committing, run:
    ```bash
    ruff check <file>.py
    ruff format --check <file>.py
    ```
 3. **Fix before committing**: If either command reports errors, fix them before proceeding. Use `ruff format <file>.py` to auto-format.
+
+---
+
+## Research Before Coding
+
+Before calling into an unfamiliar library, API, or CLI, verify its actual interface rather than guessing from memory.
+
+### Rules
+
+1. **Consult official documentation first** via Context7 MCP or web search.
+2. **Search the repository** for prior implementations before writing new code against the same interface. The Fairino SDK (`robots/fairino_follower/fairino/`) and LeRobot base classes (`robots/robot.py`, `teleoperators/teleoperator.py`) already contain worked examples.
+3. **Trust documentation over intuition**: when the docs disagree with the mental model, update the mental model.
+
+---
+
+## Exceptions
+
+The rules above are written for production code and CI tests. The following contexts receive formal waivers.
+
+### `claude_test/` scripts
+
+Scripts inside `claude_test/` are exempt from:
+
+- The 80-column line limit (MIT Code Convention, Structure and Spacing).
+- Mandatory docstrings on public functions and classes (MIT Code Convention, Documentation).
+
+Rationale: `claude_test/` is a scratch area for one-off diagnostics where strict readability conventions slow exploration. Anything later promoted into `tests/` must conform fully.
+
+### One-off exploratory analysis
+
+Exploratory or analysis scripts (typically under `claude_test/`) may use numeric literals directly, provided the file opens with a short intent comment explaining purpose and expected lifetime. This waiver does not apply to code under `tests/` or to production modules under `src/lerobot/`.
+
+### `ToDo.md` checkbox updates
+
+Marking completion checkboxes in `ToDo.md` (flipping `- [ ]` to `- [x]`, or appending a commit hash or issue link to a completed line) is permitted. The append-only rule in Task Management Rule 2 and the "do not modify `ToDo.md`" constraint in Learned Patterns Bootstrap forbid prose rewrites, reordering of entries, and deletion of historical items — not progress marking.
+
+---
+
+## Learned Patterns Reference
+
+`LearnedPatterns.md` lives in the repository root. Treat it as part of the workflow — it captures lessons from past work so they can be reused rather than rediscovered.
+
+### Rules
+
+1. **Before drafting a `ToDo.md` entry**, read the sections of `LearnedPatterns.md` relevant to the new task. Relevance can be filtered by library (Fairino SDK, LeRobot, pynput, accelerate), environment (Docker, Wayland, NCCL), or general problem domain.
+2. **Reference applicable patterns in the ToDo entry** using `(see LP §X)` where `X` is the section of `LearnedPatterns.md` being cited. Example:
+   ```
+   - [ ] Add servo session recovery on error 14 (see LP §3)
+   ```
+3. **After the task completes**, if a new recurring issue, gotcha, library quirk, workflow lesson, or environment-specific note surfaced, append it to the correct section of `LearnedPatterns.md`. Use the Problem / Cause / Fix / Rule format specified in Learned Patterns Bootstrap below.
+4. **Promote stable patterns**: entries in `LearnedPatterns.md` that stabilize across many tasks should be lifted into a formal rule inside this `CLAUDE.md`. Remove the promoted entry from `LearnedPatterns.md` to avoid duplication.
+
+---
+
+## Learned Patterns Bootstrap
+
+If `LearnedPatterns.md` does not exist in the repository root, generate it by analyzing the `[x]` items in `ToDo.md` using the procedure below. Once the file exists, this bootstrap procedure no longer applies — consult the file directly.
+
+### Procedure
+
+1. Read every `[x]` item across all sections in `ToDo.md`.
+2. Classify each item into exactly one of the following categories:
+   - **§1. Recurring Issues** — the same or a similar problem appeared **two or more times**.
+   - **§2. Solved Gotchas** — a one-time trap with a credible chance of recurring.
+   - **§3. Library Quirks** — hidden or surprising behavior of a specific library or tool (Fairino SDK, pynput, NCCL, accelerate, etc.).
+   - **§4. Workflow Lessons** — lessons learned about the development or collaboration process itself.
+   - **§5. Environment Specifics** — Docker, Ubuntu, Wayland, hardware, or network-specific notes.
+3. Items that do not cleanly fit any category go into **§99. Uncategorized**. Do **not** discard them.
+4. For each entry, record four single-line fields:
+   - **Problem**: what went wrong.
+   - **Cause**: the underlying reason.
+   - **Fix**: the specific change that resolved it.
+   - **Rule**: a short general directive in `Always ...` or `Never ...` form.
+5. Append `(from ToDo#N)` at the end of each entry, where `N` identifies the source ToDo section (1-based index of the top-level `##` heading), so the original record can be recovered on later review.
+
+### Constraints
+
+- **Do not modify `ToDo.md`.** It is append-only (checkbox updates excepted per the Exceptions section above); all other edits happen only in `LearnedPatterns.md`.
+- **Create `LearnedPatterns.md` as a new file** in the repository root. Do not inline patterns into `ToDo.md` or `CLAUDE.md`.
+- **Do not invent patterns.** When a ToDo item is ambiguous, place it under §99 rather than guessing.
+- **Write all content in English**, consistent with the Language rule under MIT Code Convention.
 
 ---
 
