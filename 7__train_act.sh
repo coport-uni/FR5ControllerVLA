@@ -6,7 +6,11 @@
 #
 # Launched via `accelerate launch` to use 2x H200 GPUs. With
 # --num_processes=2, the effective (global) batch size is
-# batch_size * num_processes, so --batch_size=256 here -> global 512.
+# batch_size * num_processes, so --batch_size=8 here -> global 16.
+# Aloha-level training volume: 500000 steps x global 16 = 8M samples
+# (~200 epoch on a 40k-timestep dataset), matching the ACT paper
+# scale (Zhao 2023, arXiv:2304.13705). LR is left at the LeRobot
+# default 1e-5 per docs/source/multi_gpu_training.mdx (no auto-scale).
 # Mixed precision bf16 is chosen for Hopper (H200).
 
 source /home/inno-controller/anaconda3/etc/profile.d/conda.sh
@@ -15,7 +19,7 @@ conda activate lerobot
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_act_test1"
+JOB_NAME="fr5_act_red_marker"
 
 accelerate launch \
     --multi_gpu \
@@ -32,7 +36,8 @@ accelerate launch \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
     --num_workers=10 \
-    --batch_size=256 \
-    --steps=200000 \
-    --save_freq=5000 \
-    --resume=false
+    --batch_size=8 \
+    --steps=500000 \
+    --save_freq=10000 \
+    --resume=false \
+    --seed=55 \

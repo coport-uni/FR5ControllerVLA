@@ -475,3 +475,25 @@
   3. Add termios/stdin fallback when terminal has focus.
 - [x] Create gh issue (#36)
 - [x] User decision: hold — no code change this turn.
+
+## 2026-04-23: Tune 7__train_act.sh for Aloha-level quality training
+
+- User requested "품질 우선 + Aloha급 학습" configuration for
+  `7__train_act.sh` on coport-uni/FR5_pick_red_colored_marker_to_box
+  dataset (~100 episodes, ~40k timesteps with 3 cameras).
+- Rationale sourced from:
+  - [docs/source/act.mdx:67-71](docs/source/act.mdx#L67-L71) "Start with
+    defaults ... Start with batch size 8".
+  - [docs/source/multi_gpu_training.mdx:77-113](docs/source/multi_gpu_training.mdx#L77-L113)
+    per-rank batch unchanged on multi-GPU; no auto LR scale.
+  - Original ACT paper (Zhao et al. 2023, arXiv:2304.13705) ~5000
+    epoch on ~50 demos; 500000 steps × global batch 16 ≈ 200 epoch on
+    40k timesteps, aligned with Aloha-level learning volume.
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#38)
+- [x] Modify `7__train_act.sh`:
+      `--batch_size=64` → `--batch_size=8`,
+      `--steps=100000` → `--steps=500000`,
+      update header comment (batch math).
+- [ ] Commit and push
+- [ ] Update ToDo.md checkboxes and gh issue
