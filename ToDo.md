@@ -518,6 +518,6 @@
       and `conda activate lerobot` succeeds (lerobot-train resolves
       to `/opt/conda/envs/lerobot/bin/lerobot-train`; `hf auth
       whoami` returns `user=coport-uni`)
-- [ ] Commit and push
-- [ ] Update ToDo.md checkboxes and close gh issue
+- [x] Commit and push (commit f611faf8)
+- [x] Update ToDo.md checkboxes and close gh issue
 
