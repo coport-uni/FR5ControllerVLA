@@ -520,4 +520,87 @@
       whoami` returns `user=coport-uni`)
 - [x] Commit and push (commit f611faf8)
 - [x] Update ToDo.md checkboxes and close gh issue
+- Follow-up diagnosis (2026-04-23, same-day): user re-ran the
+  script and said it still fails. Traced one full invocation with
+  `bash -x`; the portable conda block selects `/opt/conda`,
+  activates `lerobot`, `accelerate launch` reaches
+  `lerobot_train.py:241 Creating dataset` and starts loading
+  parquet shards from the HF cache — no error. The traceback
+  observed on that attempt was a SIGTERM (signal 15) I issued via
+  `pkill` while tracing, not a script fault. User opted to re-run
+  the 5-minute verification themselves rather than have me launch
+  it here; no further changes made this turn. Aborted-run output
+  dir removed (`outputs/train/fr5_act_red_marker/`) so `resume=false`
+  will not hit `FileExistsError` on the next launch.
+
+## 2026-04-23: Fix DDP FileExistsError race in TrainPipelineConfig.validate
+
+- Second user-reported failure: "실행은 되지만 학습이 진행되지
+  않는 것 같다." Root cause from the run at
+  `outputs/train/fr5_act_red_marker/train_20260423-121846.log` + the
+  background run that followed: after ~2–3 min of parquet dataset
+  prep, `cfg.validate()` raises `FileExistsError` on rank 1 because
+  rank 0 has already `mkdir`ed `output_dir` via
+  `src/lerobot/scripts/lerobot_train.py:203-209`. This is the DDP
+  race predicted in
+  `claude_test/accelerate_mgpu_evidence/bench_1v2gpu_summary.md:88-101`,
+  where the suggested fix was to gate the dir-existence check on
+  `is_main_process` (or move it past the first barrier).
+- Approach: in
+  `src/lerobot/configs/train.py:TrainPipelineConfig.validate`, only
+  raise `FileExistsError` on the main rank
+  (`os.environ.get("LOCAL_RANK", "0") == "0"`). `os` is already
+  imported. Single-GPU launches have `LOCAL_RANK` unset, so the
+  check still runs. Non-main ranks skip it so the race cannot fire.
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#40)
+- [x] Patch `src/lerobot/configs/train.py` with LOCAL_RANK gate
+- [x] `ruff check` and `ruff format --check` on the patched file
+      (both passed on first try)
+- [x] Run `7__train_act.sh` under `timeout 300` on 2 H200s: exited
+      with code 124 (clean SIGTERM at 5 min) — **no FileExistsError
+      this time**, so the rank gate does fix the crash. However the
+      log did not reach `Start offline training` within the 5 min
+      window; the process got stuck spinning on parquet cache lock
+      acquire/release with GPUs pinned at 100 % utilisation but
+      `memory.util=0` and no mp4 files open — classic sign the
+      dataset layer, not the trainer, was looping.
+- [ ] Commit, push, update ToDo.md, close gh issue
+      (deferred — waiting on a re-verification after the stale
+      dataset cache is cleared; see next section)
+
+## 2026-04-23: Clear stale LeRobot dataset cache to unblock training start
+
+- Finding that came out of the 5-min verification above: local
+  `/root/.cache/huggingface/lerobot/coport-uni/FR5_pick_red_colored_marker_to_box/meta/info.json`
+  reported `total_episodes=15, total_frames=17899` from an Apr 22
+  04:54 snapshot. User had since pushed a larger revision to the
+  Hub (~100 episodes, ~120k frames). The mismatch made the HF
+  `datasets` parquet backend spin on the same shard's
+  acquire/release lock without making forward progress, which from
+  the outside looked like "runs but does not train".
+- Remediation (executed this turn, with user approval):
+  - `rm -rf /root/.cache/huggingface/lerobot/coport-uni/FR5_pick_red_colored_marker_to_box/`
+    (1.2 GB, the `git clone`-style LeRobot local copy)
+  - `rm -rf /root/.cache/huggingface/datasets/parquet/default-e6188c2faa324517/`
+    (136 KB — tasks.parquet shard cache)
+  - `rm -rf /root/.cache/huggingface/datasets/parquet/default-f6bfeab0d23e6f3d/`
+    (1.7 MB — data shard cache)
+  - `rm -rf /root/.cache/huggingface/hub/datasets--coport-uni--FR5_pick_red_colored_marker_to_box/`
+    (12 KB — Hub metadata dir)
+  - `rm -rf outputs/train/fr5_act_red_marker/` (aborted run)
+- [x] Identify stale cache (info.json 15 eps vs Hub ~100 eps)
+- [x] Get user approval to kill + clear caches
+- [x] Clear all four cache paths above
+- [x] User re-ran `7__train_act.sh` and confirmed the script now
+      progresses past `Creating dataset` into actual training — the
+      dataset-cache mismatch was the real root cause of the
+      "doesn't train" symptom.
+- [ ] Follow-up for later (out of scope for this turn): decide
+      whether LeRobotDataset should detect meta/info.json version
+      drift between local cache and Hub revision and re-pull
+      automatically, rather than silently hanging on parquet
+      locks. Worth its own issue if it bites again.
+
+
 
