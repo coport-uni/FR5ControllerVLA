@@ -495,5 +495,5 @@
       `--batch_size=64` → `--batch_size=8`,
       `--steps=100000` → `--steps=500000`,
       update header comment (batch math).
-- [ ] Commit and push
-- [ ] Update ToDo.md checkboxes and gh issue
+- [x] Commit and push (commit 1454309c)
+- [x] Update ToDo.md checkboxes and gh issue
