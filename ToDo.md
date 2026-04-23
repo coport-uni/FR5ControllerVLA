@@ -454,3 +454,24 @@
         noise; allreduce of ~104 MB bf16 grad scales with model size,
         not batch size).
 - [x] commit + push (a9ff2571) + close issue (#35)
+
+## 2026-04-22: Diagnose inactive arrow-key controls in lerobot-record
+
+- User asked why Right/Left/Esc shortcuts in `5__fr5_record.sh` do
+  not work on the FR5 control PC. Diagnostic only — no code change.
+- Finding: `init_keyboard_listener()`
+  ([src/lerobot/utils/control_utils.py:119-169](src/lerobot/utils/control_utils.py#L119-L169))
+  uses pynput's xorg backend
+  (`pynput.keyboard._xorg.Listener`, verified in both `.venv` and
+  conda `lerobot` env). The session is Wayland
+  (`XDG_SESSION_TYPE=wayland`, `loginctl Type=wayland`), which blocks
+  X11 global key capture — listener starts cleanly but receives no
+  events. Secondary: `--display_data=true` Rerun viewer can steal
+  focus.
+- Remediation options presented to user:
+  1. Switch login session to "Ubuntu on Xorg" (no code change).
+  2. Replace pynput listener with `evdev` reader on
+     `/dev/input/event*` (input group or root needed).
+  3. Add termios/stdin fallback when terminal has focus.
+- [x] Create gh issue (#36)
+- [x] User decision: hold — no code change this turn.

@@ -43,9 +43,9 @@ lerobot-record \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --dataset.episode_time_s=60 \
     --dataset.reset_time_s=30 \
-    --dataset.num_episodes=10 \
+    --dataset.num_episodes=5 \
     --dataset.fps=20 \
     --dataset.single_task="pick_red_colored_marker_to_box" \
     --dataset.streaming_encoding=true \
     --dataset.encoder_threads=8 \
-    --resume=true
+    --resume=true \
