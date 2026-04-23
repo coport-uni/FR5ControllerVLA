@@ -565,9 +565,8 @@
       acquire/release with GPUs pinned at 100 % utilisation but
       `memory.util=0` and no mp4 files open — classic sign the
       dataset layer, not the trainer, was looping.
-- [ ] Commit, push, update ToDo.md, close gh issue
-      (deferred — waiting on a re-verification after the stale
-      dataset cache is cleared; see next section)
+- [x] Commit and push (commit cef48476)
+- [x] Update ToDo.md checkboxes and close gh issue (#40)
 
 ## 2026-04-23: Clear stale LeRobot dataset cache to unblock training start
 
