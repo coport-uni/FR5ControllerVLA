@@ -497,3 +497,27 @@
       update header comment (batch math).
 - [x] Commit and push (commit 1454309c)
 - [x] Update ToDo.md checkboxes and gh issue
+
+## 2026-04-23: Fix anaconda path in 7__train_act.sh for H200 training box
+
+- Script sources `/home/inno-controller/anaconda3/etc/profile.d/conda.sh`
+  which exists only on the FR5 control PC. On the H200 training box
+  conda lives at `/opt/conda` and activation fails before
+  `lerobot-train` ever runs.
+- Replace the single hard-coded `source` line with a small portable
+  block that tries known install roots in order
+  (`/home/inno-controller/anaconda3`, `/opt/conda`,
+  `$HOME/anaconda3`, `$HOME/miniconda3`) and errors clearly if none
+  is present. Scope: `7__train_act.sh` only; the other
+  `inno-controller` paths in sibling scripts are out of scope for
+  this task.
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#39)
+- [x] Replace conda source block in `7__train_act.sh`
+- [x] Smoke-test: sourcing the block picks `/opt/conda` on this host
+      and `conda activate lerobot` succeeds (lerobot-train resolves
+      to `/opt/conda/envs/lerobot/bin/lerobot-train`; `hf auth
+      whoami` returns `user=coport-uni`)
+- [ ] Commit and push
+- [ ] Update ToDo.md checkboxes and close gh issue
+

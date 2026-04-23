@@ -13,7 +13,22 @@
 # default 1e-5 per docs/source/multi_gpu_training.mdx (no auto-scale).
 # Mixed precision bf16 is chosen for Hopper (H200).
 
-source /home/inno-controller/anaconda3/etc/profile.d/conda.sh
+# Try known conda install roots in order (FR5 control PC first, then
+# the H200 training box, then per-user fallbacks). Fail clearly if
+# none is present so we don't die later with "conda: not found".
+_conda_sh=""
+for _root in /home/inno-controller/anaconda3 /opt/conda \
+             "$HOME/anaconda3" "$HOME/miniconda3"; do
+    if [ -f "$_root/etc/profile.d/conda.sh" ]; then
+        _conda_sh="$_root/etc/profile.d/conda.sh"
+        break
+    fi
+done
+if [ -z "$_conda_sh" ]; then
+    echo "ERROR: no conda install found (tried inno-controller, /opt/conda, \$HOME)" >&2
+    exit 1
+fi
+source "$_conda_sh"
 conda activate lerobot
 
 HF_USER=$(hf auth whoami | head -n 1)
