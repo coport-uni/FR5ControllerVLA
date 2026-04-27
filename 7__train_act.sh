@@ -28,6 +28,14 @@ if [ -z "$_conda_sh" ]; then
     echo "ERROR: no conda install found (tried inno-controller, /opt/conda, \$HOME)" >&2
     exit 1
 fi
+
+# Force NCCL socket transport inside this Docker image; P2P/CUMEM
+# fails silently on the first allreduce/barrier here and stalls DDP
+# forever. Harmless on single-GPU runs (no torch.distributed). See
+# issue #30 for the full diagnosis.
+export NCCL_P2P_DISABLE=1
+export NCCL_SHM_DISABLE=1
+
 source "$_conda_sh"
 conda activate lerobot
 
@@ -44,7 +52,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --dataset.video_backend=pyav \
     --policy.type=act \
-    --policy.repo_id=${HF_USER}/${JOB_NAME}_model \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_model \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --output_dir=outputs/train/${JOB_NAME} \
@@ -56,3 +64,4 @@ accelerate launch \
     --save_freq=10000 \
     --resume=false \
     --seed=55 \
+    --tolerance_s=0.1 \
