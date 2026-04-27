@@ -634,7 +634,43 @@
       this host, `conda activate lerobot` succeeds,
       `lerobot-train` resolves, and both NCCL env vars are set
       in the spawned shell.
-- [ ] Commit, push, close gh issue
+- [ ] Commit, push, close gh issue (bundled with #43 below —
+      share the commit since all three scripts get the same
+      `--tolerance_s` bump)
+
+## 2026-04-23: Relax `tolerance_s` so FR5 dataset videos don't kill training at first bad frame
+
+- After the NCCL fix (issue #30 workaround) got `7__train_act.sh`
+  past dataset loading and into actual steps, the 5-min bench
+  run reached **step 104 / 500000 at 9.45 step/s** and then
+  crashed with:
+      `lerobot.datasets.video_utils.FrameTimestampError`
+      `queried timestamps: tensor([298.2500])`
+      `loaded timestamps:  tensor([298.2000])`
+      `video: observation.images.top_left/chunk-000/file-018.mp4`
+  i.e. the DataLoader asked for t=298.25 s and pyav only had
+  frames up to 298.20 s — exactly one 20 fps frame short. The
+  default `tolerance_s=1e-4` in
+  [src/lerobot/configs/train.py:62](src/lerobot/configs/train.py#L62)
+  is 0.1 ms, well under a frame at the dataset's fps, so any
+  recording-side drift of a single frame blows up.
+- Fix is config-only: set `--tolerance_s=0.1` (2 frames at 20
+  fps) in all three training launch scripts. LeRobot's
+  `decode_video_frames_torchvision` uses this as the slack
+  before falling back to the nearest available frame, so
+  bumping it lets runs skip past the bad frames with at worst
+  a 1-frame fallback. The longer-term fix would be to
+  re-record or re-encode the offending clips so parquet and
+  mp4 agree on frame counts.
+- [ ] Append ToDo.md entry
+- [ ] Create gh issue
+- [ ] Add `--tolerance_s=0.1` to `7__train_act.sh`,
+      `7__train_pi0.sh`, `7__train_pi05.sh`
+- [ ] `bash -n` syntax check on all three scripts
+- [ ] 5-min live run of `7__train_act.sh` and confirm at
+      least one `step:200 ...` line reaches the per-run
+      `train_*.log` file
+- [ ] Commit (bundled with #42), push, close #42 and #43
 
 ## 2026-04-23: Sync project CLAUDE.md with updated CommonClaude repo
 
@@ -674,4 +710,37 @@ Architecture / FR5 content.
 - [x] GitHub issue register (#41)
 - [x] Commit and push (Closes #41)
 - [x] GitHub issue update (auto-closed by commit)
+
+## 2026-04-27: Add PI0 paper/openpi training recipe as separate script
+
+### Background
+7__train_pi0.sh is the LeRobot docs quickstart recipe (steps=3000,
+save_freq=500). Verified that this matches the LeRobot docs example
+but NOT the PI0 paper (Black et al., 2024, arXiv:2410.24164) /
+openpi production fine-tune defaults. User wants both recipes to
+coexist: keep the quickstart script as-is, add a sibling script
+that mirrors openpi's TrainConfig defaults (see LP §3 — verify
+external library settings against the source, not memory).
+
+### Plan
+Create 7__train_pi0_paper.sh by copying 7__train_pi0.sh and
+changing only:
+  - JOB_NAME -> fr5_pi0_red_marker_paper (avoid output dir collision)
+  - --steps 3000 -> 30000 (openpi TrainConfig.num_train_steps default)
+  - --save_freq 500 -> 5000 (proportional, openpi default)
+All other flags stay identical (batch_size=32, dtype=bf16,
+compile_model, gradient_checkpointing, freeze_vision_encoder=false,
+train_expert_only=false). LeRobot pi0's built-in optimizer/scheduler
+defaults (AdamW lr=2.5e-5, betas=(0.9, 0.95), cosine warmup=1000
+decay=30000) already match openpi, so only step counts change at
+the CLI. Header comment cites openpi config.py and notes that EMA
+(ema_decay=0.99) is not implemented in LeRobot pi0.
+
+### Work items
+- [ ] Create 7__train_pi0_paper.sh with paper/openpi settings
+- [ ] bash -n 7__train_pi0_paper.sh syntax check
+- [ ] chmod +x 7__train_pi0_paper.sh
+- [x] GitHub issue register (#44)
+- [ ] Commit and push (Closes #44)
+- [ ] GitHub issue update (auto-closed by commit)
 
