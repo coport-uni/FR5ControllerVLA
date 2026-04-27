@@ -737,10 +737,10 @@ the CLI. Header comment cites openpi config.py and notes that EMA
 (ema_decay=0.99) is not implemented in LeRobot pi0.
 
 ### Work items
-- [ ] Create 7__train_pi0_paper.sh with paper/openpi settings
-- [ ] bash -n 7__train_pi0_paper.sh syntax check
-- [ ] chmod +x 7__train_pi0_paper.sh
+- [x] Create 7__train_pi0_paper.sh with paper/openpi settings
+- [x] bash -n 7__train_pi0_paper.sh syntax check
+- [x] chmod +x 7__train_pi0_paper.sh
 - [x] GitHub issue register (#44)
-- [ ] Commit and push (Closes #44)
-- [ ] GitHub issue update (auto-closed by commit)
+- [x] Commit and push (Closes #44)
+- [x] GitHub issue update (auto-closed by commit)
 
