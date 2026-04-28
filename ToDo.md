@@ -1050,7 +1050,7 @@ LeRobot 구현 한계로 닫지 못하는 차이:
       경로" caveat 명시 (이미 일부 적혀 있음, 보강)
 - [x] `bash -n 7__train_pi05.sh` 구문 검증
 - [x] gh issue 등록 (#51)
-- [ ] commit + push
+- [x] commit + push (8d25186a)
 
 ### Out of scope
 - 데이터셋 quantile 증강 스크립트 실행
