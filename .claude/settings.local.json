@@ -5,7 +5,9 @@
       "WebFetch(domain:api.github.com)",
       "Read(//root/.claude/**)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(python -c \"import importlib.util; print\\('torchcodec installed:', importlib.util.find_spec\\('torchcodec'\\) is not None\\)\")",
+      "Bash(pip show *)"
     ]
   }
 }
