@@ -1006,3 +1006,56 @@ SmolVLA 용 [9__run_client_smovla.sh](9__run_client_smovla.sh) 와 짝이
 - `--fps=20`, `--actions_per_chunk=50`, `--chunk_size_threshold=0.8`
   등 튜닝 파라미터는 현 값 유지.
 
+## 2026-04-28: 7__train_pi05.sh 를 원 π0.5 논문/openpi 세팅에 정합
+
+### Background
+현재 [7__train_pi05.sh](7__train_pi05.sh) 는 LeRobot 공식 docs
+quickstart (`steps=3000`, `save_freq=500`) 를 그대로 따르고 있어
+원 논문 (arxiv:2504.16054) 및 Physical Intelligence openpi
+(`src/openpi/training/optimizer.py` 기본값) 와 두 군데에서
+어긋남:
+1. `optimizer_weight_decay` — PI05Config 기본 0.01 vs openpi 1e-10
+2. `--steps=3000` — openpi 최단 fine-tune 도 30k
+
+확인된 일치 항목 (override 불필요):
+- `optimizer_grad_clip_norm=1.0` (PI05Config 기본)
+- `optimizer_betas=(0.9,0.95)`, `eps=1e-8`, `lr=2.5e-5`
+- `scheduler_warmup_steps=1000`, `decay_steps=30000`,
+  `decay_lr=2.5e-6`
+- `chunk_size=50` (논문 H=49)
+- `dtype=bfloat16`, `compile_model=true`,
+  `gradient_checkpointing=true`, `freeze_vision_encoder=false`,
+  `train_expert_only=false`, `pretrained_path=lerobot/pi05_base`,
+  `batch_size=32`
+
+LeRobot 구현 한계로 닫지 못하는 차이:
+- EMA (paper/openpi `ema_decay=0.99`) — LeRobot pi0/pi05 미구현
+  ([7__train_pi0.sh](7__train_pi0.sh) 헤더에 동일 caveat 기록됨)
+- ACTION/STATE quantile 정규화 — 사용자 결정으로 MEAN_STD
+  override 유지 ([docs/source/pi05.mdx:91-98](docs/source/pi05.mdx)
+  에서 공식 대체 경로로 명시)
+
+### Decisions (사용자 확정 via AskUserQuestion)
+- steps 30k 로 상향, optimizer wd 1e-10 으로 정합.
+- quantile 데이터셋 증강은 건드리지 않음. MEAN_STD
+  `normalization_mapping` override 그대로 유지 (HF doc 공인 대안).
+
+### Work items
+- [x] [7__train_pi05.sh:67](7__train_pi05.sh) `--steps=3000` →
+      `--steps=30000`
+- [x] [7__train_pi05.sh:68](7__train_pi05.sh) `--save_freq=500` →
+      `--save_freq=5000` (~6 ckpt 유지, `7__train_pi0.sh` 와 정합)
+- [x] `--policy.optimizer_weight_decay=1e-10` 플래그 추가
+- [x] 헤더 주석에 "EMA 미구현" 및 "MEAN_STD = quantile 증강 회피
+      경로" caveat 명시 (이미 일부 적혀 있음, 보강)
+- [x] `bash -n 7__train_pi05.sh` 구문 검증
+- [x] gh issue 등록 (#51)
+- [ ] commit + push
+
+### Out of scope
+- 데이터셋 quantile 증강 스크립트 실행
+  (`augment_dataset_quantile_stats.py`)
+- EMA 구현 (LeRobot pi05 자체에 없음)
+- batch_size / num_processes / GPU 토폴로지 변경
+- `7__train_pi0.sh` 변경
+
