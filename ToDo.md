@@ -791,3 +791,51 @@ churn.
       memory|killed|SIGKILL): apply step 2
 - [ ] If retry log shows RAM exhaustion: apply step 3
 
+## 2026-04-28: Add SmolVLA training script (paper recipe, multi-GPU)
+
+### Background
+User asked for `7__train_smovla.sh` modeled on `7__train_pi0.sh`,
+following the SmolVLA paper (arXiv:2506.01844) and LeRobot SmolVLA
+docs (https://huggingface.co/docs/lerobot/smolvla). They initially
+asked for a "2B model" but the only SmolVLA pretrained checkpoint
+HF publishes is `lerobot/smolvla_base` (450M) — the SmolVLM2
+backbone has a 2.2B variant but using it loses the SmolVLA
+pretrained weights and forces action-expert-from-scratch. After
+clarification user chose option C: ship the 450M paper recipe as
+the active config, leave the 2.2B SmolVLM2 swap commented out as
+an opt-in. Multi-GPU launch like `7__train_pi0.sh` (see LP §Q5,
+§Q6).
+
+### Plan
+Create 7__train_smovla.sh by copying the launcher skeleton from
+7__train_pi0.sh and adapting flags to SmolVLA:
+  - `--policy.path=lerobot/smolvla_base` (docs flag — different
+    from pi0's `--policy.pretrained_path`; needed to load the full
+    pretrained SmolVLA bundle, not just a VLM init)
+  - `--policy.type` is omitted (resolved from the loaded path,
+    matches the docs example)
+  - `--batch_size=32` (per-rank → global=64 with 2 GPUs, matches
+    docs example of `batch_size=64`)
+  - `--steps=20000`, `--save_freq=5000` (docs)
+  - Defaults that already match the paper stay implicit
+    (`freeze_vision_encoder=true`, `train_expert_only=true`,
+    AdamW lr=1e-4 betas=(0.9,0.95) wd=1e-10, warmup=1000,
+    cosine decay=30000 → 2.5e-6, chunk=50, num_steps=10) — see
+    src/lerobot/policies/smolvla/configuration_smolvla.py
+  - `--policy.compile_model=true` (only compile flag SmolVLAConfig
+    accepts; verified via grep — no `dtype` / `gradient_checkpointing`
+    fields exist on SmolVLAConfig, so don't pass those)
+  - mixed precision via accelerate `--mixed_precision=bf16`
+  - NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1 (LP §Q5)
+  - Header: cite paper + docs, document the 450M-vs-2.2B trade-off,
+    leave commented-out `--policy.vlm_model_name=...SmolVLM2-2.2B-Instruct`
+    + `--policy.load_vlm_weights=true` block as the opt-in 2.2B path
+
+### Work items
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#46)
+- [x] Write 7__train_smovla.sh
+- [x] bash -n syntax check + chmod +x
+- [ ] Commit and push (Closes #46)
+- [ ] GitHub issue update (auto-closed by commit)
+
