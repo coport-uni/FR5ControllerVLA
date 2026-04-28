@@ -43,8 +43,11 @@ conda activate lerobot
 # fails silently on the first allreduce/barrier here and stalls DDP
 # forever. Harmless on single-GPU runs (no torch.distributed). See
 # issue #30 for the full diagnosis.
+
+# --steps=30000 \
+
 export NCCL_P2P_DISABLE=1
-export NCCL_SHM_DISABLE=1
+# export NCCL_SHM_DISABLE=1
 
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
@@ -74,7 +77,8 @@ accelerate launch \
     --batch_size=16 \
     --steps=30000 \
     --save_freq=5000 \
-    --resume=false \
     --num_workers=10 \
     --seed=55 \
-    --tolerance_s=0.1
+    --tolerance_s=0.1 \
+    --resume=true \
+    --config_path=/workspace/VLARelated/FR5ControllerVLA/outputs/train/fr5_pi0_red_marker_base/checkpoints/015000/pretrained_model/train_config.json

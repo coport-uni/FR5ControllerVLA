@@ -791,3 +791,52 @@ churn.
       memory|killed|SIGKILL): apply step 2
 - [ ] If retry log shows RAM exhaustion: apply step 3
 
+## 2026-04-28: Fix 7__train_pi0.sh resume invocation
+
+### Background
+User tried to resume Pi0 training from
+`outputs/train/fr5_pi0_red_marker_base/checkpoints/last/` and the
+launch failed before any train step. Inspection of the script's
+last block (the resume args added on top of the paper recipe in
+#44/#45) found three independent defects that together break the
+invocation.
+
+### Defects
+  1. `--resume=ture` typo on line 80. argparse rejects the bool
+     coercion and exits non-zero before accelerate hands off to
+     lerobot-train.
+  2. Trailing whitespace after the final `\` on line 84
+     (`cat -A` shows `\ $`). Bash treats the line as terminated,
+     so `--config_path=...` is dropped and the next line (EOF)
+     becomes a separate command.
+  3. `--config_path` pointed at `pretrained_model/config.json`
+     (the policy model config, 2.3 KB) instead of
+     `pretrained_model/train_config.json` (the full training
+     config, 6.5 KB). LeRobot resume needs the train_config to
+     restore dataset/optimizer/scheduler state; the model config
+     lacks those fields.
+
+### Plan
+Single edit to `7__train_pi0.sh`:
+  1. `ture` -> `true`.
+  2. Drop the trailing-space `\` and rely on the line being the
+     final argument (no continuation needed).
+  3. Repoint `--config_path` to `train_config.json`.
+Verify with `bash -n` only. No Python files touched, so ruff is
+not applicable. No `claude_test/` additions.
+
+### Work items
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#48)
+- [x] 7__train_pi0.sh: applied all three fixes (ture->true, drop
+      trailing `\ `, config.json -> train_config.json)
+- [x] `bash -n 7__train_pi0.sh` passes
+- [x] User post-edit kept the `ture->true` fix and steps=30000;
+      reverted `train_config.json` back to `config.json` and
+      restored the trailing `\ `. Treating these reverts as the
+      user's intentional choice; no further script edits.
+- [ ] Commit + push (Closes #48)
+- [ ] (User) Re-run resume and confirm step counter advances past
+      the last checkpoint. If launch still fails on
+      `--config_path`, revisit the train_config.json point.
+
