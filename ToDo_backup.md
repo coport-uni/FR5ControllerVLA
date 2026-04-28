@@ -839,4 +839,97 @@ not applicable. No `claude_test/` additions.
 - [ ] (User) Re-run resume and confirm step counter advances past
       the last checkpoint. If launch still fails on
       `--config_path`, revisit the train_config.json point.
+## 2026-04-28: Add SmolVLA training script (paper recipe, multi-GPU)
+
+### Background
+User asked for `7__train_smovla.sh` modeled on `7__train_pi0.sh`,
+following the SmolVLA paper (arXiv:2506.01844) and LeRobot SmolVLA
+docs (https://huggingface.co/docs/lerobot/smolvla). They initially
+asked for a "2B model" but the only SmolVLA pretrained checkpoint
+HF publishes is `lerobot/smolvla_base` (450M) — the SmolVLM2
+backbone has a 2.2B variant but using it loses the SmolVLA
+pretrained weights and forces action-expert-from-scratch. After
+clarification user chose option C: ship the 450M paper recipe as
+the active config, leave the 2.2B SmolVLM2 swap commented out as
+an opt-in. Multi-GPU launch like `7__train_pi0.sh` (see LP §Q5,
+§Q6).
+
+### Plan
+Create 7__train_smovla.sh by copying the launcher skeleton from
+7__train_pi0.sh and adapting flags to SmolVLA:
+  - `--policy.path=lerobot/smolvla_base` (docs flag — different
+    from pi0's `--policy.pretrained_path`; needed to load the full
+    pretrained SmolVLA bundle, not just a VLM init)
+  - `--policy.type` is omitted (resolved from the loaded path,
+    matches the docs example)
+  - `--batch_size=32` (per-rank → global=64 with 2 GPUs, matches
+    docs example of `batch_size=64`)
+  - `--steps=20000`, `--save_freq=5000` (docs)
+  - Defaults that already match the paper stay implicit
+    (`freeze_vision_encoder=true`, `train_expert_only=true`,
+    AdamW lr=1e-4 betas=(0.9,0.95) wd=1e-10, warmup=1000,
+    cosine decay=30000 → 2.5e-6, chunk=50, num_steps=10) — see
+    src/lerobot/policies/smolvla/configuration_smolvla.py
+  - `--policy.compile_model=true` (only compile flag SmolVLAConfig
+    accepts; verified via grep — no `dtype` / `gradient_checkpointing`
+    fields exist on SmolVLAConfig, so don't pass those)
+  - mixed precision via accelerate `--mixed_precision=bf16`
+  - NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1 (LP §Q5)
+  - Header: cite paper + docs, document the 450M-vs-2.2B trade-off,
+    leave commented-out `--policy.vlm_model_name=...SmolVLM2-2.2B-Instruct`
+    + `--policy.load_vlm_weights=true` block as the opt-in 2.2B path
+
+### Work items
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#46)
+- [x] Write 7__train_smovla.sh
+- [x] bash -n syntax check + chmod +x
+- [x] Commit and push (Closes #46)
+- [x] GitHub issue update (auto-closed by commit)
+
+## 2026-04-28: Fix `cmake --version` exit 1 in lerobot pip install
+
+### Background
+사용자가 lerobot conda env (`/opt/conda/envs/lerobot`) 에서
+`pip install -e ".[all]"` 실행 시 `egl_probe` / `hf-egl-probe` 휠
+빌드 단계에서
+`subprocess.CalledProcessError: Command '['cmake', '--version']'
+returned non-zero exit status 1` 으로 실패. 환경 셋업 단계라 코드
+변경 없이 환경만 손보면 되는 작업.
+
+### Root cause
+`/opt/conda/envs/lerobot/bin/cmake` 는 PyPI `cmake` 패키지가 설치한
+Python wrapper script (3행: `from cmake import cmake`). pip 의 빌드
+격리 (`build isolation`) subprocess 환경은 자체 overlay 를
+PYTHONPATH 로 주입하면서 conda env 의 site-packages 를 가려
+`cmake` 모듈 import 가 `ModuleNotFoundError` 로 실패 → wrapper 가
+exit 1 반환 → 빌드 스크립트의
+`subprocess.check_output(['cmake', '--version'])` 가 터짐. (원본
+`cmake --version` 은 conda env 내부에서 직접 실행하면 정상
+동작했으므로, 격리된 build subprocess 만의 문제였음.)
+
+### Fix
+1. 시스템 cmake 설치: `apt-get install -y cmake build-essential`
+   → `/usr/bin/cmake` 3.22.1 (Python 의존 없는 네이티브 바이너리).
+2. conda env 의 broken wrapper 제거: `pip uninstall -y cmake` →
+   PATH 가 `/usr/bin/cmake` 로 fallback.
+3. `pip install -e ".[all]"` 재실행 → 빌드 성공.
+
+빌드 도중 `placo` / `cmeel-*` 등의 dep 로 PyPI `cmake-4.1.3` 이
+다시 conda env 에 들어왔지만, 이번엔 빌드가 끝난 뒤이고
+wrapper 도 정상 동작 (`cmake --version` → 4.1.3) 이라 재발 안 함.
+
+### Work items
+- [x] 진단: `cmake --version` exit 1 의 원인 (`from cmake import
+      cmake` → `ModuleNotFoundError` in build subprocess)
+- [x] `apt-get install -y cmake build-essential` (시스템
+      cmake 3.22.1 + gcc/g++/make)
+- [x] `pip uninstall -y cmake` 으로 broken wrapper 제거
+- [x] `pip install -e ".[all]"` 재실행 — `egl_probe`,
+      `hf-egl-probe`, `lerobot` 모두 wheel 빌드 성공
+- [x] 검증: `python -c "import lerobot"` (lerobot 0.5.1) +
+      `pip show lerobot`
+- [x] LearnedPatterns.md §3 에 Q10 으로 등록
+- [x] gh issue 등록 (#47)
+- [ ] commit + push (사용자 결정 대기)
 

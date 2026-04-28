@@ -6,8 +6,8 @@
 > after each task completes (see CLAUDE.md "Learned Patterns
 > Reference").
 >
-> Last updated: 2026-04-23
-> Total patterns: 25
+> Last updated: 2026-04-28
+> Total patterns: 26
 >
 > Provenance format: `(from ToDo#N)` where N is the 1-based index of
 > the top-level `##` heading in `ToDo.md` at the time of extraction.
@@ -301,6 +301,29 @@
   verify; explicit prompt if missing.
 - **Rule**: Always verify `hf auth whoami` inside the activated
   environment before triggering Hub pulls. (from ToDo#38)
+
+### Q10. PyPI `cmake` wrapper fails inside pip's build isolation
+
+- **Problem**: `pip install -e ".[all]"` aborts during
+  `egl_probe` / `hf-egl-probe` wheel build with
+  `subprocess.CalledProcessError: Command '['cmake', '--version']'
+  returned non-zero exit status 1`. Outside the build subprocess
+  the same `cmake --version` works.
+- **Cause**: The conda env's `cmake` is a Python wrapper script
+  (`from cmake import cmake`) shipped by the PyPI `cmake`
+  package. pip's build isolation overlays its own `sys.path` on
+  the shebang-targeted interpreter, hiding the conda env's
+  site-packages — so `import cmake` raises `ModuleNotFoundError`
+  inside the build subprocess and the wrapper exits non-zero.
+- **Fix**: Install a native cmake via apt
+  (`apt-get install -y cmake build-essential` → `/usr/bin/cmake`)
+  and `pip uninstall -y cmake` to drop the broken wrapper. The
+  build subprocess then resolves `cmake` to the system binary
+  with no Python dependency.
+- **Rule**: Never rely on the PyPI `cmake` wrapper for source
+  builds; always install a system cmake via apt before
+  `pip install`-ing projects that build C/C++ extensions.
+  (from ToDo#47)
 
 ---
 
