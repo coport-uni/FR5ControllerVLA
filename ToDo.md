@@ -634,7 +634,7 @@
       this host, `conda activate lerobot` succeeds,
       `lerobot-train` resolves, and both NCCL env vars are set
       in the spawned shell.
-- [ ] Commit, push, close gh issue (bundled with #43 below —
+- [x] Commit, push, close gh issue (bundled with #43 and #45 —
       share the commit since all three scripts get the same
       `--tolerance_s` bump)
 
@@ -662,15 +662,15 @@
   a 1-frame fallback. The longer-term fix would be to
   re-record or re-encode the offending clips so parquet and
   mp4 agree on frame counts.
-- [ ] Append ToDo.md entry
-- [ ] Create gh issue
-- [ ] Add `--tolerance_s=0.1` to `7__train_act.sh`,
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#43)
+- [x] Add `--tolerance_s=0.1` to `7__train_act.sh`,
       `7__train_pi0.sh`, `7__train_pi05.sh`
-- [ ] `bash -n` syntax check on all three scripts
+- [x] `bash -n` syntax check on all three scripts
 - [ ] 5-min live run of `7__train_act.sh` and confirm at
       least one `step:200 ...` line reaches the per-run
-      `train_*.log` file
-- [ ] Commit (bundled with #42), push, close #42 and #43
+      `train_*.log` file (deferred to user; runs on H200 box)
+- [x] Commit (bundled with #42 and #45), push, close #42 and #43
 
 ## 2026-04-23: Sync project CLAUDE.md with updated CommonClaude repo
 
@@ -743,4 +743,51 @@ the CLI. Header comment cites openpi config.py and notes that EMA
 - [x] GitHub issue register (#44)
 - [x] Commit and push (Closes #44)
 - [x] GitHub issue update (auto-closed by commit)
+
+## 2026-04-27: Mitigate Pi0 paper-recipe DDP OOM on 2×H200
+
+### Background
+`bash 7__train_pi0.sh` (after #44 merged the paper recipe into the
+main pi0 launcher) died with
+`torch.distributed.elastic.multiprocessing.errors.ChildFailedError`.
+That exception is a wrapper from accelerate/torchrun raised whenever
+any worker exits non-zero — the worker's own traceback was not
+captured. User chose to triage on the most likely cause given the
+script's settings: CUDA OOM during a Pi0 full fine-tune at per-rank
+batch=32 on 2×H200 (global batch=64, double the openpi reference 32).
+Already-applied wins from prior tasks stay in place (see LP §Q5,
+§Q6, §R3): NCCL_P2P_DISABLE/NCCL_SHM_DISABLE, 1 h NCCL timeout,
+DDP output_dir race fix.
+
+### Plan
+Edit 7__train_pi0.sh only. Apply changes one at a time so we can
+attribute the fix:
+  1. --batch_size=32 -> 16. Restores global batch=32 (openpi
+     reference parity) and roughly halves activation memory per rank.
+  2. If still OOM: --policy.compile_model=true -> false. compile is
+     fragile under DDP and adds memory spikes during the first
+     compile pass.
+  3. If retry log shows RAM (not VRAM) exhaustion: --num_workers=10
+     -> 4 (2 ranks × 10 workers = 20 dataloader procs).
+
+Bundle this with the in-flight #42 (conda-portable + NCCL exports
+for 7__train_pi0.sh / 7__train_pi05.sh) and #43 (tolerance_s=0.1 in
+all three launch scripts) commits, plus the working-tree
+consolidation that merged the paper recipe into 7__train_pi0.sh and
+deleted 7__train_pi0_paper.sh — single commit, since all four
+touch the same launch scripts and the user prefers one commit over
+churn.
+
+### Work items
+- [x] Append ToDo.md entry
+- [x] Create gh issue (#45)
+- [x] 7__train_pi0.sh: --batch_size=32 -> 16
+- [x] bash -n on 7__train_pi0.sh, 7__train_act.sh, 7__train_pi05.sh
+- [x] Mark off the open boxes in #42 and #43 ToDo entries above
+- [ ] Bundled commit + push (Closes #42, #43, #45)
+- [ ] (User) Re-run with `bash 7__train_pi0.sh 2>&1 | tee
+      /tmp/pi0_run.log`, watch nvidia-smi -l 2, confirm step 100
+- [ ] If still OOM and grep confirms (OutOfMemoryError|CUDA out of
+      memory|killed|SIGKILL): apply step 2
+- [ ] If retry log shows RAM exhaustion: apply step 3
 

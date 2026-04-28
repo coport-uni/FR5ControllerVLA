@@ -30,10 +30,12 @@ for _root in /home/inno-controller/anaconda3 /opt/conda \
         break
     fi
 done
+
 if [ -z "$_conda_sh" ]; then
     echo "ERROR: no conda install found (tried inno-controller, /opt/conda, \$HOME)" >&2
     exit 1
 fi
+
 source "$_conda_sh"
 conda activate lerobot
 
@@ -59,6 +61,7 @@ accelerate launch \
     --policy.pretrained_path=lerobot/pi0_base \
     --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper \
     --policy.push_to_hub=true \
+    --dataset.video_backend=pyav \
     --policy.device=cuda \
     --policy.compile_model=true \
     --policy.gradient_checkpointing=true \
@@ -68,9 +71,10 @@ accelerate launch \
     --output_dir=outputs/train/${JOB_NAME} \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
-    --batch_size=32 \
+    --batch_size=16 \
     --steps=30000 \
     --save_freq=5000 \
     --resume=false \
     --num_workers=10 \
+    --seed=55 \
     --tolerance_s=0.1
