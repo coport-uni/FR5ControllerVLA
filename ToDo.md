@@ -836,6 +836,6 @@ Create 7__train_smovla.sh by copying the launcher skeleton from
 - [x] Create gh issue (#46)
 - [x] Write 7__train_smovla.sh
 - [x] bash -n syntax check + chmod +x
-- [ ] Commit and push (Closes #46)
-- [ ] GitHub issue update (auto-closed by commit)
+- [x] Commit and push (Closes #46)
+- [x] GitHub issue update (auto-closed by commit)
 
