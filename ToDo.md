@@ -933,3 +933,76 @@ wrapper 도 정상 동작 (`cmake --version` → 4.1.3) 이라 재발 안 함.
 - [x] gh issue 등록 (#47)
 - [ ] commit + push (사용자 결정 대기)
 
+## 2026-04-28: async-inference 실행 스크립트(8/9) 현행 lerobot API 정합화
+
+### Background
+`8__run_server.sh`, `9__run_client.sh` 가 구버전 lerobot 호출
+방식에 맞춰져 있어, 현재 레포의 `src/lerobot/async_inference/`
+모듈 및 공식 문서(https://huggingface.co/docs/lerobot/async)
+와 정렬되도록 정비.
+
+- 현재 모듈 위치: `src/lerobot/async_inference/{policy_server,robot_client}.py`
+  (둘 다 `@draccus.wrap()` CLI).
+- 공식 문서 권장 호출: `python -m lerobot.async_inference.policy_server`,
+  `python -m lerobot.async_inference.robot_client`.
+- `9__run_client.sh` 가 `python src/.../robot_client.py` 로
+  파일을 직접 실행 → `from .constants import ...` 같은 패키지
+  상대 임포트가 깨져 즉시 실패하는 게 "구버전 호출"의 핵심 문제.
+- 의존성: 문서가 `pip install -e ".[async]"` 명시
+  (이 레포 `pyproject.toml:164` 의 `async` extra: grpcio + matplotlib).
+
+### Decisions (사용자 확정)
+- 포트는 문서 기본값인 **8080** 으로 통일(기존 8088 폐기).
+- 서버에 `--inference_latency` 인자만 추가 (fps=20 기준 0.05s).
+- 그 외 `--robot.*`, 정책/클라이언트 플래그는 현 값 유지.
+
+### Work items
+- [x] `9__run_client.sh`: `python src/.../robot_client.py` →
+      `python -m lerobot.async_inference.robot_client` 으로 교체
+- [x] `9__run_client.sh`: 서버 주소 `127.0.0.1:8088` →
+      `127.0.0.1:8080` 으로 변경
+- [x] `9__run_client.sh`: 헤더 주석을 현재 API(draccus CLI,
+      handshake 시 정책/로봇 정보 전달) 기준으로 갱신,
+      `pip install -e ".[async]"` 사전 요구사항 명시
+- [x] `8__run_server.sh`: `--port=8088` → `--port=8080`,
+      `--inference_latency=0.05` 추가
+- [x] `8__run_server.sh`: 헤더 주석을 현재 API 기준으로 갱신
+      (서버는 빈 컨테이너로 떠 있다가 client handshake 로 정책 수신),
+      `pip install -e ".[async]"` 사전 요구사항 명시
+- [x] gh issue 등록 (#49)
+- [ ] commit + push (사용자 승인 후 — ACT 변형과 묶어서 진행)
+
+## 2026-04-28: ACT 정책용 async-inference 클라이언트 스크립트 추가
+
+### Background
+SmolVLA 용 [9__run_client_smovla.sh](9__run_client_smovla.sh) 와 짝이
+되는 ACT 전용 클라이언트가 없어 신규 작성. 같은 PolicyServer
+([8__run_server.sh](8__run_server.sh)) 에 ACT 체크포인트로 접속하는
+용도.
+
+### Decisions (사용자 확정)
+- `--policy_type=act` 로 변경.
+- `--actions_per_chunk=100` — `7__train_act.sh` 가 chunk_size 를
+  override 하지 않으므로 ACT 기본값 100 (`configuration_act.py:86`)
+  과 정합.
+- `--task=""` — ACT 는 언어 조건화하지 않음 (학습/추론 모두 task
+  string 무시).
+- 그 외 (서버 주소 8080, `--robot.*`, 카메라 토폴로지,
+  `--policy_device=cuda`, `--chunk_size_threshold=0.8`,
+  `--aggregate_fn_name=average`, `--fps=20`, conda probe 블록,
+  `PRETRAINED` 자리표시자) 는 SmolVLA 버전과 동일.
+
+### Work items
+- [x] `9__run_client_act.sh` 신규 작성
+- [x] `bash -n` 구문 검증
+- [x] `chmod +x` 부여
+- [x] gh issue 등록 (#50)
+- [ ] commit + push (#49 변경분과 묶어서 한 커밋으로)
+
+### Out of scope
+- `PRETRAINED` 자리표시자(`<FR5_POLICY_REPO_OR_PATH>`)는 그대로
+  둠 — 사용자가 학습 산출물 경로를 직접 채워야 하는 항목.
+- 카메라 토폴로지(top_left/top_right/hand) 변경 없음.
+- `--fps=20`, `--actions_per_chunk=50`, `--chunk_size_threshold=0.8`
+  등 튜닝 파라미터는 현 값 유지.
+
