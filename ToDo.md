@@ -970,7 +970,7 @@ wrapper 도 정상 동작 (`cmake --version` → 4.1.3) 이라 재발 안 함.
       (서버는 빈 컨테이너로 떠 있다가 client handshake 로 정책 수신),
       `pip install -e ".[async]"` 사전 요구사항 명시
 - [x] gh issue 등록 (#49)
-- [ ] commit + push (사용자 승인 후 — ACT 변형과 묶어서 진행)
+- [x] commit + push (3a5ee68b — ACT 변형과 한 커밋으로 정리)
 
 ## 2026-04-28: ACT 정책용 async-inference 클라이언트 스크립트 추가
 
@@ -997,7 +997,7 @@ SmolVLA 용 [9__run_client_smovla.sh](9__run_client_smovla.sh) 와 짝이
 - [x] `bash -n` 구문 검증
 - [x] `chmod +x` 부여
 - [x] gh issue 등록 (#50)
-- [ ] commit + push (#49 변경분과 묶어서 한 커밋으로)
+- [x] commit + push (3a5ee68b — #49 변경분과 한 커밋으로)
 
 ### Out of scope
 - `PRETRAINED` 자리표시자(`<FR5_POLICY_REPO_OR_PATH>`)는 그대로
