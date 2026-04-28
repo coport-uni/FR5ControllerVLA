@@ -109,7 +109,8 @@
       "Bash(echo \"--- HEAD has datasets?: $\\(git ls-tree -r HEAD)",
       "Bash(.venv/bin/python -c \"import pynput; print\\(pynput.__version__, pynput.__file__\\)\")",
       "Bash(.venv/bin/python -c \"from pynput import keyboard; print\\('OK', keyboard.Listener\\)\")",
-      "Bash(.venv/bin/pip show *)"
+      "Bash(.venv/bin/pip show *)",
+      "Bash(bash -n /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/8__dataset_split.sh)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",

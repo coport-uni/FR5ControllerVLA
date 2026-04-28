@@ -475,3 +475,20 @@
   3. Add termios/stdin fallback when terminal has focus.
 - [x] Create gh issue (#36)
 - [x] User decision: hold — no code change this turn.
+
+## 2026-04-23: Fix 8__dataset_split.sh path mismatch between `hf download` and `lerobot-edit-dataset`
+
+- Root cause: `hf download` (line 5) saves to HF Hub cache
+  (`~/.cache/huggingface/hub/datasets--coport-uni--FR5_pick_...`), but
+  `lerobot-edit-dataset` (line 9) resolves the dataset from
+  `HF_LEROBOT_HOME/{repo_id}` (default `~/.cache/huggingface/lerobot/`).
+  The two paths never meet, so the downloaded files are ignored and
+  the edit step fails to locate the dataset.
+- Fix (option B): add `--local-dir` to `hf download` so it writes
+  directly into `HF_LEROBOT_HOME/coport-uni/FR5_pick_red_colored_marker_to_box_100/`.
+- [x] Update `8__dataset_split.sh` with explicit `--local-dir`
+- [x] `bash -n` syntax check
+- [x] gh issue 등록 (#37)
+- [ ] 사용자 실행 검증: `./8__dataset_split.sh` 가 에러 없이
+      HF_LEROBOT_HOME 하위에 train/val 로 split 하는지 확인
+- [ ] commit + push (검증 통과 후)
