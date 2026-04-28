@@ -33,8 +33,9 @@ fi
 # fails silently on the first allreduce/barrier here and stalls DDP
 # forever. Harmless on single-GPU runs (no torch.distributed). See
 # issue #30 for the full diagnosis.
+
 export NCCL_P2P_DISABLE=1
-export NCCL_SHM_DISABLE=1
+# export NCCL_SHM_DISABLE=1
 
 source "$_conda_sh"
 conda activate lerobot
