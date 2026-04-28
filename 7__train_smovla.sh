@@ -58,7 +58,7 @@ conda activate lerobot
 # forever. Harmless on single-GPU runs (no torch.distributed). See
 # issue #30 for the full diagnosis.
 export NCCL_P2P_DISABLE=1
-export NCCL_SHM_DISABLE=1
+#export NCCL_SHM_DISABLE=1
 
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
@@ -67,15 +67,17 @@ JOB_NAME="fr5_smolvla_red_marker_base"
 
 accelerate launch \
     --multi_gpu \
-    --num_processes=2 \
+    --num_processes=3 \
     --mixed_precision=bf16 \
     "$(which lerobot-train)" \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --policy.path=lerobot/smolvla_base \
-    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model_paper \
+    --dataset.video_backend=pyav \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \
+    --rename_map='{"observation.images.hand": "observation.images.camera1", "observation.images.top_left": "observation.images.camera2", "observation.images.top_right": "observation.images.camera3"}' \
     --policy.compile_model=true \
     --policy.freeze_vision_encoder=true \
     --policy.train_expert_only=true \

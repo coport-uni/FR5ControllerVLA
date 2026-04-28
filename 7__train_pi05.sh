@@ -5,12 +5,12 @@
 #
 # Pi0.5 needs augmented quantile stats on the dataset before training. Run
 # once (and push to the Hub) before invoking this script:
-#   python src/lerobot/datasets/v30/augment_dataset_quantile_stats.py \
-#       --repo-id=coport-uni/FR5_pick_red_colored_marker_to_box
+# python src/lerobot/datasets/v30/augment_dataset_quantile_stats.py --repo-id=coport-uni/FR5_pick_red_colored_marker_to_box
 
 # Try known conda install roots in order (FR5 control PC first, then
 # the H200 training box, then per-user fallbacks). Fail clearly if
 # none is present so we don't die later with "conda: not found".
+
 _conda_sh=""
 for _root in /home/inno-controller/anaconda3 /opt/conda \
              "$HOME/anaconda3" "$HOME/miniconda3"; do
@@ -19,10 +19,12 @@ for _root in /home/inno-controller/anaconda3 /opt/conda \
         break
     fi
 done
+
 if [ -z "$_conda_sh" ]; then
     echo "ERROR: no conda install found (tried inno-controller, /opt/conda, \$HOME)" >&2
     exit 1
 fi
+
 source "$_conda_sh"
 conda activate lerobot
 
@@ -31,18 +33,27 @@ conda activate lerobot
 # forever. Harmless on single-GPU runs (no torch.distributed). See
 # issue #30 for the full diagnosis.
 export NCCL_P2P_DISABLE=1
-export NCCL_SHM_DISABLE=1
+
+# SHM works. So no need to disable it 
+# export NCCL_SHM_DISABLE=1
 
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_pi05_test1"
+JOB_NAME="fr5_pi05_red_marker_base"
 
-lerobot-train \
+python3 src/lerobot/datasets/v30/augment_dataset_quantile_stats.py --repo-id=coport-uni/FR5_pick_red_colored_marker_to_box
+
+accelerate launch \
+    --multi_gpu \
+    --num_processes=2 \
+    --mixed_precision=bf16 \
+    "$(which lerobot-train)" \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --policy.type=pi05 \
     --policy.pretrained_path=lerobot/pi05_base \
-    --policy.repo_id=${HF_USER}/${JOB_NAME}_model \
+    --dataset.video_backend=pyav \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --policy.compile_model=true \
@@ -57,4 +68,5 @@ lerobot-train \
     --steps=3000 \
     --save_freq=500 \
     --resume=false \
+    --seed=55 \
     --tolerance_s=0.1

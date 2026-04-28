@@ -59,7 +59,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --policy.type=pi0 \
     --policy.pretrained_path=lerobot/pi0_base \
-    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \
