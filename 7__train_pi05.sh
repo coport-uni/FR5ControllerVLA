@@ -42,8 +42,6 @@ echo "HF_USER=${HF_USER}"
 
 JOB_NAME="fr5_pi05_red_marker_base"
 
-python3 src/lerobot/datasets/v30/augment_dataset_quantile_stats.py --repo-id=coport-uni/FR5_pick_red_colored_marker_to_box
-
 accelerate launch \
     --multi_gpu \
     --num_processes=2 \
@@ -52,6 +50,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --policy.type=pi05 \
     --policy.pretrained_path=lerobot/pi05_base \
+    --policy.normalization_mapping='{"ACTION": "MEAN_STD", "STATE": "MEAN_STD", "VISUAL": "IDENTITY"}' \
     --dataset.video_backend=pyav \
     --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model \
     --policy.push_to_hub=true \
