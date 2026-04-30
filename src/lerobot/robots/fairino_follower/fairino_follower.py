@@ -327,13 +327,20 @@ class FairinoFollower(Robot):
             )
         ]
 
-        # Ramp one step toward the target.
+        # Ramp one step toward the target.  ``ramp_in_progress``
+        # is set whenever any joint took only a partial step;
+        # while it is True, gripper commands are dropped so the
+        # worker's ServoMoveEnd / MoveGripper / ServoMoveStart
+        # sequence cannot race the in-flight ServoJ ramp and
+        # tear down the servo session (error 14).
         period = 1.0 / self.config.servo_hz
         max_step = self.config.max_servo_speed * period
+        ramp_in_progress = False
         for i in range(len(self._commanded)):
             delta = clamped_deg[i] - self._commanded[i]
             if abs(delta) > max_step:
                 self._commanded[i] += max_step if delta > 0 else -max_step
+                ramp_in_progress = True
             else:
                 self._commanded[i] = clamped_deg[i]
 
@@ -364,7 +371,7 @@ class FairinoFollower(Robot):
 
         result = {f"{jname}.pos": clamped_deg[i] for i, jname in enumerate(self.config.joint_names)}
 
-        if self.config.gripper_enabled and "gripper.pos" in action:
+        if self.config.gripper_enabled and "gripper.pos" in action and not ramp_in_progress:
             grip = max(0.0, min(100.0, float(action["gripper.pos"])))
             result["gripper.pos"] = grip
             self._enqueue_gripper_cmd(grip)

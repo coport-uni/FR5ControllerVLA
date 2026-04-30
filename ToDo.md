@@ -1075,3 +1075,43 @@ LeRobot 구현 한계로 닫지 못하는 차이:
 - batch_size / num_processes / GPU 토폴로지 변경
 - `7__train_pi0.sh` 변경
 
+## 2026-04-30: 로봇 보간 진행 중에는 그리퍼 명령 drop (FairinoFollower)
+
+### Background
+[src/lerobot/robots/fairino_follower/fairino_follower.py](src/lerobot/robots/fairino_follower/fairino_follower.py)
+의 `send_action()` 은 매 호출마다 ServoJ 보간 한 step + 그리퍼
+enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료)
+에 그리퍼 명령이 같이 들어가면, gripper worker 가
+`ServoMoveEnd → MoveGripper → ServoMoveStart` 시퀀스를 돌리는
+동안 main thread 의 ServoJ 가 `_SERVO_SESSION_LOST` 를 빈번히
+유발한다 (LP §2 G2 / G8 의 background).
+
+### Decisions (사용자 확정)
+- "로봇이 움직인다" 의 판정 기준 (1-a): 보간 step 직후 임의의
+  joint 에서 `self._commanded[i] != clamped_deg[i]` 이면 ramp
+  진행 중으로 간주.
+- 그리퍼 명령 처리 (2-a): **drop**. 큐잉 / 지연 적용 없음.
+  다음 send_action 에서 ramp 가 완료된 시점에 도착한 새
+  값만 처리.
+- `result["gripper.pos"]` 처리 (A): 게이트가 활성화되면
+  `result` 에서 `"gripper.pos"` 키 자체를 누락
+  (action 이 그리퍼에 대해 아예 없었던 것과 동일).
+
+### Work items
+- [x] `send_action()` 보간 루프에서 `ramp_in_progress` 플래그
+      계산 (true if any joint 가 if-branch 를 탔으면).
+- [x] `ramp_in_progress` 가 True 인 경우 그리퍼 enqueue 와
+      `result["gripper.pos"]` 갱신을 모두 skip
+      (see LP §2 G2, §2 G8).
+- [x] 그리퍼 worker / RPC proxy 구조는 변경하지 않음
+      (LP §2 G8 의 latest-wins 보존).
+- [x] `ruff check src/lerobot/robots/fairino_follower/fairino_follower.py`
+      및 `ruff format --check ...` 통과.
+- [x] `gh issue create` 로 이슈 등록 (#52).
+- [ ] commit + push, `gh issue edit` 로 클로즈.
+
+### Out of scope
+- 그리퍼 worker thread 구조 변경.
+- ServoJ / ramp 로직 자체 변경 (보간 속도, max_step, period 등).
+- gripper.pos 의 스무딩 / 필터링 / 데드밴드 외부화.
+
