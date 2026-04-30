@@ -1108,7 +1108,7 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - [x] `ruff check src/lerobot/robots/fairino_follower/fairino_follower.py`
       및 `ruff format --check ...` 통과.
 - [x] `gh issue create` 로 이슈 등록 (#52).
-- [ ] commit + push, `gh issue edit` 로 클로즈.
+- [x] commit + push (02962e70), `gh issue edit` 로 클로즈.
 
 ### Out of scope
 - 그리퍼 worker thread 구조 변경.
