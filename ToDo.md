@@ -1151,7 +1151,7 @@ scaling 이 안정적인 경험칙이 있어 두 값을 모두 산출한다.
       (linear / sqrt 스케일링 모두 제시).
 - [x] `claude_test/README.md` 업데이트 (probe 스크립트 행 추가).
 - [x] gh issue create (#56).
-- [ ] commit + push, gh issue edit 로 클로즈.
+- [x] commit + push (f27e9b95), gh issue 코멘트 등록 후 close.
 
 ### Results (2026-05-01)
 하드웨어: 3 x RTX 3090 (24,576 MiB / GPU). 80 % 목표 = 19,660 MiB.
