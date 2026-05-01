@@ -16,6 +16,14 @@
 #       at the LeRobot default 0.01 (openpi uses ~1e-10); add
 #       --policy.optimizer_weight_decay=1e-10 if you need exact parity.
 #
+# VRAM probe (issue #55, claude_test/probe_logs/SUMMARY.md): on this
+# 2 x H200 NVL box (143.77 GB / GPU) per-GPU batch=160 hits ~80 % VRAM
+# (GPU0 79.6 %, GPU1 75.8 %), batch=176 OOMs. Effective batch is then
+# 16 x 2 = 32 -> 160 x 2 = 320 (10 x). lr is scaled by SQRT(10) ~= 3.16
+# from the openpi default 2.5e-5 to 7.9e-5; warmup_steps stays at the
+# LeRobot default of 1000 (warmup length is not directly proportional
+# to batch size).
+#
 # Reference: https://github.com/Physical-Intelligence/openpi
 # Requires: pip install -e ".[pi]"
 
@@ -74,7 +82,8 @@ accelerate launch \
     --output_dir=outputs/train/${JOB_NAME} \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
-    --batch_size=16 \
+    --batch_size=160 \
+    --policy.optimizer_lr=7.9e-5 \
     --steps=30000 \
     --save_freq=5000 \
     --num_workers=10 \

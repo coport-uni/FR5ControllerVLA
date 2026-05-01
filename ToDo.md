@@ -1115,7 +1115,6 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - ServoJ / ramp 로직 자체 변경 (보간 속도, max_step, period 등).
 - gripper.pos 의 스무딩 / 필터링 / 데드밴드 외부화.
 
-<<<<<<< HEAD
 ## 2026-05-01: 7__train_pi0_adv.sh per-GPU VRAM ~80% batch 탐색
 
 ### Background
@@ -1182,7 +1181,6 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - 30k step 본 학습 실행.
 - 학습 정책 코드 / processor / dataset 변경.
 - pi05 (`7__train_pi05.sh`) 는 이번 task 범위 외.
-=======
 ## 2026-05-01: 7__train_act_adv.sh 의 batch_size 를 VRAM 80% 기준으로 튜닝
 
 ### Background
@@ -1263,5 +1261,38 @@ exposure 를 유지하려면 `--steps` 도 1/5 로 (500K → 100K) 줄일 수
 - LR scheduler / warmup 정책 변경.
 - ACT 모델 아키텍처 / num_workers / mixed_precision 변경.
 - pi0 / pi05 학습 스크립트 변경.
->>>>>>> deeb5f084ff11fa694e54ce498e2beaac5e33e84
 
+## 2026-05-01: 7__train_pi0_adv.sh 에 #55 probe 결과 반영
+
+### Background
+[#55](https://github.com/coport-uni/FR5ControllerVLA/issues/55)
+probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
+임계 (≈ 115 GB) 에 위치
+([claude_test/probe_logs/SUMMARY.md](claude_test/probe_logs/SUMMARY.md)).
+원 스크립트는 per-GPU batch=16 (effective 32) 이므로 해당 값을
+바꾸고, effective batch 가 10 배가 된 만큼 lr 도 SQRT 스케일링
+(`2.5e-5 * sqrt(10) ≈ 7.9e-5`) 으로 갱신.
+
+### Decisions (사용자 확정)
+- per-GPU `--batch_size=16` → `--batch_size=160` (앞선 probe 결과
+  2 × H200 NVL 에서 GPU0 peak 79.6 %, GPU1 75.8 %).
+- `--policy.optimizer_lr=7.9e-5` 추가 (SQRT 스케일링).
+- `scheduler_warmup_steps=1000` 기본값 유지.
+- `--resume=true` / `--config_path=...015000...` 는 그대로 두되,
+  본 스크립트는 새 `JOB_NAME=fr5_pi0_red_marker_adv` 로 별도
+  output 디렉토리에 학습한다 (이미 그렇게 되어 있음).
+
+### Work items
+- [x] [claude_test/README.md](claude_test/README.md) 의 #55 ↔ #56
+      merge 잔여 conflict 마커 정리 (양쪽 모두 보존).
+- [x] [7__train_pi0_adv.sh](7__train_pi0_adv.sh) 에 batch=160 / lr
+      반영 + 헤더 주석에 #55 reference 메모 추가.
+- [x] `bash -n 7__train_pi0_adv.sh` 구문 검증.
+- [x] `gh issue create` 로 follow-up 이슈 등록 (#57).
+- [ ] commit + push, `gh issue edit` 로 클로즈.
+
+### Out of scope
+- 30k 본 학습 실행.
+- `--steps` / `--save_freq` / scheduler / weight_decay 변경.
+- `7__train_pi0.sh` (quickstart) / `7__train_pi05.sh` 변경.
+- 새로운 probe 실행 (#55 결과 그대로 사용).
