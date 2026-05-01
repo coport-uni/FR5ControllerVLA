@@ -25,6 +25,7 @@ These are **not** production tests -- they are preserved here for reference.
 | `bench_accelerate_1v2gpu.sh` | Issue #34 benchmark: time to step 100 for `accelerate launch --num_processes=1` vs `--multi_gpu --num_processes=2`. Weak scaling (per-rank batch=64), 5 trials each, writes `accelerate_mgpu_evidence/bench_1v2gpu.csv` with both wall-clock and training-loop time per trial, then prints a mean±std summary. |
 | `accelerate_mgpu_evidence/bench_1v2gpu.csv` | Output of the above benchmark (`trial,num_gpus,wall_clock_s,training_loop_s,final_loss,timestamp`). |
 | `accelerate_mgpu_evidence/bench_1v2gpu_summary.md` | Human-readable summary table + interpretation notes for the bench above (1-GPU vs 2-GPU mean ± std, samples/s, scaling efficiency, plus the FileExistsError race observed on one 2-GPU trial). |
+| `probe_vram_batch.sh` | Issue #56 probe: launches `7__train_act_adv.sh`-equivalent ACT training at a given per-GPU `--batch_size`, samples `nvidia-smi` every 2 s, and reports peak VRAM per GPU. Disables wandb / `push_to_hub`, writes throwaway output to `/tmp`. Usage: `claude_test/probe_vram_batch.sh <bs> [duration_s]`. |
 
 ## Key Findings
 

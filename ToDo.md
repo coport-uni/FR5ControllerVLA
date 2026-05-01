@@ -1115,3 +1115,84 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - ServoJ / ramp 로직 자체 변경 (보간 속도, max_step, period 등).
 - gripper.pos 의 스무딩 / 필터링 / 데드밴드 외부화.
 
+## 2026-05-01: 7__train_act_adv.sh 의 batch_size 를 VRAM 80% 기준으로 튜닝
+
+### Background
+[7__train_act_adv.sh](7__train_act_adv.sh) 는 헤더 주석 상 H200 2x
+가정으로 `--batch_size=8`, `--num_processes=2` 였으나, 현재 학습
+머신은 RTX 3090 24 GB x 3 이며 스크립트는 `--num_processes=3` 로
+이미 변경되어 있다. 24 GB 의 80 % ≈ 19.6 GB 까지 활용해 throughput
+을 늘리고, 변경된 (per-GPU, 글로벌) 배치에 맞는 learning rate 권장
+값을 함께 도출한다.
+
+ACT 의 LeRobot 기본 옵티마이저 설정은
+[configuration_act.py:127-129](src/lerobot/policies/act/configuration_act.py#L127-L129):
+`optimizer_lr=1e-5`, `optimizer_lr_backbone=1e-5`,
+`optimizer_weight_decay=1e-4`. LeRobot 멀티 GPU 문서는 LR auto-scale
+을 하지 않는다고 명시. AdamW 계열은 linear scaling 보다 sqrt
+scaling 이 안정적인 경험칙이 있어 두 값을 모두 산출한다.
+
+### Decisions (사용자 확정)
+- Probe 동안 wandb / HF Hub push 비활성화 (실제
+  `7__train_act_adv.sh` 는 변경하지 않고, `claude_test/` 의
+  probe 래퍼에서만 override).
+- Probe 1 회당 모델 로딩 + 첫 forward/backward + 수 step 안정화
+  까지 ~120 s 정도 허용 후 kill, peak VRAM 만 채집.
+- 후보 ladder: per-GPU `bs ∈ {8, 16, 24, 32}` 부터 시작해 ~80 %
+  지점까지 binary refine. 글로벌 batch = per-GPU × 3.
+
+### Work items
+- [x] `claude_test/probe_vram_batch.sh` 작성: accelerate launch
+      파라미터를 인자로 받고 wandb / push_to_hub 를 끄는 래퍼.
+- [x] baseline `bs=8` peak VRAM 채집 (3 GPU 모두).
+- [x] 후보 ladder 따라 probe 진행, ~19.6 GB peak 에 가장 가까운
+      후보 선정 (OOM 회피 마진 포함).
+- [x] 선정된 글로벌 배치에 대한 LR 권장값 계산
+      (linear / sqrt 스케일링 모두 제시).
+- [x] `claude_test/README.md` 업데이트 (probe 스크립트 행 추가).
+- [x] gh issue create (#56).
+- [ ] commit + push, gh issue edit 로 클로즈.
+
+### Results (2026-05-01)
+하드웨어: 3 x RTX 3090 (24,576 MiB / GPU). 80 % 목표 = 19,660 MiB.
+모든 측정은 fp16 mixed-precision, `num_processes=3`, `num_workers=10`
+조건. peak 는 nvidia-smi 2 s sampling 의 maximum.
+
+| per-GPU bs | global bs | GPU 0 peak | GPU 1 peak | GPU 2 peak | %/GPU |
+|-----------:|----------:|-----------:|-----------:|-----------:|------:|
+|         8  |       24  |  5,119 MiB |  5,109 MiB |  5,109 MiB | 20.8 %|
+|        32  |       96  | 15,691 MiB | 15,733 MiB | 15,687 MiB | 64.0 %|
+|        40  |      120  | 19,657 MiB | 19,375 MiB | 19,375 MiB | 80.0 %|
+
+**선정**: `--batch_size=40` (per-GPU). global batch = 40 x 3 = 120
+(기존 24 의 5 배). GPU 0 가 정확히 80.0 % 로 가장 빡빡한 rank;
+GPU 1/2 는 78.8 %. fragmentation / cudnn workspace 변동에 약 ~1 GB
+여유.
+
+**LR 권장**: ACT 기본
+([configuration_act.py:127-129](src/lerobot/policies/act/configuration_act.py#L127-L129))
+는 `lr=1e-5`, `lr_backbone=1e-5`, `weight_decay=1e-4`. Global batch
+가 5 배가 되었으므로,
+
+- **sqrt scaling (보수적, AdamW + warmup 없음 환경의 기본 권장)**:
+  `1e-5 × sqrt(5) ≈ 2.2e-5`
+  → `--policy.optimizer_lr=2.2e-5
+       --policy.optimizer_lr_backbone=2.2e-5`
+- **linear scaling (더 공격적, warmup 함께 쓸 때 권장)**:
+  `1e-5 × 5 = 5e-5`
+
+LeRobot ACT preset 은 `get_scheduler_preset()` 이 `None` 이라
+warmup 이 없으므로 **sqrt 스케일링 (2.2e-5) 을 우선 추천**.
+weight_decay 는 1e-4 그대로 유지.
+
+**참고 (스코프 밖)**: global batch 가 5 배가 되었으므로, 동일한 sample
+exposure 를 유지하려면 `--steps` 도 1/5 로 (500K → 100K) 줄일 수
+있다. 사용자가 epoch 수를 늘리고 싶다면 그대로 두어도 됨.
+
+### Out of scope
+- `7__train_act_adv.sh` 의 실제 `--batch_size` 값 자체 수정
+  (사용자가 권장값을 받아 직접 반영).
+- LR scheduler / warmup 정책 변경.
+- ACT 모델 아키텍처 / num_workers / mixed_precision 변경.
+- pi0 / pi05 학습 스크립트 변경.
+
