@@ -43,26 +43,28 @@ conda activate lerobot
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_act_red_marker"
+JOB_NAME="fr5_act_red_marker_adv"
 
 accelerate launch \
     --multi_gpu \
-    --num_processes=2 \
-    --mixed_precision=bf16 \
+    --num_processes=3 \
+    --mixed_precision=fp16 \
     "$(which lerobot-train)" \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --dataset.video_backend=pyav \
     --policy.type=act \
-    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_model \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_adv_model \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --output_dir=outputs/train/${JOB_NAME} \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
     --num_workers=10 \
-    --batch_size=8 \
+    --batch_size=40 \
     --steps=500000 \
     --save_freq=10000 \
     --resume=false \
     --seed=55 \
     --tolerance_s=0.1 \
+    --policy.optimizer_lr=2.2e-5 \
++   --policy.optimizer_lr_backbone=2.2e-5

@@ -63,8 +63,31 @@ export NCCL_P2P_DISABLE=1
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_smolvla_red_marker_base"
+JOB_NAME="fr5_smolvla_red_marker_base_single"
 
+# lerobot-train \
+#     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
+#     --policy.path=lerobot/smolvla_base \
+#     --dataset.video_backend=pyav \
+#     --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model \
+#     --policy.push_to_hub=true \
+#     --dataset.video_backend=pyav \
+#     --policy.device=cuda \
+#     --rename_map='{"observation.images.hand": "observation.images.camera1", "observation.images.top_left": "observation.images.camera2", "observation.images.top_right": "observation.images.camera3"}' \
+#     --policy.compile_model=true \
+#     --policy.freeze_vision_encoder=true \
+#     --policy.train_expert_only=true \
+#     --output_dir=outputs/train/${JOB_NAME} \
+#     --job_name=${JOB_NAME} \
+#     --wandb.enable=true \
+#     --batch_size=32 \
+#     --steps=20000 \
+#     --save_freq=5000 \
+#     --resume=false \
+#     --num_workers=10 \
+#     --seed=55 \
+#     --tolerance_s=0.1
+    
 accelerate launch \
     --multi_gpu \
     --num_processes=3 \

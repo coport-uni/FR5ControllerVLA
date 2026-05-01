@@ -25,9 +25,13 @@ These are **not** production tests -- they are preserved here for reference.
 | `bench_accelerate_1v2gpu.sh` | Issue #34 benchmark: time to step 100 for `accelerate launch --num_processes=1` vs `--multi_gpu --num_processes=2`. Weak scaling (per-rank batch=64), 5 trials each, writes `accelerate_mgpu_evidence/bench_1v2gpu.csv` with both wall-clock and training-loop time per trial, then prints a mean±std summary. |
 | `accelerate_mgpu_evidence/bench_1v2gpu.csv` | Output of the above benchmark (`trial,num_gpus,wall_clock_s,training_loop_s,final_loss,timestamp`). |
 | `accelerate_mgpu_evidence/bench_1v2gpu_summary.md` | Human-readable summary table + interpretation notes for the bench above (1-GPU vs 2-GPU mean ± std, samples/s, scaling efficiency, plus the FileExistsError race observed on one 2-GPU trial). |
+<<<<<<< HEAD
 | `probe_pi0_vram.sh` | Issue #55 probe: short Pi0 fine-tune at a given per-GPU `batch_size` with `compile_model=true` + `gradient_checkpointing=true` + bf16 (matching `7__train_pi0_adv.sh`). Spawns a 1 Hz `nvidia-smi` sampler and reports per-GPU peak VRAM. Used to find the largest batch that fits ~80% of an H200 NVL (~115 GB / GPU). Output isolated under `outputs/train/fr5_pi0_vram_probe_b<N>/`; logs in `claude_test/probe_logs/`. |
 | `probe_logs/` | Per-batch `nvidia-smi` CSV samples and accelerate/lerobot stdout from the probes above. |
 | `probe_logs/SUMMARY.md` | Issue #55 result table for `7__train_pi0_adv.sh`: probe results from per-GPU batch 16-256, the ~80% boundary lands at per-GPU batch=160 (effective 320, GPU0 peak 79.6% / GPU1 75.8%); per-GPU batch=176 OOMs. Includes the SQRT (recommended `lr=7.9e-5`) and linear (`lr=2.5e-4`) scaling options for the new effective batch. |
+=======
+| `probe_vram_batch.sh` | Issue #56 probe: launches `7__train_act_adv.sh`-equivalent ACT training at a given per-GPU `--batch_size`, samples `nvidia-smi` every 2 s, and reports peak VRAM per GPU. Disables wandb / `push_to_hub`, writes throwaway output to `/tmp`. Usage: `claude_test/probe_vram_batch.sh <bs> [duration_s]`. |
+>>>>>>> deeb5f084ff11fa694e54ce498e2beaac5e33e84
 
 ## Key Findings
 
