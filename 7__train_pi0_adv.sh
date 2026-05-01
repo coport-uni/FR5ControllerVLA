@@ -52,7 +52,7 @@ export NCCL_P2P_DISABLE=1
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_pi0_red_marker_base"
+JOB_NAME="fr5_pi0_red_marker_adv"
 
 accelerate launch \
     --multi_gpu \
@@ -62,7 +62,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --policy.type=pi0 \
     --policy.pretrained_path=lerobot/pi0_base \
-    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \

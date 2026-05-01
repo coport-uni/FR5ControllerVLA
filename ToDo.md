@@ -1115,3 +1115,70 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - ServoJ / ramp 로직 자체 변경 (보간 속도, max_step, period 등).
 - gripper.pos 의 스무딩 / 필터링 / 데드밴드 외부화.
 
+## 2026-05-01: 7__train_pi0_adv.sh per-GPU VRAM ~80% batch 탐색
+
+### Background
+- 학습 박스: 2× H200 NVL (각 143.77 GB / 143771 MiB).
+  80% 임계 ≈ 115 GB/GPU (peak 기준).
+- 현재 [7__train_pi0_adv.sh](7__train_pi0_adv.sh) 의 per-GPU
+  batch=16 (effective 32), bf16 + `compile_model=true`
+  + `gradient_checkpointing=true`,
+  `freeze_vision_encoder=false` (full fine-tune).
+- `batch_size` 는 per-process — accelerate 가
+  `num_processes=2` 로 곱해 effective_batch_size 를 구성한다
+  ([src/lerobot/scripts/lerobot_train.py:359-361](src/lerobot/scripts/lerobot_train.py#L359-L361)).
+
+### Method
+- [claude_test/probe_pi0_vram.sh](claude_test/probe_pi0_vram.sh)
+  작성: `7__train_pi0_adv.sh` 의 학습 설정을 그대로 두되
+  production 출력과 격리:
+    - `JOB_NAME=fr5_pi0_vram_probe` (별도 출력 디렉토리).
+    - `--resume` / `--config_path` 제거, 매 probe 마다
+      이전 probe 출력 디렉토리 삭제.
+    - `--policy.push_to_hub=false`, `--wandb.enable=false`.
+    - `--save_freq` 매우 큰 값 (probe 중 저장 X).
+    - `--steps=80` (compile + warm-up + 안정 peak 캡처용).
+- 모니터: `nvidia-smi --query-gpu=memory.used,memory.total
+  --format=csv,noheader,nounits -i 0,1` 를 1 s 간격 샘플링,
+  per-GPU peak MiB 기록.
+- per-GPU batch 후보: [16, 24, 32, 48, 64]. 차례 실행하며
+  peak < 115 GB 인 최대값 결정. OOM 발생 시 직전 값과
+  사이를 이등분 (필요 시 1회).
+
+### Hyperparameter recommendation
+- 기준 (openpi pi0 fine-tune): effective_batch=32,
+  lr=2.5e-5, warmup=1000, decay=30000.
+- 새 effective_batch B' 에 대한 lr 스케일:
+    - SQRT (보수적, Transformer + AdamW 기본):
+        `lr' = 2.5e-5 * sqrt(B'/32)`
+    - Linear (CV/SGD 식): `lr' = 2.5e-5 * (B'/32)`
+- warmup_steps 는 1000 유지 권고
+  (warmup 길이는 batch 변경에 직접 비례하지 않음).
+
+### Work items
+- [x] LP §3/§4/§5 관련 항목 확인 (해당 없음).
+- [x] [claude_test/probe_pi0_vram.sh](claude_test/probe_pi0_vram.sh)
+      작성 + [claude_test/README.md](claude_test/README.md) 행 추가.
+- [x] `gh issue create` 로 이슈 등록 (#55).
+- [x] batch=16 probe → peak 48.69 GB / 48.69 GB.
+- [x] batch=24 probe → 50.54 / 50.53 GB.
+- [x] batch=32 probe → 54.20 / 54.20 GB.
+- [x] batch=48 probe → 60.09 / 60.66 GB.
+- [x] batch=64 probe → 60.06 / 61.82 GB.
+- [x] batch=96/128/192/256 probe → 74.07/75.07, 91.89/95.07, OOM, OOM.
+- [x] bisect batch=144/160/176 → 102.33/100.02, **114.42/108.92**, OOM.
+- [x] 결과 표 작성
+      ([claude_test/probe_logs/SUMMARY.md](claude_test/probe_logs/SUMMARY.md))
+      + per-GPU **batch=160** (effective 320, GPU0 79.6%) 결정,
+      `lr=7.9e-5` (SQRT) / `2.5e-4` (linear),
+      `warmup=1000` 유지 권고.
+- [ ] commit + push, `gh issue edit` 로 클로즈.
+
+### Out of scope
+- production 체크포인트
+  (`outputs/train/fr5_pi0_red_marker_base`) 변경.
+- `7__train_pi0_adv.sh` 자체 수정 (탐색 후 별도 task 로).
+- 30k step 본 학습 실행.
+- 학습 정책 코드 / processor / dataset 변경.
+- pi05 (`7__train_pi05.sh`) 는 이번 task 범위 외.
+
