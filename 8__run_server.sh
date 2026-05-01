@@ -28,7 +28,7 @@ source "$_conda_sh"
 conda activate lerobot
 
 python3 -m lerobot.async_inference.policy_server \
-    --host=127.0.0.1 \
-    --port=8080 \
+    --host=0.0.0.0 \
+    --port=17058 \
     --fps=20 \
     --inference_latency=0.05
