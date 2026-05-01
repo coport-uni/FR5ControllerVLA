@@ -1289,7 +1289,7 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
       반영 + 헤더 주석에 #55 reference 메모 추가.
 - [x] `bash -n 7__train_pi0_adv.sh` 구문 검증.
 - [x] `gh issue create` 로 follow-up 이슈 등록 (#57).
-- [ ] commit + push, `gh issue edit` 로 클로즈.
+- [x] commit + push (2f86e112), `gh issue close` 로 클로즈.
 
 ### Out of scope
 - 30k 본 학습 실행.
