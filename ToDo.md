@@ -1479,6 +1479,11 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - [x] [7__train_pi05_adv.sh](7__train_pi05_adv.sh) 에 batch=136 +
       lr=7.3e-5 반영, 헤더 주석에 probe 결과 메모.
 - [x] `bash -n 7__train_pi05_adv.sh` 구문 검증.
+- [x] 사용자 follow-up: 새 batch 에 맞춘 `--steps=3000 → 3500`
+      반영 (3500 × 272 ≈ 952 k samples ≈ 7.97 epoch, openpi 960 k
+      ≈ 8.04 epoch 정합).
+      [claude_test/probe_logs/SUMMARY_pi05.md](claude_test/probe_logs/SUMMARY_pi05.md)
+      / 헤더 주석 동기화.
 - [ ] commit + push, `gh issue close` 로 클로즈.
 
 ### Out of scope

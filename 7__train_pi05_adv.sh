@@ -12,8 +12,10 @@
 # Effective batch is 16 x 2 = 32 -> 136 x 2 = 272 (8.5 x). lr is
 # scaled by SQRT(8.5) ~= 2.92 from the openpi default 2.5e-5 to
 # 7.3e-5; warmup_steps stays at the LeRobot/openpi default 1000.
-# --steps=3000 keeps the openpi sample budget (~7 epoch on the
-# 119,356-frame FR5_pick_red_colored_marker_to_box dataset).
+# --steps=3500 holds the openpi sample budget at this larger batch:
+# 3500 * 272 ~= 952 k samples ~= 7.97 epoch on the 119,356-frame
+# FR5_pick_red_colored_marker_to_box dataset (vs openpi reference
+# 30000 * 32 = 960 k samples ~= 8.04 epoch).
 #
 # Hyperparameters here track openpi's reference defaults
 # (optimizer.py: AdamW betas=(0.9, 0.95) eps=1e-8 wd=1e-10
@@ -92,7 +94,7 @@ accelerate launch \
     --wandb.enable=true \
     --batch_size=136 \
     --policy.optimizer_lr=7.3e-5 \
-    --steps=3000 \
+    --steps=3500 \
     --save_freq=500 \
     --resume=false \
     --seed=55 \

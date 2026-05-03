@@ -47,7 +47,7 @@ For new effective batch = 272 (= 136 × 2) the sample budget is 8.5× the openpi
 
 `scheduler_warmup_steps` stays at the openpi default 1000. `optimizer_weight_decay=1e-10` and `normalization_mapping=MEAN_STD` are unchanged.
 
-`--steps=3000` keeps the openpi sample budget (3000 × 272 ≈ 816 k samples ≈ 7 epoch on the 119,356-frame `FR5_pick_red_colored_marker_to_box`).
+`--steps=3500` keeps the openpi sample budget at this larger batch: 3500 × 272 ≈ 952 k samples ≈ 7.97 epoch on the 119,356-frame `FR5_pick_red_colored_marker_to_box` (vs openpi reference 30000 × 32 = 960 k samples ≈ 8.04 epoch). `--steps=3000` would only see ~6.84 epoch at the new batch.
 
 ## Notes
 
