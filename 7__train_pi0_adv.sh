@@ -84,10 +84,9 @@ accelerate launch \
     --wandb.enable=true \
     --batch_size=160 \
     --policy.optimizer_lr=7.9e-5 \
-    --steps=30000 \
-    --save_freq=5000 \
+    --steps=3000 \
+    --save_freq=500 \
     --num_workers=10 \
     --seed=55 \
     --tolerance_s=0.1 \
-    --resume=true \
-    --config_path=/workspace/VLARelated/FR5ControllerVLA/outputs/train/fr5_pi0_red_marker_base/checkpoints/015000/pretrained_model/train_config.json
+    --resume=false

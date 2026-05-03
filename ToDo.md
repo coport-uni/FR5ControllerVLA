@@ -1494,3 +1494,35 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
   변경.
 - `7__train_pi0.sh` / `7__train_pi05.sh` (quickstart) 변경.
 - EMA / quantile 증강 구현.
+
+## 2026-05-03: pi0 step/resume 정합 + 8__run_server 충돌 마커 정리
+
+### Background
+사용자가 working tree 에서 직접 두 파일을 수정한 상태:
+- [7__train_pi0_adv.sh](7__train_pi0_adv.sh): `--steps 30000→3000`,
+  `--save_freq 5000→500`, `--resume=true` + `--config_path=...015000`
+  제거 → `--resume=false`. 이는 #57 에서 적용한 batch=160 / lr=7.9e-5
+  (effective 320, 10× pi0 baseline) 에 맞춰 sample budget 을 openpi
+  reference (960 k samples ≈ 8 epoch) 로 맞추는 후속 정렬이며,
+  pi05 의 #58 follow-up 과 동일한 패턴.
+- [8__run_server.sh](8__run_server.sh): merge commit `eef60bbc` 에
+  남아 있던 conflict 마커 (port 17058 vs 17044) 정리, port=17044
+  채택.
+
+사용자 명시 요청 ("현재 코드 모두 커밋해줘") 으로 두 변경을
+하나의 commit 으로 묶음.
+
+### Decisions (사용자 확정)
+- 두 파일 모두 그대로 commit (사용자 의도된 변경, 이미 working
+  tree 에 적용됨).
+- 단일 commit + 단일 gh issue 로 처리.
+
+### Work items
+- [x] `gh issue create` (#61).
+- [ ] 두 파일 add + commit (closes 이슈).
+- [ ] push.
+
+### Out of scope
+- 추가 학습 파라미터 변경 (lr / batch / weight_decay 등).
+- 본 학습 실행.
+- 다른 셸 스크립트 / 정책 코드 변경.
