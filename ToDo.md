@@ -1287,6 +1287,40 @@ LR scaling 이 안전.
 - [x] gh issue create (#59).
 - [x] commit + push (60f53131), gh issue close.
 
+## 2026-05-01: 7__train_smovla_adv.sh 에 #59 결과 반영
+
+### Background
+#59 의 probe 결과를 [7__train_smovla_adv.sh](7__train_smovla_adv.sh)
+에 직접 반영. `--mixed_precision=bf16` 은 사용자가 이미 적용한
+상태로 확인됨 (line 71). 나머지 batch / LR / steps / save_freq /
+scheduler 만 추가/수정.
+
+### Decisions
+- bs 32 → **72** (3 GPU global 216).
+- LR 1e-4 default → **2.25e-4** (linear, warmup-cosine 있어 안전).
+- steps 20000 → **9000** (1.92M samples exposure 보존).
+- scheduler_decay_steps 30000 → **9000** (cosine decay 가 학습
+  끝까지 완주하도록 steps 와 정합).
+- save_freq 5000 → **3000** (9000 step 동안 3 개 ckpt 유지).
+- compile_model / freeze_vision_encoder / train_expert_only /
+  num_workers / seed / tolerance_s 는 그대로.
+
+### Work items
+- [x] `--batch_size=32` → `--batch_size=72`.
+- [x] `--steps=20000` → `--steps=9000`.
+- [x] `--save_freq=5000` → `--save_freq=3000`.
+- [x] `--policy.optimizer_lr=2.25e-4` 추가.
+- [x] `--policy.scheduler_decay_steps=9000` 추가.
+- [x] `bash -n 7__train_smovla_adv.sh` 구문 검증.
+- [x] gh issue create (#60).
+- [ ] commit + push, gh issue close.
+
+### Out of scope
+- `--mixed_precision` (이미 bf16 으로 사용자가 변경 완료).
+- `7__train_smovla.sh` (single / base 변형) 변경.
+- compile_model / freeze_vision_encoder / train_expert_only 변경.
+- 2.2B SmolVLM2 backbone 옵션.
+
 ### Results (2026-05-01)
 모든 측정은 `num_processes=3`, `compile_model=true`,
 `freeze_vision_encoder=true`, `train_expert_only=true`,
