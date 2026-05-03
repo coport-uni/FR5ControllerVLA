@@ -1420,3 +1420,71 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - `--steps` / `--save_freq` / scheduler / weight_decay 변경.
 - `7__train_pi0.sh` (quickstart) / `7__train_pi05.sh` 변경.
 - 새로운 probe 실행 (#55 결과 그대로 사용).
+
+## 2026-05-01: 7__train_pi05_adv.sh per-GPU VRAM ~80% batch 탐색 + 적용
+
+### Background
+- 동일 박스 (2× H200 NVL, 각 143.77 GB / 143771 MiB).
+  목표 80% ≈ 115 GB / GPU (peak 기준; 두 GPU 중 더 큰 peak ≤ 115 GB).
+  최초 90% 목표였으나 pi05 batch=160 (pi0 80% fit 값) 이 OOM 으로
+  실패하여, pi0 와 동일한 80% 임계로 변경.
+- pi0 probe (#55) 결과: per-GPU batch=160 → GPU0 79.6 % / GPU1 75.8 %,
+  batch=176 → OOM. pi05 는 모델 크기가 거의 동일하므로 유사 거동
+  예상이지만 normalization_mapping (MEAN_STD) / weight_decay 차이로
+  미세 차이 가능 → 실측 필요.
+- 현재 [7__train_pi05_adv.sh](7__train_pi05_adv.sh): per-GPU
+  batch=160, bf16 + `compile_model=true`
+  + `gradient_checkpointing=true`, `freeze_vision_encoder=false`,
+  `optimizer_weight_decay=1e-10`, MEAN_STD normalization.
+
+### Decisions (사용자 확정)
+- 임계 정의: 두 GPU 중 더 큰 peak ≤ 115 GB (80%).
+  (최초 90% 였으나 pi05 batch=160 OOM 확인 후 변경.)
+- lr 스케일링: SQRT (`2.5e-5 × sqrt(B'/32)`) — pi0 와 동일 정책.
+- 1차 probe 후보 [160, 168, 172, 176, 184] → 모두 OOM 위험으로
+  중단 (`pkill`); 2차 probe 후보 [96, 112, 128, 144, 152].
+
+### Method
+- [claude_test/probe_pi05_vram.sh](claude_test/probe_pi05_vram.sh)
+  작성 — `probe_pi0_vram.sh` 골격 그대로, policy 옵션만 pi05 정합:
+  `policy.type=pi05`, `pretrained_path=lerobot/pi05_base`,
+  `normalization_mapping=MEAN_STD`,
+  `optimizer_weight_decay=1e-10`.
+- production 격리: `JOB_NAME=fr5_pi05_vram_probe_b<N>`,
+  `--resume=false`, `push_to_hub=false`, `wandb.enable=false`,
+  `save_freq` 매우 큼.
+- 1 Hz `nvidia-smi` 샘플링, `--steps=50`.
+
+### Hyperparameter recommendation
+- 기준 (openpi pi05): effective_batch=32, lr=2.5e-5, warmup=1000,
+  decay=30000, weight_decay=1e-10.
+- 새 effective batch B' 에 대한 SQRT 스케일 lr 권고
+  (`2.5e-5 × sqrt(B'/32)`).
+- `--steps=3000` (~8 epoch, openpi sample budget 동일) 유지.
+- `weight_decay=1e-10`, `normalization_mapping`, `save_freq`,
+  `resume` 그대로 유지.
+
+### Work items
+- [x] LP §3/§4/§5 관련 항목 확인 (#55 와 동일 — 해당 없음).
+- [x] [claude_test/probe_pi05_vram.sh](claude_test/probe_pi05_vram.sh)
+      작성 + [claude_test/README.md](claude_test/README.md) 행 추가.
+- [x] `gh issue create` 로 이슈 등록 (#58).
+- [x] 1차 probe sweep [160, 168, 172, 176, 184] → batch=160 부터
+      OOM 으로 중단 (`pkill`).
+- [x] 2차 probe sweep [96, 112, 128, 144, 152] 실행.
+- [x] bisect [132, 136, 140] — boundary 확정 (batch=136 fit,
+      batch=140 OOM).
+- [x] [claude_test/probe_logs/SUMMARY_pi05.md](claude_test/probe_logs/SUMMARY_pi05.md)
+      결과 표 정리.
+- [x] [7__train_pi05_adv.sh](7__train_pi05_adv.sh) 에 batch=136 +
+      lr=7.3e-5 반영, 헤더 주석에 probe 결과 메모.
+- [x] `bash -n 7__train_pi05_adv.sh` 구문 검증.
+- [ ] commit + push, `gh issue close` 로 클로즈.
+
+### Out of scope
+- 30k / 80k 본 학습 실행.
+- pi0 추가 probe (이미 #55).
+- 정책 코드 / processor / dataset / normalization / weight_decay
+  변경.
+- `7__train_pi0.sh` / `7__train_pi05.sh` (quickstart) 변경.
+- EMA / quantile 증강 구현.
