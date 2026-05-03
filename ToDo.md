@@ -1519,8 +1519,8 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 
 ### Work items
 - [x] `gh issue create` (#61).
-- [ ] 두 파일 add + commit (closes 이슈).
-- [ ] push.
+- [x] 두 파일 add + commit (248d3140, `Closes #61`).
+- [x] push.
 
 ### Out of scope
 - 추가 학습 파라미터 변경 (lr / batch / weight_decay 등).
