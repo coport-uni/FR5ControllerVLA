@@ -1484,7 +1484,8 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
       ≈ 8.04 epoch 정합).
       [claude_test/probe_logs/SUMMARY_pi05.md](claude_test/probe_logs/SUMMARY_pi05.md)
       / 헤더 주석 동기화.
-- [ ] commit + push, `gh issue close` 로 클로즈.
+- [x] commit + push (ac69f40b probe + apply, b18635e5 step 조정),
+      `gh issue close` (commit message `Closes #58`) 로 클로즈.
 
 ### Out of scope
 - 30k / 80k 본 학습 실행.
