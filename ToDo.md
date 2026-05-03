@@ -1285,7 +1285,7 @@ LR scaling 이 안전.
 - [x] LR 권장값 (warmup 있으므로 linear scaling 우선).
 - [x] `claude_test/README.md` 업데이트.
 - [x] gh issue create (#59).
-- [ ] commit + push, gh issue close.
+- [x] commit + push (60f53131), gh issue close.
 
 ### Results (2026-05-01)
 모든 측정은 `num_processes=3`, `compile_model=true`,
