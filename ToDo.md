@@ -1313,7 +1313,7 @@ scheduler 만 추가/수정.
 - [x] `--policy.scheduler_decay_steps=9000` 추가.
 - [x] `bash -n 7__train_smovla_adv.sh` 구문 검증.
 - [x] gh issue create (#60).
-- [ ] commit + push, gh issue close.
+- [x] commit + push (a261cab1), gh issue close.
 
 ### Out of scope
 - `--mixed_precision` (이미 bf16 으로 사용자가 변경 완료).
