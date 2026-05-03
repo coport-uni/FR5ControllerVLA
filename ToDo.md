@@ -1255,6 +1255,96 @@ weight_decay 는 1e-4 그대로 유지.
 exposure 를 유지하려면 `--steps` 도 1/5 로 (500K → 100K) 줄일 수
 있다. 사용자가 epoch 수를 늘리고 싶다면 그대로 두어도 됨.
 
+## 2026-05-01: 7__train_smovla_adv.sh 의 batch_size 를 VRAM 80% 기준으로 튜닝
+
+### Background
+ACT (#56) 와 동일한 절차를 SmolVLA 에 적용. 스크립트
+[7__train_smovla_adv.sh](7__train_smovla_adv.sh) 는 현재
+`--batch_size=32 --num_processes=3 --mixed_precision=fp16`,
+`--policy.freeze_vision_encoder=true --policy.train_expert_only=true`,
+`--policy.compile_model=true`. SmolVLA 기본 옵티마이저는
+[configuration_smolvla.py:77-85](src/lerobot/policies/smolvla/configuration_smolvla.py#L77-L85):
+`optimizer_lr=1e-4`, `betas=(0.9, 0.95)`, `weight_decay=1e-10`,
+warmup-cosine scheduler (`warmup=1000`, `decay=30000`,
+`decay_lr=2.5e-6`). ACT 와 달리 **warmup 이 있으므로** linear
+LR scaling 이 안전.
+
+### Decisions
+- ACT probe 와 동일하게 wandb / push 비활성화 wrapper
+  (`claude_test/probe_vram_smolvla.sh`).
+- `compile_model=true` 의 warmup 시간이 ACT 보다 길 수 있으므로
+  probe duration 을 처음부터 ~360 s 로 시작.
+- 후보 ladder: `bs ∈ {32, 16, 8, 24, ...}`. SmolVLA 450M backbone +
+  expert 라 ACT 보다 VRAM 사용량이 클 가능성 높음. 32 가 OOM 이면
+  내려가고, 여유가 많으면 올린다.
+
+### Work items
+- [x] `claude_test/probe_vram_smolvla.sh` 작성.
+- [x] baseline `bs=32` peak VRAM 채집.
+- [x] 80 % 목표 (~19.6 GB) 에 가장 가까운 후보 선정.
+- [x] LR 권장값 (warmup 있으므로 linear scaling 우선).
+- [x] `claude_test/README.md` 업데이트.
+- [x] gh issue create (#59).
+- [ ] commit + push, gh issue close.
+
+### Results (2026-05-01)
+모든 측정은 `num_processes=3`, `compile_model=true`,
+`freeze_vision_encoder=true`, `train_expert_only=true`,
+`num_workers=10`. peak 는 nvidia-smi 2 s sampling 의 maximum.
+
+**중요한 발견 (script bug)**: 현재 `7__train_smovla_adv.sh` 의
+`--mixed_precision=fp16` 은 SmolVLA 백본에서 crash:
+`NotImplementedError: "_amp_foreach_non_finite_check_and_unscale_cuda"
+not implemented for 'BFloat16'`. 백본 일부가 bf16 으로 캐스팅되어
+GradScaler 가 unscale 할 때 실패. 원본 `7__train_smovla.sh` 와
+같이 **`bf16` 으로 되돌려야** 학습이 시작됨. 모든 probe 는 bf16 으로
+진행.
+
+| per-GPU bs | global bs | GPU 0 peak | GPU 1 peak | GPU 2 peak | %/GPU |
+|-----------:|----------:|-----------:|-----------:|-----------:|------:|
+| 32 (현재)  |       96  |  9,886 MiB |  9,331 MiB |  9,331 MiB | 40.2 %|
+| **72**     |    **216**| **19,028 MiB** | 18,439 MiB | 18,439 MiB | **77.4 %** |
+| 76         |      228  | 20,050 MiB | 19,397 MiB | 19,397 MiB | 81.6 % (cap 초과)|
+| 96         |      288  | 24,050 MiB → OOM | – | – | 97.9 % (다음 step OOM)|
+
+**선정**: `--batch_size=72` (per-GPU). global batch = 72 x 3 = 216.
+GPU 0 = 77.4 % 로 80 % cap 만족. bs=76 부터 GPU 0 가 81.6 % 로
+넘김. ~1.3 GB 안전 마진.
+
+**LR 권장**: SmolVLA 기본은
+[configuration_smolvla.py:77-86](src/lerobot/policies/smolvla/configuration_smolvla.py#L77-L86)
+의 `lr=1e-4`, warmup-cosine (`warmup_steps=1000`,
+`decay_steps=30000`, `decay_lr=2.5e-6`). global batch 가 96 → 216
+(2.25 x) 로 늘었고, **warmup 이 있으므로 linear scaling 권장**:
+
+- **Linear (권장)**: `1e-4 × 2.25 = 2.25e-4`
+  → `--policy.optimizer_lr=2.25e-4`
+- Sqrt (보수): `1e-4 × sqrt(2.25) = 1.5e-4`
+
+`betas`, `weight_decay`, `grad_clip_norm` 그대로 유지.
+
+**필수 수정 (script bug 포함)**:
+1. `--mixed_precision=fp16` → `--mixed_precision=bf16` (crash 해결).
+2. `--batch_size=32` → `--batch_size=72`.
+3. `--policy.optimizer_lr=2.25e-4` 추가 (CLI 에서 override).
+
+**참고 (스코프 밖)**:
+- global batch 가 2.25 배 늘었으므로 동일 sample exposure 유지하려면
+  `--steps` 를 20000 / 2.25 ≈ 9000 으로 줄여도 됨. 단,
+  `scheduler_decay_steps=30000` 이 `steps` 보다 크므로 어느 쪽이든
+  cosine decay 끝까지 가지는 않음.
+- 2.2B SmolVLM2 backbone 으로 바꾸면 VRAM ~4-5 배가 되므로 별도
+  probe 필요.
+
+### Out of scope
+- `7__train_smovla_adv.sh` 의 실제 값 자체 수정 (사용자가 권장값을
+  받아 직접 반영).
+- `7__train_smovla.sh` (single / base 변형) 변경.
+- compile_model / freeze_vision_encoder / train_expert_only 변경.
+- 2.2B SmolVLM2 backbone 옵션 평가.
+
+
+
 ### Out of scope
 - `7__train_act_adv.sh` 의 실제 `--batch_size` 값 자체 수정
   (사용자가 권장값을 받아 직접 반영).
