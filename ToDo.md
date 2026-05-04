@@ -1741,7 +1741,7 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - [x] [9__run_client_act.sh](9__run_client_act.sh) async inference
   실행 컨텍스트 확인 (fps=20, chunk_size=100).
 - [x] `gh issue create` 로 진단 결과 등록 (#64).
-- [ ] commit + push (이 entry + 진단 결과 issue link).
+- [x] commit + push (이 entry + 진단 결과 issue link) — ec18ec0f.
 - [ ] (사용자 확정 대기) 후속 fix entry 작성:
   - cmdT/servo_hz 보수 조정 (예: cmdT=0.008 또는 0.004).
   - ServoJ 에러 로깅 `debug` → `warning` 승격 + GetSafetyCode 동시 기록.
