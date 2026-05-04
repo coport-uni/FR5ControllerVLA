@@ -1698,3 +1698,25 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
 - DEBUG 트레이스 라인 전체 제거.
 - 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.
+
+## 2026-05-04: Hard-reset main to 2542f804
+
+사용자 요청으로 로컬 `main` 을 `2542f804` (merge2) 로 `git reset --hard`.
+폐기된 commit 3 개 (origin/main 보다 1 앞서 있던 상태):
+- `fa2e8e9e` Align ServoJ cmdT with actual send_action call rate (#65)
+- `35a1b8d2` Mark commit checkbox closed for #64 diagnosis entry in ToDo.md
+- `ec18ec0f` Diagnose ServoJ mid-motion stop on FR5 ACT async inference (#64)
+
+미커밋 변경사항 5 파일 (`.claude/settings.json`, `9__run_client_act.sh`,
+`ToDo.md`, `config_fairino_follower.py`, `fairino_follower.py`) 도 함께
+폐기됨.
+
+### Work items
+- [x] `git reset --hard 2542f804` 실행, working tree clean 확인.
+- [x] `gh issue create` 로 기록 등록 (#69).
+- [ ] commit + push (이 ToDo entry).
+
+### Out of scope
+- 원격 force-push (사용자가 별도 요청 시에만 진행).
+  현재 `origin/main` 은 여전히 `35a1b8d2` 에 있고 로컬은 2 commit 뒤짐.
+- 폐기된 변경사항 복구 (`git reflog` 로 단기 복구는 가능).
