@@ -39,7 +39,7 @@ source "$_conda_sh"
 conda activate lerobot
 
 python3 -m lerobot.async_inference.robot_client \
-    --server_address=127.0.0.1:8080 \
+    --server_address=10.0.12.139:17044 \
     --robot.type=fairino_follower \
     --robot.ip_address=192.168.58.2 \
     --robot.gripper_enabled=true \
@@ -55,5 +55,5 @@ python3 -m lerobot.async_inference.robot_client \
     --chunk_size_threshold=0.8 \
     --aggregate_fn_name=average \
     --debug_visualize_queue_size=false \
-    --task="" \
+    --task="pick red colored marker to box" \
     --fps=20

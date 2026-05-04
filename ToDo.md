@@ -1115,3 +1115,93 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - ServoJ / ramp 로직 자체 변경 (보간 속도, max_step, period 등).
 - gripper.pos 의 스무딩 / 필터링 / 데드밴드 외부화.
 
+## 2026-04-30: ServoJ cmdT 를 실제 호출 주기와 정합 + SDK default 정렬
+
+### Background
+[fairino_follower.py:336](src/lerobot/robots/fairino_follower/fairino_follower.py#L336)
+의 ServoJ 호출은 `cmdT = 1/servo_hz = 10ms` 로 광고하지만,
+실제 `send_action()` 호출 주기는 `1/control_hz = 50ms`. 컨트롤러
+입장의 implicit velocity = `(target - lastServoTarget)/10ms` 가
+관절 안전속도를 초과해 `GetSafetyCode()` prelock 으로 silently
+halt 되는 게 큰 delta 시 정지 증상의 원인 가설.
+
+[Robot.py:1572](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1572)
+docstring: cmdT default 0.008s, 권장 [0.001~0.0016s].
+[example/test1015.py:30](src/lerobot/robots/fairino_follower/fairino/example/test1015.py#L30)
+는 `time.sleep(cmdT)` 로 cmdT 와 호출 주기를 명시적으로 정합.
+
+### Decisions (사용자 확정)
+- **control_hz=125 Hz** (SDK default cmdT=8ms) 로 상향. SDK 권장
+  하단 (625~1000 Hz) 은 Python+XMLRPC + LP §3 G2 (main-thread
+  ServoJ) 제약상 비현실적이라 SDK default 라인을 채택.
+- **`servo_hz` 필드 처리 (A)**: 완전 제거. cmdT 는 control_hz 에서
+  파생 (`period = 1.0 / control_hz`).
+- **그 외 SDK 차이**: 없음 (acc/vel/filterT/gain 모두 SDK default
+  값 0.0; `id` 생략은 LP §3 Q1 firmware V3.9.1 quirk 대응).
+
+### Out of scope
+- SDK 권장 1000/625 Hz 도달 (Phase 2; inner servo thread 설계
+  필요, LP §3 G2 와 충돌).
+- [src/lerobot/robots/fairino/](src/lerobot/robots/fairino/)
+  legacy copy ([utils.py:71-72](src/lerobot/robots/utils.py#L71-L72)
+  에 등록 안 됨; 별도 정리 task).
+
+### Work items
+- [ ] `gh issue create` 로 이슈 등록 (작업 전).
+- [ ] [config_fairino_follower.py](src/lerobot/robots/fairino_follower/config_fairino_follower.py)
+      에서 `servo_hz` 필드 제거.
+- [ ] `control_hz` default 20.0 → 125.0, docstring 업데이트.
+- [ ] [fairino_follower.py:336](src/lerobot/robots/fairino_follower/fairino_follower.py#L336)
+      `period = 1.0 / self.config.servo_hz`
+      → `period = 1.0 / self.config.control_hz`.
+- [ ] `ruff check` / `ruff format --check` 통과.
+- [ ] **사용자 테스트 대기 — commit/push 보류**.
+- [ ] 사용자 테스트 통과 확인 후 commit + push, `gh issue edit` 클로즈.
+
+> **Status: ABANDONED** — 가설의 전제 (control_hz 가 실제 호출
+> 주기를 결정한다) 가 틀린 것으로 확인됨. 코드는 revert,
+> issue #53 closed as not planned. 후속은 아래 entry 참조.
+
+## 2026-04-30: ServoJ stall on large delta — `_commanded` desync 가설 fix
+
+### Background
+이전 시도 ([#53](https://github.com/coport-uni/FR5ControllerVLA/issues/53),
+control_hz/cmdT 정렬, abandoned) 후 재진단:
+[fairino_follower.py:300-378](src/lerobot/robots/fairino_follower/fairino_follower.py#L300-L378)
+의 `send_action` 자체에는 large-delta halt 로직이 없음. 그러나
+[_recover_servo_session](src/lerobot/robots/fairino_follower/fairino_follower.py#L411-L424)
+가 ServoMoveEnd/ServoMoveStart 만 하고 `self._commanded` 를 실제
+joint 값으로 resync 하지 않음.
+
+세션 드롭 시 로봇은 위치 P 에서 정지하지만, ramp 상태는 마지막
+commanded 값 C 에 박힘. 복구 후 첫 ServoJ target = C+max_step,
+실제 위치 P → controller 의 implicit velocity `(target-P)/cmdT`
+가 관절 속도 안전 한도 초과 →
+[Robot.py:1584-1585](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1584-L1585)
+`GetSafetyCode()` prelock 으로 silently halt → 사용자 관점
+"큰 delta 받으면 정지" 증상.
+
+### Decisions (사용자 확정)
+- `_recover_servo_session` 의 `ServoMoveStart` 직후
+  `self._read_joints()` 호출, `ret==0` 이면
+  `self._commanded = list(joints)` 로 resync.
+- read 실패 시 (`ret != 0`) warning 로그 후 진행 — defensive
+  fallback (이상 상태에서의 best-effort).
+- `send_action` 정상 흐름에는 손대지 않음 (매 호출 resync 는
+  ramp 무력화).
+
+### Out of scope
+- gripper worker pause/resume 의 다른 desync 경로 (별 task).
+- ramp 로직 자체 변경.
+- `max_relative_target` enforcement 추가 (현재 fairino 는 정의만
+  있고 enforce 안 됨; 필요시 별 task).
+
+### Work items
+- [x] `gh issue create` 로 이슈 등록 (#54).
+- [x] [_recover_servo_session](src/lerobot/robots/fairino_follower/fairino_follower.py#L411-L424)
+      `ServoMoveStart` 직후 resync 라인 추가.
+- [x] docstring 에 WHY (silent halt 메커니즘) 보강.
+- [x] `ruff check` / `ruff format --check` 통과.
+- [ ] **사용자 테스트 대기 — commit/push 보류**.
+- [ ] 사용자 테스트 통과 확인 후 commit + push, `gh issue edit` 클로즈.
+

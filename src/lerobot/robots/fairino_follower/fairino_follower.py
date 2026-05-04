@@ -416,13 +416,31 @@ class FairinoFollower(Robot):
             raise RuntimeError("[Fairino] Not connected. Call connect().")
 
     def _recover_servo_session(self) -> None:
-        """Re-establish the servo session after error 14."""
+        """Re-establish the servo session after error 14.
+
+        After the session drops, the robot halts wherever it
+        was while ``self._commanded`` kept advancing along
+        the ramp.  Resync the ramp state from the live joint
+        reading so the next ServoJ delta starts from the
+        real position; a stale ``self._commanded`` would
+        otherwise produce a single large implicit velocity
+        that the controller's ``GetSafetyCode()`` prelock
+        rejects, silently halting further motion.
+        """
         logger.info("[Fairino] Servo session lost; recovering ...")
         try:
             self._servo_proxy.ServoMoveEnd()
             time.sleep(_SETTLE_SHORT_S)
             self._servo_proxy.ServoMoveStart()
             time.sleep(_SETTLE_SHORT_S)
+            ret, joints = self._read_joints()
+            if ret == 0:
+                self._commanded = list(joints)
+            else:
+                logger.warning(
+                    "[Fairino] Resync joint read failed (err %d); ramp state may be stale.",
+                    ret,
+                )
             logger.info("[Fairino] Servo session recovered.")
         except Exception as exc:
             logger.warning(
