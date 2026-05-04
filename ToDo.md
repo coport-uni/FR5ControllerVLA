@@ -1600,8 +1600,8 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - [x] [outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log) JWT 마스킹.
 - [x] 마스킹 후 `grep -c 'X-Xet-Access-Token.*eyJ\|X-Amz-Signature=[^<]\|Policy=eyJ\|Key-Pair-Id=[^<]'` 등으로 잔존 토큰 0 확인.
 - [x] `gh issue create` 로 follow-up 이슈 등록 (#63).
-- [ ] commit + push (h200 로그 6 개 + `Xserver.sh` 삭제).
-- [ ] `gh issue close`.
+- [x] commit + push (09fb591e — h200 로그 6 개 + `Xserver.sh` 삭제).
+- [x] `gh issue close`.
 
 ### Out of scope
 - wandb 디렉토리 업로드 (전역 `wandb/` 규칙 그대로 유지).
