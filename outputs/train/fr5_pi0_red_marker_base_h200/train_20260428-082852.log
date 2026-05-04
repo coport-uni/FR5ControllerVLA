@@ -1,0 +1,947 @@
+INFO 2026-04-28 08:28:52 ot_train.py:217 {'batch_size': 16,
+ 'checkpoint_path': '/workspace/VLARelated/FR5ControllerVLA/outputs/train/fr5_pi0_red_marker_base/checkpoints/015000',
+ 'cudnn_deterministic': False,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'affine': {'kwargs': {'degrees': [-5.0,
+                                                                            5.0],
+                                                                'translate': [0.05,
+                                                                              0.05]},
+                                                     'type': 'RandomAffine',
+                                                     'weight': 1.0},
+                                          'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box',
+             'revision': None,
+             'root': None,
+             'streaming': False,
+             'use_imagenet_stats': True,
+             'video_backend': 'pyav'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'fr5_pi0_red_marker_base',
+ 'log_freq': 200,
+ 'num_workers': 10,
+ 'optimizer': {'betas': [0.9, 0.95],
+               'eps': 1e-08,
+               'grad_clip_norm': 1.0,
+               'lr': 2.5e-05,
+               'type': 'adamw',
+               'weight_decay': 0.01},
+ 'output_dir': 'outputs/train/fr5_pi0_red_marker_base',
+ 'peft': None,
+ 'policy': {'action_expert_variant': 'gemma_300m',
+            'chunk_size': 50,
+            'compile_mode': 'max-autotune',
+            'compile_model': True,
+            'device': 'cuda',
+            'dtype': 'bfloat16',
+            'empty_cameras': 0,
+            'freeze_vision_encoder': False,
+            'gradient_checkpointing': True,
+            'image_resolution': [224, 224],
+            'input_features': {'observation.images.hand': {'shape': [3,
+                                                                     480,
+                                                                     640],
+                                                           'type': <FeatureType.VISUAL: 'VISUAL'>},
+                               'observation.images.top_left': {'shape': [3,
+                                                                         480,
+                                                                         640],
+                                                               'type': <FeatureType.VISUAL: 'VISUAL'>},
+                               'observation.images.top_right': {'shape': [3,
+                                                                          480,
+                                                                          640],
+                                                                'type': <FeatureType.VISUAL: 'VISUAL'>},
+                               'observation.state': {'shape': [7],
+                                                     'type': <FeatureType.STATE: 'STATE'>}},
+            'license': None,
+            'max_action_dim': 32,
+            'max_period': 4.0,
+            'max_state_dim': 32,
+            'min_period': 0.004,
+            'n_action_steps': 50,
+            'n_obs_steps': 1,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},
+            'num_inference_steps': 10,
+            'optimizer_betas': [0.9, 0.95],
+            'optimizer_eps': 1e-08,
+            'optimizer_grad_clip_norm': 1.0,
+            'optimizer_lr': 2.5e-05,
+            'optimizer_weight_decay': 0.01,
+            'output_features': {'action': {'shape': [7],
+                                           'type': <FeatureType.ACTION: 'ACTION'>}},
+            'paligemma_variant': 'gemma_2b',
+            'pretrained_path': '/workspace/VLARelated/FR5ControllerVLA/outputs/train/fr5_pi0_red_marker_base/checkpoints/015000/pretrained_model',
+            'private': None,
+            'push_to_hub': True,
+            'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper',
+            'rtc_config': None,
+            'scheduler_decay_lr': 2.5e-06,
+            'scheduler_decay_steps': 30000,
+            'scheduler_warmup_steps': 1000,
+            'tags': None,
+            'time_sampling_beta_alpha': 1.5,
+            'time_sampling_beta_beta': 1.0,
+            'time_sampling_offset': 0.001,
+            'time_sampling_scale': 0.999,
+            'tokenizer_max_length': 48,
+            'train_expert_only': False,
+            'type': 'pi0',
+            'use_amp': False,
+            'use_peft': False},
+ 'rabc_epsilon': 1e-06,
+ 'rabc_head_mode': 'sparse',
+ 'rabc_kappa': 0.01,
+ 'rabc_progress_path': None,
+ 'rename_map': {},
+ 'resume': True,
+ 'save_checkpoint': True,
+ 'save_freq': 5000,
+ 'scheduler': {'decay_lr': 2.5e-06,
+               'num_decay_steps': 30000,
+               'num_warmup_steps': 1000,
+               'peak_lr': 2.5e-05,
+               'type': 'cosine_decay_with_warmup'},
+ 'seed': 55,
+ 'steps': 30000,
+ 'tolerance_s': 0.1,
+ 'use_policy_training_preset': True,
+ 'use_rabc': False,
+ 'wandb': {'add_tags': True,
+           'disable_artifact': False,
+           'enable': True,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': 'nrrejz8g'}}
+DEBUG 2026-04-28 08:28:53 or_events.py:64 Using selector: EpollSelector
+DEBUG 2026-04-28 08:28:53 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-04-28 08:28:53 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-04-28 08:28:53 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-04-28 08:28:53 git/cmd.py:1286 Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-04-28 08:28:53 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-04-28 08:28:53 git/cmd.py:1286 Popen(['git', 'cat-file', '--batch-check'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=<valid stream>, shell=False, universal_newlines=False)
+INFO 2026-04-28 08:28:55 db_utils.py:117 [1m[34mLogs will be synced with wandb.[0m
+INFO 2026-04-28 08:28:55 db_utils.py:118 Track this run --> [1m[33mhttps://wandb.ai/ohsungwoo-unist/lerobot/runs/nrrejz8g[0m
+INFO 2026-04-28 08:28:55 ot_train.py:241 Creating dataset
+DEBUG 2026-04-28 08:28:55 ock/_api.py:501 Attempting to acquire lock 127670944215888 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:504 Lock 127670944215888 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 08:28:55 ock/_api.py:541 Attempting to release lock 127670944215888 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:545 Lock 127670944215888 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:501 Attempting to acquire lock 127662000845168 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:504 Lock 127662000845168 acquired on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 08:28:55 ock/_api.py:541 Attempting to release lock 127662000845168 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:545 Lock 127662000845168 released on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-04-28 08:28:55 eo_utils.py:108 Using video codec: libsvtav1
+DEBUG 2026-04-28 08:28:55 ock/_api.py:501 Attempting to acquire lock 127661999451712 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:504 Lock 127661999451712 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 08:28:55 ock/_api.py:541 Attempting to release lock 127661999451712 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:545 Lock 127661999451712 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:501 Attempting to acquire lock 127662001121056 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:504 Lock 127662001121056 acquired on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 08:28:55 ock/_api.py:541 Attempting to release lock 127662001121056 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:545 Lock 127662001121056 released on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:501 Attempting to acquire lock 127670943329184 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:504 Lock 127670943329184 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 08:28:55 ock/_api.py:541 Attempting to release lock 127670943329184 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:545 Lock 127670943329184 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:501 Attempting to acquire lock 127670943324240 on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:504 Lock 127670943324240 acquired on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 08:28:55 ock/_api.py:541 Attempting to release lock 127670943324240 on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 08:28:55 ock/_api.py:545 Lock 127670943324240 released on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-04-28 08:28:55 ot_train.py:259 Creating policy
+INFO 2026-04-28 08:30:04 ling_pi0.py:602 Enabled gradient checkpointing for PI0Pytorch model
+WARNING 2026-04-28 08:30:05 ing_pi0.py:1127 Vision embedding key might need handling: model.paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.bias
+WARNING 2026-04-28 08:30:05 ing_pi0.py:1127 Vision embedding key might need handling: model.paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x741b56e604a0>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x741b56e937d0> server_hostname='huggingface.co' timeout=10
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x741b56e7b4d0>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1027'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 08:30:06 GMT'), (b'ETag', b'"b89393ba09b432265173f688b8a41a2c3c9e3e4c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0700e-6de3b18a03f318520f1d3416;fd36581e-abf4-42c1-a5f8-3fd825f61c07'), (b'RateLimit', b'"resolvers";r=4998;t=216'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 946104e452f2c7d095ce23a0d4e48f7a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'aa3CUF-iFRWYt_Kqzw1u4GznBhbJhdr2nZb4I4nRsN3YKAUWybHwoA==')])
+INFO 2026-04-28 08:30:06 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'39968'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 08:30:06 GMT'), (b'ETag', b'"960dcec0bccc6e594d865eceb63c8078e164cfb2"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0700e-30f51c415eb797a30a731679;93ed987b-9454-4534-88cb-661b1b4f3e1e'), (b'RateLimit', b'"resolvers";r=4996;t=216'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 946104e452f2c7d095ce23a0d4e48f7a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'69EB91TxTeQ6HEegxun7b2KQ7uMqbXtWHqpJAFAHKeFcUPr37ceLKA==')])
+INFO 2026-04-28 08:30:06 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 08:30:06 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 08:30:06 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0700e-23e4f4bf2bac480531f7a764;06030a41-df57-45ac-810a-8827db8d5a38'), (b'RateLimit', b'"api";r=997;t=216'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 946104e452f2c7d095ce23a0d4e48f7a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'QwwTW0vBCPC6WUerBBMFb8jiKyTHRxyA5hAhjrq8XRVREThQeZyScw==')])
+INFO 2026-04-28 08:30:07 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 08:30:07 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"9c5-q9seafptu6jJvow4apCGJpG2b2M"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0700f-7578bb8572486c02471f81eb;549569cc-e2bb-4084-b699-5db1137c0533'), (b'RateLimit', b'"api";r=995;t=215'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 946104e452f2c7d095ce23a0d4e48f7a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'ts0tXS9qtxe2gqEMxkjVJMd6HWD8MmDIHFjJFvpbSlzmyqwMwX78LQ==')])
+INFO 2026-04-28 08:30:07 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 08:30:07 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"c5f-vimlfAkfrA+jeIwMmpr87QPvB80"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0700f-4ccc1b6816d740886f60273c;81507b24-9a69-45b6-ad33-9cc62daba5fa'), (b'RateLimit', b'"api";r=993;t=215'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 946104e452f2c7d095ce23a0d4e48f7a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'IZWwV9mrmawmYTrZk0t8PiWIKhNPvxch8l-c3k9ULLeTS2jfyyyhug==')])
+INFO 2026-04-28 08:30:07 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224 "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 08:30:07 re/_trace.py:47 response_closed.complete
+INFO 2026-04-28 08:30:07 ot_train.py:314 Creating optimizer and scheduler
+INFO 2026-04-28 08:30:09 ot_train.py:349 [1m[33mOutput dir:[0m outputs/train/fr5_pi0_red_marker_base
+INFO 2026-04-28 08:30:09 ot_train.py:356 cfg.steps=30000 (30K)
+INFO 2026-04-28 08:30:09 ot_train.py:357 dataset.num_frames=119356 (119K)
+INFO 2026-04-28 08:30:09 ot_train.py:358 dataset.num_episodes=100
+INFO 2026-04-28 08:30:09 ot_train.py:361 Effective batch size: 16 x 2 = 32
+INFO 2026-04-28 08:30:09 ot_train.py:362 num_learnable_params=4028019472 (4B)
+INFO 2026-04-28 08:30:09 ot_train.py:363 num_total_params=4028019472 (4B)
+INFO 2026-04-28 08:30:09 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 32
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:09 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 08:30:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:17 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:17 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:516 Lock 127633649796688 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:18 ock/_api.py:501 Attempting to acquire lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:18 ock/_api.py:504 Lock 127633649796688 acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:19 ock/_api.py:541 Attempting to release lock 127633649796688 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:19 ock/_api.py:545 Lock 127633649796688 released on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 08:30:19 ock/_api.py:501 Attempting to acquire lock 127633652915696 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:19 ock/_api.py:516 Lock 127633652915696 not acquired on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:19 ock/_api.py:501 Attempting to acquire lock 127633652915696 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:19 ock/_api.py:516 Lock 127633652915696 not acquired on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:20 ock/_api.py:501 Attempting to acquire lock 127633652915696 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:20 ock/_api.py:516 Lock 127633652915696 not acquired on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:20 ock/_api.py:501 Attempting to acquire lock 127633652915696 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:20 ock/_api.py:504 Lock 127633652915696 acquired on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:20 ock/_api.py:541 Attempting to release lock 127633652915696 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:20 ock/_api.py:545 Lock 127633652915696 released on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 08:30:20 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:20 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:21 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:21 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:21 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:21 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:21 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:21 ock/_api.py:504 Lock 127633649663872 acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:541 Attempting to release lock 127633649663872 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:545 Lock 127633649663872 released on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:516 Lock 127633649663872 not acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:22 ock/_api.py:501 Attempting to acquire lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:22 ock/_api.py:504 Lock 127633649663872 acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:23 ock/_api.py:541 Attempting to release lock 127633649663872 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:23 ock/_api.py:545 Lock 127633649663872 released on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 08:30:23 ock/_api.py:501 Attempting to acquire lock 127633650307856 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 08:30:23 ock/_api.py:516 Lock 127633650307856 not acquired on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:23 ock/_api.py:501 Attempting to acquire lock 127633650307856 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 08:30:23 ock/_api.py:516 Lock 127633650307856 not acquired on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:23 ock/_api.py:501 Attempting to acquire lock 127633650307856 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 08:30:23 ock/_api.py:504 Lock 127633650307856 acquired on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:541 Attempting to release lock 127633650307856 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:545 Lock 127633650307856 released on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:24 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:24 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:24 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:24 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:24 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:516 Lock 127633649337648 not acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:25 ock/_api.py:501 Attempting to acquire lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:25 ock/_api.py:504 Lock 127633649337648 acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:541 Attempting to release lock 127633649337648 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:545 Lock 127633649337648 released on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:26 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:26 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633648248752 not acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:504 Lock 127633648248752 acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:541 Attempting to release lock 127633648248752 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:545 Lock 127633648248752 released on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633649577872 not acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633649577872 not acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633649577872 not acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633649577872 not acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633649577872 not acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:516 Lock 127633649577872 not acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock, waiting 0.05 seconds ...
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:504 Lock 127633649577872 acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:541 Attempting to release lock 127633649577872 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:545 Lock 127633649577872 released on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648252064 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:504 Lock 127633648252064 acquired on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:541 Attempting to release lock 127633648252064 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:545 Lock 127633648252064 released on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648253024 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:504 Lock 127633648253024 acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:541 Attempting to release lock 127633648253024 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:545 Lock 127633648253024 released on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:501 Attempting to acquire lock 127633648488944 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:504 Lock 127633648488944 acquired on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:541 Attempting to release lock 127633648488944 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-04-28 08:30:27 ock/_api.py:545 Lock 127633648488944 released on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+INFO 2026-04-28 08:35:17 ot_train.py:459 step:15K smpl:486K ep:408 epch:4.08 loss:0.027 grdn:0.627 lr:1.4e-05 updt_s:1.512 data_s:0.027
+WARNING 2026-04-28 08:35:17 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 08:39:11 ot_train.py:459 step:15K smpl:493K ep:413 epch:4.13 loss:0.026 grdn:0.607 lr:1.3e-05 updt_s:1.162 data_s:0.007
+WARNING 2026-04-28 08:39:11 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 08:43:05 ot_train.py:459 step:16K smpl:499K ep:418 epch:4.18 loss:0.026 grdn:0.624 lr:1.3e-05 updt_s:1.161 data_s:0.007
+WARNING 2026-04-28 08:43:05 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 08:47:00 ot_train.py:459 step:16K smpl:506K ep:424 epch:4.24 loss:0.027 grdn:0.638 lr:1.3e-05 updt_s:1.166 data_s:0.006
+WARNING 2026-04-28 08:47:00 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 08:50:55 ot_train.py:459 step:16K smpl:512K ep:429 epch:4.29 loss:0.025 grdn:0.615 lr:1.3e-05 updt_s:1.164 data_s:0.007
+WARNING 2026-04-28 08:50:55 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 08:54:49 ot_train.py:459 step:16K smpl:518K ep:434 epch:4.34 loss:0.025 grdn:0.602 lr:1.2e-05 updt_s:1.162 data_s:0.007
+WARNING 2026-04-28 08:54:49 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 08:58:42 ot_train.py:459 step:16K smpl:525K ep:440 epch:4.40 loss:0.026 grdn:0.603 lr:1.2e-05 updt_s:1.153 data_s:0.007
+WARNING 2026-04-28 08:58:42 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:02:36 ot_train.py:459 step:17K smpl:531K ep:445 epch:4.45 loss:0.026 grdn:0.600 lr:1.2e-05 updt_s:1.162 data_s:0.007
+WARNING 2026-04-28 09:02:36 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:06:29 ot_train.py:459 step:17K smpl:538K ep:450 epch:4.50 loss:0.027 grdn:0.594 lr:1.2e-05 updt_s:1.155 data_s:0.007
+WARNING 2026-04-28 09:06:29 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:10:22 ot_train.py:459 step:17K smpl:544K ep:456 epch:4.56 loss:0.023 grdn:0.617 lr:1.2e-05 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 09:10:22 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:14:15 ot_train.py:459 step:17K smpl:550K ep:461 epch:4.61 loss:0.025 grdn:0.593 lr:1.1e-05 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 09:14:15 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:18:08 ot_train.py:459 step:17K smpl:557K ep:467 epch:4.67 loss:0.024 grdn:0.573 lr:1.1e-05 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 09:18:08 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:22:01 ot_train.py:459 step:18K smpl:563K ep:472 epch:4.72 loss:0.025 grdn:0.572 lr:1.1e-05 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 09:22:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:25:54 ot_train.py:459 step:18K smpl:570K ep:477 epch:4.77 loss:0.024 grdn:0.579 lr:1.1e-05 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 09:25:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:29:46 ot_train.py:459 step:18K smpl:576K ep:483 epch:4.83 loss:0.023 grdn:0.572 lr:1.0e-05 updt_s:1.153 data_s:0.006
+WARNING 2026-04-28 09:29:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:33:40 ot_train.py:459 step:18K smpl:582K ep:488 epch:4.88 loss:0.024 grdn:0.566 lr:1.0e-05 updt_s:1.160 data_s:0.006
+WARNING 2026-04-28 09:33:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:37:33 ot_train.py:459 step:18K smpl:589K ep:493 epch:4.93 loss:0.023 grdn:0.567 lr:9.9e-06 updt_s:1.154 data_s:0.006
+WARNING 2026-04-28 09:37:33 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:41:26 ot_train.py:459 step:19K smpl:595K ep:499 epch:4.99 loss:0.024 grdn:0.568 lr:9.7e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 09:41:26 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:57 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.started
+DEBUG 2026-04-28 09:43:58 re/_trace.py:47 close.complete
+INFO 2026-04-28 09:45:23 ot_train.py:459 step:19K smpl:602K ep:504 epch:5.04 loss:0.023 grdn:0.562 lr:9.5e-06 updt_s:1.162 data_s:0.021
+WARNING 2026-04-28 09:45:23 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:49:16 ot_train.py:459 step:19K smpl:608K ep:509 epch:5.09 loss:0.023 grdn:0.564 lr:9.3e-06 updt_s:1.157 data_s:0.006
+WARNING 2026-04-28 09:49:16 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:53:09 ot_train.py:459 step:19K smpl:614K ep:515 epch:5.15 loss:0.022 grdn:0.538 lr:9.1e-06 updt_s:1.157 data_s:0.006
+WARNING 2026-04-28 09:53:09 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 09:57:02 ot_train.py:459 step:19K smpl:621K ep:520 epch:5.20 loss:0.022 grdn:0.555 lr:8.9e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 09:57:02 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:00:55 ot_train.py:459 step:20K smpl:627K ep:525 epch:5.25 loss:0.022 grdn:0.524 lr:8.6e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 10:00:55 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:04:48 ot_train.py:459 step:20K smpl:634K ep:531 epch:5.31 loss:0.022 grdn:0.539 lr:8.4e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 10:04:48 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:08:42 ot_train.py:459 step:20K smpl:640K ep:536 epch:5.36 loss:0.022 grdn:0.534 lr:8.2e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 10:08:42 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:08:42 ot_train.py:479 Checkpoint policy after step 20000
+DEBUG 2026-04-28 10:09:11 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-04-28 10:09:12 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-04-28 10:09:12 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-04-28 10:09:12 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-04-28 10:09:13 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 10:13:07 ot_train.py:459 step:20K smpl:646K ep:542 epch:5.42 loss:0.023 grdn:0.541 lr:8.0e-06 updt_s:1.161 data_s:0.007
+WARNING 2026-04-28 10:13:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:17:00 ot_train.py:459 step:20K smpl:653K ep:547 epch:5.47 loss:0.022 grdn:0.528 lr:7.8e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 10:17:00 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:20:52 ot_train.py:459 step:21K smpl:659K ep:552 epch:5.52 loss:0.023 grdn:0.533 lr:7.6e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 10:20:52 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:24:46 ot_train.py:459 step:21K smpl:666K ep:558 epch:5.58 loss:0.021 grdn:0.519 lr:7.4e-06 updt_s:1.160 data_s:0.007
+WARNING 2026-04-28 10:24:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:28:39 ot_train.py:459 step:21K smpl:672K ep:563 epch:5.63 loss:0.021 grdn:0.525 lr:7.2e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 10:28:39 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:32:32 ot_train.py:459 step:21K smpl:678K ep:568 epch:5.68 loss:0.022 grdn:0.508 lr:7.0e-06 updt_s:1.155 data_s:0.007
+WARNING 2026-04-28 10:32:32 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:36:24 ot_train.py:459 step:21K smpl:685K ep:574 epch:5.74 loss:0.021 grdn:0.510 lr:6.9e-06 updt_s:1.152 data_s:0.007
+WARNING 2026-04-28 10:36:24 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:40:18 ot_train.py:459 step:22K smpl:691K ep:579 epch:5.79 loss:0.021 grdn:0.508 lr:6.7e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 10:40:18 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:44:11 ot_train.py:459 step:22K smpl:698K ep:584 epch:5.84 loss:0.020 grdn:0.511 lr:6.5e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 10:44:11 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:48:04 ot_train.py:459 step:22K smpl:704K ep:590 epch:5.90 loss:0.021 grdn:0.523 lr:6.3e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 10:48:04 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:51:57 ot_train.py:459 step:22K smpl:710K ep:595 epch:5.95 loss:0.021 grdn:0.502 lr:6.1e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 10:51:57 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 10:55:50 ot_train.py:459 step:22K smpl:717K ep:601 epch:6.01 loss:0.020 grdn:0.527 lr:6.0e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 10:55:50 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:01 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:01 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 10:57:01 re/_trace.py:47 close.started
+DEBUG 2026-04-28 10:57:01 re/_trace.py:47 close.complete
+INFO 2026-04-28 10:59:47 ot_train.py:459 step:23K smpl:723K ep:606 epch:6.06 loss:0.020 grdn:0.490 lr:5.8e-06 updt_s:1.162 data_s:0.019
+WARNING 2026-04-28 10:59:47 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:03:40 ot_train.py:459 step:23K smpl:730K ep:611 epch:6.11 loss:0.020 grdn:0.493 lr:5.6e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 11:03:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:07:33 ot_train.py:459 step:23K smpl:736K ep:617 epch:6.17 loss:0.020 grdn:0.488 lr:5.5e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 11:07:33 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:11:25 ot_train.py:459 step:23K smpl:742K ep:622 epch:6.22 loss:0.019 grdn:0.485 lr:5.3e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 11:11:25 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:15:19 ot_train.py:459 step:23K smpl:749K ep:627 epch:6.27 loss:0.019 grdn:0.492 lr:5.2e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 11:15:19 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:19:12 ot_train.py:459 step:24K smpl:755K ep:633 epch:6.33 loss:0.018 grdn:0.496 lr:5.0e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 11:19:12 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:23:05 ot_train.py:459 step:24K smpl:762K ep:638 epch:6.38 loss:0.019 grdn:0.480 lr:4.9e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 11:23:05 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:26:58 ot_train.py:459 step:24K smpl:768K ep:643 epch:6.43 loss:0.020 grdn:0.480 lr:4.7e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 11:26:58 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:30:51 ot_train.py:459 step:24K smpl:774K ep:649 epch:6.49 loss:0.019 grdn:0.472 lr:4.6e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 11:30:51 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:34:44 ot_train.py:459 step:24K smpl:781K ep:654 epch:6.54 loss:0.019 grdn:0.480 lr:4.4e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 11:34:44 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:38:37 ot_train.py:459 step:25K smpl:787K ep:660 epch:6.60 loss:0.020 grdn:0.470 lr:4.3e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 11:38:37 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:42:30 ot_train.py:459 step:25K smpl:794K ep:665 epch:6.65 loss:0.020 grdn:0.464 lr:4.2e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 11:42:30 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:46:23 ot_train.py:459 step:25K smpl:800K ep:670 epch:6.70 loss:0.018 grdn:0.451 lr:4.1e-06 updt_s:1.155 data_s:0.009
+WARNING 2026-04-28 11:46:23 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:46:23 ot_train.py:479 Checkpoint policy after step 25000
+DEBUG 2026-04-28 11:46:53 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-28 11:46:53 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 11:50:47 ot_train.py:459 step:25K smpl:806K ep:676 epch:6.76 loss:0.019 grdn:0.457 lr:3.9e-06 updt_s:1.159 data_s:0.007
+WARNING 2026-04-28 11:50:47 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:54:41 ot_train.py:459 step:25K smpl:813K ep:681 epch:6.81 loss:0.019 grdn:0.476 lr:3.8e-06 updt_s:1.159 data_s:0.007
+WARNING 2026-04-28 11:54:41 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 11:58:34 ot_train.py:459 step:26K smpl:819K ep:686 epch:6.86 loss:0.018 grdn:0.493 lr:3.7e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 11:58:34 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:02:27 ot_train.py:459 step:26K smpl:826K ep:692 epch:6.92 loss:0.020 grdn:0.464 lr:3.6e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 12:02:27 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:06:20 ot_train.py:459 step:26K smpl:832K ep:697 epch:6.97 loss:0.018 grdn:0.459 lr:3.5e-06 updt_s:1.155 data_s:0.007
+WARNING 2026-04-28 12:06:20 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.started
+DEBUG 2026-04-28 12:10:02 re/_trace.py:47 close.complete
+INFO 2026-04-28 12:10:17 ot_train.py:459 step:26K smpl:838K ep:702 epch:7.02 loss:0.018 grdn:0.469 lr:3.4e-06 updt_s:1.168 data_s:0.016
+WARNING 2026-04-28 12:10:17 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:14:11 ot_train.py:459 step:26K smpl:845K ep:708 epch:7.08 loss:0.017 grdn:0.457 lr:3.3e-06 updt_s:1.162 data_s:0.007
+WARNING 2026-04-28 12:14:11 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:18:04 ot_train.py:459 step:27K smpl:851K ep:713 epch:7.13 loss:0.018 grdn:0.470 lr:3.2e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 12:18:04 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:21:57 ot_train.py:459 step:27K smpl:858K ep:719 epch:7.19 loss:0.018 grdn:0.451 lr:3.2e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 12:21:57 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:25:51 ot_train.py:459 step:27K smpl:864K ep:724 epch:7.24 loss:0.017 grdn:0.449 lr:3.1e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 12:25:51 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:29:44 ot_train.py:459 step:27K smpl:870K ep:729 epch:7.29 loss:0.019 grdn:0.467 lr:3.0e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 12:29:44 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:33:37 ot_train.py:459 step:27K smpl:877K ep:735 epch:7.35 loss:0.019 grdn:0.461 lr:2.9e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 12:33:37 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:37:29 ot_train.py:459 step:28K smpl:883K ep:740 epch:7.40 loss:0.017 grdn:0.473 lr:2.9e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 12:37:29 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:41:23 ot_train.py:459 step:28K smpl:890K ep:745 epch:7.45 loss:0.017 grdn:0.439 lr:2.8e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 12:41:23 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:45:16 ot_train.py:459 step:28K smpl:896K ep:751 epch:7.51 loss:0.018 grdn:0.472 lr:2.8e-06 updt_s:1.159 data_s:0.007
+WARNING 2026-04-28 12:45:16 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:49:09 ot_train.py:459 step:28K smpl:902K ep:756 epch:7.56 loss:0.018 grdn:0.452 lr:2.7e-06 updt_s:1.155 data_s:0.007
+WARNING 2026-04-28 12:49:09 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:53:02 ot_train.py:459 step:28K smpl:909K ep:761 epch:7.61 loss:0.016 grdn:0.433 lr:2.7e-06 updt_s:1.158 data_s:0.007
+WARNING 2026-04-28 12:53:02 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 12:56:55 ot_train.py:459 step:29K smpl:915K ep:767 epch:7.67 loss:0.018 grdn:0.447 lr:2.6e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 12:56:55 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:00:48 ot_train.py:459 step:29K smpl:922K ep:772 epch:7.72 loss:0.018 grdn:0.451 lr:2.6e-06 updt_s:1.157 data_s:0.007
+WARNING 2026-04-28 13:00:48 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:04:42 ot_train.py:459 step:29K smpl:928K ep:778 epch:7.78 loss:0.017 grdn:0.440 lr:2.6e-06 updt_s:1.160 data_s:0.007
+WARNING 2026-04-28 13:04:42 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:08:35 ot_train.py:459 step:29K smpl:934K ep:783 epch:7.83 loss:0.018 grdn:0.447 lr:2.6e-06 updt_s:1.159 data_s:0.007
+WARNING 2026-04-28 13:08:35 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:12:28 ot_train.py:459 step:29K smpl:941K ep:788 epch:7.88 loss:0.017 grdn:0.460 lr:2.5e-06 updt_s:1.154 data_s:0.007
+WARNING 2026-04-28 13:12:28 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:16:21 ot_train.py:459 step:30K smpl:947K ep:794 epch:7.94 loss:0.018 grdn:0.447 lr:2.5e-06 updt_s:1.155 data_s:0.007
+WARNING 2026-04-28 13:16:21 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:20:14 ot_train.py:459 step:30K smpl:954K ep:799 epch:7.99 loss:0.017 grdn:0.450 lr:2.5e-06 updt_s:1.156 data_s:0.007
+WARNING 2026-04-28 13:20:14 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:22:34 re/_trace.py:47 close.complete
+INFO 2026-04-28 13:24:10 ot_train.py:459 step:30K smpl:960K ep:804 epch:8.04 loss:0.019 grdn:0.465 lr:2.5e-06 updt_s:1.159 data_s:0.020
+WARNING 2026-04-28 13:24:10 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 13:24:10 ot_train.py:479 Checkpoint policy after step 30000
+DEBUG 2026-04-28 13:24:36 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-28 13:24:37 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 13:24:37 ot_train.py:553 End of training
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7412ba0dc500>
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x741b56e937d0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7412ba0dfaa0>
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:37 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:39 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'197'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:39 GMT'), (b'ETag', b'W/"c5-qrITRe8a1zxtj03mt91cjnYSbCY"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b515-749407ac0f91cca428e9ef30;e700d288-386f-41a5-8ada-388fb1546943'), (b'RateLimit', b'"api";r=999;t=245'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 f292525632ff4da4658e70c2b7b83518.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'hQCCl11C7AesVeaOKg9VOQX41MrP0VxWHsB9kilyR5_-fzRmMzcUYw==')])
+INFO 2026-04-28 13:24:39 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:39 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:39 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:39 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:39 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7412b92d8fb0>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x741b56e937d0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7412b92d8320>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'2'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:45 GMT'), (b'ETag', b'W/"2-nOO9QiTIwXgNtWtBJezz8kv3SLc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b51d-37e802e83ddb6ef263b5f897;61111e57-07de-402d-8137-5c1118bfd38b'), (b'RateLimit', b'"api";r=9999;t=243'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'308qOxicwE3nHNJIFScL58HbRBlyZ4zD2Zoa6xmUZ5Hf5QoNaautkQ==')])
+INFO 2026-04-28 13:24:45 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:45 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b51d-617ab8ed0a6fb9f13569f58b;e2faf77b-d478-4e97-adad-95bd47fc35eb'), (b'RateLimit', b'"api";r=9998;t=243'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'G18wEnIoj6Ic3gKmbq7F8NJu3K6XpsF1urRfByCP8CYG0dIfCzMr6g==')])
+INFO 2026-04-28 13:24:45 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:45 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:50 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b522-2332ae064856bec85fa10d57;804d1fa6-ae94-466b-923b-7545fc9c9c72'), (b'RateLimit', b'"api";r=9997;t=238'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'SG0DbfsgeZ1WC8grrGYU_M2t6gnrKaz1VATYsHeb-cUNRog-HItdHA==')])
+INFO 2026-04-28 13:24:50 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:50 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'340'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:50 GMT'), (b'ETag', b'W/"154-OKU2JVrntTMvOBBNd+yeQWrbFBo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b522-7e9c45ed49518707099fb2ee;e06b2bb8-a924-4e2f-bfb5-b6640e9dd84b'), (b'RateLimit', b'"api";r=998;t=232'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'hRm3vBErZfz1rfnRGep4fnYUbnCfZEWTL8LdNaWtvc9Nmc3znIR_lA==')])
+INFO 2026-04-28 13:24:51 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1046'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:51 GMT'), (b'ETag', b'W/"416-o2iIlHnXgCRhrdVdnHN6j9hw608"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b523-4f694b11122d8e4c07fd7465;441f373a-549d-441b-8018-2412224c8598'), (b'RateLimit', b'"api";r=997;t=231'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Z7hFirWHDcZhGMx_iRNSoRfOJdDS8NvjNQUeQo8AKujl930xU9d0HQ==')])
+INFO 2026-04-28 13:24:51 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'453'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:24:51 GMT'), (b'ETag', b'W/"1c5-Cc+bZwqfYYu33t95JUER6nd8ZV8"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b523-753ca3b659f8416d61007842;e5d74c7b-8e94-44ce-b6f4-169385513c48'), (b'RateLimit', b'"api";r=996;t=231'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Xet-Cas-Url', b'https://cas-server.xethub.hf.co'), (b'X-Xet-Token-Expiration', b'1777383591'), (b'X-Xet-Access-Token', b'<REDACTED>'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'wOIImNYxQKBh-Md1AAVOVX4lj9khiFIRbkaoWELF4Vv9HJrvdmL1hw==')])
+INFO 2026-04-28 13:24:51 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/xet-write-token/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:24:51 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7412ba0ddb20>
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x741b56e937d0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7412ba0deba0>
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:46 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'234'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:47 GMT'), (b'ETag', b'W/"ea-axT5QOqkiU0hZdr7btmOZ8JL554"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b597-341439d8046702e80cd13c44;460ce452-208f-4e25-88b7-773530b52e9a'), (b'RateLimit', b'"api";r=995;t=115'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'KBo9-9uC9-IBX9c7xY2YTDEogZJdOSAJEBHT93GOkiyhYCU-RkHIig==')])
+INFO 2026-04-28 13:26:48 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 response_closed.complete
+INFO 2026-04-28 13:26:48 etrained.py:245 Model pushed to https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'203'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:48 GMT'), (b'ETag', b'W/"cb-8IyYQJNZ+iCZdtNmgm9/Xows8PQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b598-745d89ba4db127113ba4c30f;8de78ddb-be64-469f-9f82-63a2645afff8'), (b'RateLimit', b'"api";r=994;t=114'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'jLLkr1zLnSPAan8VXUEkFV7AXBNPYlye8nMecGoaPrrxr8H3cgHyMw==')])
+INFO 2026-04-28 13:26:48 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'257'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:48 GMT'), (b'ETag', b'W/"101-ld6UeVQSERsgP1VHxTOFtE5+iHc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b598-61fd39e24fd46ff957e23a61;d7723d9c-d4a8-4069-ac02-b39d7c02deb2'), (b'RateLimit', b'"api";r=993;t=114'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'uK-92O6kv1YXW4R2WHXxulCWnSV32iyYzYxbRhWkdVIcuXHNLeoM9Q==')])
+INFO 2026-04-28 13:26:48 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:48 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:49 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1040'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:48 GMT'), (b'ETag', b'W/"410-/0HCeAyP/FTOTqN9gR0zcaZ/xQk"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b598-20e245950b7657731fdc7d2a;a5015261-07d3-4360-9bfd-f874114ca309'), (b'RateLimit', b'"api";r=992;t=114'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'eYX99nldkvo6zKBmZkIkfhGvczesRqZk-i0aeZYfDpfUmjzRHoMpAg==')])
+INFO 2026-04-28 13:26:49 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:49 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:49 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:49 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:49 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:52 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:52 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:52 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:52 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:52 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'234'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:53 GMT'), (b'ETag', b'W/"ea-ZXQnk5/geA90rGR2IgTrPKSpVSQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b59c-587d28061fe074fc1d6d12ab;fe540857-4cf3-4fab-8067-f06102b1b593'), (b'RateLimit', b'"api";r=991;t=110'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'UDKuVyOCkTa4tqkLt0ucrpz0VymHD26Ezu85iYUkfj3P9fEBMHnFtg==')])
+INFO 2026-04-28 13:26:53 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'203'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:53 GMT'), (b'ETag', b'W/"cb-8IyYQJNZ+iCZdtNmgm9/Xows8PQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b59d-269769505ef03c8100efdf20;8928c98e-3ec1-4780-aff1-13d6ff611d42'), (b'RateLimit', b'"api";r=990;t=109'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'gB7fXz7nPPiTBY7Bc4hrU-WPTMoro-EzwFgGIM3BrZzDVZ-cgA_RLw==')])
+INFO 2026-04-28 13:26:53 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'261'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:53 GMT'), (b'ETag', b'W/"105-oi6ysF+5UPlcdXhkqbUVfRomKgk"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b59d-5c3f3b5310358f2d71b3e283;bccfbf2c-dce1-404e-85af-3095218d95ad'), (b'RateLimit', b'"api";r=989;t=109'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'9-3mXBEnH3HpbXIGrZnKusEQdLyHvKK92nUubBwAkSoAbAJ4SoFJYA==')])
+INFO 2026-04-28 13:26:53 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:53 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:54 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'117'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:54 GMT'), (b'ETag', b'W/"75-61SLOOtfV/+yZ5tw84N/04PfQk0"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b59d-0409656524fc3c6c41ca9295;a2b9870d-cba8-4c5e-92d3-e2b378f2fb9d'), (b'RateLimit', b'"api";r=988;t=109'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'zyvJKAXPnYYSVSmCatQzYwXNkrwQ6vR7nDJA1mxcnDfC5c0P7_SXag==')])
+INFO 2026-04-28 13:26:54 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:54 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:54 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:54 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:54 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:26:55 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:55 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 13:26:55 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:55 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 13:26:55 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:56 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'234'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 13:26:56 GMT'), (b'ETag', b'W/"ea-jK+XKkXx1/aJXc/7wNfsUx2cBQI"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0b59f-1a67cea00066a99511075c1d;256b423a-1956-449e-83d0-4286c225576c'), (b'RateLimit', b'"api";r=987;t=107'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 03c985dbdde3ffc6a0154957b11a5e58.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'p8DLGa5zSgQ-BQBs5x_AVMn4-L1JBBPM0Mn6NeURfWXp3EpFKKAFGw==')])
+INFO 2026-04-28 13:26:56 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 13:26:56 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-28 13:26:56 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 13:26:56 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 13:26:56 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 13:37:22 re/_trace.py:47 close.started
+DEBUG 2026-04-28 13:37:22 re/_trace.py:47 close.complete

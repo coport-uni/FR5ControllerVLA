@@ -1567,3 +1567,44 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
 - DEBUG 트레이스 라인 전체 제거.
 - 향후 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.
+
+## 2026-05-04: h200 학습 로그 GitHub 업로드 + HF 액세스 토큰 마스킹
+
+### Background
+2026-05-03 작업 (#62, commit 2b752f2b) 으로 3090 학습 로그 3 건은
+마스킹 후 업로드되었으나, 같은 시점에 H200 박스에서 생성된
+`outputs/train/fr5_*_h200/` 6 개 학습 로그는 워킹 트리에 untracked
+상태로 남아 있었다. `.gitignore` 는 이미 `outputs/train/*/checkpoints/`
++ `!outputs/train/*/train_*.log` 로 갱신돼 있어 추가 수정 불필요.
+
+대상 파일과 사전 스캔 결과 (X-Xet-Access-Token JWT / pre-signed URL):
+- [outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log](outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log) — JWT 1, URL 0.
+- [outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log](outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log) — JWT 1, URL 1.
+- [outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log](outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log) — JWT 1, URL 1.
+- [outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log](outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log) — JWT 1, URL 1.
+- [outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log) — JWT 0, URL 1.
+- [outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log) — JWT 1, URL 0.
+
+### Decisions (사용자 확정)
+- 마스킹 정책: #62 의 옵션 1 과 동일 (자격증명 값만 `<REDACTED>`,
+  DEBUG 라인은 유지).
+- `Xserver.sh` 삭제 (워킹 트리에 `D` 로 보이는 항목) 도 이번 커밋에
+  함께 포함.
+
+### Work items
+- [x] [outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log](outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log) JWT 마스킹.
+- [x] [outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log](outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log) JWT + pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log](outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log) JWT + pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log](outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log) JWT + pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log) pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log) JWT 마스킹.
+- [x] 마스킹 후 `grep -c 'X-Xet-Access-Token.*eyJ\|X-Amz-Signature=[^<]\|Policy=eyJ\|Key-Pair-Id=[^<]'` 등으로 잔존 토큰 0 확인.
+- [x] `gh issue create` 로 follow-up 이슈 등록 (#63).
+- [ ] commit + push (h200 로그 6 개 + `Xserver.sh` 삭제).
+- [ ] `gh issue close`.
+
+### Out of scope
+- wandb 디렉토리 업로드 (전역 `wandb/` 규칙 그대로 유지).
+- 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
+- DEBUG 트레이스 라인 전체 제거.
+- 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.
