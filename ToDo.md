@@ -1552,9 +1552,14 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - [x] [outputs/train/fr5_smolvla_red_marker_adv_3090/train_20260503-123225.log](outputs/train/fr5_smolvla_red_marker_adv_3090/train_20260503-123225.log) 의 JWT 마스킹.
 - [x] [outputs/train/fr5_smolvla_red_marker_base_3090/train_20260428-051359.log](outputs/train/fr5_smolvla_red_marker_base_3090/train_20260428-051359.log) 의 JWT 마스킹.
 - [x] 마스킹 후 `grep -c X-Xet-Access-Token.*eyJ` 로 잔존 토큰 0 확인.
-- [x] [.gitignore](.gitignore) `outputs/train/` → `outputs/train/*/checkpoints/`.
-- [x] `gh issue create` 로 follow-up 이슈 등록.
-- [x] commit + push.
+- [x] [.gitignore](.gitignore) `outputs/train/` → `outputs/train/*/checkpoints/`
+      (`!outputs/train/*/train_*.log` re-include 도 추가 — `*.log`
+      전역 ignore 가 train 로그를 잡지 않도록).
+- [x] 추가 마스킹 (pre-signed URL `X-Amz-Signature` / `X-Amz-Credential`
+      / `Policy=eyJ...` / `Signature=` / `Key-Pair-Id=` 및
+      `X-Xet-Cas-Uid`). 사용자가 발견 후 옵션 1 추가 적용 확정.
+- [x] `gh issue create` 로 follow-up 이슈 등록 (#62).
+- [x] commit + push (2b752f2b, rebase onto origin/main).
 - [x] `gh issue close`.
 
 ### Out of scope
