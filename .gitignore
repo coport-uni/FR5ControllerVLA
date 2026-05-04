@@ -177,10 +177,15 @@ wandb/
 # Datasets
 outputs/datasets/
 
-# Training artifacts (checkpoints / logs). Big safetensors will blow past
-# GitHub's 100 MB file limit and are reproducible from scripts.
+# Training artifacts. Checkpoints (multi-GB safetensors per run) blow
+# past GitHub's 100 MB file limit and are reproducible from scripts, so
+# we exclude only the checkpoints directory and keep the per-run
+# train_*.log files. The trailing `!` rule re-includes the per-run
+# train logs, which would otherwise be caught by the global `*.log`
+# rule. Wandb run dirs are still excluded by the global `wandb/` rule.
 outputs/smoke_logs/
-outputs/train/
+outputs/train/*/checkpoints/
+!outputs/train/*/train_*.log
 
 # Claude Code scheduled-task state
 .claude/scheduled_tasks.lock

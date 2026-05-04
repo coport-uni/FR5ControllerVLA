@@ -1526,3 +1526,39 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - 추가 학습 파라미터 변경 (lr / batch / weight_decay 등).
 - 본 학습 실행.
 - 다른 셸 스크립트 / 정책 코드 변경.
+
+## 2026-05-03: outputs/train 학습 로그 GitHub 업로드 + HF 액세스 토큰 마스킹
+
+### Background
+[.gitignore](.gitignore) 의 `outputs/train/` 규칙 때문에 학습 로그
+(`train_*.log`) 가 GitHub 에 올라가지 않고 있다. 사용자는 체크포인트
+(`*/checkpoints/*`, run 당 3.7 GB ~ 5.8 GB, GitHub 100 MB 한도 초과)
+는 계속 제외하되, 학습 로그(.log) 는 올리고 싶다.
+
+선행 보안 점검에서 3 개 학습 로그 파일 모두 HuggingFace 의
+`X-Xet-Access-Token` (JWT) 이 HTTP DEBUG 트레이스에 평문 기록되어
+있는 것이 확인됐다. JWT 안에는 `userId`, `repoId`, `access: WRITE`
+가 포함되며 토큰 자체는 만료되었으나 GitHub 공개 업로드 전에
+마스킹이 필요하다.
+
+### Decisions (사용자 확정)
+- 옵션 1: 토큰 라인의 JWT 값만 `<REDACTED>` 로 마스킹 후 업로드.
+  나머지 디버그 라인 / 응답 헤더는 유지.
+- `.gitignore` 의 `outputs/train/` 라인을 `outputs/train/*/checkpoints/`
+  로 교체. wandb 디렉토리는 전역 `wandb/` 규칙으로 계속 제외됨.
+
+### Work items
+- [x] [outputs/train/fr5_act_red_marker_adv_3090/train_20260501-081054.log](outputs/train/fr5_act_red_marker_adv_3090/train_20260501-081054.log) 의 JWT 마스킹.
+- [x] [outputs/train/fr5_smolvla_red_marker_adv_3090/train_20260503-123225.log](outputs/train/fr5_smolvla_red_marker_adv_3090/train_20260503-123225.log) 의 JWT 마스킹.
+- [x] [outputs/train/fr5_smolvla_red_marker_base_3090/train_20260428-051359.log](outputs/train/fr5_smolvla_red_marker_base_3090/train_20260428-051359.log) 의 JWT 마스킹.
+- [x] 마스킹 후 `grep -c X-Xet-Access-Token.*eyJ` 로 잔존 토큰 0 확인.
+- [x] [.gitignore](.gitignore) `outputs/train/` → `outputs/train/*/checkpoints/`.
+- [x] `gh issue create` 로 follow-up 이슈 등록.
+- [x] commit + push.
+- [x] `gh issue close`.
+
+### Out of scope
+- wandb 디렉토리 업로드 (전역 `wandb/` 규칙 그대로 유지).
+- 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
+- DEBUG 트레이스 라인 전체 제거.
+- 향후 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.
