@@ -63,31 +63,8 @@ export NCCL_P2P_DISABLE=1
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_smolvla_red_marker_base_single"
+JOB_NAME="fr5_smolvla_red_marker_adv"
 
-# lerobot-train \
-#     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
-#     --policy.path=lerobot/smolvla_base \
-#     --dataset.video_backend=pyav \
-#     --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model \
-#     --policy.push_to_hub=true \
-#     --dataset.video_backend=pyav \
-#     --policy.device=cuda \
-#     --rename_map='{"observation.images.hand": "observation.images.camera1", "observation.images.top_left": "observation.images.camera2", "observation.images.top_right": "observation.images.camera3"}' \
-#     --policy.compile_model=true \
-#     --policy.freeze_vision_encoder=true \
-#     --policy.train_expert_only=true \
-#     --output_dir=outputs/train/${JOB_NAME} \
-#     --job_name=${JOB_NAME} \
-#     --wandb.enable=true \
-#     --batch_size=32 \
-#     --steps=20000 \
-#     --save_freq=5000 \
-#     --resume=false \
-#     --num_workers=10 \
-#     --seed=55 \
-#     --tolerance_s=0.1
-    
 accelerate launch \
     --multi_gpu \
     --num_processes=3 \
@@ -96,7 +73,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
     --policy.path=lerobot/smolvla_base \
     --dataset.video_backend=pyav \
-    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_adv_model \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \
@@ -107,13 +84,15 @@ accelerate launch \
     --output_dir=outputs/train/${JOB_NAME} \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
-    --batch_size=32 \
-    --steps=20000 \
-    --save_freq=5000 \
+    --batch_size=72 \
+    --steps=9000 \
+    --save_freq=3000 \
     --resume=false \
     --num_workers=10 \
     --seed=55 \
-    --tolerance_s=0.1
+    --tolerance_s=0.1 \
+    --policy.optimizer_lr=2.25e-4 \
+    --policy.scheduler_decay_steps=9000
 
 # --- Opt-in: 2.2B SmolVLM2 backbone (no SmolVLA pretrained weights) ---
 # Drop --policy.path above and add the two flags below to swap in the

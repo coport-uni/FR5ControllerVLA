@@ -1205,3 +1205,496 @@ commanded 값 C 에 박힘. 복구 후 첫 ServoJ target = C+max_step,
 - [ ] **사용자 테스트 대기 — commit/push 보류**.
 - [ ] 사용자 테스트 통과 확인 후 commit + push, `gh issue edit` 클로즈.
 
+## 2026-05-01: 7__train_pi0_adv.sh per-GPU VRAM ~80% batch 탐색
+
+### Background
+- 학습 박스: 2× H200 NVL (각 143.77 GB / 143771 MiB).
+  80% 임계 ≈ 115 GB/GPU (peak 기준).
+- 현재 [7__train_pi0_adv.sh](7__train_pi0_adv.sh) 의 per-GPU
+  batch=16 (effective 32), bf16 + `compile_model=true`
+  + `gradient_checkpointing=true`,
+  `freeze_vision_encoder=false` (full fine-tune).
+- `batch_size` 는 per-process — accelerate 가
+  `num_processes=2` 로 곱해 effective_batch_size 를 구성한다
+  ([src/lerobot/scripts/lerobot_train.py:359-361](src/lerobot/scripts/lerobot_train.py#L359-L361)).
+
+### Method
+- [claude_test/probe_pi0_vram.sh](claude_test/probe_pi0_vram.sh)
+  작성: `7__train_pi0_adv.sh` 의 학습 설정을 그대로 두되
+  production 출력과 격리:
+    - `JOB_NAME=fr5_pi0_vram_probe` (별도 출력 디렉토리).
+    - `--resume` / `--config_path` 제거, 매 probe 마다
+      이전 probe 출력 디렉토리 삭제.
+    - `--policy.push_to_hub=false`, `--wandb.enable=false`.
+    - `--save_freq` 매우 큰 값 (probe 중 저장 X).
+    - `--steps=80` (compile + warm-up + 안정 peak 캡처용).
+- 모니터: `nvidia-smi --query-gpu=memory.used,memory.total
+  --format=csv,noheader,nounits -i 0,1` 를 1 s 간격 샘플링,
+  per-GPU peak MiB 기록.
+- per-GPU batch 후보: [16, 24, 32, 48, 64]. 차례 실행하며
+  peak < 115 GB 인 최대값 결정. OOM 발생 시 직전 값과
+  사이를 이등분 (필요 시 1회).
+
+### Hyperparameter recommendation
+- 기준 (openpi pi0 fine-tune): effective_batch=32,
+  lr=2.5e-5, warmup=1000, decay=30000.
+- 새 effective_batch B' 에 대한 lr 스케일:
+    - SQRT (보수적, Transformer + AdamW 기본):
+        `lr' = 2.5e-5 * sqrt(B'/32)`
+    - Linear (CV/SGD 식): `lr' = 2.5e-5 * (B'/32)`
+- warmup_steps 는 1000 유지 권고
+  (warmup 길이는 batch 변경에 직접 비례하지 않음).
+
+### Work items
+- [x] LP §3/§4/§5 관련 항목 확인 (해당 없음).
+- [x] [claude_test/probe_pi0_vram.sh](claude_test/probe_pi0_vram.sh)
+      작성 + [claude_test/README.md](claude_test/README.md) 행 추가.
+- [x] `gh issue create` 로 이슈 등록 (#55).
+- [x] batch=16 probe → peak 48.69 GB / 48.69 GB.
+- [x] batch=24 probe → 50.54 / 50.53 GB.
+- [x] batch=32 probe → 54.20 / 54.20 GB.
+- [x] batch=48 probe → 60.09 / 60.66 GB.
+- [x] batch=64 probe → 60.06 / 61.82 GB.
+- [x] batch=96/128/192/256 probe → 74.07/75.07, 91.89/95.07, OOM, OOM.
+- [x] bisect batch=144/160/176 → 102.33/100.02, **114.42/108.92**, OOM.
+- [x] 결과 표 작성
+      ([claude_test/probe_logs/SUMMARY.md](claude_test/probe_logs/SUMMARY.md))
+      + per-GPU **batch=160** (effective 320, GPU0 79.6%) 결정,
+      `lr=7.9e-5` (SQRT) / `2.5e-4` (linear),
+      `warmup=1000` 유지 권고.
+- [ ] commit + push, `gh issue edit` 로 클로즈.
+
+### Out of scope
+- production 체크포인트
+  (`outputs/train/fr5_pi0_red_marker_base`) 변경.
+- `7__train_pi0_adv.sh` 자체 수정 (탐색 후 별도 task 로).
+- 30k step 본 학습 실행.
+- 학습 정책 코드 / processor / dataset 변경.
+- pi05 (`7__train_pi05.sh`) 는 이번 task 범위 외.
+## 2026-05-01: 7__train_act_adv.sh 의 batch_size 를 VRAM 80% 기준으로 튜닝
+
+### Background
+[7__train_act_adv.sh](7__train_act_adv.sh) 는 헤더 주석 상 H200 2x
+가정으로 `--batch_size=8`, `--num_processes=2` 였으나, 현재 학습
+머신은 RTX 3090 24 GB x 3 이며 스크립트는 `--num_processes=3` 로
+이미 변경되어 있다. 24 GB 의 80 % ≈ 19.6 GB 까지 활용해 throughput
+을 늘리고, 변경된 (per-GPU, 글로벌) 배치에 맞는 learning rate 권장
+값을 함께 도출한다.
+
+ACT 의 LeRobot 기본 옵티마이저 설정은
+[configuration_act.py:127-129](src/lerobot/policies/act/configuration_act.py#L127-L129):
+`optimizer_lr=1e-5`, `optimizer_lr_backbone=1e-5`,
+`optimizer_weight_decay=1e-4`. LeRobot 멀티 GPU 문서는 LR auto-scale
+을 하지 않는다고 명시. AdamW 계열은 linear scaling 보다 sqrt
+scaling 이 안정적인 경험칙이 있어 두 값을 모두 산출한다.
+
+### Decisions (사용자 확정)
+- Probe 동안 wandb / HF Hub push 비활성화 (실제
+  `7__train_act_adv.sh` 는 변경하지 않고, `claude_test/` 의
+  probe 래퍼에서만 override).
+- Probe 1 회당 모델 로딩 + 첫 forward/backward + 수 step 안정화
+  까지 ~120 s 정도 허용 후 kill, peak VRAM 만 채집.
+- 후보 ladder: per-GPU `bs ∈ {8, 16, 24, 32}` 부터 시작해 ~80 %
+  지점까지 binary refine. 글로벌 batch = per-GPU × 3.
+
+### Work items
+- [x] `claude_test/probe_vram_batch.sh` 작성: accelerate launch
+      파라미터를 인자로 받고 wandb / push_to_hub 를 끄는 래퍼.
+- [x] baseline `bs=8` peak VRAM 채집 (3 GPU 모두).
+- [x] 후보 ladder 따라 probe 진행, ~19.6 GB peak 에 가장 가까운
+      후보 선정 (OOM 회피 마진 포함).
+- [x] 선정된 글로벌 배치에 대한 LR 권장값 계산
+      (linear / sqrt 스케일링 모두 제시).
+- [x] `claude_test/README.md` 업데이트 (probe 스크립트 행 추가).
+- [x] gh issue create (#56).
+- [x] commit + push (f27e9b95), gh issue 코멘트 등록 후 close.
+
+### Results (2026-05-01)
+하드웨어: 3 x RTX 3090 (24,576 MiB / GPU). 80 % 목표 = 19,660 MiB.
+모든 측정은 fp16 mixed-precision, `num_processes=3`, `num_workers=10`
+조건. peak 는 nvidia-smi 2 s sampling 의 maximum.
+
+| per-GPU bs | global bs | GPU 0 peak | GPU 1 peak | GPU 2 peak | %/GPU |
+|-----------:|----------:|-----------:|-----------:|-----------:|------:|
+|         8  |       24  |  5,119 MiB |  5,109 MiB |  5,109 MiB | 20.8 %|
+|        32  |       96  | 15,691 MiB | 15,733 MiB | 15,687 MiB | 64.0 %|
+|        40  |      120  | 19,657 MiB | 19,375 MiB | 19,375 MiB | 80.0 %|
+
+**선정**: `--batch_size=40` (per-GPU). global batch = 40 x 3 = 120
+(기존 24 의 5 배). GPU 0 가 정확히 80.0 % 로 가장 빡빡한 rank;
+GPU 1/2 는 78.8 %. fragmentation / cudnn workspace 변동에 약 ~1 GB
+여유.
+
+**LR 권장**: ACT 기본
+([configuration_act.py:127-129](src/lerobot/policies/act/configuration_act.py#L127-L129))
+는 `lr=1e-5`, `lr_backbone=1e-5`, `weight_decay=1e-4`. Global batch
+가 5 배가 되었으므로,
+
+- **sqrt scaling (보수적, AdamW + warmup 없음 환경의 기본 권장)**:
+  `1e-5 × sqrt(5) ≈ 2.2e-5`
+  → `--policy.optimizer_lr=2.2e-5
+       --policy.optimizer_lr_backbone=2.2e-5`
+- **linear scaling (더 공격적, warmup 함께 쓸 때 권장)**:
+  `1e-5 × 5 = 5e-5`
+
+LeRobot ACT preset 은 `get_scheduler_preset()` 이 `None` 이라
+warmup 이 없으므로 **sqrt 스케일링 (2.2e-5) 을 우선 추천**.
+weight_decay 는 1e-4 그대로 유지.
+
+**참고 (스코프 밖)**: global batch 가 5 배가 되었으므로, 동일한 sample
+exposure 를 유지하려면 `--steps` 도 1/5 로 (500K → 100K) 줄일 수
+있다. 사용자가 epoch 수를 늘리고 싶다면 그대로 두어도 됨.
+
+## 2026-05-01: 7__train_smovla_adv.sh 의 batch_size 를 VRAM 80% 기준으로 튜닝
+
+### Background
+ACT (#56) 와 동일한 절차를 SmolVLA 에 적용. 스크립트
+[7__train_smovla_adv.sh](7__train_smovla_adv.sh) 는 현재
+`--batch_size=32 --num_processes=3 --mixed_precision=fp16`,
+`--policy.freeze_vision_encoder=true --policy.train_expert_only=true`,
+`--policy.compile_model=true`. SmolVLA 기본 옵티마이저는
+[configuration_smolvla.py:77-85](src/lerobot/policies/smolvla/configuration_smolvla.py#L77-L85):
+`optimizer_lr=1e-4`, `betas=(0.9, 0.95)`, `weight_decay=1e-10`,
+warmup-cosine scheduler (`warmup=1000`, `decay=30000`,
+`decay_lr=2.5e-6`). ACT 와 달리 **warmup 이 있으므로** linear
+LR scaling 이 안전.
+
+### Decisions
+- ACT probe 와 동일하게 wandb / push 비활성화 wrapper
+  (`claude_test/probe_vram_smolvla.sh`).
+- `compile_model=true` 의 warmup 시간이 ACT 보다 길 수 있으므로
+  probe duration 을 처음부터 ~360 s 로 시작.
+- 후보 ladder: `bs ∈ {32, 16, 8, 24, ...}`. SmolVLA 450M backbone +
+  expert 라 ACT 보다 VRAM 사용량이 클 가능성 높음. 32 가 OOM 이면
+  내려가고, 여유가 많으면 올린다.
+
+### Work items
+- [x] `claude_test/probe_vram_smolvla.sh` 작성.
+- [x] baseline `bs=32` peak VRAM 채집.
+- [x] 80 % 목표 (~19.6 GB) 에 가장 가까운 후보 선정.
+- [x] LR 권장값 (warmup 있으므로 linear scaling 우선).
+- [x] `claude_test/README.md` 업데이트.
+- [x] gh issue create (#59).
+- [x] commit + push (60f53131), gh issue close.
+
+## 2026-05-01: 7__train_smovla_adv.sh 에 #59 결과 반영
+
+### Background
+#59 의 probe 결과를 [7__train_smovla_adv.sh](7__train_smovla_adv.sh)
+에 직접 반영. `--mixed_precision=bf16` 은 사용자가 이미 적용한
+상태로 확인됨 (line 71). 나머지 batch / LR / steps / save_freq /
+scheduler 만 추가/수정.
+
+### Decisions
+- bs 32 → **72** (3 GPU global 216).
+- LR 1e-4 default → **2.25e-4** (linear, warmup-cosine 있어 안전).
+- steps 20000 → **9000** (1.92M samples exposure 보존).
+- scheduler_decay_steps 30000 → **9000** (cosine decay 가 학습
+  끝까지 완주하도록 steps 와 정합).
+- save_freq 5000 → **3000** (9000 step 동안 3 개 ckpt 유지).
+- compile_model / freeze_vision_encoder / train_expert_only /
+  num_workers / seed / tolerance_s 는 그대로.
+
+### Work items
+- [x] `--batch_size=32` → `--batch_size=72`.
+- [x] `--steps=20000` → `--steps=9000`.
+- [x] `--save_freq=5000` → `--save_freq=3000`.
+- [x] `--policy.optimizer_lr=2.25e-4` 추가.
+- [x] `--policy.scheduler_decay_steps=9000` 추가.
+- [x] `bash -n 7__train_smovla_adv.sh` 구문 검증.
+- [x] gh issue create (#60).
+- [x] commit + push (a261cab1), gh issue close.
+
+### Out of scope
+- `--mixed_precision` (이미 bf16 으로 사용자가 변경 완료).
+- `7__train_smovla.sh` (single / base 변형) 변경.
+- compile_model / freeze_vision_encoder / train_expert_only 변경.
+- 2.2B SmolVLM2 backbone 옵션.
+
+### Results (2026-05-01)
+모든 측정은 `num_processes=3`, `compile_model=true`,
+`freeze_vision_encoder=true`, `train_expert_only=true`,
+`num_workers=10`. peak 는 nvidia-smi 2 s sampling 의 maximum.
+
+**중요한 발견 (script bug)**: 현재 `7__train_smovla_adv.sh` 의
+`--mixed_precision=fp16` 은 SmolVLA 백본에서 crash:
+`NotImplementedError: "_amp_foreach_non_finite_check_and_unscale_cuda"
+not implemented for 'BFloat16'`. 백본 일부가 bf16 으로 캐스팅되어
+GradScaler 가 unscale 할 때 실패. 원본 `7__train_smovla.sh` 와
+같이 **`bf16` 으로 되돌려야** 학습이 시작됨. 모든 probe 는 bf16 으로
+진행.
+
+| per-GPU bs | global bs | GPU 0 peak | GPU 1 peak | GPU 2 peak | %/GPU |
+|-----------:|----------:|-----------:|-----------:|-----------:|------:|
+| 32 (현재)  |       96  |  9,886 MiB |  9,331 MiB |  9,331 MiB | 40.2 %|
+| **72**     |    **216**| **19,028 MiB** | 18,439 MiB | 18,439 MiB | **77.4 %** |
+| 76         |      228  | 20,050 MiB | 19,397 MiB | 19,397 MiB | 81.6 % (cap 초과)|
+| 96         |      288  | 24,050 MiB → OOM | – | – | 97.9 % (다음 step OOM)|
+
+**선정**: `--batch_size=72` (per-GPU). global batch = 72 x 3 = 216.
+GPU 0 = 77.4 % 로 80 % cap 만족. bs=76 부터 GPU 0 가 81.6 % 로
+넘김. ~1.3 GB 안전 마진.
+
+**LR 권장**: SmolVLA 기본은
+[configuration_smolvla.py:77-86](src/lerobot/policies/smolvla/configuration_smolvla.py#L77-L86)
+의 `lr=1e-4`, warmup-cosine (`warmup_steps=1000`,
+`decay_steps=30000`, `decay_lr=2.5e-6`). global batch 가 96 → 216
+(2.25 x) 로 늘었고, **warmup 이 있으므로 linear scaling 권장**:
+
+- **Linear (권장)**: `1e-4 × 2.25 = 2.25e-4`
+  → `--policy.optimizer_lr=2.25e-4`
+- Sqrt (보수): `1e-4 × sqrt(2.25) = 1.5e-4`
+
+`betas`, `weight_decay`, `grad_clip_norm` 그대로 유지.
+
+**필수 수정 (script bug 포함)**:
+1. `--mixed_precision=fp16` → `--mixed_precision=bf16` (crash 해결).
+2. `--batch_size=32` → `--batch_size=72`.
+3. `--policy.optimizer_lr=2.25e-4` 추가 (CLI 에서 override).
+
+**참고 (스코프 밖)**:
+- global batch 가 2.25 배 늘었으므로 동일 sample exposure 유지하려면
+  `--steps` 를 20000 / 2.25 ≈ 9000 으로 줄여도 됨. 단,
+  `scheduler_decay_steps=30000` 이 `steps` 보다 크므로 어느 쪽이든
+  cosine decay 끝까지 가지는 않음.
+- 2.2B SmolVLM2 backbone 으로 바꾸면 VRAM ~4-5 배가 되므로 별도
+  probe 필요.
+
+### Out of scope
+- `7__train_smovla_adv.sh` 의 실제 값 자체 수정 (사용자가 권장값을
+  받아 직접 반영).
+- `7__train_smovla.sh` (single / base 변형) 변경.
+- compile_model / freeze_vision_encoder / train_expert_only 변경.
+- 2.2B SmolVLM2 backbone 옵션 평가.
+
+
+
+### Out of scope
+- `7__train_act_adv.sh` 의 실제 `--batch_size` 값 자체 수정
+  (사용자가 권장값을 받아 직접 반영).
+- LR scheduler / warmup 정책 변경.
+- ACT 모델 아키텍처 / num_workers / mixed_precision 변경.
+- pi0 / pi05 학습 스크립트 변경.
+
+## 2026-05-01: 7__train_pi0_adv.sh 에 #55 probe 결과 반영
+
+### Background
+[#55](https://github.com/coport-uni/FR5ControllerVLA/issues/55)
+probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
+임계 (≈ 115 GB) 에 위치
+([claude_test/probe_logs/SUMMARY.md](claude_test/probe_logs/SUMMARY.md)).
+원 스크립트는 per-GPU batch=16 (effective 32) 이므로 해당 값을
+바꾸고, effective batch 가 10 배가 된 만큼 lr 도 SQRT 스케일링
+(`2.5e-5 * sqrt(10) ≈ 7.9e-5`) 으로 갱신.
+
+### Decisions (사용자 확정)
+- per-GPU `--batch_size=16` → `--batch_size=160` (앞선 probe 결과
+  2 × H200 NVL 에서 GPU0 peak 79.6 %, GPU1 75.8 %).
+- `--policy.optimizer_lr=7.9e-5` 추가 (SQRT 스케일링).
+- `scheduler_warmup_steps=1000` 기본값 유지.
+- `--resume=true` / `--config_path=...015000...` 는 그대로 두되,
+  본 스크립트는 새 `JOB_NAME=fr5_pi0_red_marker_adv` 로 별도
+  output 디렉토리에 학습한다 (이미 그렇게 되어 있음).
+
+### Work items
+- [x] [claude_test/README.md](claude_test/README.md) 의 #55 ↔ #56
+      merge 잔여 conflict 마커 정리 (양쪽 모두 보존).
+- [x] [7__train_pi0_adv.sh](7__train_pi0_adv.sh) 에 batch=160 / lr
+      반영 + 헤더 주석에 #55 reference 메모 추가.
+- [x] `bash -n 7__train_pi0_adv.sh` 구문 검증.
+- [x] `gh issue create` 로 follow-up 이슈 등록 (#57).
+- [x] commit + push (2f86e112), `gh issue close` 로 클로즈.
+
+### Out of scope
+- 30k 본 학습 실행.
+- `--steps` / `--save_freq` / scheduler / weight_decay 변경.
+- `7__train_pi0.sh` (quickstart) / `7__train_pi05.sh` 변경.
+- 새로운 probe 실행 (#55 결과 그대로 사용).
+
+## 2026-05-01: 7__train_pi05_adv.sh per-GPU VRAM ~80% batch 탐색 + 적용
+
+### Background
+- 동일 박스 (2× H200 NVL, 각 143.77 GB / 143771 MiB).
+  목표 80% ≈ 115 GB / GPU (peak 기준; 두 GPU 중 더 큰 peak ≤ 115 GB).
+  최초 90% 목표였으나 pi05 batch=160 (pi0 80% fit 값) 이 OOM 으로
+  실패하여, pi0 와 동일한 80% 임계로 변경.
+- pi0 probe (#55) 결과: per-GPU batch=160 → GPU0 79.6 % / GPU1 75.8 %,
+  batch=176 → OOM. pi05 는 모델 크기가 거의 동일하므로 유사 거동
+  예상이지만 normalization_mapping (MEAN_STD) / weight_decay 차이로
+  미세 차이 가능 → 실측 필요.
+- 현재 [7__train_pi05_adv.sh](7__train_pi05_adv.sh): per-GPU
+  batch=160, bf16 + `compile_model=true`
+  + `gradient_checkpointing=true`, `freeze_vision_encoder=false`,
+  `optimizer_weight_decay=1e-10`, MEAN_STD normalization.
+
+### Decisions (사용자 확정)
+- 임계 정의: 두 GPU 중 더 큰 peak ≤ 115 GB (80%).
+  (최초 90% 였으나 pi05 batch=160 OOM 확인 후 변경.)
+- lr 스케일링: SQRT (`2.5e-5 × sqrt(B'/32)`) — pi0 와 동일 정책.
+- 1차 probe 후보 [160, 168, 172, 176, 184] → 모두 OOM 위험으로
+  중단 (`pkill`); 2차 probe 후보 [96, 112, 128, 144, 152].
+
+### Method
+- [claude_test/probe_pi05_vram.sh](claude_test/probe_pi05_vram.sh)
+  작성 — `probe_pi0_vram.sh` 골격 그대로, policy 옵션만 pi05 정합:
+  `policy.type=pi05`, `pretrained_path=lerobot/pi05_base`,
+  `normalization_mapping=MEAN_STD`,
+  `optimizer_weight_decay=1e-10`.
+- production 격리: `JOB_NAME=fr5_pi05_vram_probe_b<N>`,
+  `--resume=false`, `push_to_hub=false`, `wandb.enable=false`,
+  `save_freq` 매우 큼.
+- 1 Hz `nvidia-smi` 샘플링, `--steps=50`.
+
+### Hyperparameter recommendation
+- 기준 (openpi pi05): effective_batch=32, lr=2.5e-5, warmup=1000,
+  decay=30000, weight_decay=1e-10.
+- 새 effective batch B' 에 대한 SQRT 스케일 lr 권고
+  (`2.5e-5 × sqrt(B'/32)`).
+- `--steps=3000` (~8 epoch, openpi sample budget 동일) 유지.
+- `weight_decay=1e-10`, `normalization_mapping`, `save_freq`,
+  `resume` 그대로 유지.
+
+### Work items
+- [x] LP §3/§4/§5 관련 항목 확인 (#55 와 동일 — 해당 없음).
+- [x] [claude_test/probe_pi05_vram.sh](claude_test/probe_pi05_vram.sh)
+      작성 + [claude_test/README.md](claude_test/README.md) 행 추가.
+- [x] `gh issue create` 로 이슈 등록 (#58).
+- [x] 1차 probe sweep [160, 168, 172, 176, 184] → batch=160 부터
+      OOM 으로 중단 (`pkill`).
+- [x] 2차 probe sweep [96, 112, 128, 144, 152] 실행.
+- [x] bisect [132, 136, 140] — boundary 확정 (batch=136 fit,
+      batch=140 OOM).
+- [x] [claude_test/probe_logs/SUMMARY_pi05.md](claude_test/probe_logs/SUMMARY_pi05.md)
+      결과 표 정리.
+- [x] [7__train_pi05_adv.sh](7__train_pi05_adv.sh) 에 batch=136 +
+      lr=7.3e-5 반영, 헤더 주석에 probe 결과 메모.
+- [x] `bash -n 7__train_pi05_adv.sh` 구문 검증.
+- [x] 사용자 follow-up: 새 batch 에 맞춘 `--steps=3000 → 3500`
+      반영 (3500 × 272 ≈ 952 k samples ≈ 7.97 epoch, openpi 960 k
+      ≈ 8.04 epoch 정합).
+      [claude_test/probe_logs/SUMMARY_pi05.md](claude_test/probe_logs/SUMMARY_pi05.md)
+      / 헤더 주석 동기화.
+- [x] commit + push (ac69f40b probe + apply, b18635e5 step 조정),
+      `gh issue close` (commit message `Closes #58`) 로 클로즈.
+
+### Out of scope
+- 30k / 80k 본 학습 실행.
+- pi0 추가 probe (이미 #55).
+- 정책 코드 / processor / dataset / normalization / weight_decay
+  변경.
+- `7__train_pi0.sh` / `7__train_pi05.sh` (quickstart) 변경.
+- EMA / quantile 증강 구현.
+
+## 2026-05-03: pi0 step/resume 정합 + 8__run_server 충돌 마커 정리
+
+### Background
+사용자가 working tree 에서 직접 두 파일을 수정한 상태:
+- [7__train_pi0_adv.sh](7__train_pi0_adv.sh): `--steps 30000→3000`,
+  `--save_freq 5000→500`, `--resume=true` + `--config_path=...015000`
+  제거 → `--resume=false`. 이는 #57 에서 적용한 batch=160 / lr=7.9e-5
+  (effective 320, 10× pi0 baseline) 에 맞춰 sample budget 을 openpi
+  reference (960 k samples ≈ 8 epoch) 로 맞추는 후속 정렬이며,
+  pi05 의 #58 follow-up 과 동일한 패턴.
+- [8__run_server.sh](8__run_server.sh): merge commit `eef60bbc` 에
+  남아 있던 conflict 마커 (port 17058 vs 17044) 정리, port=17044
+  채택.
+
+사용자 명시 요청 ("현재 코드 모두 커밋해줘") 으로 두 변경을
+하나의 commit 으로 묶음.
+
+### Decisions (사용자 확정)
+- 두 파일 모두 그대로 commit (사용자 의도된 변경, 이미 working
+  tree 에 적용됨).
+- 단일 commit + 단일 gh issue 로 처리.
+
+### Work items
+- [x] `gh issue create` (#61).
+- [x] 두 파일 add + commit (248d3140, `Closes #61`).
+- [x] push.
+
+### Out of scope
+- 추가 학습 파라미터 변경 (lr / batch / weight_decay 등).
+- 본 학습 실행.
+- 다른 셸 스크립트 / 정책 코드 변경.
+
+## 2026-05-03: outputs/train 학습 로그 GitHub 업로드 + HF 액세스 토큰 마스킹
+
+### Background
+[.gitignore](.gitignore) 의 `outputs/train/` 규칙 때문에 학습 로그
+(`train_*.log`) 가 GitHub 에 올라가지 않고 있다. 사용자는 체크포인트
+(`*/checkpoints/*`, run 당 3.7 GB ~ 5.8 GB, GitHub 100 MB 한도 초과)
+는 계속 제외하되, 학습 로그(.log) 는 올리고 싶다.
+
+선행 보안 점검에서 3 개 학습 로그 파일 모두 HuggingFace 의
+`X-Xet-Access-Token` (JWT) 이 HTTP DEBUG 트레이스에 평문 기록되어
+있는 것이 확인됐다. JWT 안에는 `userId`, `repoId`, `access: WRITE`
+가 포함되며 토큰 자체는 만료되었으나 GitHub 공개 업로드 전에
+마스킹이 필요하다.
+
+### Decisions (사용자 확정)
+- 옵션 1: 토큰 라인의 JWT 값만 `<REDACTED>` 로 마스킹 후 업로드.
+  나머지 디버그 라인 / 응답 헤더는 유지.
+- `.gitignore` 의 `outputs/train/` 라인을 `outputs/train/*/checkpoints/`
+  로 교체. wandb 디렉토리는 전역 `wandb/` 규칙으로 계속 제외됨.
+
+### Work items
+- [x] [outputs/train/fr5_act_red_marker_adv_3090/train_20260501-081054.log](outputs/train/fr5_act_red_marker_adv_3090/train_20260501-081054.log) 의 JWT 마스킹.
+- [x] [outputs/train/fr5_smolvla_red_marker_adv_3090/train_20260503-123225.log](outputs/train/fr5_smolvla_red_marker_adv_3090/train_20260503-123225.log) 의 JWT 마스킹.
+- [x] [outputs/train/fr5_smolvla_red_marker_base_3090/train_20260428-051359.log](outputs/train/fr5_smolvla_red_marker_base_3090/train_20260428-051359.log) 의 JWT 마스킹.
+- [x] 마스킹 후 `grep -c X-Xet-Access-Token.*eyJ` 로 잔존 토큰 0 확인.
+- [x] [.gitignore](.gitignore) `outputs/train/` → `outputs/train/*/checkpoints/`
+      (`!outputs/train/*/train_*.log` re-include 도 추가 — `*.log`
+      전역 ignore 가 train 로그를 잡지 않도록).
+- [x] 추가 마스킹 (pre-signed URL `X-Amz-Signature` / `X-Amz-Credential`
+      / `Policy=eyJ...` / `Signature=` / `Key-Pair-Id=` 및
+      `X-Xet-Cas-Uid`). 사용자가 발견 후 옵션 1 추가 적용 확정.
+- [x] `gh issue create` 로 follow-up 이슈 등록 (#62).
+- [x] commit + push (2b752f2b, rebase onto origin/main).
+- [x] `gh issue close`.
+
+### Out of scope
+- wandb 디렉토리 업로드 (전역 `wandb/` 규칙 그대로 유지).
+- 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
+- DEBUG 트레이스 라인 전체 제거.
+- 향후 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.
+
+## 2026-05-04: h200 학습 로그 GitHub 업로드 + HF 액세스 토큰 마스킹
+
+### Background
+2026-05-03 작업 (#62, commit 2b752f2b) 으로 3090 학습 로그 3 건은
+마스킹 후 업로드되었으나, 같은 시점에 H200 박스에서 생성된
+`outputs/train/fr5_*_h200/` 6 개 학습 로그는 워킹 트리에 untracked
+상태로 남아 있었다. `.gitignore` 는 이미 `outputs/train/*/checkpoints/`
++ `!outputs/train/*/train_*.log` 로 갱신돼 있어 추가 수정 불필요.
+
+대상 파일과 사전 스캔 결과 (X-Xet-Access-Token JWT / pre-signed URL):
+- [outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log](outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log) — JWT 1, URL 0.
+- [outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log](outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log) — JWT 1, URL 1.
+- [outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log](outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log) — JWT 1, URL 1.
+- [outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log](outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log) — JWT 1, URL 1.
+- [outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log) — JWT 0, URL 1.
+- [outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log) — JWT 1, URL 0.
+
+### Decisions (사용자 확정)
+- 마스킹 정책: #62 의 옵션 1 과 동일 (자격증명 값만 `<REDACTED>`,
+  DEBUG 라인은 유지).
+- `Xserver.sh` 삭제 (워킹 트리에 `D` 로 보이는 항목) 도 이번 커밋에
+  함께 포함.
+
+### Work items
+- [x] [outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log](outputs/train/fr5_act_red_marker_base_h200/train_20260423-132434.log) JWT 마스킹.
+- [x] [outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log](outputs/train/fr5_pi05_red_marker_adv_h200/train_20260503-125626.log) JWT + pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log](outputs/train/fr5_pi05_red_marker_base_h200/train_20260428-135937.log) JWT + pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log](outputs/train/fr5_pi0_red_marker_adv_h200/train_20260501-083601.log) JWT + pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260427-133929.log) pre-signed URL 마스킹.
+- [x] [outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log](outputs/train/fr5_pi0_red_marker_base_h200/train_20260428-082852.log) JWT 마스킹.
+- [x] 마스킹 후 `grep -c 'X-Xet-Access-Token.*eyJ\|X-Amz-Signature=[^<]\|Policy=eyJ\|Key-Pair-Id=[^<]'` 등으로 잔존 토큰 0 확인.
+- [x] `gh issue create` 로 follow-up 이슈 등록 (#63).
+- [x] commit + push (09fb591e — h200 로그 6 개 + `Xserver.sh` 삭제).
+- [x] `gh issue close`.
+
+### Out of scope
+- wandb 디렉토리 업로드 (전역 `wandb/` 규칙 그대로 유지).
+- 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
+- DEBUG 트레이스 라인 전체 제거.
+- 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.

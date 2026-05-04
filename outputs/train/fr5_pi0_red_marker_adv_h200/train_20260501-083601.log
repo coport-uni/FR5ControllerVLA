@@ -1,0 +1,759 @@
+INFO 2026-05-01 08:36:01 ot_train.py:217 {'batch_size': 160,
+ 'checkpoint_path': None,
+ 'cudnn_deterministic': False,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'affine': {'kwargs': {'degrees': [-5.0,
+                                                                            5.0],
+                                                                'translate': [0.05,
+                                                                              0.05]},
+                                                     'type': 'RandomAffine',
+                                                     'weight': 1.0},
+                                          'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box',
+             'revision': None,
+             'root': None,
+             'streaming': False,
+             'use_imagenet_stats': True,
+             'video_backend': 'pyav'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'fr5_pi0_red_marker_adv',
+ 'log_freq': 200,
+ 'num_workers': 10,
+ 'optimizer': {'betas': [0.9, 0.95],
+               'eps': 1e-08,
+               'grad_clip_norm': 1.0,
+               'lr': 7.9e-05,
+               'type': 'adamw',
+               'weight_decay': 0.01},
+ 'output_dir': 'outputs/train/fr5_pi0_red_marker_adv',
+ 'peft': None,
+ 'policy': {'action_expert_variant': 'gemma_300m',
+            'chunk_size': 50,
+            'compile_mode': 'max-autotune',
+            'compile_model': True,
+            'device': 'cuda',
+            'dtype': 'bfloat16',
+            'empty_cameras': 0,
+            'freeze_vision_encoder': False,
+            'gradient_checkpointing': True,
+            'image_resolution': [224, 224],
+            'input_features': {},
+            'license': None,
+            'max_action_dim': 32,
+            'max_period': 4.0,
+            'max_state_dim': 32,
+            'min_period': 0.004,
+            'n_action_steps': 50,
+            'n_obs_steps': 1,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},
+            'num_inference_steps': 10,
+            'optimizer_betas': [0.9, 0.95],
+            'optimizer_eps': 1e-08,
+            'optimizer_grad_clip_norm': 1.0,
+            'optimizer_lr': 7.9e-05,
+            'optimizer_weight_decay': 0.01,
+            'output_features': {},
+            'paligemma_variant': 'gemma_2b',
+            'pretrained_path': 'lerobot/pi0_base',
+            'private': None,
+            'push_to_hub': True,
+            'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model',
+            'rtc_config': None,
+            'scheduler_decay_lr': 2.5e-06,
+            'scheduler_decay_steps': 30000,
+            'scheduler_warmup_steps': 1000,
+            'tags': None,
+            'time_sampling_beta_alpha': 1.5,
+            'time_sampling_beta_beta': 1.0,
+            'time_sampling_offset': 0.001,
+            'time_sampling_scale': 0.999,
+            'tokenizer_max_length': 48,
+            'train_expert_only': False,
+            'type': 'pi0',
+            'use_amp': False,
+            'use_peft': False},
+ 'rabc_epsilon': 1e-06,
+ 'rabc_head_mode': 'sparse',
+ 'rabc_kappa': 0.01,
+ 'rabc_progress_path': None,
+ 'rename_map': {},
+ 'resume': False,
+ 'save_checkpoint': True,
+ 'save_freq': 5000,
+ 'scheduler': {'decay_lr': 2.5e-06,
+               'num_decay_steps': 30000,
+               'num_warmup_steps': 1000,
+               'peak_lr': 7.9e-05,
+               'type': 'cosine_decay_with_warmup'},
+ 'seed': 55,
+ 'steps': 3000,
+ 'tolerance_s': 0.1,
+ 'use_policy_training_preset': True,
+ 'use_rabc': False,
+ 'wandb': {'add_tags': True,
+           'disable_artifact': False,
+           'enable': True,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': None}}
+DEBUG 2026-05-01 08:36:02 or_events.py:64 Using selector: EpollSelector
+DEBUG 2026-05-01 08:36:02 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-05-01 08:36:02 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-05-01 08:36:02 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-05-01 08:36:02 git/cmd.py:1286 Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-05-01 08:36:02 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-05-01 08:36:02 git/cmd.py:1286 Popen(['git', 'cat-file', '--batch-check'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=<valid stream>, shell=False, universal_newlines=False)
+INFO 2026-05-01 08:36:03 db_utils.py:117 [1m[34mLogs will be synced with wandb.[0m
+INFO 2026-05-01 08:36:03 db_utils.py:118 Track this run --> [1m[33mhttps://wandb.ai/ohsungwoo-unist/lerobot/runs/9964ue1y[0m
+INFO 2026-05-01 08:36:03 ot_train.py:241 Creating dataset
+DEBUG 2026-05-01 08:36:03 ock/_api.py:501 Attempting to acquire lock 131063911011616 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:504 Lock 131063911011616 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-01 08:36:03 ock/_api.py:541 Attempting to release lock 131063911011616 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:545 Lock 131063911011616 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:501 Attempting to acquire lock 131054959410832 on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:504 Lock 131054959410832 acquired on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-01 08:36:03 ock/_api.py:541 Attempting to release lock 131054959410832 on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:545 Lock 131054959410832 released on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-05-01 08:36:03 eo_utils.py:108 Using video codec: libsvtav1
+DEBUG 2026-05-01 08:36:03 ock/_api.py:501 Attempting to acquire lock 131054957503856 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:504 Lock 131054957503856 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-01 08:36:03 ock/_api.py:541 Attempting to release lock 131054957503856 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:545 Lock 131054957503856 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-ddad9206a70a608b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:501 Attempting to acquire lock 131054958687104 on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:504 Lock 131054958687104 acquired on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-01 08:36:03 ock/_api.py:541 Attempting to release lock 131054958687104 on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:545 Lock 131054958687104 released on /root/.cache/huggingface/datasets/parquet/default-ddad9206a70a608b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:501 Attempting to acquire lock 131054957510240 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-a915a038d5f783c8_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:504 Lock 131054957510240 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-a915a038d5f783c8_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-a915a038d5f783c8/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-01 08:36:03 ock/_api.py:541 Attempting to release lock 131054957510240 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-a915a038d5f783c8_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:545 Lock 131054957510240 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-a915a038d5f783c8_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:501 Attempting to acquire lock 131054958833216 on /root/.cache/huggingface/datasets/parquet/default-a915a038d5f783c8/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:504 Lock 131054958833216 acquired on /root/.cache/huggingface/datasets/parquet/default-a915a038d5f783c8/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-a915a038d5f783c8/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-01 08:36:03 ock/_api.py:541 Attempting to release lock 131054958833216 on /root/.cache/huggingface/datasets/parquet/default-a915a038d5f783c8/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-01 08:36:03 ock/_api.py:545 Lock 131054958833216 released on /root/.cache/huggingface/datasets/parquet/default-a915a038d5f783c8/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-05-01 08:36:03 ot_train.py:259 Creating policy
+INFO 2026-05-01 08:37:11 ling_pi0.py:602 Enabled gradient checkpointing for PI0Pytorch model
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77314a6c0860>
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77314a2cf250> server_hostname='huggingface.co' timeout=10
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77314a25b920>
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 302, b'Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1369'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:12 GMT'), (b'Location', b'https://cas-bridge.xethub.hf.co/xet-bridge-us/68c03fa432a1e41a31e922dc/9c127e0a26f8ca0333fca061db5caa17a72aa18ca9b8e9bb22f1dabdaf876b0a?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=<REDACTED>&X-Amz-Date=20260501T083712Z&X-Amz-Expires=3600&X-Amz-Signature=<REDACTED>&X-Amz-SignedHeaders=host&X-Xet-Cas-Uid=<REDACTED>&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27model.safetensors%3B+filename%3D%22model.safetensors%22%3B&x-amz-checksum-mode=ENABLED&x-id=GetObject&Expires=1777628232&Policy=<REDACTED>&Signature=<REDACTED>&Key-Pair-Id=<REDACTED>'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f46638-170d149c51b1083e4920fb72;566f7853-0123-48b3-acbe-52bde9a13cee'), (b'RateLimit', b'"resolvers";r=4998;t=90'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'26b99b9439acb1e352439e34ee9c67af0d76efa3'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Linked-Size', b'14005618584'), (b'X-Linked-ETag', b'"8229fd9a7c3c2aafc1e223567b61b5fe3e25eef873bb4233928dbee4bd836303"'), (b'X-Xet-Hash', b'9c127e0a26f8ca0333fca061db5caa17a72aa18ca9b8e9bb22f1dabdaf876b0a'), (b'Link', b'<https://huggingface.co/api/models/lerobot/pi0_base/xet-read-token/26b99b9439acb1e352439e34ee9c67af0d76efa3>; rel="xet-auth", <https://cas-server.xethub.hf.co/v1/reconstructions/9c127e0a26f8ca0333fca061db5caa17a72aa18ca9b8e9bb22f1dabdaf876b0a>; rel="xet-reconstruction-info"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'wOrpLdtWNOL4qM5SN5tn6jxXhCFzzYq_Sh9PJ7v2sCYNpTooasMGPw==')])
+INFO 2026-05-01 08:37:12 _client.py:1025 HTTP Request: HEAD https://huggingface.co/lerobot/pi0_base/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:12 re/_trace.py:47 response_closed.complete
+WARNING 2026-05-01 08:37:13 ing_pi0.py:1127 Vision embedding key might need handling: paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.bias
+WARNING 2026-05-01 08:37:13 ing_pi0.py:1127 Vision embedding key might need handling: paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'262'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:15 GMT'), (b'Location', b'/api/resolve-cache/models/lerobot/pi0_base/26b99b9439acb1e352439e34ee9c67af0d76efa3/policy_preprocessor.json?%2Flerobot%2Fpi0_base%2Fresolve%2Fmain%2Fpolicy_preprocessor.json=&etag=%22ac2b548a787170b0b6bb355ceb54d6c01370032e%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663b-1c5e7308506de1cf53ba4cc0;e0667f3d-8ac7-4d14-b6b9-d0375d9b6f12'), (b'RateLimit', b'"resolvers";r=4997;t=87'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'26b99b9439acb1e352439e34ee9c67af0d76efa3'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_preprocessor.json; filename="policy_preprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"ac2b548a787170b0b6bb355ceb54d6c01370032e"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Ug9yw_Qo0sdCb7PAoaUh817GJ1RAYmqrUiBw2ns1A91VIhRFA5EH6g==')])
+INFO 2026-05-01 08:37:15 _client.py:1025 HTTP Request: HEAD https://huggingface.co/lerobot/pi0_base/resolve/main/policy_preprocessor.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1012'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Apr 2026 05:06:21 GMT'), (b'ETag', b'"ac2b548a787170b0b6bb355ceb54d6c01370032e"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69e8574d-6ee9066d276ca48659ba2da0;fea3da65-688f-47ae-ba51-5a71909f0517'), (b'RateLimit', b'"resolvers";r=4997;t=141'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'26b99b9439acb1e352439e34ee9c67af0d76efa3'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_preprocessor.json; filename="policy_preprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'qKzN10cvKCvthLfjDtGZZodOSQBEHPhqkf_TPiuA5OcFIh9XNpK0_A=='), (b'Age', b'790254')])
+INFO 2026-05-01 08:37:15 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/lerobot/pi0_base/26b99b9439acb1e352439e34ee9c67af0d76efa3/policy_preprocessor.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1027'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:15 GMT'), (b'ETag', b'"b89393ba09b432265173f688b8a41a2c3c9e3e4c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663b-2cd32ba650ec573429a7c194;127b3232-4c21-43e0-a680-13f73ddbec0f'), (b'RateLimit', b'"resolvers";r=4995;t=87'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'aMU9nHAGTTMdcQLfk0NjNsFCb8Yge-4chZPT3jNXngCCo076OQ_oMw==')])
+INFO 2026-05-01 08:37:15 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'39968'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:15 GMT'), (b'ETag', b'"960dcec0bccc6e594d865eceb63c8078e164cfb2"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663b-23b1bf93279eb573442d6491;029a0b32-8477-4ce9-996b-3e1537b95cb4'), (b'RateLimit', b'"resolvers";r=4993;t=87'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'9iMe4W6A7-81DQH4bagF1zvpashMyQ9UmZMPJZDaWo3rl_gB5ddFNQ==')])
+INFO 2026-05-01 08:37:15 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:15 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663b-64deb2a62ebb68b67d493572;fb0875bd-0ebf-4c76-8f93-a695c9702ef4'), (b'RateLimit', b'"api";r=997;t=87'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'gNCYXRM2vo5jBfta-1WIgsYk1uPEMbddIx9WUoU-8YhgMZ1jOTC9SA==')])
+INFO 2026-05-01 08:37:15 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:16 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"9c5-q9seafptu6jJvow4apCGJpG2b2M"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663c-22c7b9a64b5be8fa4aefff42;4c259f92-9669-4c05-b430-f96713d2fc6e'), (b'RateLimit', b'"api";r=995;t=86'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'D1pjaaPWWsQFqGhOGlzsy2UJZlC71omwm4oil0gQ8NoaAVYp0vmowA==')])
+INFO 2026-05-01 08:37:16 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:16 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"c5f-0ZdAb9Iool9c7FnU9Fpxu6foRFE"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663c-378547e80dc46bdb6613e86f;71c91b12-2dc6-4820-8b52-134c7c202df2'), (b'RateLimit', b'"api";r=992;t=86'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'QqvRdA95onGb73YDWQUDCET3Mv2EN2mXhUmGMzWvYj7EA7chCpxXhA==')])
+INFO 2026-05-01 08:37:16 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224 "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:16 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'264'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 08:37:17 GMT'), (b'Location', b'/api/resolve-cache/models/lerobot/pi0_base/26b99b9439acb1e352439e34ee9c67af0d76efa3/policy_postprocessor.json?%2Flerobot%2Fpi0_base%2Fresolve%2Fmain%2Fpolicy_postprocessor.json=&etag=%224490f0951e4c146a36b9346d36e49c9b676cee23%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4663d-6a63c3460b3fcaaf7252e410;03d0accf-62d4-4cc1-8a0d-1f84f17d2e1d'), (b'RateLimit', b'"resolvers";r=4990;t=85'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'26b99b9439acb1e352439e34ee9c67af0d76efa3'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_postprocessor.json; filename="policy_postprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"4490f0951e4c146a36b9346d36e49c9b676cee23"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'x7t6oog3-38rOq6h8h1NWY8vzVAeiRlAJ8J1b4gXVDhzJnK7DiCNMA==')])
+INFO 2026-05-01 08:37:17 _client.py:1025 HTTP Request: HEAD https://huggingface.co/lerobot/pi0_base/resolve/main/policy_postprocessor.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'448'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Apr 2026 05:06:24 GMT'), (b'ETag', b'"4490f0951e4c146a36b9346d36e49c9b676cee23"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69e85750-037dbb8b62bfd6f86988173c;69903e06-20ab-47d4-ad71-cd4600ca8049'), (b'RateLimit', b'"resolvers";r=4992;t=138'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'26b99b9439acb1e352439e34ee9c67af0d76efa3'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_postprocessor.json; filename="policy_postprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'UXDfQdT_gNwODldx1x05Xim33Y_ohNKUCaO2J_PyRQl9A9phWx0-9w=='), (b'Age', b'790253')])
+INFO 2026-05-01 08:37:17 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/lerobot/pi0_base/26b99b9439acb1e352439e34ee9c67af0d76efa3/policy_postprocessor.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 response_closed.complete
+INFO 2026-05-01 08:37:17 ot_train.py:314 Creating optimizer and scheduler
+INFO 2026-05-01 08:37:17 hedulers.py:105 Auto-scaling LR scheduler: num_training_steps (3000) < num_decay_steps (30000). Scaling warmup: 1000 → 100, decay: 30000 → 3000 (scale factor: 0.100)
+INFO 2026-05-01 08:37:17 ot_train.py:349 [1m[33mOutput dir:[0m outputs/train/fr5_pi0_red_marker_adv
+INFO 2026-05-01 08:37:17 ot_train.py:356 cfg.steps=3000 (3K)
+INFO 2026-05-01 08:37:17 ot_train.py:357 dataset.num_frames=119356 (119K)
+INFO 2026-05-01 08:37:17 ot_train.py:358 dataset.num_episodes=100
+INFO 2026-05-01 08:37:17 ot_train.py:361 Effective batch size: 160 x 2 = 320
+INFO 2026-05-01 08:37:17 ot_train.py:362 num_learnable_params=4028019472 (4B)
+INFO 2026-05-01 08:37:17 ot_train.py:363 num_total_params=4028019472 (4B)
+INFO 2026-05-01 08:37:17 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 320
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:17 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:18 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:18 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:18 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:18 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:18 re/_trace.py:47 close.started
+DEBUG 2026-05-01 08:37:18 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 08:37:55 ock/_api.py:501 Attempting to acquire lock 131030150709952 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-01 08:37:55 ock/_api.py:504 Lock 131030150709952 acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-01 08:37:56 ock/_api.py:541 Attempting to release lock 131030150709952 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-01 08:37:56 ock/_api.py:545 Lock 131030150709952 released on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-01 08:37:56 ock/_api.py:501 Attempting to acquire lock 131030150830496 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-05-01 08:37:56 ock/_api.py:504 Lock 131030150830496 acquired on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-05-01 08:37:57 ock/_api.py:541 Attempting to release lock 131030150830496 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-05-01 08:37:57 ock/_api.py:545 Lock 131030150830496 released on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-05-01 08:37:57 ock/_api.py:501 Attempting to acquire lock 131030150162496 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-01 08:37:57 ock/_api.py:504 Lock 131030150162496 acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-01 08:37:59 ock/_api.py:541 Attempting to release lock 131030150162496 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-01 08:37:59 ock/_api.py:545 Lock 131030150162496 released on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-01 08:37:59 ock/_api.py:501 Attempting to acquire lock 131030167388432 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-01 08:37:59 ock/_api.py:504 Lock 131030167388432 acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-01 08:38:00 ock/_api.py:541 Attempting to release lock 131030167388432 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-01 08:38:00 ock/_api.py:545 Lock 131030167388432 released on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-01 08:38:00 ock/_api.py:501 Attempting to acquire lock 131030150732048 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-05-01 08:38:00 ock/_api.py:504 Lock 131030150732048 acquired on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-05-01 08:38:01 ock/_api.py:541 Attempting to release lock 131030150732048 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-05-01 08:38:01 ock/_api.py:545 Lock 131030150732048 released on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-05-01 08:38:01 ock/_api.py:501 Attempting to acquire lock 131030150732048 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-01 08:38:01 ock/_api.py:504 Lock 131030150732048 acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:541 Attempting to release lock 131030150732048 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:545 Lock 131030150732048 released on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:501 Attempting to acquire lock 131030150710816 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:504 Lock 131030150710816 acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:541 Attempting to release lock 131030150710816 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:545 Lock 131030150710816 released on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:501 Attempting to acquire lock 131030258916032 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:504 Lock 131030258916032 acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:541 Attempting to release lock 131030258916032 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:545 Lock 131030258916032 released on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:501 Attempting to acquire lock 131030149054288 on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:504 Lock 131030149054288 acquired on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:541 Attempting to release lock 131030149054288 on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:545 Lock 131030149054288 released on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:501 Attempting to acquire lock 131030150711536 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:504 Lock 131030150711536 acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:541 Attempting to release lock 131030150711536 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:545 Lock 131030150711536 released on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:501 Attempting to acquire lock 131030153021392 on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:504 Lock 131030153021392 acquired on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:541 Attempting to release lock 131030153021392 on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+DEBUG 2026-05-01 08:38:02 ock/_api.py:545 Lock 131030153021392 released on /tmp/torchinductor_root/locks/ccs7wtcbt2udns4si2lrquzsr35t2vx726pabqjtuntblypui5g2.lock
+INFO 2026-05-01 08:59:40 ot_train.py:459 step:200 smpl:64K ep:54 epch:0.54 loss:0.423 grdn:4.370 lr:5.9e-05 updt_s:6.491 data_s:0.225
+WARNING 2026-05-01 08:59:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 09:18:19 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:19 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:19 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:19 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:18:20 re/_trace.py:47 close.complete
+INFO 2026-05-01 09:21:26 ot_train.py:459 step:400 smpl:128K ep:107 epch:1.07 loss:0.065 grdn:0.861 lr:7.7e-05 updt_s:6.348 data_s:0.179
+WARNING 2026-05-01 09:21:26 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 09:42:45 ot_train.py:459 step:600 smpl:192K ep:161 epch:1.61 loss:0.051 grdn:0.654 lr:7.4e-05 updt_s:6.326 data_s:0.066
+WARNING 2026-05-01 09:42:45 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.started
+DEBUG 2026-05-01 09:58:26 re/_trace.py:47 close.complete
+INFO 2026-05-01 10:04:28 ot_train.py:459 step:800 smpl:256K ep:214 epch:2.14 loss:0.045 grdn:0.567 lr:6.9e-05 updt_s:6.356 data_s:0.155
+WARNING 2026-05-01 10:04:28 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 10:25:53 ot_train.py:459 step:1K smpl:320K ep:268 epch:2.68 loss:0.038 grdn:0.483 lr:6.3e-05 updt_s:6.358 data_s:0.066
+WARNING 2026-05-01 10:25:53 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 10:38:37 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:37 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.started
+DEBUG 2026-05-01 10:38:38 re/_trace.py:47 close.complete
+INFO 2026-05-01 10:47:34 ot_train.py:459 step:1K smpl:384K ep:322 epch:3.22 loss:0.034 grdn:0.439 lr:5.6e-05 updt_s:6.349 data_s:0.153
+WARNING 2026-05-01 10:47:34 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 11:09:01 ot_train.py:459 step:1K smpl:448K ep:375 epch:3.75 loss:0.030 grdn:0.386 lr:4.9e-05 updt_s:6.369 data_s:0.066
+WARNING 2026-05-01 11:09:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:18:53 re/_trace.py:47 close.complete
+INFO 2026-05-01 11:30:42 ot_train.py:459 step:2K smpl:512K ep:429 epch:4.29 loss:0.028 grdn:0.333 lr:4.1e-05 updt_s:6.342 data_s:0.162
+WARNING 2026-05-01 11:30:42 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 11:52:02 ot_train.py:459 step:2K smpl:576K ep:483 epch:4.83 loss:0.025 grdn:0.287 lr:3.3e-05 updt_s:6.334 data_s:0.066
+WARNING 2026-05-01 11:52:02 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.started
+DEBUG 2026-05-01 11:58:58 re/_trace.py:47 close.complete
+INFO 2026-05-01 12:13:36 ot_train.py:459 step:2K smpl:640K ep:536 epch:5.36 loss:0.023 grdn:0.271 lr:2.5e-05 updt_s:6.314 data_s:0.150
+WARNING 2026-05-01 12:13:36 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 12:34:54 ot_train.py:459 step:2K smpl:704K ep:590 epch:5.90 loss:0.021 grdn:0.241 lr:1.8e-05 updt_s:6.323 data_s:0.066
+WARNING 2026-05-01 12:34:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.started
+DEBUG 2026-05-01 12:38:54 re/_trace.py:47 close.complete
+INFO 2026-05-01 12:56:20 ot_train.py:459 step:2K smpl:768K ep:643 epch:6.43 loss:0.020 grdn:0.211 lr:1.2e-05 updt_s:6.270 data_s:0.156
+WARNING 2026-05-01 12:56:20 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 13:17:41 ot_train.py:459 step:3K smpl:832K ep:697 epch:6.97 loss:0.019 grdn:0.178 lr:7.7e-06 updt_s:6.340 data_s:0.065
+WARNING 2026-05-01 13:17:41 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:52 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:18:53 re/_trace.py:47 close.complete
+INFO 2026-05-01 13:39:21 ot_train.py:459 step:3K smpl:896K ep:751 epch:7.51 loss:0.018 grdn:0.157 lr:4.4e-06 updt_s:6.336 data_s:0.160
+WARNING 2026-05-01 13:39:21 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.started
+DEBUG 2026-05-01 13:59:00 re/_trace.py:47 close.complete
+INFO 2026-05-01 14:00:57 ot_train.py:459 step:3K smpl:960K ep:804 epch:8.04 loss:0.017 grdn:0.144 lr:2.8e-06 updt_s:6.318 data_s:0.159
+WARNING 2026-05-01 14:00:57 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-05-01 14:00:57 ot_train.py:479 Checkpoint policy after step 3000
+DEBUG 2026-05-01 14:01:28 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-05-01 14:01:28 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-05-01 14:01:28 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-05-01 14:01:28 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-05-01 14:01:29 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-05-01 14:01:29 ot_train.py:553 End of training
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 close.started
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7733b34767e0>
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77314a2cf250> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772be1879ee0>
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'193'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:29 GMT'), (b'ETag', b'W/"c1-jxb8l3sEYjRJGG7SIZi0SI63P9w"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b239-0b65ae131193e70c06046297;714d5973-7051-42a1-9f33-2ccab1d4d46b'), (b'RateLimit', b'"api";r=999;t=133'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 c84f725aa1244c57e6ad6d1072d23c54.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'CsAHxy43tBXph6PfGpd7HUra3GrSUMuDA7bFuCc8nsEG9h3jEp-3YA==')])
+INFO 2026-05-01 14:01:29 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:29 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 close.started
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772bd4b0c4d0>
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77314a2cf250> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772bd4b0ff80>
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:37 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'2'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:38 GMT'), (b'ETag', b'W/"2-nOO9QiTIwXgNtWtBJezz8kv3SLc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b242-564275b829f8b03b070146ac;93e48162-20d3-4f9b-a26e-db86b57dd143'), (b'RateLimit', b'"api";r=9967;t=130'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 eff84f94dc501d16b996d51ed1b584ce.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'jAbe1pylSkBn-JDj--zyfm97azBIQzXe_WofEh_auE294pwPp6d_Cg==')])
+INFO 2026-05-01 14:01:38 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:38 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b242-535ee5675f0bc3040867a7d8;a59c050d-98f9-4940-865d-44e34867c962'), (b'RateLimit', b'"api";r=9998;t=130'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 eff84f94dc501d16b996d51ed1b584ce.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'assIIgxDLD2EBmspxACmGaRHQ-S5AJiEYZv1T5wlucyLz85wJP3fww==')])
+INFO 2026-05-01 14:01:38 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:38 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 close.started
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772be1824080>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77314a2cf250> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772be18255b0>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:44 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b248-797459e035cfd43413a90be1;fd6ebfa5-5994-48ce-8c2d-5717c9462d9f'), (b'RateLimit', b'"api";r=9997;t=124'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 37c31ae647e34e692a37bcfb149c2802.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'FYdb71fsxYUR0i49ikrWYhcEVGNyFJTqVRFBxrp3gaTgUOG2gs3lwQ==')])
+INFO 2026-05-01 14:01:44 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'340'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:44 GMT'), (b'ETag', b'W/"154-htBkKg3hBHeDH3xn0a7/3f2sTaU"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b248-0a23a9fd4be8818e5796f3a0;64c4f97b-92cc-4443-9398-baf311671fd0'), (b'RateLimit', b'"api";r=998;t=118'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 37c31ae647e34e692a37bcfb149c2802.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'DWHcx3qBTUaI3nlui1JyaLKR1PPTPa4c-Vo2-qzzpwN53YyGFaOQhg==')])
+INFO 2026-05-01 14:01:44 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1042'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:44 GMT'), (b'ETag', b'W/"412-O6NtiNkRcuYnOi40GQCDhHZGfuc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b248-4c45f8356108e5a2648ebb8b;3dc087b6-84e8-4849-9b15-0bc7daa39a00'), (b'RateLimit', b'"api";r=997;t=118'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 37c31ae647e34e692a37bcfb149c2802.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'gKup2etATRvv1_SnBj1SIu-ctI13rz-PMVXOEL_1-mA581nigfxnPw==')])
+INFO 2026-05-01 14:01:44 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:01:44 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-01 14:01:45 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'453'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:01:44 GMT'), (b'ETag', b'W/"1c5-uRKoUbUbAexpNcAVcYJvrYbMOeE"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b248-3a75c598208a6187552e56cf;41b5b5c8-4782-4d55-8500-ed4db4b062d3'), (b'RateLimit', b'"api";r=996;t=118'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Xet-Cas-Url', b'https://cas-server.xethub.hf.co'), (b'X-Xet-Token-Expiration', b'1777645004'), (b'X-Xet-Access-Token', b'<REDACTED>'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 37c31ae647e34e692a37bcfb149c2802.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'XNUInXCzifhuPeT5T8-PUd9C70YrGUPgh4rUI7Vv_g_HMrS_kCZ8tg==')])
+INFO 2026-05-01 14:01:45 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/xet-write-token/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:01:45 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-01 14:01:45 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:01:45 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:01:45 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 close.started
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 close.complete
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772be12120f0>
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77314a2cf250> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x772be3f723c0>
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:25 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:26 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'232'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:26 GMT'), (b'ETag', b'W/"e8-Sqz8Dy9u8PfNlaasbU3g6hlxty4"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2ad-2cfe9c6b159a56a22677a914;ec584292-b9e0-477f-9500-651d102e13af'), (b'RateLimit', b'"api";r=995;t=17'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'xdjm3UlChj0KFjyVeerJsVtzsW5kyshU0Yk4pBcDCrr2wR8fG9hiAg==')])
+INFO 2026-05-01 14:03:26 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:26 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:26 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:26 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:26 re/_trace.py:47 response_closed.complete
+INFO 2026-05-01 14:03:26 etrained.py:245 Model pushed to https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'199'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:27 GMT'), (b'ETag', b'W/"c7-nVcVeItc/AhMLtbXRk2zVYyOfQQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2af-35a5404635d2a119150fca47;77db5fcd-3fbd-4319-9d04-9ea2aa9415aa'), (b'RateLimit', b'"api";r=994;t=15'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'vzIs6z-r3SpPOlAL7s--1Yu1lFE1fRmHi3u6kt4pSLh-Zuob_108gA==')])
+INFO 2026-05-01 14:03:27 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'257'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:27 GMT'), (b'ETag', b'W/"101-t+xxYe7r5pcwdczGnlHSnXX+5f8"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2af-3d374aff70d8024d11563862;98ce67d1-2548-46de-9258-f74649a4e045'), (b'RateLimit', b'"api";r=993;t=15'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'MK6-LzbU0rmPZ0HRIFM90EbiVhCxJAHC-42XPJSG_WWKL1nVLRM7-w==')])
+INFO 2026-05-01 14:03:27 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1036'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:27 GMT'), (b'ETag', b'W/"40c-ko58Yxt8DUx5a9R9nrHdq+efoCo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2af-2a3962af5d54c4d2555f4fb5;44dad2fb-2955-4ce2-8cf3-448946823c85'), (b'RateLimit', b'"api";r=992;t=15'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'3DfxiPjSgsNXOSLT8jhzDRJ-c3w8u3QYsn3x8SLz3t_pRlLMLxcSoQ==')])
+INFO 2026-05-01 14:03:27 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:27 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:30 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:30 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:30 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:30 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:30 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'232'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:31 GMT'), (b'ETag', b'W/"e8-vlBRuV5G4WQahwD3pOkJxcHzY4o"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2b2-14de2a3a60e417a535305968;8aa7e579-e23b-4878-967b-357c53703229'), (b'RateLimit', b'"api";r=991;t=12'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'S7hbBGbdrjRvYGlK-GdnlXJAamgMXIt5ee3-XrUB-zl-4nBHgEFcxA==')])
+INFO 2026-05-01 14:03:31 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'199'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:31 GMT'), (b'ETag', b'W/"c7-nVcVeItc/AhMLtbXRk2zVYyOfQQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2b3-07e4c8f6763f7b093f895685;c2c85688-1c2a-49c3-a3e2-dc2d77896506'), (b'RateLimit', b'"api";r=990;t=11'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'JB5bm4TZtvFSHHExO_Gt7H8ZRg1BYVqF14DEKfaQc8IwuhDOdDKb1Q==')])
+INFO 2026-05-01 14:03:31 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'261'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:31 GMT'), (b'ETag', b'W/"105-KHrF3WJCpx+lJerd57KcH20jTn0"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2b3-5fca21d87e143864694eedb9;490fd9c3-3adf-4339-8714-4a9eba1e3e51'), (b'RateLimit', b'"api";r=989;t=11'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'4JmOMDobnmoq3UUuQpcAQ8ine5yjmPCAckhegvNcyk82dOdnGZPxtw==')])
+INFO 2026-05-01 14:03:31 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:31 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'117'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:32 GMT'), (b'ETag', b'W/"75-61SLOOtfV/+yZ5tw84N/04PfQk0"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2b4-14c75aae22cb263961c69029;68a00028-6bc9-44f5-ad16-59b8ac5c9d86'), (b'RateLimit', b'"api";r=988;t=10'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'SYxaKjr9K0IlD61-DODa9q8KsdK_EEuWDelzSAF8_QZgcv43O_93JQ==')])
+INFO 2026-05-01 14:03:32 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:32 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:03:33 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:33 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-01 14:03:33 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:33 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-01 14:03:33 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'232'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 01 May 2026 14:03:33 GMT'), (b'ETag', b'W/"e8-vQFFZ6dCeiEBbQjZ9ubLC4k7kvQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f4b2b5-4191962b4c6396fb7b1cf469;648c14a6-c4d7-4b35-ae05-942a2c183159'), (b'RateLimit', b'"api";r=987;t=9'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 4434189a5ee7ecea21442d2872701dfa.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Qhr-ASk2qJnW5hOg03PpGv0KffLVmY2YkZsQg8ow7gLCju1b01C8oQ==')])
+INFO 2026-05-01 14:03:34 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-05-01 14:03:34 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-05-01 14:03:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-01 14:03:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-01 14:03:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-01 14:13:59 re/_trace.py:47 close.started
+DEBUG 2026-05-01 14:13:59 re/_trace.py:47 close.complete

@@ -1,0 +1,987 @@
+INFO 2026-04-28 13:59:37 ot_train.py:217 {'batch_size': 32,
+ 'checkpoint_path': None,
+ 'cudnn_deterministic': False,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'affine': {'kwargs': {'degrees': [-5.0,
+                                                                            5.0],
+                                                                'translate': [0.05,
+                                                                              0.05]},
+                                                     'type': 'RandomAffine',
+                                                     'weight': 1.0},
+                                          'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box',
+             'revision': None,
+             'root': None,
+             'streaming': False,
+             'use_imagenet_stats': True,
+             'video_backend': 'pyav'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'fr5_pi05_red_marker_base',
+ 'log_freq': 200,
+ 'num_workers': 4,
+ 'optimizer': {'betas': [0.9, 0.95],
+               'eps': 1e-08,
+               'grad_clip_norm': 1.0,
+               'lr': 2.5e-05,
+               'type': 'adamw',
+               'weight_decay': 1e-10},
+ 'output_dir': 'outputs/train/fr5_pi05_red_marker_base',
+ 'peft': None,
+ 'policy': {'action_expert_variant': 'gemma_300m',
+            'chunk_size': 50,
+            'compile_mode': 'max-autotune',
+            'compile_model': True,
+            'device': 'cuda',
+            'dtype': 'bfloat16',
+            'empty_cameras': 0,
+            'freeze_vision_encoder': False,
+            'gradient_checkpointing': True,
+            'image_resolution': [224, 224],
+            'input_features': {},
+            'license': None,
+            'max_action_dim': 32,
+            'max_period': 4.0,
+            'max_state_dim': 32,
+            'min_period': 0.004,
+            'n_action_steps': 50,
+            'n_obs_steps': 1,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},
+            'num_inference_steps': 10,
+            'optimizer_betas': [0.9, 0.95],
+            'optimizer_eps': 1e-08,
+            'optimizer_grad_clip_norm': 1.0,
+            'optimizer_lr': 2.5e-05,
+            'optimizer_weight_decay': 1e-10,
+            'output_features': {},
+            'paligemma_variant': 'gemma_2b',
+            'pretrained_path': 'lerobot/pi05_base',
+            'private': None,
+            'push_to_hub': True,
+            'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model',
+            'rtc_config': None,
+            'scheduler_decay_lr': 2.5e-06,
+            'scheduler_decay_steps': 30000,
+            'scheduler_warmup_steps': 1000,
+            'tags': None,
+            'time_sampling_beta_alpha': 1.5,
+            'time_sampling_beta_beta': 1.0,
+            'time_sampling_offset': 0.001,
+            'time_sampling_scale': 0.999,
+            'tokenizer_max_length': 200,
+            'train_expert_only': False,
+            'type': 'pi05',
+            'use_amp': False,
+            'use_peft': False},
+ 'rabc_epsilon': 1e-06,
+ 'rabc_head_mode': 'sparse',
+ 'rabc_kappa': 0.01,
+ 'rabc_progress_path': None,
+ 'rename_map': {},
+ 'resume': False,
+ 'save_checkpoint': True,
+ 'save_freq': 5000,
+ 'scheduler': {'decay_lr': 2.5e-06,
+               'num_decay_steps': 30000,
+               'num_warmup_steps': 1000,
+               'peak_lr': 2.5e-05,
+               'type': 'cosine_decay_with_warmup'},
+ 'seed': 55,
+ 'steps': 30000,
+ 'tolerance_s': 0.1,
+ 'use_policy_training_preset': True,
+ 'use_rabc': False,
+ 'wandb': {'add_tags': True,
+           'disable_artifact': False,
+           'enable': True,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': None}}
+DEBUG 2026-04-28 13:59:38 or_events.py:64 Using selector: EpollSelector
+DEBUG 2026-04-28 13:59:38 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-04-28 13:59:38 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-04-28 13:59:38 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-04-28 13:59:38 git/cmd.py:1286 Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-04-28 13:59:38 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-04-28 13:59:38 git/cmd.py:1286 Popen(['git', 'cat-file', '--batch-check'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=<valid stream>, shell=False, universal_newlines=False)
+INFO 2026-04-28 13:59:39 db_utils.py:117 [1m[34mLogs will be synced with wandb.[0m
+INFO 2026-04-28 13:59:39 db_utils.py:118 Track this run --> [1m[33mhttps://wandb.ai/ohsungwoo-unist/lerobot/runs/8tt410oz[0m
+INFO 2026-04-28 13:59:39 ot_train.py:241 Creating dataset
+DEBUG 2026-04-28 13:59:39 ock/_api.py:501 Attempting to acquire lock 132675251848256 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:504 Lock 132675251848256 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 13:59:39 ock/_api.py:541 Attempting to release lock 132675251848256 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:545 Lock 132675251848256 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:501 Attempting to acquire lock 132666307001808 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:504 Lock 132666307001808 acquired on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 13:59:39 ock/_api.py:541 Attempting to release lock 132666307001808 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:545 Lock 132666307001808 released on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-04-28 13:59:39 eo_utils.py:108 Using video codec: libsvtav1
+DEBUG 2026-04-28 13:59:39 ock/_api.py:501 Attempting to acquire lock 132675249181792 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:504 Lock 132675249181792 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 13:59:39 ock/_api.py:541 Attempting to release lock 132675249181792 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:545 Lock 132675249181792 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-57d600e93f4a7d3b_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:501 Attempting to acquire lock 132666306448512 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:504 Lock 132666306448512 acquired on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 13:59:39 ock/_api.py:541 Attempting to release lock 132666306448512 on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:545 Lock 132666306448512 released on /root/.cache/huggingface/datasets/parquet/default-57d600e93f4a7d3b/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:501 Attempting to acquire lock 132666306341792 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:504 Lock 132666306341792 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 13:59:39 ock/_api.py:541 Attempting to release lock 132666306341792 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:545 Lock 132666306341792 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-567dfa043602cd7d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:501 Attempting to acquire lock 132666306334112 on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:504 Lock 132666306334112 acquired on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-04-28 13:59:39 ock/_api.py:541 Attempting to release lock 132666306334112 on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-04-28 13:59:39 ock/_api.py:545 Lock 132666306334112 released on /root/.cache/huggingface/datasets/parquet/default-567dfa043602cd7d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-04-28 13:59:39 ot_train.py:259 Creating policy
+INFO 2026-04-28 14:00:46 ing_pi05.py:598 Enabled gradient checkpointing for PI05Pytorch model
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x78a87e0a8d10>
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x78a87e04afd0> server_hostname='huggingface.co' timeout=10
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x78a87e0a8c20>
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:47 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:48 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 302, b'Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1357'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:47 GMT'), (b'Location', b'https://cas-bridge.xethub.hf.co/xet-bridge-us/68c03fe5abde8f659687b5e8/fa644955060fa56fd11afd7080d69a04f89f98372e7fb74cd895f0309beaae7c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=<REDACTED>&X-Amz-Date=20260428T140047Z&X-Amz-Expires=3600&X-Amz-Signature=<REDACTED>&X-Amz-SignedHeaders=host&X-Xet-Cas-Uid=<REDACTED>&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27model.safetensors%3B+filename%3D%22model.safetensors%22%3B&x-amz-checksum-mode=ENABLED&x-id=GetObject&Expires=1777388447&Policy=<REDACTED>&Signature=<REDACTED>&Key-Pair-Id=<REDACTED>'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd8f-588340e0288d90fc015443e2;ee9a4a71-d2a5-4604-936a-9f548051311c'), (b'RateLimit', b'"resolvers";r=4999;t=175'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'9e55186ad36e66b95cda57bc47818d9e6237ae30'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Linked-Size', b'14467165872'), (b'X-Linked-ETag', b'"0eb11ca9587678c1d2ef8cf32807c29f8ce53a2bfdfc1aa4a4c96f16fca59b0f"'), (b'X-Xet-Hash', b'fa644955060fa56fd11afd7080d69a04f89f98372e7fb74cd895f0309beaae7c'), (b'Link', b'<https://huggingface.co/api/models/lerobot/pi05_base/xet-read-token/9e55186ad36e66b95cda57bc47818d9e6237ae30>; rel="xet-auth", <https://cas-server.xethub.hf.co/v1/reconstructions/fa644955060fa56fd11afd7080d69a04f89f98372e7fb74cd895f0309beaae7c>; rel="xet-reconstruction-info"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'JWbNsHuWcXzuKuzAOMQ8f69OdsHGmekAVsoDc7M4riQHPOm_d6R8pA==')])
+INFO 2026-04-28 14:00:48 _client.py:1025 HTTP Request: HEAD https://huggingface.co/lerobot/pi05_base/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+DEBUG 2026-04-28 14:00:48 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:48 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:48 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:48 re/_trace.py:47 response_closed.complete
+WARNING 2026-04-28 14:00:48 ng_pi05.py:1102 Vision embedding key might need handling: paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.bias
+WARNING 2026-04-28 14:00:48 ng_pi05.py:1102 Vision embedding key might need handling: paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'264'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:52 GMT'), (b'Location', b'/api/resolve-cache/models/lerobot/pi05_base/9e55186ad36e66b95cda57bc47818d9e6237ae30/policy_preprocessor.json?%2Flerobot%2Fpi05_base%2Fresolve%2Fmain%2Fpolicy_preprocessor.json=&etag=%22ee7a8af10d4ca8f4e2ff3d78dad5eaa153748c2b%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd94-337ffdc67c6148f840a03a6c;45dc6130-ff85-4379-9c75-fea82a3759c4'), (b'RateLimit', b'"resolvers";r=4996;t=170'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'9e55186ad36e66b95cda57bc47818d9e6237ae30'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_preprocessor.json; filename="policy_preprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"ee7a8af10d4ca8f4e2ff3d78dad5eaa153748c2b"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'tnEulTrHQKBNVgP8eEYlR91OiimsHHkLBYOpB4DoVdyp_IOSuwEVkg==')])
+INFO 2026-04-28 14:00:52 _client.py:1025 HTTP Request: HEAD https://huggingface.co/lerobot/pi05_base/resolve/main/policy_preprocessor.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1035'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Apr 2026 05:15:46 GMT'), (b'ETag', b'"ee7a8af10d4ca8f4e2ff3d78dad5eaa153748c2b"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69e85982-190b297002314b5c7c3b77da;2296ef95-ba54-411c-bdfa-5795a9704be8'), (b'RateLimit', b'"resolvers";r=4997;t=176'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'9e55186ad36e66b95cda57bc47818d9e6237ae30'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_preprocessor.json; filename="policy_preprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'yw1X4TScY-bPqpJ3eraBTknuAnnHuThsn18uWgJdkSt9t0VqX0w-RA=='), (b'Age', b'549906')])
+INFO 2026-04-28 14:00:52 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/lerobot/pi05_base/9e55186ad36e66b95cda57bc47818d9e6237ae30/policy_preprocessor.json "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1027'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:52 GMT'), (b'ETag', b'"b89393ba09b432265173f688b8a41a2c3c9e3e4c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd94-1ccd33e97f43964263204c1b;0c004f54-5ad2-488e-b1b1-5a699b8ce16c'), (b'RateLimit', b'"resolvers";r=4995;t=170'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Q8NGNuBaejOgF4_luof7PGA65CfogGh9UNWdFm3UCmr4JF2yzztEbQ==')])
+INFO 2026-04-28 14:00:52 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'39968'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:52 GMT'), (b'ETag', b'"960dcec0bccc6e594d865eceb63c8078e164cfb2"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd94-5b4e49fe6c1ba3e26987e00a;525b9d62-e3fb-429d-beb9-dbc71cc31c8c'), (b'RateLimit', b'"resolvers";r=4993;t=170'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Su4vh-rAwY8jW0zIZM7Mbrr2eniQ8VhQWCC9Y--UE-RCqf0yCXv7jA==')])
+INFO 2026-04-28 14:00:52 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:52 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:52 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd94-01f60fcb6ed09be16be5b0d8;6c0e60eb-3bb3-4f54-8a63-e8028ebbbd8b'), (b'RateLimit', b'"api";r=998;t=170'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'_k1rTw1tQr0tScZ7mfvh7wDezJjG3tc6KvyOp45FAb4y7_-pexLZNw==')])
+INFO 2026-04-28 14:00:53 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:53 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"9c5-q9seafptu6jJvow4apCGJpG2b2M"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd95-159a7f362a03f9967c34518b;713f4f3b-675e-41a5-9545-d5fa44f5ae8b'), (b'RateLimit', b'"api";r=996;t=169'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'rrJmlC-qogw9IvM1RByoIha2QJ1qJ0ENHoIUrElfq4Ar_wwW4yQl7g==')])
+INFO 2026-04-28 14:00:53 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:53 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:54 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"c5f-vimlfAkfrA+jeIwMmpr87QPvB80"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd96-604adb180e36575841ae68ae;1c023005-2cc0-4c62-b874-fe26a49ee543'), (b'RateLimit', b'"api";r=993;t=168'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'g5K1rgG7FQ9nBm3wuPIhjFGe-ULQcM-xule-FWMdoBgsJIy63MBvjQ==')])
+INFO 2026-04-28 14:00:54 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224 "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'266'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 28 Apr 2026 14:00:54 GMT'), (b'Location', b'/api/resolve-cache/models/lerobot/pi05_base/9e55186ad36e66b95cda57bc47818d9e6237ae30/policy_postprocessor.json?%2Flerobot%2Fpi05_base%2Fresolve%2Fmain%2Fpolicy_postprocessor.json=&etag=%226fe2c686d1d4a715659c245fde96ea45328d1003%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f0bd96-42a3182864e386a7043113b5;0164c1db-741f-4a3d-947d-b31fdf3ec0a7'), (b'RateLimit', b'"resolvers";r=4990;t=168'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'9e55186ad36e66b95cda57bc47818d9e6237ae30'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_postprocessor.json; filename="policy_postprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"6fe2c686d1d4a715659c245fde96ea45328d1003"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'9LdEFQnwQm1RRbev7N70TzUjDzx9XdahfzYGlun4zwEb8OfB81eGmQ==')])
+INFO 2026-04-28 14:00:54 _client.py:1025 HTTP Request: HEAD https://huggingface.co/lerobot/pi05_base/resolve/main/policy_postprocessor.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'450'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Apr 2026 05:15:48 GMT'), (b'ETag', b'"6fe2c686d1d4a715659c245fde96ea45328d1003"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69e85984-5cbda3a5245768c1268a0fe6;6c83df7c-fe8d-4fd9-bb83-8b2191892d3f'), (b'RateLimit', b'"resolvers";r=4992;t=174'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'9e55186ad36e66b95cda57bc47818d9e6237ae30'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'policy_postprocessor.json; filename="policy_postprocessor.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 63a5602c0026310ff3bc102e4bcef29a.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'gXUIFtcCQ30f_eyWpN5Yi0pwBBU4MW0w2J2m7wsCk28vOTPyg4bNrA=='), (b'Age', b'549906')])
+INFO 2026-04-28 14:00:54 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/lerobot/pi05_base/9e55186ad36e66b95cda57bc47818d9e6237ae30/policy_postprocessor.json "HTTP/1.1 200 OK"
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 response_closed.complete
+INFO 2026-04-28 14:00:54 ot_train.py:314 Creating optimizer and scheduler
+INFO 2026-04-28 14:00:54 ot_train.py:349 [1m[33mOutput dir:[0m outputs/train/fr5_pi05_red_marker_base
+INFO 2026-04-28 14:00:54 ot_train.py:356 cfg.steps=30000 (30K)
+INFO 2026-04-28 14:00:54 ot_train.py:357 dataset.num_frames=119356 (119K)
+INFO 2026-04-28 14:00:54 ot_train.py:358 dataset.num_episodes=100
+INFO 2026-04-28 14:00:54 ot_train.py:361 Effective batch size: 32 x 2 = 64
+INFO 2026-04-28 14:00:54 ot_train.py:362 num_learnable_params=4143404816 (4B)
+INFO 2026-04-28 14:00:54 ot_train.py:363 num_total_params=4143404816 (4B)
+INFO 2026-04-28 14:00:54 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 64
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:00:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:01:00 ock/_api.py:501 Attempting to acquire lock 132642387621696 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 14:01:00 ock/_api.py:504 Lock 132642387621696 acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:541 Attempting to release lock 132642387621696 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:545 Lock 132642387621696 released on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:501 Attempting to acquire lock 132642244616960 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:504 Lock 132642244616960 acquired on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:541 Attempting to release lock 132642244616960 on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:545 Lock 132642244616960 released on /tmp/torchinductor_root/locks/cv546rfh32ce45dxpiegtcans4s6he2iv3a3dmtwjxmnnbu5iboh.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:501 Attempting to acquire lock 132642386465216 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 14:01:01 ock/_api.py:504 Lock 132642386465216 acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 14:01:02 ock/_api.py:541 Attempting to release lock 132642386465216 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 14:01:02 ock/_api.py:545 Lock 132642386465216 released on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-04-28 14:01:02 ock/_api.py:501 Attempting to acquire lock 132642247605136 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 14:01:02 ock/_api.py:504 Lock 132642247605136 acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 14:01:03 ock/_api.py:541 Attempting to release lock 132642247605136 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 14:01:03 ock/_api.py:545 Lock 132642247605136 released on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-04-28 14:01:03 ock/_api.py:501 Attempting to acquire lock 132642390084640 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 14:01:03 ock/_api.py:504 Lock 132642390084640 acquired on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 14:01:04 ock/_api.py:541 Attempting to release lock 132642390084640 on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 14:01:04 ock/_api.py:545 Lock 132642390084640 released on /tmp/torchinductor_root/locks/cu72rfq5c5ox6o35bgdigeun5tanuhcxqhv37dufuuczomz2lanv.lock
+DEBUG 2026-04-28 14:01:04 ock/_api.py:501 Attempting to acquire lock 132642389270864 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 14:01:04 ock/_api.py:504 Lock 132642389270864 acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:541 Attempting to release lock 132642389270864 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:545 Lock 132642389270864 released on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:501 Attempting to acquire lock 132642244616960 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:504 Lock 132642244616960 acquired on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:541 Attempting to release lock 132642244616960 on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:545 Lock 132642244616960 released on /tmp/torchinductor_root/precompiled_headers/locks/cls45zf2gtndfgu6wfuoo6w2ov5twnt6iwrfsavytyrxqkmfwqoc.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:501 Attempting to acquire lock 132642247605136 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:504 Lock 132642247605136 acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:541 Attempting to release lock 132642247605136 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:545 Lock 132642247605136 released on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:501 Attempting to acquire lock 132642387619632 on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:504 Lock 132642387619632 acquired on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:541 Attempting to release lock 132642387619632 on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:545 Lock 132642387619632 released on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:501 Attempting to acquire lock 132642388522240 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:504 Lock 132642388522240 acquired on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:541 Attempting to release lock 132642388522240 on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:545 Lock 132642388522240 released on /tmp/torchinductor_root/locks/c46fx5645t2gnqezdinnmtsph4loz263danqgt3qjjguddx54mjx.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:501 Attempting to acquire lock 132642388521568 on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:504 Lock 132642388521568 acquired on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:541 Attempting to release lock 132642388521568 on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+DEBUG 2026-04-28 14:01:05 ock/_api.py:545 Lock 132642388521568 released on /tmp/torchinductor_root/locks/cie44kc57rndm5aetuackhitbgimu3zc6meglsj67cndvujczj5x.lock
+INFO 2026-04-28 14:07:23 ot_train.py:459 step:200 smpl:13K ep:11 epch:0.11 loss:2.730 grdn:16.913 lr:2.5e-06 updt_s:1.913 data_s:0.028
+WARNING 2026-04-28 14:07:23 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:13:15 ot_train.py:459 step:400 smpl:26K ep:21 epch:0.21 loss:0.281 grdn:4.176 lr:7.5e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 14:13:15 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:19:08 ot_train.py:459 step:600 smpl:38K ep:32 epch:0.32 loss:0.140 grdn:2.098 lr:1.3e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 14:19:08 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:25:01 ot_train.py:459 step:800 smpl:51K ep:43 epch:0.43 loss:0.113 grdn:1.566 lr:1.8e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 14:25:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:30:54 ot_train.py:459 step:1K smpl:64K ep:54 epch:0.54 loss:0.097 grdn:1.205 lr:2.3e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 14:30:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:36:46 ot_train.py:459 step:1K smpl:77K ep:64 epch:0.64 loss:0.083 grdn:0.941 lr:2.5e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 14:36:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:42:39 ot_train.py:459 step:1K smpl:90K ep:75 epch:0.75 loss:0.079 grdn:0.867 lr:2.5e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 14:42:39 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:48:32 ot_train.py:459 step:2K smpl:102K ep:86 epch:0.86 loss:0.072 grdn:0.734 lr:2.5e-05 updt_s:1.744 data_s:0.015
+WARNING 2026-04-28 14:48:32 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 14:54:25 ot_train.py:459 step:2K smpl:115K ep:97 epch:0.97 loss:0.066 grdn:0.676 lr:2.5e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 14:54:25 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 14:56:19 re/_trace.py:47 close.complete
+INFO 2026-04-28 15:00:19 ot_train.py:459 step:2K smpl:128K ep:107 epch:1.07 loss:0.062 grdn:0.637 lr:2.5e-05 updt_s:1.746 data_s:0.026
+WARNING 2026-04-28 15:00:19 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:06:12 ot_train.py:459 step:2K smpl:141K ep:118 epch:1.18 loss:0.061 grdn:0.590 lr:2.5e-05 updt_s:1.744 data_s:0.015
+WARNING 2026-04-28 15:06:12 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:12:04 ot_train.py:459 step:2K smpl:154K ep:129 epch:1.29 loss:0.057 grdn:0.566 lr:2.5e-05 updt_s:1.744 data_s:0.015
+WARNING 2026-04-28 15:12:04 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:17:57 ot_train.py:459 step:3K smpl:166K ep:139 epch:1.39 loss:0.053 grdn:0.534 lr:2.5e-05 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 15:17:57 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:23:50 ot_train.py:459 step:3K smpl:179K ep:150 epch:1.50 loss:0.052 grdn:0.525 lr:2.5e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 15:23:50 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:29:42 ot_train.py:459 step:3K smpl:192K ep:161 epch:1.61 loss:0.049 grdn:0.500 lr:2.4e-05 updt_s:1.744 data_s:0.017
+WARNING 2026-04-28 15:29:42 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:35:35 ot_train.py:459 step:3K smpl:205K ep:172 epch:1.72 loss:0.049 grdn:0.495 lr:2.4e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 15:35:35 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:41:28 ot_train.py:459 step:3K smpl:218K ep:182 epch:1.82 loss:0.047 grdn:0.466 lr:2.4e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 15:41:28 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:47:20 ot_train.py:459 step:4K smpl:230K ep:193 epch:1.93 loss:0.047 grdn:0.447 lr:2.4e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 15:47:20 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.started
+DEBUG 2026-04-28 15:51:10 re/_trace.py:47 close.complete
+INFO 2026-04-28 15:53:15 ot_train.py:459 step:4K smpl:243K ep:204 epch:2.04 loss:0.045 grdn:0.425 lr:2.4e-05 updt_s:1.747 data_s:0.025
+WARNING 2026-04-28 15:53:15 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 15:59:07 ot_train.py:459 step:4K smpl:256K ep:214 epch:2.14 loss:0.043 grdn:0.434 lr:2.4e-05 updt_s:1.743 data_s:0.015
+WARNING 2026-04-28 15:59:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:04:59 ot_train.py:459 step:4K smpl:269K ep:225 epch:2.25 loss:0.042 grdn:0.421 lr:2.4e-05 updt_s:1.743 data_s:0.015
+WARNING 2026-04-28 16:04:59 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:10:52 ot_train.py:459 step:4K smpl:282K ep:236 epch:2.36 loss:0.042 grdn:0.418 lr:2.4e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 16:10:52 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:16:45 ot_train.py:459 step:5K smpl:294K ep:247 epch:2.47 loss:0.040 grdn:0.405 lr:2.4e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 16:16:45 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:22:37 ot_train.py:459 step:5K smpl:307K ep:257 epch:2.57 loss:0.039 grdn:0.411 lr:2.4e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 16:22:37 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:28:30 ot_train.py:459 step:5K smpl:320K ep:268 epch:2.68 loss:0.039 grdn:0.387 lr:2.4e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 16:28:30 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:28:30 ot_train.py:479 Checkpoint policy after step 5000
+DEBUG 2026-04-28 16:28:57 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-04-28 16:28:57 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-04-28 16:28:57 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-04-28 16:28:57 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-04-28 16:28:58 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 16:34:49 ot_train.py:459 step:5K smpl:333K ep:279 epch:2.79 loss:0.038 grdn:0.393 lr:2.3e-05 updt_s:1.741 data_s:0.015
+WARNING 2026-04-28 16:34:49 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:40:42 ot_train.py:459 step:5K smpl:346K ep:290 epch:2.90 loss:0.037 grdn:0.378 lr:2.3e-05 updt_s:1.745 data_s:0.017
+WARNING 2026-04-28 16:40:42 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.started
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.started
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.started
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.started
+DEBUG 2026-04-28 16:46:27 re/_trace.py:47 close.complete
+INFO 2026-04-28 16:46:38 ot_train.py:459 step:6K smpl:358K ep:300 epch:3.00 loss:0.036 grdn:0.371 lr:2.3e-05 updt_s:1.749 data_s:0.026
+WARNING 2026-04-28 16:46:38 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:52:31 ot_train.py:459 step:6K smpl:371K ep:311 epch:3.11 loss:0.035 grdn:0.365 lr:2.3e-05 updt_s:1.749 data_s:0.016
+WARNING 2026-04-28 16:52:31 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 16:58:24 ot_train.py:459 step:6K smpl:384K ep:322 epch:3.22 loss:0.035 grdn:0.361 lr:2.3e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 16:58:24 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:04:16 ot_train.py:459 step:6K smpl:397K ep:332 epch:3.32 loss:0.034 grdn:0.348 lr:2.3e-05 updt_s:1.742 data_s:0.015
+WARNING 2026-04-28 17:04:16 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:10:08 ot_train.py:459 step:6K smpl:410K ep:343 epch:3.43 loss:0.033 grdn:0.359 lr:2.3e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 17:10:08 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:16:01 ot_train.py:459 step:7K smpl:422K ep:354 epch:3.54 loss:0.033 grdn:0.339 lr:2.2e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 17:16:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:21:54 ot_train.py:459 step:7K smpl:435K ep:365 epch:3.65 loss:0.031 grdn:0.335 lr:2.2e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 17:21:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:27:47 ot_train.py:459 step:7K smpl:448K ep:375 epch:3.75 loss:0.033 grdn:0.342 lr:2.2e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 17:27:47 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:33:40 ot_train.py:459 step:7K smpl:461K ep:386 epch:3.86 loss:0.032 grdn:0.343 lr:2.2e-05 updt_s:1.747 data_s:0.017
+WARNING 2026-04-28 17:33:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:39:32 ot_train.py:459 step:7K smpl:474K ep:397 epch:3.97 loss:0.032 grdn:0.334 lr:2.2e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 17:39:32 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.started
+DEBUG 2026-04-28 17:41:19 re/_trace.py:47 close.complete
+INFO 2026-04-28 17:45:29 ot_train.py:459 step:8K smpl:486K ep:408 epch:4.08 loss:0.030 grdn:0.329 lr:2.2e-05 updt_s:1.754 data_s:0.027
+WARNING 2026-04-28 17:45:29 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:51:22 ot_train.py:459 step:8K smpl:499K ep:418 epch:4.18 loss:0.030 grdn:0.319 lr:2.2e-05 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 17:51:22 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 17:57:15 ot_train.py:459 step:8K smpl:512K ep:429 epch:4.29 loss:0.030 grdn:0.321 lr:2.1e-05 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 17:57:15 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:03:07 ot_train.py:459 step:8K smpl:525K ep:440 epch:4.40 loss:0.031 grdn:0.319 lr:2.1e-05 updt_s:1.743 data_s:0.015
+WARNING 2026-04-28 18:03:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:09:01 ot_train.py:459 step:8K smpl:538K ep:450 epch:4.50 loss:0.031 grdn:0.329 lr:2.1e-05 updt_s:1.751 data_s:0.015
+WARNING 2026-04-28 18:09:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:14:54 ot_train.py:459 step:9K smpl:550K ep:461 epch:4.61 loss:0.029 grdn:0.313 lr:2.1e-05 updt_s:1.749 data_s:0.016
+WARNING 2026-04-28 18:14:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:20:47 ot_train.py:459 step:9K smpl:563K ep:472 epch:4.72 loss:0.028 grdn:0.313 lr:2.1e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 18:20:47 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:26:40 ot_train.py:459 step:9K smpl:576K ep:483 epch:4.83 loss:0.029 grdn:0.303 lr:2.0e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 18:26:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:32:32 ot_train.py:459 step:9K smpl:589K ep:493 epch:4.93 loss:0.028 grdn:0.298 lr:2.0e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 18:32:32 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.started
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.started
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.started
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.started
+DEBUG 2026-04-28 18:36:13 re/_trace.py:47 close.complete
+INFO 2026-04-28 18:38:27 ot_train.py:459 step:9K smpl:602K ep:504 epch:5.04 loss:0.027 grdn:0.308 lr:2.0e-05 updt_s:1.746 data_s:0.026
+WARNING 2026-04-28 18:38:27 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:44:20 ot_train.py:459 step:10K smpl:614K ep:515 epch:5.15 loss:0.027 grdn:0.305 lr:2.0e-05 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 18:44:20 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:50:13 ot_train.py:459 step:10K smpl:627K ep:525 epch:5.25 loss:0.027 grdn:0.300 lr:2.0e-05 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 18:50:13 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:56:06 ot_train.py:459 step:10K smpl:640K ep:536 epch:5.36 loss:0.026 grdn:0.297 lr:1.9e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 18:56:06 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 18:56:06 ot_train.py:479 Checkpoint policy after step 10000
+DEBUG 2026-04-28 18:56:34 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-28 18:56:35 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 19:02:27 ot_train.py:459 step:10K smpl:653K ep:547 epch:5.47 loss:0.027 grdn:0.295 lr:1.9e-05 updt_s:1.743 data_s:0.016
+WARNING 2026-04-28 19:02:27 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:08:21 ot_train.py:459 step:10K smpl:666K ep:558 epch:5.58 loss:0.027 grdn:0.297 lr:1.9e-05 updt_s:1.751 data_s:0.016
+WARNING 2026-04-28 19:08:21 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:14:13 ot_train.py:459 step:11K smpl:678K ep:568 epch:5.68 loss:0.026 grdn:0.287 lr:1.9e-05 updt_s:1.745 data_s:0.016
+WARNING 2026-04-28 19:14:13 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:20:07 ot_train.py:459 step:11K smpl:691K ep:579 epch:5.79 loss:0.025 grdn:0.283 lr:1.9e-05 updt_s:1.750 data_s:0.015
+WARNING 2026-04-28 19:20:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:25:59 ot_train.py:459 step:11K smpl:704K ep:590 epch:5.90 loss:0.026 grdn:0.284 lr:1.8e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 19:25:59 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.started
+DEBUG 2026-04-28 19:31:34 re/_trace.py:47 close.complete
+INFO 2026-04-28 19:31:54 ot_train.py:459 step:11K smpl:717K ep:601 epch:6.01 loss:0.025 grdn:0.278 lr:1.8e-05 updt_s:1.746 data_s:0.026
+WARNING 2026-04-28 19:31:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:37:46 ot_train.py:459 step:11K smpl:730K ep:611 epch:6.11 loss:0.025 grdn:0.289 lr:1.8e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 19:37:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:43:39 ot_train.py:459 step:12K smpl:742K ep:622 epch:6.22 loss:0.025 grdn:0.287 lr:1.8e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 19:43:39 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:49:33 ot_train.py:459 step:12K smpl:755K ep:633 epch:6.33 loss:0.024 grdn:0.278 lr:1.8e-05 updt_s:1.751 data_s:0.015
+WARNING 2026-04-28 19:49:33 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 19:55:26 ot_train.py:459 step:12K smpl:768K ep:643 epch:6.43 loss:0.023 grdn:0.276 lr:1.7e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 19:55:26 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:01:18 ot_train.py:459 step:12K smpl:781K ep:654 epch:6.54 loss:0.023 grdn:0.277 lr:1.7e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 20:01:18 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:07:11 ot_train.py:459 step:12K smpl:794K ep:665 epch:6.65 loss:0.023 grdn:0.273 lr:1.7e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 20:07:11 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:13:03 ot_train.py:459 step:13K smpl:806K ep:676 epch:6.76 loss:0.024 grdn:0.269 lr:1.7e-05 updt_s:1.744 data_s:0.016
+WARNING 2026-04-28 20:13:03 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:18:56 ot_train.py:459 step:13K smpl:819K ep:686 epch:6.86 loss:0.023 grdn:0.277 lr:1.6e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 20:18:56 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:24:48 ot_train.py:459 step:13K smpl:832K ep:697 epch:6.97 loss:0.022 grdn:0.271 lr:1.6e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 20:24:48 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.started
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.started
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.started
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.started
+DEBUG 2026-04-28 20:26:25 re/_trace.py:47 close.complete
+INFO 2026-04-28 20:30:44 ot_train.py:459 step:13K smpl:845K ep:708 epch:7.08 loss:0.022 grdn:0.273 lr:1.6e-05 updt_s:1.750 data_s:0.026
+WARNING 2026-04-28 20:30:44 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:36:37 ot_train.py:459 step:13K smpl:858K ep:719 epch:7.19 loss:0.024 grdn:0.278 lr:1.6e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 20:36:37 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:42:30 ot_train.py:459 step:14K smpl:870K ep:729 epch:7.29 loss:0.021 grdn:0.265 lr:1.6e-05 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 20:42:30 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:48:23 ot_train.py:459 step:14K smpl:883K ep:740 epch:7.40 loss:0.022 grdn:0.270 lr:1.5e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 20:48:23 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 20:54:16 ot_train.py:459 step:14K smpl:896K ep:751 epch:7.51 loss:0.022 grdn:0.262 lr:1.5e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 20:54:16 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:00:08 ot_train.py:459 step:14K smpl:909K ep:761 epch:7.61 loss:0.022 grdn:0.262 lr:1.5e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 21:00:08 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:06:01 ot_train.py:459 step:14K smpl:922K ep:772 epch:7.72 loss:0.022 grdn:0.268 lr:1.5e-05 updt_s:1.744 data_s:0.015
+WARNING 2026-04-28 21:06:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:11:54 ot_train.py:459 step:15K smpl:934K ep:783 epch:7.83 loss:0.021 grdn:0.260 lr:1.4e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 21:11:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:17:46 ot_train.py:459 step:15K smpl:947K ep:794 epch:7.94 loss:0.021 grdn:0.264 lr:1.4e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 21:17:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.started
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.started
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.started
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.started
+DEBUG 2026-04-28 21:21:18 re/_trace.py:47 close.complete
+INFO 2026-04-28 21:23:41 ot_train.py:459 step:15K smpl:960K ep:804 epch:8.04 loss:0.020 grdn:0.265 lr:1.4e-05 updt_s:1.748 data_s:0.026
+WARNING 2026-04-28 21:23:41 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:23:41 ot_train.py:479 Checkpoint policy after step 15000
+DEBUG 2026-04-28 21:24:08 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-28 21:24:08 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 21:30:00 ot_train.py:459 step:15K smpl:973K ep:815 epch:8.15 loss:0.020 grdn:0.259 lr:1.4e-05 updt_s:1.742 data_s:0.015
+WARNING 2026-04-28 21:30:00 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:35:53 ot_train.py:459 step:15K smpl:986K ep:826 epch:8.26 loss:0.021 grdn:0.251 lr:1.3e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 21:35:53 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:41:46 ot_train.py:459 step:16K smpl:998K ep:836 epch:8.36 loss:0.021 grdn:0.248 lr:1.3e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 21:41:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:47:39 ot_train.py:459 step:16K smpl:1M ep:847 epch:8.47 loss:0.020 grdn:0.261 lr:1.3e-05 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 21:47:39 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:53:32 ot_train.py:459 step:16K smpl:1M ep:858 epch:8.58 loss:0.020 grdn:0.251 lr:1.3e-05 updt_s:1.750 data_s:0.015
+WARNING 2026-04-28 21:53:32 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 21:59:25 ot_train.py:459 step:16K smpl:1M ep:869 epch:8.69 loss:0.020 grdn:0.248 lr:1.2e-05 updt_s:1.746 data_s:0.016
+WARNING 2026-04-28 21:59:25 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:05:16 ot_train.py:459 step:16K smpl:1M ep:879 epch:8.79 loss:0.019 grdn:0.254 lr:1.2e-05 updt_s:1.742 data_s:0.015
+WARNING 2026-04-28 22:05:16 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:11:09 ot_train.py:459 step:17K smpl:1M ep:890 epch:8.90 loss:0.019 grdn:0.257 lr:1.2e-05 updt_s:1.748 data_s:0.016
+WARNING 2026-04-28 22:11:09 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.started
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.started
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.started
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.started
+DEBUG 2026-04-28 22:16:36 re/_trace.py:47 close.complete
+INFO 2026-04-28 22:17:05 ot_train.py:459 step:17K smpl:1M ep:901 epch:9.01 loss:0.020 grdn:0.256 lr:1.2e-05 updt_s:1.748 data_s:0.026
+WARNING 2026-04-28 22:17:05 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:22:58 ot_train.py:459 step:17K smpl:1M ep:912 epch:9.12 loss:0.019 grdn:0.250 lr:1.2e-05 updt_s:1.751 data_s:0.015
+WARNING 2026-04-28 22:22:58 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:28:51 ot_train.py:459 step:17K smpl:1M ep:922 epch:9.22 loss:0.018 grdn:0.248 lr:1.1e-05 updt_s:1.747 data_s:0.015
+WARNING 2026-04-28 22:28:51 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:34:44 ot_train.py:459 step:17K smpl:1M ep:933 epch:9.33 loss:0.019 grdn:0.252 lr:1.1e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 22:34:44 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:40:36 ot_train.py:459 step:18K smpl:1M ep:944 epch:9.44 loss:0.018 grdn:0.254 lr:1.1e-05 updt_s:1.745 data_s:0.016
+WARNING 2026-04-28 22:40:36 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:46:28 ot_train.py:459 step:18K smpl:1M ep:954 epch:9.54 loss:0.019 grdn:0.251 lr:1.1e-05 updt_s:1.744 data_s:0.015
+WARNING 2026-04-28 22:46:28 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:52:21 ot_train.py:459 step:18K smpl:1M ep:965 epch:9.65 loss:0.019 grdn:0.257 lr:1.0e-05 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 22:52:21 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 22:58:14 ot_train.py:459 step:18K smpl:1M ep:976 epch:9.76 loss:0.018 grdn:0.251 lr:1.0e-05 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 22:58:14 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:04:07 ot_train.py:459 step:18K smpl:1M ep:987 epch:9.87 loss:0.017 grdn:0.249 lr:9.9e-06 updt_s:1.748 data_s:0.016
+WARNING 2026-04-28 23:04:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:10:00 ot_train.py:459 step:19K smpl:1M ep:997 epch:9.97 loss:0.018 grdn:0.238 lr:9.7e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 23:10:00 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.started
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.started
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.started
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.complete
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.started
+DEBUG 2026-04-28 23:11:29 re/_trace.py:47 close.complete
+INFO 2026-04-28 23:15:56 ot_train.py:459 step:19K smpl:1M ep:1K epch:10.08 loss:0.018 grdn:0.242 lr:9.5e-06 updt_s:1.749 data_s:0.026
+WARNING 2026-04-28 23:15:56 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:21:49 ot_train.py:459 step:19K smpl:1M ep:1K epch:10.19 loss:0.018 grdn:0.249 lr:9.3e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-28 23:21:49 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:27:41 ot_train.py:459 step:19K smpl:1M ep:1K epch:10.30 loss:0.017 grdn:0.238 lr:9.1e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 23:27:41 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:33:34 ot_train.py:459 step:19K smpl:1M ep:1K epch:10.40 loss:0.017 grdn:0.252 lr:8.9e-06 updt_s:1.747 data_s:0.016
+WARNING 2026-04-28 23:33:34 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:39:27 ot_train.py:459 step:20K smpl:1M ep:1K epch:10.51 loss:0.017 grdn:0.240 lr:8.6e-06 updt_s:1.745 data_s:0.015
+WARNING 2026-04-28 23:39:27 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:45:20 ot_train.py:459 step:20K smpl:1M ep:1K epch:10.62 loss:0.016 grdn:0.237 lr:8.4e-06 updt_s:1.749 data_s:0.015
+WARNING 2026-04-28 23:45:20 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:51:13 ot_train.py:459 step:20K smpl:1M ep:1K epch:10.72 loss:0.017 grdn:0.246 lr:8.2e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-28 23:51:13 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-28 23:51:13 ot_train.py:479 Checkpoint policy after step 20000
+DEBUG 2026-04-28 23:51:41 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-28 23:51:41 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-28 23:57:34 ot_train.py:459 step:20K smpl:1M ep:1K epch:10.83 loss:0.016 grdn:0.237 lr:8.0e-06 updt_s:1.744 data_s:0.016
+WARNING 2026-04-28 23:57:34 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:03:26 ot_train.py:459 step:20K smpl:1M ep:1K epch:10.94 loss:0.017 grdn:0.239 lr:7.8e-06 updt_s:1.745 data_s:0.016
+WARNING 2026-04-29 00:03:26 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 00:06:49 re/_trace.py:47 close.complete
+INFO 2026-04-29 00:09:21 ot_train.py:459 step:21K smpl:1M ep:1K epch:11.05 loss:0.017 grdn:0.233 lr:7.6e-06 updt_s:1.743 data_s:0.027
+WARNING 2026-04-29 00:09:21 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:15:14 ot_train.py:459 step:21K smpl:1M ep:1K epch:11.15 loss:0.016 grdn:0.242 lr:7.4e-06 updt_s:1.747 data_s:0.016
+WARNING 2026-04-29 00:15:14 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:21:06 ot_train.py:459 step:21K smpl:1M ep:1K epch:11.26 loss:0.016 grdn:0.246 lr:7.2e-06 updt_s:1.743 data_s:0.016
+WARNING 2026-04-29 00:21:06 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:26:58 ot_train.py:459 step:21K smpl:1M ep:1K epch:11.37 loss:0.015 grdn:0.235 lr:7.0e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-29 00:26:58 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:32:51 ot_train.py:459 step:21K smpl:1M ep:1K epch:11.47 loss:0.016 grdn:0.237 lr:6.9e-06 updt_s:1.744 data_s:0.015
+WARNING 2026-04-29 00:32:51 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:38:43 ot_train.py:459 step:22K smpl:1M ep:1K epch:11.58 loss:0.016 grdn:0.238 lr:6.7e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-29 00:38:43 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:44:37 ot_train.py:459 step:22K smpl:1M ep:1K epch:11.69 loss:0.015 grdn:0.234 lr:6.5e-06 updt_s:1.753 data_s:0.015
+WARNING 2026-04-29 00:44:37 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:50:31 ot_train.py:459 step:22K smpl:1M ep:1K epch:11.80 loss:0.016 grdn:0.236 lr:6.3e-06 updt_s:1.753 data_s:0.015
+WARNING 2026-04-29 00:50:31 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 00:56:24 ot_train.py:459 step:22K smpl:1M ep:1K epch:11.90 loss:0.016 grdn:0.244 lr:6.1e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-29 00:56:24 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:01:43 re/_trace.py:47 close.complete
+INFO 2026-04-29 01:02:20 ot_train.py:459 step:22K smpl:1M ep:1K epch:12.01 loss:0.016 grdn:0.232 lr:6.0e-06 updt_s:1.751 data_s:0.027
+WARNING 2026-04-29 01:02:20 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:08:13 ot_train.py:459 step:23K smpl:1M ep:1K epch:12.12 loss:0.015 grdn:0.235 lr:5.8e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-29 01:08:13 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:14:07 ot_train.py:459 step:23K smpl:1M ep:1K epch:12.23 loss:0.015 grdn:0.231 lr:5.6e-06 updt_s:1.749 data_s:0.016
+WARNING 2026-04-29 01:14:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:19:59 ot_train.py:459 step:23K smpl:1M ep:1K epch:12.33 loss:0.015 grdn:0.241 lr:5.5e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-29 01:19:59 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:25:53 ot_train.py:459 step:23K smpl:1M ep:1K epch:12.44 loss:0.015 grdn:0.236 lr:5.3e-06 updt_s:1.751 data_s:0.018
+WARNING 2026-04-29 01:25:53 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:31:46 ot_train.py:459 step:23K smpl:1M ep:1K epch:12.55 loss:0.014 grdn:0.234 lr:5.2e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 01:31:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:37:38 ot_train.py:459 step:24K smpl:2M ep:1K epch:12.65 loss:0.015 grdn:0.230 lr:5.0e-06 updt_s:1.741 data_s:0.015
+WARNING 2026-04-29 01:37:38 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:43:31 ot_train.py:459 step:24K smpl:2M ep:1K epch:12.76 loss:0.014 grdn:0.229 lr:4.9e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-29 01:43:31 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:49:24 ot_train.py:459 step:24K smpl:2M ep:1K epch:12.87 loss:0.014 grdn:0.234 lr:4.7e-06 updt_s:1.747 data_s:0.016
+WARNING 2026-04-29 01:49:24 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 01:55:17 ot_train.py:459 step:24K smpl:2M ep:1K epch:12.98 loss:0.014 grdn:0.244 lr:4.6e-06 updt_s:1.750 data_s:0.016
+WARNING 2026-04-29 01:55:17 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.started
+DEBUG 2026-04-29 01:56:36 re/_trace.py:47 close.complete
+INFO 2026-04-29 02:01:12 ot_train.py:459 step:24K smpl:2M ep:1K epch:13.08 loss:0.014 grdn:0.241 lr:4.4e-06 updt_s:1.746 data_s:0.026
+WARNING 2026-04-29 02:01:12 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:07:04 ot_train.py:459 step:25K smpl:2M ep:1K epch:13.19 loss:0.014 grdn:0.234 lr:4.3e-06 updt_s:1.744 data_s:0.015
+WARNING 2026-04-29 02:07:04 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:12:57 ot_train.py:459 step:25K smpl:2M ep:1K epch:13.30 loss:0.014 grdn:0.242 lr:4.2e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 02:12:57 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:18:49 ot_train.py:459 step:25K smpl:2M ep:1K epch:13.41 loss:0.014 grdn:0.226 lr:4.1e-06 updt_s:1.743 data_s:0.015
+WARNING 2026-04-29 02:18:49 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:18:49 ot_train.py:479 Checkpoint policy after step 25000
+DEBUG 2026-04-29 02:19:16 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-29 02:19:16 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-29 02:25:08 ot_train.py:459 step:25K smpl:2M ep:1K epch:13.51 loss:0.014 grdn:0.233 lr:3.9e-06 updt_s:1.743 data_s:0.016
+WARNING 2026-04-29 02:25:08 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:31:01 ot_train.py:459 step:25K smpl:2M ep:1K epch:13.62 loss:0.013 grdn:0.232 lr:3.8e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-29 02:31:01 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:36:54 ot_train.py:459 step:26K smpl:2M ep:1K epch:13.73 loss:0.014 grdn:0.228 lr:3.7e-06 updt_s:1.747 data_s:0.017
+WARNING 2026-04-29 02:36:54 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:42:47 ot_train.py:459 step:26K smpl:2M ep:1K epch:13.83 loss:0.014 grdn:0.230 lr:3.6e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-29 02:42:47 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 02:48:40 ot_train.py:459 step:26K smpl:2M ep:1K epch:13.94 loss:0.014 grdn:0.236 lr:3.5e-06 updt_s:1.749 data_s:0.016
+WARNING 2026-04-29 02:48:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.started
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.started
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.started
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.started
+DEBUG 2026-04-29 02:51:54 re/_trace.py:47 close.complete
+INFO 2026-04-29 02:54:36 ot_train.py:459 step:26K smpl:2M ep:1K epch:14.05 loss:0.013 grdn:0.237 lr:3.4e-06 updt_s:1.751 data_s:0.026
+WARNING 2026-04-29 02:54:36 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:00:30 ot_train.py:459 step:26K smpl:2M ep:1K epch:14.16 loss:0.013 grdn:0.248 lr:3.3e-06 updt_s:1.751 data_s:0.016
+WARNING 2026-04-29 03:00:30 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:06:22 ot_train.py:459 step:27K smpl:2M ep:1K epch:14.26 loss:0.013 grdn:0.239 lr:3.2e-06 updt_s:1.743 data_s:0.016
+WARNING 2026-04-29 03:06:22 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:12:15 ot_train.py:459 step:27K smpl:2M ep:1K epch:14.37 loss:0.013 grdn:0.235 lr:3.2e-06 updt_s:1.750 data_s:0.015
+WARNING 2026-04-29 03:12:15 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:18:09 ot_train.py:459 step:27K smpl:2M ep:1K epch:14.48 loss:0.013 grdn:0.230 lr:3.1e-06 updt_s:1.751 data_s:0.015
+WARNING 2026-04-29 03:18:09 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:24:02 ot_train.py:459 step:27K smpl:2M ep:1K epch:14.58 loss:0.013 grdn:0.242 lr:3.0e-06 updt_s:1.749 data_s:0.015
+WARNING 2026-04-29 03:24:02 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:29:55 ot_train.py:459 step:27K smpl:2M ep:1K epch:14.69 loss:0.013 grdn:0.243 lr:2.9e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 03:29:55 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:35:47 ot_train.py:459 step:28K smpl:2M ep:1K epch:14.80 loss:0.013 grdn:0.231 lr:2.9e-06 updt_s:1.746 data_s:0.015
+WARNING 2026-04-29 03:35:47 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:41:40 ot_train.py:459 step:28K smpl:2M ep:1K epch:14.91 loss:0.013 grdn:0.239 lr:2.8e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 03:41:40 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.started
+DEBUG 2026-04-29 03:46:49 re/_trace.py:47 close.complete
+INFO 2026-04-29 03:47:35 ot_train.py:459 step:28K smpl:2M ep:2K epch:15.01 loss:0.013 grdn:0.242 lr:2.8e-06 updt_s:1.748 data_s:0.026
+WARNING 2026-04-29 03:47:35 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:53:28 ot_train.py:459 step:28K smpl:2M ep:2K epch:15.12 loss:0.013 grdn:0.250 lr:2.7e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 03:53:28 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 03:59:21 ot_train.py:459 step:28K smpl:2M ep:2K epch:15.23 loss:0.012 grdn:0.234 lr:2.7e-06 updt_s:1.749 data_s:0.015
+WARNING 2026-04-29 03:59:21 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:05:14 ot_train.py:459 step:29K smpl:2M ep:2K epch:15.34 loss:0.012 grdn:0.243 lr:2.6e-06 updt_s:1.747 data_s:0.016
+WARNING 2026-04-29 04:05:14 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:11:07 ot_train.py:459 step:29K smpl:2M ep:2K epch:15.44 loss:0.012 grdn:0.248 lr:2.6e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 04:11:07 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:17:00 ot_train.py:459 step:29K smpl:2M ep:2K epch:15.55 loss:0.013 grdn:0.251 lr:2.6e-06 updt_s:1.748 data_s:0.015
+WARNING 2026-04-29 04:17:00 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:22:53 ot_train.py:459 step:29K smpl:2M ep:2K epch:15.66 loss:0.012 grdn:0.247 lr:2.6e-06 updt_s:1.749 data_s:0.016
+WARNING 2026-04-29 04:22:53 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:28:46 ot_train.py:459 step:29K smpl:2M ep:2K epch:15.76 loss:0.012 grdn:0.239 lr:2.5e-06 updt_s:1.747 data_s:0.015
+WARNING 2026-04-29 04:28:46 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:34:38 ot_train.py:459 step:30K smpl:2M ep:2K epch:15.87 loss:0.013 grdn:0.253 lr:2.5e-06 updt_s:1.743 data_s:0.015
+WARNING 2026-04-29 04:34:38 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:40:31 ot_train.py:459 step:30K smpl:2M ep:2K epch:15.98 loss:0.013 grdn:0.249 lr:2.5e-06 updt_s:1.746 data_s:0.016
+WARNING 2026-04-29 04:40:31 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+DEBUG 2026-04-29 04:41:41 re/_trace.py:47 close.started
+DEBUG 2026-04-29 04:41:41 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 04:41:41 re/_trace.py:47 close.started
+DEBUG 2026-04-29 04:41:41 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 04:41:41 re/_trace.py:47 close.started
+DEBUG 2026-04-29 04:41:41 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 04:41:42 re/_trace.py:47 close.started
+DEBUG 2026-04-29 04:41:42 re/_trace.py:47 close.complete
+INFO 2026-04-29 04:46:26 ot_train.py:459 step:30K smpl:2M ep:2K epch:16.09 loss:0.012 grdn:0.250 lr:2.5e-06 updt_s:1.745 data_s:0.026
+WARNING 2026-04-29 04:46:26 db_utils.py:181 WandB logging of key "loss_per_dim" was ignored as its type "<class 'list'>" is not handled by this wrapper.
+INFO 2026-04-29 04:46:26 ot_train.py:479 Checkpoint policy after step 30000
+DEBUG 2026-04-29 04:46:55 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-04-29 04:46:56 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-04-29 04:46:56 ot_train.py:553 End of training
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 close.started
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x78a23c28e360>
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x78a87e04afd0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x78a23c28d2b0>
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'199'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:46:56 GMT'), (b'ETag', b'W/"c7-9KdWzso6ih8EXgUHrbLbwpUeYHY"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d40-08e7e16435ba04a62b948e48;b4a89ad6-8e9c-4479-b6b6-7271e9c4c75e'), (b'RateLimit', b'"api";r=999;t=106'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'oVRLCl9IQWfA7qSOaUfVMlbivnbLsKGjI7fnFp_Z5vY76P6Yw5CADQ==')])
+INFO 2026-04-29 04:46:56 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:46:56 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'2'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:47:00 GMT'), (b'ETag', b'W/"2-nOO9QiTIwXgNtWtBJezz8kv3SLc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d44-1cfa28b557e8aca6586a8450;a55195c3-2d19-4307-a305-c796a8452f3d'), (b'RateLimit', b'"api";r=9999;t=108'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'XeUE84rU_LBcFjZ45WywM6hjIZRNdZyIkfCTEfkRcAcGOUNeJDveZg==')])
+INFO 2026-04-29 04:47:00 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:47:00 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d44-009d40723da35dc23c3e98fa;dbf8776e-9510-4e8c-962b-3896ac83eeaf'), (b'RateLimit', b'"api";r=9998;t=108'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'-0pISTPDDnBbtDNgqoQP9tZ3zAjnxKs8nbADCXcxlTAaxPKAPocHvQ==')])
+INFO 2026-04-29 04:47:00 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:47:00 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:47:05 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d49-31de6dab32dd450b40d5c655;6f1462fc-00ee-4ed0-97b3-74ac264d5f1b'), (b'RateLimit', b'"api";r=9997;t=103'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'nE8bJyFzmm4x0FOnqEmWjEjlT1olnG3GHskQ9UNF34kQrlrP9JXfYw==')])
+INFO 2026-04-29 04:47:05 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:47:05 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'340'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:47:05 GMT'), (b'ETag', b'W/"154-qXHV9SbCDeaVUfwi4oXVfQdj/qc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d49-45aed47f1f2585823b8d6a4d;30ea3a91-d24b-46e1-ab9e-e443816a76af'), (b'RateLimit', b'"api";r=998;t=97'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'rkPalsjLmEHKcVutvOLg0ps6wFhzuV4eQFufBDTeEAM96QMLlxEPZQ==')])
+INFO 2026-04-29 04:47:06 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1048'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:47:06 GMT'), (b'ETag', b'W/"418-E57Cn53wLsOs2KMCfMoc6X6+GxI"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d4a-7a06a9722586cfdc5d57262e;7a4ab166-afe0-43d4-a01e-54048c82ce24'), (b'RateLimit', b'"api";r=997;t=96'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'4S1AdY-s9GqG093F-aEkqR5Skwl49epp1pLnZwIsUI9lxNk1YgCQrg==')])
+INFO 2026-04-29 04:47:06 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'453'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:47:06 GMT'), (b'ETag', b'W/"1c5-PZr+IhoDQKTCXSMdXEqc4OlRrb8"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18d4a-3551783918ac038b5c556857;1b3325a7-af48-4f5c-a1ad-5d986d60fb93'), (b'RateLimit', b'"api";r=996;t=96'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Xet-Cas-Url', b'https://cas-server.xethub.hf.co'), (b'X-Xet-Token-Expiration', b'1777438926'), (b'X-Xet-Access-Token', b'<REDACTED>'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 bf90403bab431b17998a442c04c52de4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'TO2qnia_WAy1luO5rEdIRlAkYketKuQlCMND3tfmw31JNjsNnYTScg==')])
+INFO 2026-04-29 04:47:06 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/xet-write-token/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:47:06 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 close.started
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 close.complete
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x78a2e1731df0>
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x78a87e04afd0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x78a2e1733290>
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:00 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'235'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:01 GMT'), (b'ETag', b'W/"eb-HZ3ClPjkQvvyywShemVBpeBpstM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dbc-14b507e27173716f315de0ec;f25b8f66-8295-407b-9e68-95152c941c5d'), (b'RateLimit', b'"api";r=999;t=282'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'KLm728b4WCYI4yP-ST97FlT-C0QcPVAptluxKSTQmUgEVRiUUb6vhg==')])
+INFO 2026-04-29 04:49:02 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 response_closed.complete
+INFO 2026-04-29 04:49:02 etrained.py:245 Model pushed to https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'205'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:02 GMT'), (b'ETag', b'W/"cd-L41vsbypsouhsc/ZssL6Yrxj6DU"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dbe-4e1753e41e0847a54f5b0f1e;63ac8073-e6ca-472c-8bc0-7e94cfc671b2'), (b'RateLimit', b'"api";r=998;t=280'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'-I2EblE22KY11Cec2V_fK4FAQSrZ10PTUfAR5AV1LMh1H2CCoJxVBQ==')])
+INFO 2026-04-29 04:49:02 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:02 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'257'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:02 GMT'), (b'ETag', b'W/"101-ehC7hVUfK+UlR9t7KaYNxxQRBQo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dbe-51b82b3339e31c715d2e35ed;b27631b8-9c7c-49c1-800a-9de360b39d70'), (b'RateLimit', b'"api";r=997;t=280'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'BYfZZI7wMMLvwcFVjZytP9YOhkxWEZduUluxNEBeqNYVG1WS1DY3rw==')])
+INFO 2026-04-29 04:49:03 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1042'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:03 GMT'), (b'ETag', b'W/"412-ZCsSZq1Jjp2fMfmvLkBM5fyHyjY"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dbf-7af4ae6d35474a8710e2bd73;4093f503-6c18-4760-bf16-6603dbe6c42b'), (b'RateLimit', b'"api";r=996;t=279'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'op4PlGver9nZviDFllPrpcuRZtBaubMzdi6_28rDJ74MfNRvrnMs7g==')])
+INFO 2026-04-29 04:49:03 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:03 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:06 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:06 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:06 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:06 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:06 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'235'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:07 GMT'), (b'ETag', b'W/"eb-AbkO6ZtTc5FiBcOuTkhOrRAu9bo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dc2-69833eca2c74f52a4cbca733;dbf261a2-4bdd-4374-9b34-680c925ed7ef'), (b'RateLimit', b'"api";r=995;t=276'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'KXADiPXscMi2iOVaDA6smRjMpuhAbjVQQh9MKYpDn6C-BBkgjqnKyw==')])
+INFO 2026-04-29 04:49:07 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'205'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:07 GMT'), (b'ETag', b'W/"cd-L41vsbypsouhsc/ZssL6Yrxj6DU"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dc3-7438c9b5628302bf1d33f5b1;61cfd89d-0dfc-4451-98ef-b79c1a6d67d7'), (b'RateLimit', b'"api";r=994;t=275'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'sXRM8qXVjyqoJToj0nSVpYGqv-p2UbIc1e-Yh9jzPmC4r5U5h_4XeQ==')])
+INFO 2026-04-29 04:49:07 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'261'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:07 GMT'), (b'ETag', b'W/"105-+t+EVS7RPmlrZ8OU0Rvbw1KLgyM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dc3-493ee9a3265341c54e407198;e3332fc7-1bb5-4ba7-aad1-fbb48331f7f8'), (b'RateLimit', b'"api";r=993;t=275'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'rAVNeTSDW19jepGTv0lQUHQ8WC-Pnp4AreXwnqdjUknXgoqI27iRRA==')])
+INFO 2026-04-29 04:49:07 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'117'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:08 GMT'), (b'ETag', b'W/"75-61SLOOtfV/+yZ5tw84N/04PfQk0"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dc4-6580c22f5477cfea0edf418d;4b451b7e-c230-45ce-ba0d-6d333fe162b3'), (b'RateLimit', b'"api";r=992;t=274'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'aHlSpKLpQBv_t44RX131xUdrfYKvnTtr9P-NLOsRgxG4VL3bI4GJzw==')])
+INFO 2026-04-29 04:49:08 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:08 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 04:49:09 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-04-29 04:49:09 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-04-29 04:49:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'235'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 29 Apr 2026 04:49:10 GMT'), (b'ETag', b'W/"eb-Q2NDVdj5yfeTl+zmwqh7VINfBIE"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69f18dc5-7ec2d8d2339782d2061860d9;ea52cc99-81e8-4ae2-8129-a433359eb022'), (b'RateLimit', b'"api";r=991;t=273'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 da083e1f0c15d1726da737581424156c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P6'), (b'X-Amz-Cf-Id', b'WRq-Aou8yflHEdxyKCC2YmhFvDXa7R1FmDHEmN1P6o_Cjv7JnYpWWw==')])
+INFO 2026-04-29 04:49:10 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-04-29 04:49:10 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-04-29 04:49:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-04-29 04:49:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-04-29 04:49:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-04-29 05:00:16 re/_trace.py:47 close.started
+DEBUG 2026-04-29 05:00:16 re/_trace.py:47 close.complete
