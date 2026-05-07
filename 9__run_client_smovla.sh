@@ -37,14 +37,14 @@ python3 -m lerobot.async_inference.robot_client \
     --robot.gripper_enabled=true \
     --robot.id=fr5_follower \
     --robot.cameras="{ \
-        top_left: {type: opencv, index_or_path: '/dev/video18', width: 640, height: 480, fps: 20}, \
-        top_right: {type: opencv, index_or_path: '/dev/video19', width: 640, height: 480, fps: 20}, \
-        hand: {type: intelrealsense, serial_number_or_name: '333422300435', width: 640, height: 480, fps: 30}}" \
+        camera2: {type: opencv, index_or_path: '/dev/video18', width: 640, height: 480, fps: 20}, \
+        camera3: {type: opencv, index_or_path: '/dev/video19', width: 640, height: 480, fps: 20}, \
+        camera1: {type: intelrealsense, serial_number_or_name: '333422300435', width: 640, height: 480, fps: 30}}" \
     --pretrained_name_or_path=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model \
     --policy_type=smolvla \
     --policy_device=cuda \
     --actions_per_chunk=50 \
-    --chunk_size_threshold=0.8 \
+    --chunk_size_threshold=0.6 \
     --aggregate_fn_name=average \
     --debug_visualize_queue_size=false \
     --task="pick_red_colored_marker_to_box" \
