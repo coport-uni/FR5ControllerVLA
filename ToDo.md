@@ -1741,14 +1741,15 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - **원격**: push 안 함. 로컬 작업으로만 진행 (옵션 5-A).
 
 ### Work items
-- [ ] 현재 HEAD (`3b28332a`) 에서 `backup/main-pre-rollback-2026-05-07`
-  브랜치 생성, 그 위에 dirty 8 파일 snapshot 커밋.
-- [ ] 같은 커밋에 `backup-2026-05-07` 태그 부여.
-- [ ] `main` 으로 복귀 후 working tree clean 확인.
-- [ ] `rollback/2-weeks-ago` 브랜치를 `e76ecdf1` 에서 생성하고 checkout.
-- [ ] 최종 상태 검증: `git branch`, `git log --oneline -3`,
+- [x] 현재 HEAD (`3b28332a` → ToDo entry commit `84a4a168`) 에서
+  `backup/main-pre-rollback-2026-05-07` 브랜치 생성, 그 위에 dirty
+  8 파일 snapshot 커밋 (`b1931a12`).
+- [x] 같은 커밋에 `backup-2026-05-07` 태그 부여.
+- [x] `main` 으로 복귀 후 working tree clean 확인.
+- [x] `rollback/2-weeks-ago` 브랜치를 `e76ecdf1` 에서 생성하고 checkout.
+- [x] 최종 상태 검증: `git branch`, `git log --oneline -3`,
   `git status`, `git tag -l 'backup-*'`.
-- [ ] `gh issue create` 로 본 항목 등록.
+- [x] `gh issue create` 로 본 항목 등록 (#70).
 - [ ] commit (이 ToDo entry, push 안 함 — 옵션 5-A).
 
 ### Out of scope
