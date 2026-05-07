@@ -1,24 +1,28 @@
 #!/bin/bash
-# FR5 async-inference robot client (ACT policy variant).
+# FR5 async-inference robot client (Pi0 policy variant).
 #
 # Connects to the PolicyServer (8__run_server.sh, default 127.0.0.1:8080)
-# via gRPC, performs the handshake that uploads the ACT policy/robot
+# via gRPC, performs the handshake that uploads the Pi0 policy/robot
 # config to the server, then streams observations (joints + cameras)
 # and executes the returned action chunks on the FR5 follower via
 # ServoJ.
 #
-# ACT-specific notes (vs. 9__run_client_smovla.sh):
-#   - actions_per_chunk=100 matches the ACT default chunk_size=100
-#     (src/lerobot/policies/act/configuration_act.py), which 7__train_act.sh
-#     does not override.
-#   - task="" because ACT is not language-conditioned; the field is
-#     ignored at inference time.
+# Pi0-specific notes (vs. 9__run_client_act.sh / 9__run_client_smovla.sh):
+#   - actions_per_chunk=50 matches the Pi0 default chunk_size=50 /
+#     n_action_steps=50 (src/lerobot/policies/pi0/configuration_pi0.py),
+#     which 7__train_pi0.sh does not override.
+#   - task="pick red colored marker to box" because Pi0 is
+#     language-conditioned (like SmolVLA, unlike ACT).
+#   - Camera keys (top_left / top_right / hand) follow the dataset
+#     feature names used at training time, matching 9__run_client_act.sh.
 #
-# Prerequisite: pip install -e ".[async]"   (grpcio + matplotlib extras)
-# Docs:        https://huggingface.co/docs/lerobot/async
-# NOTE:        Set PRETRAINED to a real FR5 ACT checkpoint
+# Prerequisite: pip install -e ".[pi]"        (Pi0 dependencies)
+#               pip install -e ".[async]"     (grpcio + matplotlib extras)
+# Docs:        https://huggingface.co/docs/lerobot/pi0
+#              https://huggingface.co/docs/lerobot/async
+# NOTE:        Set PRETRAINED to a real FR5 Pi0 checkpoint
 #              (HuggingFace repo id or local path) before running.
-# Paired with: 8__run_server.sh
+# Paired with: 8__run_server.sh, 7__train_pi0.sh
 
 _conda_sh=""
 
@@ -38,8 +42,6 @@ fi
 source "$_conda_sh"
 conda activate lerobot
 
-# --pretrained_name_or_path=coport-uni/FR5_pick_red_colored_marker_to_box_act_adv_model \
-
 python3 -m lerobot.async_inference.robot_client \
     --server_address=10.0.12.139:17044 \
     --robot.type=fairino_follower \
@@ -50,10 +52,10 @@ python3 -m lerobot.async_inference.robot_client \
         top_left: {type: opencv, index_or_path: '/dev/video18', width: 640, height: 480, fps: 20}, \
         top_right: {type: opencv, index_or_path: '/dev/video19', width: 640, height: 480, fps: 20}, \
         hand: {type: intelrealsense, serial_number_or_name: '333422300435', width: 640, height: 480, fps: 30}}" \
-    --pretrained_name_or_path=coport-uni/FR5_pick_red_colored_marker_to_box_act_adv_model \
-    --policy_type=act \
+    --pretrained_name_or_path=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model \
+    --policy_type=pi0 \
     --policy_device=cuda \
-    --actions_per_chunk=100 \
+    --actions_per_chunk=50 \
     --chunk_size_threshold=0.6 \
     --aggregate_fn_name=average \
     --debug_visualize_queue_size=false \

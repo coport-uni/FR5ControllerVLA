@@ -1115,6 +1115,96 @@ enqueue 를 수행한다. 로봇 보간이 진행 중인 시점(= ramp 미완료
 - ServoJ / ramp 로직 자체 변경 (보간 속도, max_step, period 등).
 - gripper.pos 의 스무딩 / 필터링 / 데드밴드 외부화.
 
+## 2026-04-30: ServoJ cmdT 를 실제 호출 주기와 정합 + SDK default 정렬
+
+### Background
+[fairino_follower.py:336](src/lerobot/robots/fairino_follower/fairino_follower.py#L336)
+의 ServoJ 호출은 `cmdT = 1/servo_hz = 10ms` 로 광고하지만,
+실제 `send_action()` 호출 주기는 `1/control_hz = 50ms`. 컨트롤러
+입장의 implicit velocity = `(target - lastServoTarget)/10ms` 가
+관절 안전속도를 초과해 `GetSafetyCode()` prelock 으로 silently
+halt 되는 게 큰 delta 시 정지 증상의 원인 가설.
+
+[Robot.py:1572](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1572)
+docstring: cmdT default 0.008s, 권장 [0.001~0.0016s].
+[example/test1015.py:30](src/lerobot/robots/fairino_follower/fairino/example/test1015.py#L30)
+는 `time.sleep(cmdT)` 로 cmdT 와 호출 주기를 명시적으로 정합.
+
+### Decisions (사용자 확정)
+- **control_hz=125 Hz** (SDK default cmdT=8ms) 로 상향. SDK 권장
+  하단 (625~1000 Hz) 은 Python+XMLRPC + LP §3 G2 (main-thread
+  ServoJ) 제약상 비현실적이라 SDK default 라인을 채택.
+- **`servo_hz` 필드 처리 (A)**: 완전 제거. cmdT 는 control_hz 에서
+  파생 (`period = 1.0 / control_hz`).
+- **그 외 SDK 차이**: 없음 (acc/vel/filterT/gain 모두 SDK default
+  값 0.0; `id` 생략은 LP §3 Q1 firmware V3.9.1 quirk 대응).
+
+### Out of scope
+- SDK 권장 1000/625 Hz 도달 (Phase 2; inner servo thread 설계
+  필요, LP §3 G2 와 충돌).
+- [src/lerobot/robots/fairino/](src/lerobot/robots/fairino/)
+  legacy copy ([utils.py:71-72](src/lerobot/robots/utils.py#L71-L72)
+  에 등록 안 됨; 별도 정리 task).
+
+### Work items
+- [ ] `gh issue create` 로 이슈 등록 (작업 전).
+- [ ] [config_fairino_follower.py](src/lerobot/robots/fairino_follower/config_fairino_follower.py)
+      에서 `servo_hz` 필드 제거.
+- [ ] `control_hz` default 20.0 → 125.0, docstring 업데이트.
+- [ ] [fairino_follower.py:336](src/lerobot/robots/fairino_follower/fairino_follower.py#L336)
+      `period = 1.0 / self.config.servo_hz`
+      → `period = 1.0 / self.config.control_hz`.
+- [ ] `ruff check` / `ruff format --check` 통과.
+- [ ] **사용자 테스트 대기 — commit/push 보류**.
+- [ ] 사용자 테스트 통과 확인 후 commit + push, `gh issue edit` 클로즈.
+
+> **Status: ABANDONED** — 가설의 전제 (control_hz 가 실제 호출
+> 주기를 결정한다) 가 틀린 것으로 확인됨. 코드는 revert,
+> issue #53 closed as not planned. 후속은 아래 entry 참조.
+
+## 2026-04-30: ServoJ stall on large delta — `_commanded` desync 가설 fix
+
+### Background
+이전 시도 ([#53](https://github.com/coport-uni/FR5ControllerVLA/issues/53),
+control_hz/cmdT 정렬, abandoned) 후 재진단:
+[fairino_follower.py:300-378](src/lerobot/robots/fairino_follower/fairino_follower.py#L300-L378)
+의 `send_action` 자체에는 large-delta halt 로직이 없음. 그러나
+[_recover_servo_session](src/lerobot/robots/fairino_follower/fairino_follower.py#L411-L424)
+가 ServoMoveEnd/ServoMoveStart 만 하고 `self._commanded` 를 실제
+joint 값으로 resync 하지 않음.
+
+세션 드롭 시 로봇은 위치 P 에서 정지하지만, ramp 상태는 마지막
+commanded 값 C 에 박힘. 복구 후 첫 ServoJ target = C+max_step,
+실제 위치 P → controller 의 implicit velocity `(target-P)/cmdT`
+가 관절 속도 안전 한도 초과 →
+[Robot.py:1584-1585](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1584-L1585)
+`GetSafetyCode()` prelock 으로 silently halt → 사용자 관점
+"큰 delta 받으면 정지" 증상.
+
+### Decisions (사용자 확정)
+- `_recover_servo_session` 의 `ServoMoveStart` 직후
+  `self._read_joints()` 호출, `ret==0` 이면
+  `self._commanded = list(joints)` 로 resync.
+- read 실패 시 (`ret != 0`) warning 로그 후 진행 — defensive
+  fallback (이상 상태에서의 best-effort).
+- `send_action` 정상 흐름에는 손대지 않음 (매 호출 resync 는
+  ramp 무력화).
+
+### Out of scope
+- gripper worker pause/resume 의 다른 desync 경로 (별 task).
+- ramp 로직 자체 변경.
+- `max_relative_target` enforcement 추가 (현재 fairino 는 정의만
+  있고 enforce 안 됨; 필요시 별 task).
+
+### Work items
+- [x] `gh issue create` 로 이슈 등록 (#54).
+- [x] [_recover_servo_session](src/lerobot/robots/fairino_follower/fairino_follower.py#L411-L424)
+      `ServoMoveStart` 직후 resync 라인 추가.
+- [x] docstring 에 WHY (silent halt 메커니즘) 보강.
+- [x] `ruff check` / `ruff format --check` 통과.
+- [ ] **사용자 테스트 대기 — commit/push 보류**.
+- [ ] 사용자 테스트 통과 확인 후 commit + push, `gh issue edit` 클로즈.
+
 ## 2026-05-01: 7__train_pi0_adv.sh per-GPU VRAM ~80% batch 탐색
 
 ### Background
@@ -1608,3 +1698,137 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - 체크포인트 / `outputs/datasets/` / `outputs/smoke_logs/` 업로드.
 - DEBUG 트레이스 라인 전체 제거.
 - 학습 스크립트의 로그 레벨 조정 (DEBUG → INFO) — 별도 작업.
+
+## 2026-05-04: Hard-reset main to 2542f804
+
+사용자 요청으로 로컬 `main` 을 `2542f804` (merge2) 로 `git reset --hard`.
+폐기된 commit 3 개 (origin/main 보다 1 앞서 있던 상태):
+- `fa2e8e9e` Align ServoJ cmdT with actual send_action call rate (#65)
+- `35a1b8d2` Mark commit checkbox closed for #64 diagnosis entry in ToDo.md
+- `ec18ec0f` Diagnose ServoJ mid-motion stop on FR5 ACT async inference (#64)
+
+미커밋 변경사항 5 파일 (`.claude/settings.json`, `9__run_client_act.sh`,
+`ToDo.md`, `config_fairino_follower.py`, `fairino_follower.py`) 도 함께
+폐기됨.
+
+### Work items
+- [x] `git reset --hard 2542f804` 실행, working tree clean 확인.
+- [x] `gh issue create` 로 기록 등록 (#69).
+- [ ] commit + push (이 ToDo entry).
+
+### Out of scope
+- 원격 force-push (사용자가 별도 요청 시에만 진행).
+  현재 `origin/main` 은 여전히 `35a1b8d2` 에 있고 로컬은 2 commit 뒤짐.
+- 폐기된 변경사항 복구 (`git reflog` 로 단기 복구는 가능).
+
+## 2026-05-07: 2-week rollback to e76ecdf137 with backup branch + tag
+
+사용자 요청: 현재 코드를 백업하고 약 2 주 전 상태(`e76ecdf1`
+"merge_fix" 2026-04-29)로 롤백. 단, `main` 은 비파괴적으로 보존하고
+새 작업 브랜치에서 롤백 상태를 갖도록 한다.
+
+### Decisions (사용자 확정)
+- **롤백 대상**: `e76ecdf137caf9368e52b7da76946fbe49e2f6e3`.
+- **백업**: 브랜치 `backup/main-pre-rollback-2026-05-07` + 태그
+  `backup-2026-05-07` 둘 다 생성 (옵션 2-C).
+- **롤백 방식**: 새 브랜치 `rollback/2-weeks-ago` 를 `e76ecdf1` 에서
+  분기. `main` 은 `3b28332a` 그대로 유지 (옵션 3-C, 비파괴).
+- **dirty 파일 처리**: 현재 working tree 의 8 개 modified 파일
+  (`9__run_client_act.sh`, `9__run_client_smovla.sh`,
+  `outputs/captured_images/opencv__dev_video{2,4,18,19,20}.png`,
+  `outputs/captured_images/realsense_333422300435.png`) 은 백업
+  브랜치에 snapshot 커밋으로 보존 (옵션 4-A).
+- **원격**: push 안 함. 로컬 작업으로만 진행 (옵션 5-A).
+
+### Work items
+- [x] 현재 HEAD (`3b28332a` → ToDo entry commit `84a4a168`) 에서
+  `backup/main-pre-rollback-2026-05-07` 브랜치 생성, 그 위에 dirty
+  8 파일 snapshot 커밋 (`b1931a12`).
+- [x] 같은 커밋에 `backup-2026-05-07` 태그 부여.
+- [x] `main` 으로 복귀 후 working tree clean 확인.
+- [x] `rollback/2-weeks-ago` 브랜치를 `e76ecdf1` 에서 생성하고 checkout.
+- [x] 최종 상태 검증: `git branch`, `git log --oneline -3`,
+  `git status`, `git tag -l 'backup-*'`.
+- [x] `gh issue create` 로 본 항목 등록 (#70).
+- [ ] commit (이 ToDo entry, push 안 함 — 옵션 5-A).
+
+### Out of scope
+- 원격 force-push 및 `origin/main` 변경 (옵션 5-A 명시).
+- `main` 자체 hard-reset (옵션 3-C 로 명시적으로 회피).
+- 백업 브랜치/태그의 원격 push (사용자 별도 지시 시에만).
+- `e76ecdf1` 이전 / 이후 커밋의 cherry-pick 또는 merge.
+## 2026-05-04: ServoJ 동작 중 로봇 정지 원인 진단 (diagnosis only)
+
+### Background
+사용자가 [9__run_client_act.sh](9__run_client_act.sh) 로 ACT async inference
+실행 중 FR5 가 ServoJ 동작 도중 갑자기 멈추는 현상을 보고. 사용자
+직감: "컨트롤러 단의 ServoJ 관련 안전장치가 막는 것 같다".
+이 entry 는 **진단 단계만** 다루며, 실제 수정(servo_hz/cmdT 조정,
+로깅 강화 등)은 사용자 확정 후 별도 ToDo entry 로 진행한다.
+관련 LP: §G2 (ServoJ 101 / settle), §Q1 (7-param signature).
+
+### Findings (가장 유력 → 보조)
+1. **cmdT 권장범위 위반** (가장 유력):
+   - [fairino_follower.py:336](src/lerobot/robots/fairino_follower/fairino_follower.py#L336)
+     `period = 1.0 / servo_hz` → `servo_hz=100` 이라 cmdT = **10 ms**.
+   - [fairino_follower.py:350-358](src/lerobot/robots/fairino_follower/fairino_follower.py#L350-L358)
+     해당 `period` 를 그대로 ServoJ cmdT 인자로 전달.
+   - SDK 명시 권장값
+     [fairino/Robot.py:1572](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1572):
+     `cmdT 建议范围[0.001~0.0016], 默认为0.008` (권장 1~1.6 ms,
+     기본 8 ms). 10 ms 는 권장 상한의 6.25 배 + 기본값 초과 →
+     컨트롤러 buffer underrun / 안전장치 트리거 가능.
+2. **GetSafetyCode() silent 거부**:
+   - [fairino/Robot.py:1584-1585](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1584-L1585)
+     ServoJ 진입 전 `GetSafetyCode() != 0` 시 즉시 return.
+   - [fairino_follower.py:362-365](src/lerobot/robots/fairino_follower/fairino_follower.py#L362-L365)
+     현재 `ret != 0` 을 `logger.debug` 로만 기록 → 어떤 안전장치
+     코드가 작동했는지 운영 중 확인 어려움.
+3. **에러 14 복구 후 ramp 위치 점프**:
+   - [fairino_follower.py:418-449](src/lerobot/robots/fairino_follower/fairino_follower.py#L418-L449)
+     `_recover_servo_session()` 후 `_commanded` 가 실제 위치와
+     동기화되지만, 직후 ramp 재시작 시 추가 settle 없이
+     이어지면 컨트롤러 안전장치가 트리거될 수 있음.
+
+### Work items
+- [x] `fairino_follower.py` 의 `send_action` / `_recover_servo_session`
+  / `_initialise_servo_mode` 코드 인용·라인 확인.
+- [x] Fairino SDK `Robot.py` 의 ServoJ 권장 cmdT 범위 / GetSafetyCode
+  사전 검사 라인 확인.
+- [x] `LearnedPatterns.md` §G2 / §Q1 ServoJ 관련 항목 교차 확인.
+- [x] [9__run_client_act.sh](9__run_client_act.sh) async inference
+  실행 컨텍스트 확인 (fps=20, chunk_size=100).
+- [x] `gh issue create` 로 진단 결과 등록 (#64).
+- [x] commit + push (이 entry + 진단 결과 issue link) — ec18ec0f.
+- [ ] (사용자 확정 대기) 후속 fix entry 작성:
+  - cmdT/servo_hz 보수 조정 (예: cmdT=0.008 또는 0.004).
+  - ServoJ 에러 로깅 `debug` → `warning` 승격 + GetSafetyCode 동시 기록.
+  - 에러 14 복구 후 짧은 settle (≈100 ms) 추가.
+
+### Out of scope (이번 진단 entry)
+- 실제 코드 수정 (별도 ToDo entry + 별도 commit).
+- 새 테스트 추가.
+- LearnedPatterns.md 업데이트 (fix 후 재현 결과 확인 후).
+
+## 2026-05-07: Add 9__run_client_pi0.sh inference client
+
+근거: `7__train_pi0.sh` 가 `coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model`
+로 push 하는 pi0 체크포인트를 PolicyServer (`8__run_server.sh`) 에 띄우고
+async-inference 로 FR5 follower 에서 실행하기 위한 client 가 누락되어
+`9__run_client_act.sh` / `9__run_client_smovla.sh` 와 동일한 패턴으로 추가.
+
+설계 결정 (사용자 확정):
+- 카메라 키: act 스타일 (`top_left` / `top_right` / `hand`).
+- server_address: `10.0.12.139:17044` (act/smolvla 동일).
+- fps=20, chunk_size_threshold=0.6 (smolvla 동일).
+- `actions_per_chunk=50` — pi0 기본 `chunk_size = n_action_steps = 50`
+  (`src/lerobot/policies/pi0/configuration_pi0.py`).
+- `task="pick red colored marker to box"` — pi0 는 language-conditioned.
+- `policy_type=pi0`, `pretrained_name_or_path=
+  coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model`.
+
+- [x] `9__run_client_pi0.sh` 작성 (act/smolvla client 패턴 + pi0 파라미터)
+- [x] `bash -n` 으로 shell 문법 검증
+- [x] `gh issue create` 로 등록 (#71)
+- [x] commit + push (issue link 포함) — 033bdb9f
+- [x] `gh issue close` 로 종료
