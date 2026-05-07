@@ -1856,7 +1856,7 @@ SmolVLA 논문 휴리스틱(VLM 절반 층) 을 24층 백본에 외삽 적용.
 - [x] 7__train_smovla22_adv.sh 수정 (위 6개 플래그 변경 + 헤더/하단 주석 업데이트)
 - [x] `bash -n` 으로 shell 문법 검증
 - [x] `gh issue create` 로 등록 (#73)
-- [ ] commit + push (issue link 포함)
+- [x] commit + push (issue link 포함) — a81bb703
 
 Out of scope:
 - VRAM/batch_size 튜닝 (사용자 지시로 유보).
