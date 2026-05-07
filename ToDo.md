@@ -1720,3 +1720,39 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - 원격 force-push (사용자가 별도 요청 시에만 진행).
   현재 `origin/main` 은 여전히 `35a1b8d2` 에 있고 로컬은 2 commit 뒤짐.
 - 폐기된 변경사항 복구 (`git reflog` 로 단기 복구는 가능).
+
+## 2026-05-07: 2-week rollback to e76ecdf137 with backup branch + tag
+
+사용자 요청: 현재 코드를 백업하고 약 2 주 전 상태(`e76ecdf1`
+"merge_fix" 2026-04-29)로 롤백. 단, `main` 은 비파괴적으로 보존하고
+새 작업 브랜치에서 롤백 상태를 갖도록 한다.
+
+### Decisions (사용자 확정)
+- **롤백 대상**: `e76ecdf137caf9368e52b7da76946fbe49e2f6e3`.
+- **백업**: 브랜치 `backup/main-pre-rollback-2026-05-07` + 태그
+  `backup-2026-05-07` 둘 다 생성 (옵션 2-C).
+- **롤백 방식**: 새 브랜치 `rollback/2-weeks-ago` 를 `e76ecdf1` 에서
+  분기. `main` 은 `3b28332a` 그대로 유지 (옵션 3-C, 비파괴).
+- **dirty 파일 처리**: 현재 working tree 의 8 개 modified 파일
+  (`9__run_client_act.sh`, `9__run_client_smovla.sh`,
+  `outputs/captured_images/opencv__dev_video{2,4,18,19,20}.png`,
+  `outputs/captured_images/realsense_333422300435.png`) 은 백업
+  브랜치에 snapshot 커밋으로 보존 (옵션 4-A).
+- **원격**: push 안 함. 로컬 작업으로만 진행 (옵션 5-A).
+
+### Work items
+- [ ] 현재 HEAD (`3b28332a`) 에서 `backup/main-pre-rollback-2026-05-07`
+  브랜치 생성, 그 위에 dirty 8 파일 snapshot 커밋.
+- [ ] 같은 커밋에 `backup-2026-05-07` 태그 부여.
+- [ ] `main` 으로 복귀 후 working tree clean 확인.
+- [ ] `rollback/2-weeks-ago` 브랜치를 `e76ecdf1` 에서 생성하고 checkout.
+- [ ] 최종 상태 검증: `git branch`, `git log --oneline -3`,
+  `git status`, `git tag -l 'backup-*'`.
+- [ ] `gh issue create` 로 본 항목 등록.
+- [ ] commit (이 ToDo entry, push 안 함 — 옵션 5-A).
+
+### Out of scope
+- 원격 force-push 및 `origin/main` 변경 (옵션 5-A 명시).
+- `main` 자체 hard-reset (옵션 3-C 로 명시적으로 회피).
+- 백업 브랜치/태그의 원격 push (사용자 별도 지시 시에만).
+- `e76ecdf1` 이전 / 이후 커밋의 cherry-pick 또는 merge.
