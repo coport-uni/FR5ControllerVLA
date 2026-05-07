@@ -1830,5 +1830,5 @@ async-inference 로 FR5 follower 에서 실행하기 위한 client 가 누락되
 - [x] `9__run_client_pi0.sh` 작성 (act/smolvla client 패턴 + pi0 파라미터)
 - [x] `bash -n` 으로 shell 문법 검증
 - [x] `gh issue create` 로 등록 (#71)
-- [ ] commit + push (issue link 포함)
-- [ ] `gh issue close` 로 종료
+- [x] commit + push (issue link 포함) — 033bdb9f
+- [x] `gh issue close` 로 종료
