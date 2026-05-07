@@ -1757,3 +1757,55 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - `main` 자체 hard-reset (옵션 3-C 로 명시적으로 회피).
 - 백업 브랜치/태그의 원격 push (사용자 별도 지시 시에만).
 - `e76ecdf1` 이전 / 이후 커밋의 cherry-pick 또는 merge.
+## 2026-05-04: ServoJ 동작 중 로봇 정지 원인 진단 (diagnosis only)
+
+### Background
+사용자가 [9__run_client_act.sh](9__run_client_act.sh) 로 ACT async inference
+실행 중 FR5 가 ServoJ 동작 도중 갑자기 멈추는 현상을 보고. 사용자
+직감: "컨트롤러 단의 ServoJ 관련 안전장치가 막는 것 같다".
+이 entry 는 **진단 단계만** 다루며, 실제 수정(servo_hz/cmdT 조정,
+로깅 강화 등)은 사용자 확정 후 별도 ToDo entry 로 진행한다.
+관련 LP: §G2 (ServoJ 101 / settle), §Q1 (7-param signature).
+
+### Findings (가장 유력 → 보조)
+1. **cmdT 권장범위 위반** (가장 유력):
+   - [fairino_follower.py:336](src/lerobot/robots/fairino_follower/fairino_follower.py#L336)
+     `period = 1.0 / servo_hz` → `servo_hz=100` 이라 cmdT = **10 ms**.
+   - [fairino_follower.py:350-358](src/lerobot/robots/fairino_follower/fairino_follower.py#L350-L358)
+     해당 `period` 를 그대로 ServoJ cmdT 인자로 전달.
+   - SDK 명시 권장값
+     [fairino/Robot.py:1572](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1572):
+     `cmdT 建议范围[0.001~0.0016], 默认为0.008` (권장 1~1.6 ms,
+     기본 8 ms). 10 ms 는 권장 상한의 6.25 배 + 기본값 초과 →
+     컨트롤러 buffer underrun / 안전장치 트리거 가능.
+2. **GetSafetyCode() silent 거부**:
+   - [fairino/Robot.py:1584-1585](src/lerobot/robots/fairino_follower/fairino/Robot.py#L1584-L1585)
+     ServoJ 진입 전 `GetSafetyCode() != 0` 시 즉시 return.
+   - [fairino_follower.py:362-365](src/lerobot/robots/fairino_follower/fairino_follower.py#L362-L365)
+     현재 `ret != 0` 을 `logger.debug` 로만 기록 → 어떤 안전장치
+     코드가 작동했는지 운영 중 확인 어려움.
+3. **에러 14 복구 후 ramp 위치 점프**:
+   - [fairino_follower.py:418-449](src/lerobot/robots/fairino_follower/fairino_follower.py#L418-L449)
+     `_recover_servo_session()` 후 `_commanded` 가 실제 위치와
+     동기화되지만, 직후 ramp 재시작 시 추가 settle 없이
+     이어지면 컨트롤러 안전장치가 트리거될 수 있음.
+
+### Work items
+- [x] `fairino_follower.py` 의 `send_action` / `_recover_servo_session`
+  / `_initialise_servo_mode` 코드 인용·라인 확인.
+- [x] Fairino SDK `Robot.py` 의 ServoJ 권장 cmdT 범위 / GetSafetyCode
+  사전 검사 라인 확인.
+- [x] `LearnedPatterns.md` §G2 / §Q1 ServoJ 관련 항목 교차 확인.
+- [x] [9__run_client_act.sh](9__run_client_act.sh) async inference
+  실행 컨텍스트 확인 (fps=20, chunk_size=100).
+- [x] `gh issue create` 로 진단 결과 등록 (#64).
+- [x] commit + push (이 entry + 진단 결과 issue link) — ec18ec0f.
+- [ ] (사용자 확정 대기) 후속 fix entry 작성:
+  - cmdT/servo_hz 보수 조정 (예: cmdT=0.008 또는 0.004).
+  - ServoJ 에러 로깅 `debug` → `warning` 승격 + GetSafetyCode 동시 기록.
+  - 에러 14 복구 후 짧은 settle (≈100 ms) 추가.
+
+### Out of scope (이번 진단 entry)
+- 실제 코드 수정 (별도 ToDo entry + 별도 commit).
+- 새 테스트 추가.
+- LearnedPatterns.md 업데이트 (fix 후 재현 결과 확인 후).
