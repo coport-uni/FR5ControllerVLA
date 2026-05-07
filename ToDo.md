@@ -1917,12 +1917,12 @@ edge-triggered 방식으로 변경 (사용자 요청, see LP §G2 / §Q1).
   가 충돌을 막아주므로 불필요).
 
 ### Work items
-- [ ] `__init__` 에 `_servo_paused: threading.Event`, `_resync_needed: bool` 추가.
-- [ ] `_run_gripper_cmd` 를 try/finally 로 감싸 set → 시퀀스 → resync flag → clear.
-- [ ] `send_action` 에 paused 분기, `_resync_needed` 처리, recovery 가드 추가.
-- [ ] `ramp_in_progress` 기반 그리퍼 드롭 제거.
-- [ ] `ruff check src/lerobot/robots/fairino_follower/fairino_follower.py` / `ruff format --check` 통과.
+- [x] `__init__` 에 `_servo_paused: threading.Event`, `_resync_needed: bool` 추가.
+- [x] `_run_gripper_cmd` 를 try/finally 로 감싸 set → 시퀀스 → resync flag → clear.
+- [x] `send_action` 에 paused 분기, `_resync_needed` 처리, recovery 가드 추가.
+- [x] `ramp_in_progress` 기반 그리퍼 드롭 제거.
+- [x] `ruff check src/lerobot/robots/fairino_follower/fairino_follower.py` / `ruff format --check` 통과.
 - [x] `gh issue create` 로 등록 (#74).
-- [ ] commit + push (issue link 포함).
-- [ ] `gh issue close` 로 종료.
-- [ ] `LearnedPatterns.md` 에 "MoveGripper(block=1) 중 ServoJ recovery race" 항목 추가.
+- [x] commit + push (issue link 포함) — 94d4bdfe.
+- [x] `gh issue close` 로 종료.
+- [x] `LearnedPatterns.md` 에 §G9 "MoveGripper(block=1) 중 ServoJ recovery race" 항목 추가.
