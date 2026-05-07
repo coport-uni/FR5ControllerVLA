@@ -198,6 +198,30 @@
   ServoJ loop; always dispatch it via a worker thread with its
   own RPC proxy. (from ToDo#22)
 
+### G9. Gripper worker pause races main-thread ServoJ recovery
+
+- **Problem**: With the gripper worker (G8) in place, pi0
+  async-inference still stalled when the gripper moved — every
+  ServoJ tick logged error 14 and the arm froze in a
+  recover/retry loop.
+- **Cause**: `MoveGripper(block=1, maxtime=30000ms)` blocks the
+  worker for seconds. During that window the main thread's
+  ServoJ saw the dropped servo session, called
+  `_recover_servo_session()` → `ServoMoveEnd → ServoMoveStart`,
+  and raced the worker's own `ServoMoveEnd / MoveGripper /
+  ServoMoveStart` sequence — aborting MoveGripper and
+  re-triggering error 14 on the next tick.
+- **Fix**: Added `threading.Event _servo_paused`. The worker
+  sets it before `ServoMoveEnd` and clears it after
+  `ServoMoveStart`. While set, `send_action` skips ServoJ and
+  the recovery path entirely. A `_resync_needed` flag set by
+  the worker right before unpause forces the next tick to
+  re-anchor `_commanded` from a live joint read.
+- **Rule**: Whenever a worker thread issues `ServoMoveEnd`, gate
+  the main-thread ServoJ loop (and its recovery path) behind a
+  shared pause flag. A second proxy (G8) prevents transport
+  races but not session-state races. (from ToDo#74)
+
 ---
 
 ## §3. Library Quirks

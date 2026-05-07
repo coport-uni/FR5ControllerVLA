@@ -120,6 +120,25 @@ class FairinoFollower(Robot):
         # before the worker consumes them.
         self._gripper_target_pending: float | None = None
 
+        # Set by the gripper worker around its
+        # ServoMoveEnd -> MoveGripper -> ServoMoveStart
+        # sequence.  While set, send_action() must skip both
+        # ServoJ and the error-14 recovery path so the main
+        # thread cannot race the worker on servo session
+        # state (issue #74).
+        self._servo_paused = threading.Event()
+        # Worker -> main signal that _commanded must be
+        # resynced from a live joint reading on the next
+        # tick after pause is cleared, otherwise the ramp
+        # would resume from a stale anchor.
+        self._resync_needed = False
+
+        # Last ServoJ outcome key for edge-triggered logging.
+        # Format: "ret:<int>" on normal returns, "exc:<TypeName>"
+        # on exceptions.  Logging only fires on transitions, so
+        # a persistent error prints once instead of every tick.
+        self._last_servoj_state: str = "ret:0"
+
     # ---- properties (required by Robot base class) ---------
 
     @property
@@ -327,20 +346,41 @@ class FairinoFollower(Robot):
             )
         ]
 
-        # Ramp one step toward the target.  ``ramp_in_progress``
-        # is set whenever any joint took only a partial step;
-        # while it is True, gripper commands are dropped so the
-        # worker's ServoMoveEnd / MoveGripper / ServoMoveStart
-        # sequence cannot race the in-flight ServoJ ramp and
-        # tear down the servo session (error 14).
+        result = {f"{jname}.pos": clamped_deg[i] for i, jname in enumerate(self.config.joint_names)}
+
+        # If the gripper worker has paused servo mode, skip
+        # ServoJ entirely this tick.  The servo session is
+        # held by the worker's ServoMoveEnd until it issues
+        # ServoMoveStart again; issuing ServoJ here would
+        # only return error 14 and tempt the recovery path
+        # to fight the worker (issue #74).  Gripper commands
+        # are still enqueued -- the worker drains the
+        # latest-wins slot serially.
+        if self._servo_paused.is_set():
+            if self.config.gripper_enabled and "gripper.pos" in action:
+                grip = max(0.0, min(100.0, float(action["gripper.pos"])))
+                result["gripper.pos"] = grip
+                self._enqueue_gripper_cmd(grip)
+            return result
+
+        # Worker just resumed servo: anchor the ramp to the
+        # real joint reading before issuing ServoJ, otherwise
+        # the next delta would compound the gripper-pause
+        # drift into a single large step that the controller
+        # would reject.
+        if self._resync_needed:
+            ret, joints = self._read_joints()
+            if ret == 0:
+                self._commanded = list(joints)
+            self._resync_needed = False
+
+        # Ramp one step toward the target.
         period = 1.0 / self.config.servo_hz
         max_step = self.config.max_servo_speed * period
-        ramp_in_progress = False
         for i in range(len(self._commanded)):
             delta = clamped_deg[i] - self._commanded[i]
             if abs(delta) > max_step:
                 self._commanded[i] += max_step if delta > 0 else -max_step
-                ramp_in_progress = True
             else:
                 self._commanded[i] = clamped_deg[i]
 
@@ -356,22 +396,21 @@ class FairinoFollower(Robot):
                 0.0,
                 0.0,
             )
-            if ret == _SERVO_SESSION_LOST:
+            self._log_servoj_state_change(f"ret:{ret}", ret, None)
+            # Only run the recovery path when the session loss
+            # is genuine; if the worker just took the session
+            # offline, leave recovery to the worker's
+            # ServoMoveStart (issue #74).
+            if ret == _SERVO_SESSION_LOST and not self._servo_paused.is_set():
                 self._recover_servo_session()
-            elif ret != 0:
-                logger.debug(
-                    "[Fairino] ServoJ err: %d",
-                    ret,
-                )
-        except Exception:
-            logger.debug(
-                "[Fairino] ServoJ call failed.",
-                exc_info=True,
+        except Exception as exc:
+            self._log_servoj_state_change(
+                f"exc:{type(exc).__name__}",
+                0,
+                exc,
             )
 
-        result = {f"{jname}.pos": clamped_deg[i] for i, jname in enumerate(self.config.joint_names)}
-
-        if self.config.gripper_enabled and "gripper.pos" in action and not ramp_in_progress:
+        if self.config.gripper_enabled and "gripper.pos" in action:
             grip = max(0.0, min(100.0, float(action["gripper.pos"])))
             result["gripper.pos"] = grip
             self._enqueue_gripper_cmd(grip)
@@ -414,6 +453,50 @@ class FairinoFollower(Robot):
     def _assert_connected(self) -> None:
         if not self._is_connected or self._rpc is None:
             raise RuntimeError("[Fairino] Not connected. Call connect().")
+
+    def _log_servoj_state_change(
+        self,
+        new_state: str,
+        ret: int,
+        exc: Exception | None,
+    ) -> None:
+        """Log ServoJ outcome only when it differs from the last.
+
+        Called once per ServoJ attempt with a state key that
+        encodes either the return code (``"ret:<int>"``) or the
+        exception type (``"exc:<TypeName>"``).  When the key
+        matches the previous attempt, this is a no-op, so a
+        persistent fault logs once instead of at every control
+        tick (~20 Hz).  A return to ``"ret:0"`` after any
+        non-zero state emits a single ``recovered`` line.
+
+        Args:
+            new_state: Encoded outcome key.
+            ret: Raw ServoJ return code (0 on exception path).
+            exc: Exception instance, or None on the return path.
+        """
+        if new_state == self._last_servoj_state:
+            return
+
+        previous = self._last_servoj_state
+        self._last_servoj_state = new_state
+
+        if new_state == "ret:0":
+            logger.info(
+                "[Fairino] ServoJ recovered (was %s).",
+                previous,
+            )
+        elif exc is not None:
+            logger.warning(
+                "[Fairino] ServoJ exception: %s: %s",
+                type(exc).__name__,
+                exc,
+            )
+        else:
+            logger.warning(
+                "[Fairino] ServoJ err: %d",
+                ret,
+            )
 
     def _recover_servo_session(self) -> None:
         """Re-establish the servo session after error 14.
@@ -688,10 +771,11 @@ class FairinoFollower(Robot):
 
         The Fairino controller blocks ``MoveGripper`` while
         servo mode is active, so we pause/resume around it.
-        Called from the gripper worker thread; the main
-        control thread keeps issuing ServoJ during the pause
-        window and recovers via _recover_servo_session when
-        the controller reports the session was torn down.
+        ``_servo_paused`` is set for the entire pause/resume
+        window so the main control thread suspends ServoJ and
+        skips ``_recover_servo_session`` -- otherwise the
+        main thread's recovery path would race this sequence
+        and abort MoveGripper mid-flight (issue #74).
 
         Args:
             pos: Target position [0-100 %].
@@ -701,41 +785,50 @@ class FairinoFollower(Robot):
         proxy = self._gripper_proxy
         if proxy is None:
             return
+
+        self._servo_paused.set()
         try:
-            proxy.ServoMoveEnd()
-            time.sleep(0.02)
-            ret = proxy.MoveGripper(
-                int(cfg.gripper_index),
-                pos_int,
-                int(cfg.gripper_vel),
-                int(cfg.gripper_force),
-                30000,
-                1,
-                0,
-                0.0,
-                0,
-                0,
-            )
-            if ret != 0:
-                logger.warning(
-                    "[Fairino] MoveGripper FAILED (err %d)",
-                    ret,
-                )
-            else:
-                logger.info(
-                    "[Fairino] Gripper -> %d%%",
+            try:
+                proxy.ServoMoveEnd()
+                time.sleep(0.02)
+                ret = proxy.MoveGripper(
+                    int(cfg.gripper_index),
                     pos_int,
+                    int(cfg.gripper_vel),
+                    int(cfg.gripper_force),
+                    30000,
+                    1,
+                    0,
+                    0.0,
+                    0,
+                    0,
                 )
-            time.sleep(0.02)
-            proxy.ServoMoveStart()
-            time.sleep(0.02)
-        except Exception as exc:
-            logger.warning(
-                "[Fairino] Gripper err: %s",
-                exc,
-            )
-            with contextlib.suppress(Exception):
-                proxy.ServoMoveStart()
+                if ret != 0:
+                    logger.warning(
+                        "[Fairino] MoveGripper FAILED (err %d)",
+                        ret,
+                    )
+                else:
+                    logger.info(
+                        "[Fairino] Gripper -> %d%%",
+                        pos_int,
+                    )
+                time.sleep(0.02)
+            except Exception as exc:
+                logger.warning(
+                    "[Fairino] Gripper err: %s",
+                    exc,
+                )
+            finally:
+                with contextlib.suppress(Exception):
+                    proxy.ServoMoveStart()
+                    time.sleep(0.02)
+        finally:
+            # Order matters: flag the resync before clearing
+            # the pause so the next send_action() tick always
+            # re-anchors _commanded from a fresh joint read.
+            self._resync_needed = True
+            self._servo_paused.clear()
 
     # ---- servo helpers ------------------------------------
 

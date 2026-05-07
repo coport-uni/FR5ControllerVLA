@@ -1832,3 +1832,68 @@ async-inference 로 FR5 follower 에서 실행하기 위한 client 가 누락되
 - [x] `gh issue create` 로 등록 (#71)
 - [x] commit + push (issue link 포함) — 033bdb9f
 - [x] `gh issue close` 로 종료
+
+## 2026-05-07: Edge-triggered ServoJ error logging in fairino_follower
+
+근거: 운영 중 ServoJ 가 실패하더라도 현재 코드는
+[fairino_follower.py:362-370](src/lerobot/robots/fairino_follower/fairino_follower.py#L362-L370)
+에서 `logger.debug` 로만 기록하므로 기본 로그 레벨에서 보이지 않음.
+계속 같은 에러를 매 control tick (≈20Hz) 마다 출력하면 로그 스팸이
+되므로, **이전 tick 의 에러 코드와 다를 때만** 출력하는
+edge-triggered 방식으로 변경 (사용자 요청, see LP §G2 / §Q1).
+
+설계 결정 (사용자 확정 대기):
+- 직전 상태를 `self._last_servoj_state` 에 저장 (`"ret:0"` /
+  `"ret:14"` / `"exc:ConnectionResetError"` 같은 문자열 키).
+- `ret == 0` 으로 복귀: `logger.info("[Fairino] ServoJ recovered (was %s)")`.
+- 새 에러 (`ret != 0` 이면서 이전과 다름): `logger.warning("[Fairino] ServoJ err: %d")`.
+- exception 도 같은 규칙 (타입 이름이 바뀌면 한 번 출력).
+- 에러 14 의 경우 `_recover_servo_session()` 이 이미 INFO 로그를
+  남기지만, edge-triggered 라 매 tick 중복되지 않으므로 그대로 둠
+  (한 번씩만 짝으로 출력됨 → 의도된 동작).
+
+### Work items
+- [x] `__init__` 에 `self._last_servoj_state: str = "ret:0"` 추가.
+- [x] `send_action` 의 ServoJ try/except 분기에서 edge-triggered
+  로깅 헬퍼 호출로 교체.
+- [x] `_log_servoj_state_change(new_state: str, ret: int, exc: Exception | None)`
+  헬퍼 메서드 추가 (전이 분기 한 곳에 모음).
+- [x] `_recover_servo_session` 호출 후에도 상태 변수가 정확히
+  반영되도록 흐름 검토 (recovery 후 다음 tick 이 `ret:0` 이면
+  자연스럽게 "recovered" 로그가 한 번 출력됨).
+- [x] `ruff check` / `ruff format --check` 통과 확인.
+- [x] `gh issue create` 로 등록 (#72).
+- [ ] commit + push (issue link 포함).
+- [ ] `gh issue close` 로 종료.
+
+## 2026-05-07: Isolate gripper worker from main ServoJ loop
+
+근거: `9__run_client_pi0.sh` 로 pi0 async-inference 를 돌리는 동안
+그리퍼 동작 중 ServoJ 가 매 틱 error 14 → `_recover_servo_session()`
+무한 루프에 빠져 모션이 멈추는 증상 보고됨. 원인은 그리퍼 워커가
+`_run_gripper_cmd` 에서 `ServoMoveEnd → MoveGripper(block=1, maxtime=30000ms)
+→ ServoMoveStart` 를 도는 동안 메인 스레드의 ServoJ 가 죽은 서보 세션을
+보고 [fairino_follower.py:366-367](src/lerobot/robots/fairino_follower/fairino_follower.py#L366-L367)
+의 `_recover_servo_session()` 을 호출하여 워커의 시퀀스와 경쟁하기 때문.
+(see LP §G8 / §R2)
+
+설계 결정 (사용자 확정):
+- 새 `threading.Event` `_servo_paused`: 워커가 ServoMoveEnd 직전 set,
+  ServoMoveStart 완료 후 clear. 메인 스레드는 `is_set()` 동안 ServoJ
+  자체와 `_recover_servo_session()` 을 모두 스킵.
+- 워커가 unpause 직전 `_resync_needed = True` 로 표시. 메인 루프는
+  다음 틱에 실 조인트 값으로 `_commanded` 를 동기화 후 ServoJ 재개
+  (큰 ramp 점프 방지).
+- 기존 `ramp_in_progress` 기반 그리퍼 드롭 게이트는 제거 (이제 `_servo_paused`
+  가 충돌을 막아주므로 불필요).
+
+### Work items
+- [ ] `__init__` 에 `_servo_paused: threading.Event`, `_resync_needed: bool` 추가.
+- [ ] `_run_gripper_cmd` 를 try/finally 로 감싸 set → 시퀀스 → resync flag → clear.
+- [ ] `send_action` 에 paused 분기, `_resync_needed` 처리, recovery 가드 추가.
+- [ ] `ramp_in_progress` 기반 그리퍼 드롭 제거.
+- [ ] `ruff check src/lerobot/robots/fairino_follower/fairino_follower.py` / `ruff format --check` 통과.
+- [x] `gh issue create` 로 등록 (#74).
+- [ ] commit + push (issue link 포함).
+- [ ] `gh issue close` 로 종료.
+- [ ] `LearnedPatterns.md` 에 "MoveGripper(block=1) 중 ServoJ recovery race" 항목 추가.
