@@ -1809,3 +1809,26 @@ probe 결과 per-GPU batch=160 (effective 320) 이 H200 NVL 80 %
 - 실제 코드 수정 (별도 ToDo entry + 별도 commit).
 - 새 테스트 추가.
 - LearnedPatterns.md 업데이트 (fix 후 재현 결과 확인 후).
+
+## 2026-05-07: Add 9__run_client_pi0.sh inference client
+
+근거: `7__train_pi0.sh` 가 `coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model`
+로 push 하는 pi0 체크포인트를 PolicyServer (`8__run_server.sh`) 에 띄우고
+async-inference 로 FR5 follower 에서 실행하기 위한 client 가 누락되어
+`9__run_client_act.sh` / `9__run_client_smovla.sh` 와 동일한 패턴으로 추가.
+
+설계 결정 (사용자 확정):
+- 카메라 키: act 스타일 (`top_left` / `top_right` / `hand`).
+- server_address: `10.0.12.139:17044` (act/smolvla 동일).
+- fps=20, chunk_size_threshold=0.6 (smolvla 동일).
+- `actions_per_chunk=50` — pi0 기본 `chunk_size = n_action_steps = 50`
+  (`src/lerobot/policies/pi0/configuration_pi0.py`).
+- `task="pick red colored marker to box"` — pi0 는 language-conditioned.
+- `policy_type=pi0`, `pretrained_name_or_path=
+  coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model`.
+
+- [x] `9__run_client_pi0.sh` 작성 (act/smolvla client 패턴 + pi0 파라미터)
+- [x] `bash -n` 으로 shell 문법 검증
+- [x] `gh issue create` 로 등록 (#71)
+- [ ] commit + push (issue link 포함)
+- [ ] `gh issue close` 로 종료
