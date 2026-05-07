@@ -85,7 +85,7 @@ accelerate launch \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
     --batch_size=72 \
-    --steps=9000 \
+    --steps=90000 \
     --save_freq=3000 \
     --resume=false \
     --num_workers=10 \
