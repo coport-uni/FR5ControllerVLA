@@ -1,0 +1,937 @@
+INFO 2026-05-07 10:09:02 ot_train.py:217 {'batch_size': 16,
+ 'checkpoint_path': None,
+ 'cudnn_deterministic': False,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'affine': {'kwargs': {'degrees': [-5.0,
+                                                                            5.0],
+                                                                'translate': [0.05,
+                                                                              0.05]},
+                                                     'type': 'RandomAffine',
+                                                     'weight': 1.0},
+                                          'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box',
+             'revision': None,
+             'root': None,
+             'streaming': False,
+             'use_imagenet_stats': True,
+             'video_backend': 'pyav'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'fr5_smolvla_red_marker_base22',
+ 'log_freq': 200,
+ 'num_workers': 10,
+ 'optimizer': {'betas': [0.9, 0.95],
+               'eps': 1e-08,
+               'grad_clip_norm': 10,
+               'lr': 8.7e-05,
+               'type': 'adamw',
+               'weight_decay': 1e-10},
+ 'output_dir': 'outputs/train/fr5_smolvla_red_marker_base22',
+ 'peft': None,
+ 'policy': {'adapt_to_pi_aloha': False,
+            'add_image_special_tokens': False,
+            'attention_mode': 'cross_attn',
+            'chunk_size': 50,
+            'compile_mode': 'max-autotune',
+            'compile_model': True,
+            'device': 'cuda',
+            'empty_cameras': 0,
+            'expert_width_multiplier': 0.75,
+            'freeze_vision_encoder': True,
+            'input_features': {},
+            'license': None,
+            'load_vlm_weights': True,
+            'max_action_dim': 32,
+            'max_period': 4.0,
+            'max_state_dim': 32,
+            'min_period': 0.004,
+            'n_action_steps': 50,
+            'n_obs_steps': 1,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},
+            'num_expert_layers': -1,
+            'num_steps': 10,
+            'num_vlm_layers': 12,
+            'optimizer_betas': [0.9, 0.95],
+            'optimizer_eps': 1e-08,
+            'optimizer_grad_clip_norm': 10,
+            'optimizer_lr': 8.7e-05,
+            'optimizer_weight_decay': 1e-10,
+            'output_features': {},
+            'pad_language_to': 'longest',
+            'prefix_length': -1,
+            'pretrained_path': None,
+            'private': None,
+            'push_to_hub': True,
+            'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model22',
+            'resize_imgs_with_padding': [512, 512],
+            'rtc_config': None,
+            'scheduler_decay_lr': 2.5e-06,
+            'scheduler_decay_steps': 9000,
+            'scheduler_warmup_steps': 1000,
+            'self_attn_every_n_layers': 2,
+            'tags': None,
+            'tokenizer_max_length': 48,
+            'train_expert_only': True,
+            'train_state_proj': True,
+            'type': 'smolvla',
+            'use_amp': False,
+            'use_cache': True,
+            'use_delta_joint_actions_aloha': False,
+            'use_peft': False,
+            'vlm_model_name': 'HuggingFaceTB/SmolVLM2-2.2B-Instruct'},
+ 'rabc_epsilon': 1e-06,
+ 'rabc_head_mode': 'sparse',
+ 'rabc_kappa': 0.01,
+ 'rabc_progress_path': None,
+ 'rename_map': {'observation.images.hand': 'observation.images.camera1',
+                'observation.images.top_left': 'observation.images.camera2',
+                'observation.images.top_right': 'observation.images.camera3'},
+ 'resume': False,
+ 'save_checkpoint': True,
+ 'save_freq': 5000,
+ 'scheduler': {'decay_lr': 2.5e-06,
+               'num_decay_steps': 9000,
+               'num_warmup_steps': 1000,
+               'peak_lr': 8.7e-05,
+               'type': 'cosine_decay_with_warmup'},
+ 'seed': 55,
+ 'steps': 26000,
+ 'tolerance_s': 0.1,
+ 'use_policy_training_preset': True,
+ 'use_rabc': False,
+ 'wandb': {'add_tags': True,
+           'disable_artifact': False,
+           'enable': True,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': None}}
+DEBUG 2026-05-07 10:09:02 or_events.py:64 Using selector: EpollSelector
+DEBUG 2026-05-07 10:09:02 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-05-07 10:09:02 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-05-07 10:09:02 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-05-07 10:09:02 git/cmd.py:1286 Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/workspace/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-05-07 10:09:03 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-05-07 10:09:03 git/cmd.py:1286 Popen(['git', 'cat-file', '--batch-check'], cwd=/workspace/FR5ControllerVLA, stdin=<valid stream>, shell=False, universal_newlines=False)
+INFO 2026-05-07 10:09:04 db_utils.py:117 [1m[34mLogs will be synced with wandb.[0m
+INFO 2026-05-07 10:09:04 db_utils.py:118 Track this run --> [1m[33mhttps://wandb.ai/ohsungwoo-unist/lerobot/runs/4iaazati[0m
+INFO 2026-05-07 10:09:04 ot_train.py:241 Creating dataset
+DEBUG 2026-05-07 10:09:04 ock/_api.py:501 Attempting to acquire lock 137031751481152 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:504 Lock 137031751481152 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-07 10:09:04 ock/_api.py:541 Attempting to release lock 137031751481152 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:545 Lock 137031751481152 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:501 Attempting to acquire lock 137031751481344 on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:504 Lock 137031751481344 acquired on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-07 10:09:04 ock/_api.py:541 Attempting to release lock 137031751481344 on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:545 Lock 137031751481344 released on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-05-07 10:09:04 eo_utils.py:108 Using video codec: libsvtav1
+DEBUG 2026-05-07 10:09:04 ock/_api.py:501 Attempting to acquire lock 137031751482496 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:504 Lock 137031751482496 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-07 10:09:04 ock/_api.py:541 Attempting to release lock 137031751482496 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:545 Lock 137031751482496 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2c43a16ff6493f1d_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:501 Attempting to acquire lock 137031340447536 on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:504 Lock 137031340447536 acquired on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-07 10:09:04 ock/_api.py:541 Attempting to release lock 137031340447536 on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:545 Lock 137031340447536 released on /root/.cache/huggingface/datasets/parquet/default-2c43a16ff6493f1d/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:501 Attempting to acquire lock 137031340288736 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-fea2d88268d3aec4_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:504 Lock 137031340288736 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-fea2d88268d3aec4_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-fea2d88268d3aec4/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-07 10:09:04 ock/_api.py:541 Attempting to release lock 137031340288736 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-fea2d88268d3aec4_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:545 Lock 137031340288736 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-fea2d88268d3aec4_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:501 Attempting to acquire lock 137031340283216 on /root/.cache/huggingface/datasets/parquet/default-fea2d88268d3aec4/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:504 Lock 137031340283216 acquired on /root/.cache/huggingface/datasets/parquet/default-fea2d88268d3aec4/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-fea2d88268d3aec4/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-05-07 10:09:04 ock/_api.py:541 Attempting to release lock 137031340283216 on /root/.cache/huggingface/datasets/parquet/default-fea2d88268d3aec4/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-05-07 10:09:04 ock/_api.py:545 Lock 137031340283216 released on /root/.cache/huggingface/datasets/parquet/default-fea2d88268d3aec4/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-05-07 10:09:04 ot_train.py:259 Creating policy
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ca118507350>
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x7ca1185e1fd0> server_hostname='huggingface.co' timeout=10
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ca1184d94c0>
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:04 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'276'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:05 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%226a01472ec2a0595b85ac601a4e99efdcaa1ff108%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c1-168e15c04a7b2bd16c4fa7f9;87c3799a-e51d-44b5-8339-91cf55d576ee'), (b'RateLimit', b'"resolvers";r=4999;t=277'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'euv5y_KZrS5uNfJuODAKcAWumivHmS3Y91blyIaROCQhYTjH_fLL_A==')])
+INFO 2026-05-07 10:09:05 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'3642'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:36:39 GMT'), (b'ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5d27-78e7dd1f0d006d273195568a;c1c63262-6e79-437b-86df-c17e8b464902'), (b'RateLimit', b'"resolvers";r=4997;t=123'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'qdIAo29SE8GqlbbzR-h_YqMJarTkKx9iUPrm3O9465a9aYxIpdvq5Q=='), (b'Age', b'1946')])
+INFO 2026-05-07 10:09:05 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'276'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:05 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%226a01472ec2a0595b85ac601a4e99efdcaa1ff108%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c1-5dfea3e413f3f9fd3f931c2e;90ef4490-60c3-4dbc-a38b-60268bb57eb5'), (b'RateLimit', b'"resolvers";r=4998;t=277'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'T-3qCYNDJOziLrik0gBO5u1msAr6jZSZDfDaA3kLu-_7W9B3oxUlsQ==')])
+INFO 2026-05-07 10:09:05 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'3642'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:36:39 GMT'), (b'ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5d27-78e7dd1f0d006d273195568a;c1c63262-6e79-437b-86df-c17e8b464902'), (b'RateLimit', b'"resolvers";r=4997;t=123'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'kXYJRE872ExsHs31elGmcL5zVxkKi4NDt0rdKwm4S2F-Avf16m7egg=='), (b'Age', b'1946')])
+INFO 2026-05-07 10:09:05 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:05 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'298'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:07 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/generation_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fgeneration_config.json=&etag=%22eace9aa6d392fd94dbe0c90825074c53fd7ecd4a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c3-656c1126554a63f127c60c19;fcdfa88d-bac1-4209-b66b-e270ba914ea1'), (b'RateLimit', b'"resolvers";r=4993;t=275'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'generation_config.json; filename="generation_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"eace9aa6d392fd94dbe0c90825074c53fd7ecd4a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'5YCgeXB-y18xl_MMG86tm6y3DV8_fgVBqBc-5WiPLvQURrUhk1F5LQ==')])
+INFO 2026-05-07 10:09:07 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'136'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:33 GMT'), (b'ETag', b'"eace9aa6d392fd94dbe0c90825074c53fd7ecd4a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e89-79c27f4a59d68b2b14957236;994c4d48-dae1-4eb8-aef2-e36a846b0e35'), (b'RateLimit', b'"resolvers";r=4997;t=69'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'generation_config.json; filename="generation_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'_StHNh0XZCoSfjMnVRn4L1kkBibP51hMeWWb0EMt89-SilRd90PKuw=='), (b'Age', b'1594')])
+INFO 2026-05-07 10:09:07 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/generation_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:07 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c3-4ca1b59b644160fc527f7abd;e5888db4-6628-4696-96ba-3e23f00117ec'), (b'RateLimit', b'"resolvers";r=4990;t=275'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'xljqONXrm4lmGBv48ihvAe_Z0n9ffImZqtBB35n9caU8d9T7Pq5x0g==')])
+INFO 2026-05-07 10:09:07 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'6HJUEYcsBe-Id05E3nY-hVBZo1Lp2aHknUPDNDWUtMreEyFBRWnFwA=='), (b'Age', b'1593')])
+INFO 2026-05-07 10:09:07 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:07 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c3-28ba824c31a5eae22789c85e;3fefdef0-b50e-476b-b8df-3d4a1ffbb3bf'), (b'RateLimit', b'"api";r=998;t=275'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'34DhrSWdRiqJKR1chQh7ojXv8Ph09suorEXhLnBWAxMJDet0_9gnrg==')])
+INFO 2026-05-07 10:09:07 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:07 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:07 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c3-0e4043294259b45c7c85402a;f842e3b9-8c3c-451d-b4a0-5d5ae3a71a84'), (b'RateLimit', b'"resolvers";r=4986;t=275'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'dNLMIzEOGMayiLEx984jwSUD32oWu1sY8RiKZ-lyXqYXhld4JyaCmA==')])
+INFO 2026-05-07 10:09:08 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'br4oAYjFuNcS2AuKBxzmAugRp08miUfYW5HxuagpRaxVXBPZal930g=='), (b'Age', b'1594')])
+INFO 2026-05-07 10:09:08 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'290'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:08 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/chat_template.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fchat_template.json=&etag=%221d342e4f070c962a14ba4ece4e06212bc70d8e36%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c4-52ac34151e0933cd496d2051;2447c8f7-d7e1-4b48-b3ca-79792e719159'), (b'RateLimit', b'"resolvers";r=4983;t=274'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'chat_template.json; filename="chat_template.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"1d342e4f070c962a14ba4ece4e06212bc70d8e36"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'LzQvqd4HMtmwdnAvZmp0BuhsFHlgHJN_rzfGCM0Ukm8Y5lm-KevFlw==')])
+INFO 2026-05-07 10:09:08 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/chat_template.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'430'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:35 GMT'), (b'ETag', b'"1d342e4f070c962a14ba4ece4e06212bc70d8e36"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8b-3eebee667497665f466dd6be;56d8d244-107c-4004-aab2-3ffa2e1b37ed'), (b'RateLimit', b'"resolvers";r=4983;t=67'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'chat_template.json; filename="chat_template.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'a-cJ0eYBf9xB1VzV8FqtHFf-t2-lm7_e--XIPoOgaKtqIVHqDvCNaA=='), (b'Age', b'1593')])
+INFO 2026-05-07 10:09:08 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/chat_template.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:08 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c4-5328950474e4844d077f1b82;516721b1-ed8f-4706-bd6b-f405289133c4'), (b'RateLimit', b'"resolvers";r=4981;t=274'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'oPZ1tHLXbH0gj4I3dLud-NBuao4yYhLdVkMFGrOebOZymVyWZLHOsw==')])
+INFO 2026-05-07 10:09:08 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/chat_template.jinja "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:08 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c4-2f826cd12c0551754eba70f0;0c461959-4d92-459c-bd3d-b53e4f9c82d9'), (b'RateLimit', b'"resolvers";r=4979;t=274'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'kjWNkiaz8urPLD4q0Mi6T28gv1lFfmFkoVGA77XtG_sjSdRyVw3dUg==')])
+INFO 2026-05-07 10:09:08 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:08 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:08 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c4-2284283d042275ec0c0d6800;f59ef72d-cc3d-4fd8-9967-382028f19f67'), (b'RateLimit', b'"api";r=995;t=274'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'j0s3OsyynLHdWnRUTzRXCNI7a-uo235icpEDeef75z7IxyQYJoFBVA==')])
+INFO 2026-05-07 10:09:09 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:09 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c5-6fedf1d2736e30711a37b603;790d8cb5-8e2d-45bd-97d6-9b249f01d86e'), (b'RateLimit', b'"resolvers";r=4975;t=273'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'h_QYwGBryOxdtUReBwCIA040ODvqZUsUV0n7ZPGfbxG58XDDCvN-rA==')])
+INFO 2026-05-07 10:09:09 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'irkZwn8iZS4iVfXQdeuJsGV4fypbgfp2ahD8ZYJyEuyGb5SWJYFmPg=='), (b'Age', b'1595')])
+INFO 2026-05-07 10:09:09 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'290'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:09 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/chat_template.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fchat_template.json=&etag=%221d342e4f070c962a14ba4ece4e06212bc70d8e36%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c5-3484b0bc273a939b46ca7c1e;0838be93-db87-491d-b6c2-b1bb2c171e0a'), (b'RateLimit', b'"resolvers";r=4972;t=273'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'chat_template.json; filename="chat_template.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"1d342e4f070c962a14ba4ece4e06212bc70d8e36"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'GW3ltFIUR-DCLZRDNSCEY8ZqjI6kKY577gySf-0lt1g7xhuzC1h8LQ==')])
+INFO 2026-05-07 10:09:09 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/chat_template.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'430'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:35 GMT'), (b'ETag', b'"1d342e4f070c962a14ba4ece4e06212bc70d8e36"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8b-3eebee667497665f466dd6be;56d8d244-107c-4004-aab2-3ffa2e1b37ed'), (b'RateLimit', b'"resolvers";r=4983;t=67'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'chat_template.json; filename="chat_template.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'-wYgj6qwHOaFGiYr2eqkZS4Udh-IMQ5kf4_GvyMeMUXR5ae3rp4IRw=='), (b'Age', b'1594')])
+INFO 2026-05-07 10:09:09 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/chat_template.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:09 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c5-3dd0471b6ae2880c3803b807;6cff61db-1849-4f01-8c78-71231536e2ef'), (b'RateLimit', b'"resolvers";r=4969;t=273'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'XRXokYu9hzxcHOGjJH4bGn031guY3XUdAUbNGNyEcrYk7foDnifsTA==')])
+INFO 2026-05-07 10:09:09 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/chat_template.jinja "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:09 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c5-6274776e366a353e69c37794;cbc50442-dd6b-43d8-9993-9cfdfcfdfb6d'), (b'RateLimit', b'"resolvers";r=4967;t=273'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'_yvhHgpNEzKkbbxwOzFqkw3l4r1OqL5SRSyzhTBcPwR-0lsKXnS5sg==')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:10 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c6-6f0604812ceb31ef18dfcc69;34d8cc0b-8adb-4af7-ae7c-038fbaa088fd'), (b'RateLimit', b'"resolvers";r=4965;t=272'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'ZuUanba51llcjQUiT8Hgt8XZDaGlfvVPSm5-19VUoovRK0CIxntY_g==')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'UuOBCZw7tJLGYVdH_8ukOZmoajWJ_I9F3m1JmcMfF4_TaUCh5m1_zA=='), (b'Age', b'1596')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'302'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:10 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fpreprocessor_config.json=&etag=%229b5b2a5a98428bac8ba0257a59bc74da5d826e5c%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c6-1a14fbe3287ce69e0ac50e03;3a19e89c-c51e-438e-bae8-c5a7503b2f21'), (b'RateLimit', b'"resolvers";r=4961;t=272'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'jS4K0FNq1BuK98g0-gNzgqSF3Uw8o3fUUWsxCiz86NqCtgy_CBvlvA==')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'599'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:37 GMT'), (b'ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8d-5f04edd6758ad9754b46243c;69489316-b66d-4a6c-b4b8-4ba6de9066c2'), (b'RateLimit', b'"resolvers";r=4957;t=65'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'ntg-mRzCXb0JSu-EUtzXeuaRu5gfBVxwIMt6mksPPRajln04qjc1Ew=='), (b'Age', b'1593')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:10 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c6-6e58fe757b5494fb10a9c30d;43671aaa-119f-4ff2-8564-43268b711b38'), (b'RateLimit', b'"resolvers";r=4958;t=272'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'F3QGgZaDbpGX9jLEbC8bXBV47eIOgEsiv7LBpdKWLazLK0di2wLjag==')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'ARVsQoxPURpX2QzaLOkrw0GK6G8CtCL4IHp_Nqf9iPp2YB2lKByxyQ=='), (b'Age', b'1596')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'302'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:10 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fpreprocessor_config.json=&etag=%229b5b2a5a98428bac8ba0257a59bc74da5d826e5c%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c6-0622f89521652e9c53dbfc7c;7a5af0a9-904a-4a2c-8570-cd4cf32b4a7f'), (b'RateLimit', b'"resolvers";r=4955;t=272'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'bfnBdcKm-XkK99nLanRn2BwWRU3YajchLxAkZuLKS9HZZUgO-TovSw==')])
+INFO 2026-05-07 10:09:10 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:10 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'599'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:37 GMT'), (b'ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8d-5f04edd6758ad9754b46243c;69489316-b66d-4a6c-b4b8-4ba6de9066c2'), (b'RateLimit', b'"resolvers";r=4957;t=65'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'ro-AG_t5vL1PYScOxh7kKeThUEU2mfHyB8Y-bRcGnS1IEZV4it35pQ=='), (b'Age', b'1594')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'276'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:11 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%226a01472ec2a0595b85ac601a4e99efdcaa1ff108%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c7-0b1b93e016a9a9a35639ed43;14aad82d-e731-48ad-ae00-53bb24d3b4c9'), (b'RateLimit', b'"resolvers";r=4952;t=271'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'obBSSvFo_sMS-xNI6-F5JS8Z_i0Hhft9AME2wMpQKSeVT74J-fDoOg==')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'3642'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:36:39 GMT'), (b'ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5d27-78e7dd1f0d006d273195568a;c1c63262-6e79-437b-86df-c17e8b464902'), (b'RateLimit', b'"resolvers";r=4997;t=123'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'I33Y2FhTgGfYP6Crq3shZFr0J-SvpYLXkzV6OaujQv0JmqyiJWyI6w=='), (b'Age', b'1952')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:11 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/tokenizer_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Ftokenizer_config.json=&etag=%22d986ab355a4a4de5aa4485fdfba4625eb737928c%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c7-5af6848c180092342b45948f;bc13a2ac-df75-4d7f-97d6-109cfc1289c7'), (b'RateLimit', b'"resolvers";r=4949;t=271'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"d986ab355a4a4de5aa4485fdfba4625eb737928c"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'nK_tmbsldEktA6XJfvGs92eoYZDn2i07c3hAzjSzr4KcadHAttS15w==')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'28627'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:39 GMT'), (b'ETag', b'"d986ab355a4a4de5aa4485fdfba4625eb737928c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8f-3899a45f2c2bc8ea6263c11d;f23e92c2-fbc5-4b0b-b3fb-d28e958f573b'), (b'RateLimit', b'"resolvers";r=4943;t=63'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'sRDBf_gLdUvZrTJOPZqZh8TdlaN3BN7y-QkwwE3l91GIW31K6AXRag=='), (b'Age', b'1592')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/tokenizer_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:11 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c7-282eb15f532c9abe666d9a5f;0cb03b12-33d4-4d7b-a174-f6098ea9661e'), (b'RateLimit', b'"api";r=992;t=271'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'snhIPyalv_CCD3twoPt65IGueZoN-naouxAfkB6FC29kAcw669yEWw==')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:11 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"837-2qEH5GEMKqJ+APj9dK1OFj6N9yo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c7-438123f64c1c1a4572fccaa4;5716f297-5e7d-40e5-a1ba-5145fb859ee9'), (b'RateLimit', b'"api";r=991;t=271'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'8O2ZpdIO2lm-qkwNJNKj-vtL8teFQmsNDb9p66VnY6YIGeFiYF7HoQ==')])
+INFO 2026-05-07 10:09:11 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:11 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:12 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c8-68135c88413fca93707d2ed5;a8c5672b-7941-44ed-835c-cf3fa81e00fa'), (b'RateLimit', b'"resolvers";r=4945;t=270'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'VCWeaF574a1rpNNk2WPtvKLlWEXD3cUzQW5VKaSWisjvkqBkEW8d6g==')])
+INFO 2026-05-07 10:09:12 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Ha4B-ML6nVFK5yn7BDSUDQD_uTk3C4um35rAMVTB-JSrHSo_YOR0Lg=='), (b'Age', b'1598')])
+INFO 2026-05-07 10:09:12 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:12 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c8-446ecc4104ec5ad8273daab2;63442936-1935-4ecf-bf7e-9064dfeb6ae5'), (b'RateLimit', b'"resolvers";r=4944;t=270'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'7qX_hwp7eE3pbsUgTM1PJ1lGCgB6ZPUITDXiE1J_05j3SQxG_8E-5g==')])
+INFO 2026-05-07 10:09:12 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'302'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:12 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fpreprocessor_config.json=&etag=%229b5b2a5a98428bac8ba0257a59bc74da5d826e5c%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c8-363a971c3be51b23722d9efa;e0b07411-0855-42e9-8460-4af99aac2ce5'), (b'RateLimit', b'"resolvers";r=4943;t=270'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'ezINA0A1BLv5JJeJGqeAYiKA6r8rcSAbcIA1ciyqyf4OI_9qvN1wKg==')])
+INFO 2026-05-07 10:09:12 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'599'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:37 GMT'), (b'ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8d-5f04edd6758ad9754b46243c;69489316-b66d-4a6c-b4b8-4ba6de9066c2'), (b'RateLimit', b'"resolvers";r=4957;t=65'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'o2NTketcnlRx18-5SfF839pHyZwcmMgaJMMDgUFQBkYxNy6Xlp3DMA=='), (b'Age', b'1595')])
+INFO 2026-05-07 10:09:12 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:12 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:13 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fprocessor_config.json=&etag=%22093f7dbbd52805fca7e747f569d2c7906227499a%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c9-00ad81ed65cfb24b5c903f3b;4e1dda58-c6c5-42bc-812e-4ce0d4d3c5b6'), (b'RateLimit', b'"resolvers";r=4940;t=269'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'v8mXRBucXT34LCJqn7Yh0NYN0TiiVa492cbYBCmb_sK9P-YqrcJ_eA==')])
+INFO 2026-05-07 10:09:13 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/processor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'67'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:34 GMT'), (b'ETag', b'"093f7dbbd52805fca7e747f569d2c7906227499a"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8a-71a311d004cdf65761657075;64205b7c-417e-41de-8384-3a32217d2f60'), (b'RateLimit', b'"resolvers";r=4991;t=68'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'processor_config.json; filename="processor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'woMKH389kQl25aGUomQ9i7t2nGIFwYk1lnFZNptxjHl2zvT6K8rGLw=='), (b'Age', b'1599')])
+INFO 2026-05-07 10:09:13 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/processor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:13 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c9-31831cec27f7daa46e1e9943;5e537baa-ad47-4d5e-974d-c6bd9583fdee'), (b'RateLimit', b'"resolvers";r=4937;t=269'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'f7wYCfl7SG-l_gTCoX0ZK1SXuMAkxoh8OpxnxEBy9HKEEky7fvdVxA==')])
+INFO 2026-05-07 10:09:13 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'302'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:13 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fpreprocessor_config.json=&etag=%229b5b2a5a98428bac8ba0257a59bc74da5d826e5c%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64c9-3557586559b9fb1c2a934651;2c0727dd-997b-4ce2-9dbb-74b39acc1c8d'), (b'RateLimit', b'"resolvers";r=4935;t=269'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'UnjfP0hmuSu2OVtwIZlCOvP98P7CvbWBufY2-lQ_9FQjqsreXYMIpw==')])
+INFO 2026-05-07 10:09:13 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'599'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:37 GMT'), (b'ETag', b'"9b5b2a5a98428bac8ba0257a59bc74da5d826e5c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8d-5f04edd6758ad9754b46243c;69489316-b66d-4a6c-b4b8-4ba6de9066c2'), (b'RateLimit', b'"resolvers";r=4957;t=65'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'preprocessor_config.json; filename="preprocessor_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 585f4a417478f2c595c6349bb58bcd98.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'tVK5uQ7XPJ_vrHs3Bak6Zqp96bPtns2fy8YkYozXgIumWlsJBqaD6g=='), (b'Age', b'1596')])
+INFO 2026-05-07 10:09:13 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/preprocessor_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:13 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ca0cc3520f0>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x7ca1185e1fd0> server_hostname='huggingface.co' timeout=10
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ca0cc2fc800>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'276'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:33 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%226a01472ec2a0595b85ac601a4e99efdcaa1ff108%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64dd-2f63c46f0a222e117762372a;7c257aff-2c2b-4dd8-b92d-f8a7929aef85'), (b'RateLimit', b'"resolvers";r=4925;t=249'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 b88e9a96b701de8a266c771593552144.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'wHSe8LpIMV1W0g9tFWc6mwNdxmb5KSSBQfqMJM3qZuFnq2b4IbaqZw==')])
+INFO 2026-05-07 10:09:33 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'3642'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:36:39 GMT'), (b'ETag', b'"6a01472ec2a0595b85ac601a4e99efdcaa1ff108"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5d27-78e7dd1f0d006d273195568a;c1c63262-6e79-437b-86df-c17e8b464902'), (b'RateLimit', b'"resolvers";r=4997;t=123'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 b88e9a96b701de8a266c771593552144.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'tSnDM0NzkhdQSH7X8n8-0AtaaZaYuyxptw24TAn8QRu36pxS2QMLCQ=='), (b'Age', b'1974')])
+INFO 2026-05-07 10:09:33 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:33 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'296'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:33 GMT'), (b'Location', b'/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/tokenizer_config.json?%2FHuggingFaceTB%2FSmolVLM2-2.2B-Instruct%2Fresolve%2Fmain%2Ftokenizer_config.json=&etag=%22d986ab355a4a4de5aa4485fdfba4625eb737928c%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64dd-26f308c83cc59854473fbef2;2dfccb23-634c-46ad-804a-422bab3fb329'), (b'RateLimit', b'"resolvers";r=4922;t=249'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"d986ab355a4a4de5aa4485fdfba4625eb737928c"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 b88e9a96b701de8a266c771593552144.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'zcfRquvTLkhkSVIvTQWMSTVqGBom339SkmeoT-cK2k_t0e2CMhqing==')])
+INFO 2026-05-07 10:09:34 _client.py:1025 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'28627'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 09:42:39 GMT'), (b'ETag', b'"d986ab355a4a4de5aa4485fdfba4625eb737928c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc5e8f-3899a45f2c2bc8ea6263c11d;f23e92c2-fbc5-4b0b-b3fb-d28e958f573b'), (b'RateLimit', b'"resolvers";r=4943;t=63'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'482adb537c021c86670beed01cd58990d01e72e4'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 b88e9a96b701de8a266c771593552144.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'yv2R0rU-ru6d7o4u4gNP5V1xsGWHF_DObuqxYYAfsYYNbhZelpqFLA=='), (b'Age', b'1615')])
+INFO 2026-05-07 10:09:34 _client.py:1025 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/482adb537c021c86670beed01cd58990d01e72e4/tokenizer_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:34 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64de-646e087d610843c477ca929f;84cd291f-ed17-4f16-9e7b-1c1a44dc4282'), (b'RateLimit', b'"api";r=984;t=248'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 b88e9a96b701de8a266c771593552144.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'QsDAgBLheoo_kwyVFz4xQANR8ttMi31NwynSHaOT8mMCGt1GWXTPrA==')])
+INFO 2026-05-07 10:09:34 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Thu, 07 May 2026 10:09:34 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"837-2qEH5GEMKqJ+APj9dK1OFj6N9yo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69fc64de-097047301b2f60213ced4718;992cf9ac-0883-448b-abb5-e82dfd0f90d9'), (b'RateLimit', b'"api";r=981;t=248'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 b88e9a96b701de8a266c771593552144.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'VbGmmXjPWS0sGwLOlEG4FqC0s5vubN5kS8DJeeUaHGCC9x9u2nHq6w==')])
+INFO 2026-05-07 10:09:34 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolVLM2-2.2B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-05-07 10:09:34 re/_trace.py:47 response_closed.complete
+INFO 2026-05-07 10:09:34 ot_train.py:314 Creating optimizer and scheduler
+INFO 2026-05-07 10:09:34 ot_train.py:349 [1m[33mOutput dir:[0m outputs/train/fr5_smolvla_red_marker_base22
+INFO 2026-05-07 10:09:34 ot_train.py:356 cfg.steps=26000 (26K)
+INFO 2026-05-07 10:09:34 ot_train.py:357 dataset.num_frames=119356 (119K)
+INFO 2026-05-07 10:09:34 ot_train.py:358 dataset.num_episodes=100
+INFO 2026-05-07 10:09:34 ot_train.py:361 Effective batch size: 16 x 3 = 48
+INFO 2026-05-07 10:09:34 ot_train.py:362 num_learnable_params=397357088 (397M)
+INFO 2026-05-07 10:09:34 ot_train.py:363 num_total_params=1838786448 (2B)
+INFO 2026-05-07 10:09:34 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 48
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.started
+DEBUG 2026-05-07 10:09:35 re/_trace.py:47 close.complete
+DEBUG 2026-05-07 10:09:43 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:43 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:43 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:43 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:43 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:43 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:43 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:43 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:43 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:43 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:44 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:44 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:45 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:45 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:516 Lock 137026974165968 not acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock, waiting 0.05 seconds ...
+DEBUG 2026-05-07 10:09:46 ock/_api.py:501 Attempting to acquire lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:46 ock/_api.py:504 Lock 137026974165968 acquired on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:48 ock/_api.py:541 Attempting to release lock 137026974165968 on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:48 ock/_api.py:545 Lock 137026974165968 released on /tmp/torchinductor_root/locks/cqh3wipu4r23r23tkbcvcoukehjzplqviortmjwarxmsotw4iex2.lock
+DEBUG 2026-05-07 10:09:48 ock/_api.py:501 Attempting to acquire lock 137026975463088 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-07 10:09:48 ock/_api.py:504 Lock 137026975463088 acquired on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-07 10:09:49 ock/_api.py:541 Attempting to release lock 137026975463088 on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-07 10:09:49 ock/_api.py:545 Lock 137026975463088 released on /tmp/torchinductor_root/locks/cmjnnh7h37uchcpapsjursrvvvv7rqrfumbgwluzq3vbaat3lboo.lock
+DEBUG 2026-05-07 10:09:49 ock/_api.py:501 Attempting to acquire lock 137026973858128 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-07 10:09:49 ock/_api.py:504 Lock 137026973858128 acquired on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-07 10:09:51 ock/_api.py:541 Attempting to release lock 137026973858128 on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-07 10:09:51 ock/_api.py:545 Lock 137026973858128 released on /tmp/torchinductor_root/locks/cqmzl4v6zr3msqkhvlqpufamztex364b5qzod67zkimc67fry5gs.lock
+DEBUG 2026-05-07 10:09:51 ock/_api.py:501 Attempting to acquire lock 137026975463088 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-07 10:09:51 ock/_api.py:504 Lock 137026975463088 acquired on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:541 Attempting to release lock 137026975463088 on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:545 Lock 137026975463088 released on /tmp/torchinductor_root/locks/caegbrgvqlblikgfzoxfwa2qlwwkojppkpnrcesmj7ilavq2moxr.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:501 Attempting to acquire lock 137026871415232 on /tmp/torchinductor_root/precompiled_headers/locks/ccwap2uklnsgzmlct5wkrje56xcb5ssb4aslzpjl5ysltufni4f3.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:504 Lock 137026871415232 acquired on /tmp/torchinductor_root/precompiled_headers/locks/ccwap2uklnsgzmlct5wkrje56xcb5ssb4aslzpjl5ysltufni4f3.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:541 Attempting to release lock 137026871415232 on /tmp/torchinductor_root/precompiled_headers/locks/ccwap2uklnsgzmlct5wkrje56xcb5ssb4aslzpjl5ysltufni4f3.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:545 Lock 137026871415232 released on /tmp/torchinductor_root/precompiled_headers/locks/ccwap2uklnsgzmlct5wkrje56xcb5ssb4aslzpjl5ysltufni4f3.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:501 Attempting to acquire lock 137026871415232 on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:504 Lock 137026871415232 acquired on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:541 Attempting to release lock 137026871415232 on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:545 Lock 137026871415232 released on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:501 Attempting to acquire lock 137027779075328 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:504 Lock 137027779075328 acquired on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:541 Attempting to release lock 137027779075328 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:545 Lock 137027779075328 released on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:501 Attempting to acquire lock 137026852656896 on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:504 Lock 137026852656896 acquired on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:541 Attempting to release lock 137026852656896 on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:545 Lock 137026852656896 released on /tmp/torchinductor_root/locks/ck6uhp6clr32uvmfc33bmboselvls4r63mawvnl3anpfsjz4xsxv.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:501 Attempting to acquire lock 137026976581344 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:504 Lock 137026976581344 acquired on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:541 Attempting to release lock 137026976581344 on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+DEBUG 2026-05-07 10:09:52 ock/_api.py:545 Lock 137026976581344 released on /tmp/torchinductor_root/locks/chk5ckujuu3taqyazhle3udj3x4fazjo7rp6jxzssbaaey6pq4ok.lock
+INFO 2026-05-07 10:17:18 ot_train.py:459 step:200 smpl:10K ep:8 epch:0.08 loss:1.772 grdn:12.116 lr:8.8e-06 updt_s:2.282 data_s:0.036
+INFO 2026-05-07 10:24:02 ot_train.py:459 step:400 smpl:19K ep:16 epch:0.16 loss:0.740 grdn:8.363 lr:2.6e-05 updt_s:2.006 data_s:0.013
+INFO 2026-05-07 10:30:46 ot_train.py:459 step:600 smpl:29K ep:24 epch:0.24 loss:0.410 grdn:7.131 lr:4.4e-05 updt_s:2.006 data_s:0.012
+INFO 2026-05-07 10:37:30 ot_train.py:459 step:800 smpl:38K ep:32 epch:0.32 loss:0.295 grdn:5.887 lr:6.1e-05 updt_s:2.008 data_s:0.012

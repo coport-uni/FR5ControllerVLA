@@ -61,10 +61,10 @@ accelerate launch \
     --wandb.enable=true \
     --num_workers=10 \
     --batch_size=40 \
-    --steps=500000 \
+    --steps=100000 \
     --save_freq=10000 \
     --resume=false \
     --seed=55 \
     --tolerance_s=0.1 \
     --policy.optimizer_lr=2.2e-5 \
-+   --policy.optimizer_lr_backbone=2.2e-5
+    --policy.optimizer_lr_backbone=2.2e-5 

@@ -47,7 +47,7 @@ JOB_NAME="fr5_act_red_marker"
 
 accelerate launch \
     --multi_gpu \
-    --num_processes=2 \
+    --num_processes=3 \
     --mixed_precision=bf16 \
     "$(which lerobot-train)" \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \

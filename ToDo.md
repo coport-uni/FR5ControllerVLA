@@ -1833,6 +1833,35 @@ async-inference 로 FR5 follower 에서 실행하기 위한 client 가 누락되
 - [x] commit + push (issue link 포함) — 033bdb9f
 - [x] `gh issue close` 로 종료
 
+## 2026-05-07: Switch 7__train_smovla22_adv.sh to SmolVLM2-2.2B backbone
+
+근거: 현재 스크립트는 `lerobot/smolvla_base` (SmolVLM2-500M + 사전학습된
+action expert) 를 로드함. 파일명 `_smovla22_` 와 헤더 주석의 의도(2.2B
+백본 사용) 가 실제 동작과 불일치. 2.2B 백본으로 정식 전환하면서
+SmolVLA 논문 휴리스틱(VLM 절반 층) 을 24층 백본에 외삽 적용.
+
+설계 결정 (approach (a) — 사용자 확정):
+- `--policy.path=lerobot/smolvla_base` 제거 (450M 사전학습 가중치 폐기).
+- `--policy.type=smolvla` 추가 (path 없이 정책 지정).
+- `--policy.vlm_model_name=HuggingFaceTB/SmolVLM2-2.2B-Instruct` 추가.
+- `--policy.load_vlm_weights=true` 추가 (VLM 가중치만 사전학습 사용,
+  expert 는 from-scratch).
+- `--policy.num_vlm_layers=12` 추가 (논문 휴리스틱 50% × 24층).
+- `--batch_size=32` 그대로 유지 (사용자 지시 — VRAM 튜닝 미실시).
+- `expert_width_multiplier` default 0.75 유지.
+- 공식 2.2B 권장 하이퍼파라미터 없음 (논문/LeRobot docs/커뮤니티 모두).
+  → 현 설정은 **외삽** 임을 헤더 주석에 명시.
+
+작업 항목:
+- [x] 7__train_smovla22_adv.sh 수정 (위 6개 플래그 변경 + 헤더/하단 주석 업데이트)
+- [x] `bash -n` 으로 shell 문법 검증
+- [x] `gh issue create` 로 등록 (#73)
+- [x] commit + push (issue link 포함) — a81bb703
+
+Out of scope:
+- VRAM/batch_size 튜닝 (사용자 지시로 유보).
+- 실제 학습 실행 및 loss 검증.
+- LearnedPatterns.md 업데이트 (학습 결과 확인 전).
 ## 2026-05-07: Edge-triggered ServoJ error logging in fairino_follower
 
 근거: 운영 중 ServoJ 가 실패하더라도 현재 코드는

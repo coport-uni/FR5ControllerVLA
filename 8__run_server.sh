@@ -5,7 +5,7 @@
 # robot metadata are pushed by 9__run_client.sh during the initial
 # gRPC handshake -- no checkpoint is loaded here.
 #
-# Prerequisite: pip install -e ".[async]"   (grpcio + matplotlib extras)
+# Prerequisite: pip install -e ".[async, smovla]"   (grpcio + matplotlib extras)
 # Docs:        https://huggingface.co/docs/lerobot/async
 # Paired with: 9__run_client.sh
 
@@ -27,8 +27,16 @@ fi
 source "$_conda_sh"
 conda activate lerobot
 
+# ACT
+# python3 -m lerobot.async_inference.policy_server \
+#     --host=0.0.0.0 \
+#     --port=17044 \
+#     --fps=20 \
+#     --inference_latency=0.04
+
+# SmolVLA
 python3 -m lerobot.async_inference.policy_server \
     --host=0.0.0.0 \
     --port=17044 \
     --fps=20 \
-    --inference_latency=0.02
+    --inference_latency=0.2

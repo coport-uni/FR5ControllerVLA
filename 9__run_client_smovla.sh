@@ -36,6 +36,7 @@ python3 -m lerobot.async_inference.robot_client \
     --robot.ip_address=192.168.58.2 \
     --robot.gripper_enabled=true \
     --robot.id=fr5_follower \
+    --rename_map='{"observation.images.hand": "observation.images.camera1", "observation.images.top_left": "observation.images.camera2", "observation.images.top_right": "observation.images.camera3"}' \
     --robot.cameras="{ \
         camera2: {type: opencv, index_or_path: '/dev/video18', width: 640, height: 480, fps: 20}, \
         camera3: {type: opencv, index_or_path: '/dev/video19', width: 640, height: 480, fps: 20}, \

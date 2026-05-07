@@ -6,19 +6,29 @@
 # Paper:     https://arxiv.org/pdf/2506.01844
 # Requires:  pip install -e ".[smolvla]"
 #
-# About the "2B" question
-# -----------------------
+# About the "2.2B" backbone (this script)
+# ---------------------------------------
 # SmolVLA ships exactly one pretrained checkpoint on the Hub:
 #   lerobot/smolvla_base ~= 450M params (SmolVLM2-500M backbone +
-#                                        action expert).
-# There is NO official 2B SmolVLA. The SmolVLM2 family does have a
-# 2.2B variant, and you can swap the backbone in via
-#   --policy.vlm_model_name=HuggingFaceTB/SmolVLM2-2.2B-Instruct
-#   --policy.load_vlm_weights=true
-# but doing so loses the pretrained SmolVLA action-expert weights
-# (you'd be training the expert from scratch on top of a 2.2B VLM).
-# We keep the 450M recipe active here and leave the 2.2B opt-in
-# commented out at the bottom of the launch block.
+#                                        pretrained action expert).
+# There is NO official 2B SmolVLA, and the paper / LeRobot docs /
+# community have published NO recommended hyperparameters for the
+# 2.2B backbone. The settings below are an EXTRAPOLATION of the
+# published 500M recipe, not a paper-recommended config:
+#   - policy.vlm_model_name = HuggingFaceTB/SmolVLM2-2.2B-Instruct
+#   - policy.load_vlm_weights = true   (load VLM weights only;
+#     action expert trains from scratch — no SmolVLA fine-tune
+#     init).
+#   - policy.num_vlm_layers = 12       (paper heuristic: half the
+#     VLM text-stack layers. SmolLM2-1.7B text backbone has 24
+#     layers, so 24 / 2 = 12. The 500M default uses 16 of 32.)
+#   - expert_width_multiplier left at default 0.75. With VLM
+#     hidden_size = 2048, the action expert is 0.75 * 2048 = 1536
+#     wide (vs 720 for the 500M backbone — ~2x larger expert).
+# Caveats: VRAM use is much higher than the 450M recipe; the paper
+# hyperparameters (lr, warmup, decay) were tuned for the 500M
+# backbone and may need re-tuning. The previous 450M opt-out is
+# preserved at the bottom of the launch block.
 #
 # Reference settings (src/lerobot/policies/smolvla/configuration_smolvla.py
 # defaults match the paper, so most of them stay implicit):
@@ -63,17 +73,21 @@ export NCCL_P2P_DISABLE=1
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="fr5_smolvla_red_marker_adv"
+JOB_NAME="fr5_smolvla_red_marker_base22"
 
+# 13000 off-setup
 accelerate launch \
     --multi_gpu \
     --num_processes=3 \
     --mixed_precision=bf16 \
     "$(which lerobot-train)" \
     --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
-    --policy.path=lerobot/smolvla_base \
+    --policy.type=smolvla \
+    --policy.vlm_model_name=HuggingFaceTB/SmolVLM2-2.2B-Instruct \
+    --policy.load_vlm_weights=true \
+    --policy.num_vlm_layers=12 \
     --dataset.video_backend=pyav \
-    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_adv_model \
+    --policy.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model22 \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \
@@ -84,22 +98,20 @@ accelerate launch \
     --output_dir=outputs/train/${JOB_NAME} \
     --job_name=${JOB_NAME} \
     --wandb.enable=true \
-    --batch_size=72 \
-    --steps=90000 \
-    --save_freq=3000 \
+    --batch_size=16 \
+    --steps=26000 \
+    --save_freq=5000 \
     --resume=false \
     --num_workers=10 \
     --seed=55 \
     --tolerance_s=0.1 \
-    --policy.optimizer_lr=2.25e-4 \
+    --policy.optimizer_lr=8.7e-5 \
     --policy.scheduler_decay_steps=9000
 
-# --- Opt-in: 2.2B SmolVLM2 backbone (no SmolVLA pretrained weights) ---
-# Drop --policy.path above and add the two flags below to swap in the
-# 2.2B SmolVLM2 backbone. Caveats: action expert trains from scratch
-# (no SmolVLA fine-tune init), VRAM ~4-5x higher, and the paper
-# hyperparameters here were tuned for the 500M backbone.
+# --- Opt-out: revert to 450M SmolVLA fine-tune recipe ---
+# To go back to the official 450M paper recipe (SmolVLM2-500M
+# backbone + pretrained SmolVLA action expert), drop the four
+# `--policy.{type,vlm_model_name,load_vlm_weights,num_vlm_layers}`
+# flags above and replace them with:
 #
-#     --policy.type=smolvla \
-#     --policy.vlm_model_name=HuggingFaceTB/SmolVLM2-2.2B-Instruct \
-#     --policy.load_vlm_weights=true \
+#     --policy.path=lerobot/smolvla_base \
