@@ -1926,3 +1926,61 @@ edge-triggered 방식으로 변경 (사용자 요청, see LP §G2 / §Q1).
 - [x] commit + push (issue link 포함) — 94d4bdfe.
 - [x] `gh issue close` 로 종료.
 - [x] `LearnedPatterns.md` 에 §G9 "MoveGripper(block=1) 중 ServoJ recovery race" 항목 추가.
+
+## 2026-05-08: Disable torch.compile at async-inference policy load
+
+근거: `PolicyServer` 에서 SmolVLA 2.2B 체크포인트
+(`coport-uni/...smolvla_model22`) 를 서빙하면
+`Error in StreamActions: Offset increment outside graph capture
+encountered unexpectedly` 가 발생. HF `config.json` 비교 결과
+2.2B 만 `pad_language_to=longest`, `prefix_length=-1` 로 입력
+shape 가 가변이라 `torch.compile(mode=max-autotune)` 의 CUDA
+Graphs 리플레이가 caching allocator offset 과 어긋나는 것이 원인
+([processor_smolvla.py:75](src/lerobot/policies/smolvla/processor_smolvla.py#L75),
+[modeling_smolvla.py:711](src/lerobot/policies/smolvla/modeling_smolvla.py#L711)).
+450M 은 `pad_language_to=max_length` 라 정적 shape 라 우연히 비껴감.
+Pi0 / Pi0.5 체크포인트도 모두 `compile_model=True,
+compile_mode=max-autotune` 로 저장돼 있어 동일 위험 존재.
+20Hz 원격 제어에서 `torch.compile` 의 추가 가속은 의미가 없으므로
+**추론 시점에 한해** 컴파일을 끄는 것이 가장 안전한 최소 변경.
+plan: `/home/inno-controller/.claude/plans/synchronous-enchanting-seal.md`.
+
+설계 결정 (사용자 확정):
+- 위치는 [policy_server.py:152](src/lerobot/async_inference/policy_server.py#L152)
+  의 `policy_class.from_pretrained(...)` 직전.
+- `PreTrainedConfig.from_pretrained` 로 config 를 먼저 로드해
+  `compile_model=False` 로 덮어쓰고, 그 config 를
+  `policy_class.from_pretrained(..., config=policy_cfg)` 로 다시
+  넘김. `torch.compile` 은 정책 ctor 안에서 적용되므로 ctor 호출
+  전에만 끄면 됨 ([pretrained.py:107](src/lerobot/policies/pretrained.py#L107),
+  [modeling_smolvla.py:598-601](src/lerobot/policies/smolvla/modeling_smolvla.py#L598-L601),
+  [modeling_pi0.py:590-594](src/lerobot/policies/pi0/modeling_pi0.py#L590-L594),
+  [modeling_pi05.py:586-590](src/lerobot/policies/pi05/modeling_pi05.py#L586-L590)).
+- 정책 종류 (`smolvla` / `pi0` / `pi05`) 와 무관하게 동일 진입점에서
+  처리되므로 분기 없음.
+- 학습 파이프라인, 체크포인트, 클라이언트는 손대지 않음.
+- 무관 이슈인 카메라 키 mismatch (`'observation.images.camera2'`,
+  state shape `[6]` vs `[7]`) 는 별도 ToDo 로 분리.
+
+### Work items
+- [x] `src/lerobot/async_inference/policy_server.py` 상단에
+  `from lerobot.configs.policies import PreTrainedConfig` 추가.
+- [x] [policy_server.py:152](src/lerobot/async_inference/policy_server.py#L152)
+  한 줄을 config 사전 로드 + `compile_model=False` 덮어쓰기 +
+  `policy_class.from_pretrained(..., config=policy_cfg)` 3 줄
+  블록으로 교체. 이유 주석 1 줄 포함.
+- [x] `ruff check src/lerobot/async_inference/policy_server.py`
+  와 `ruff format --check` 통과 확인.
+- [x] `gh issue create` 로 등록하고 issue 번호를 본 항목에 기록 (#75).
+- [ ] commit + push (issue link 포함, `Closes #N`).
+- [ ] `gh issue close` 로 종료 (commit 자동 close 가 안 걸렸을 때만).
+- [ ] 검증 후 `LearnedPatterns.md` §3 Library Quirks 에 신규 항목
+  추가 — "max-autotune CUDA Graphs vs variable-shape VLA inputs".
+
+Out of scope:
+- SmolVLA 2.2B 의 카메라 키 (`top_left/top_right/hand`) 와
+  클라이언트 alias (`camera1/2/3`) mismatch — 별도 ToDo.
+- SmolVLA 450M 이 `state=[6]` 으로 그리퍼 위치를 학습 입력에서
+  제외한 점 — 별도 검토.
+- 학습 시점에 `compile_model=False` 로 저장하도록 학습 스크립트
+  수정 — 이번 변경은 추론 측 한 줄 패치만 다룸.

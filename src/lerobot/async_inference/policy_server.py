@@ -38,6 +38,7 @@ import draccus
 import grpc
 import torch
 
+from lerobot.configs.policies import PreTrainedConfig
 from lerobot.policies.factory import get_policy_class, make_pre_post_processors
 from lerobot.processor import PolicyProcessorPipeline
 from lerobot.transport import (
@@ -149,7 +150,13 @@ class PolicyServer(services_pb2_grpc.AsyncInferenceServicer):
         policy_class = get_policy_class(self.policy_type)
 
         start = time.perf_counter()
-        self.policy = policy_class.from_pretrained(policy_specs.pretrained_name_or_path)
+        # torch.compile is applied inside the policy ctor, so override the
+        # config before construction. max-autotune CUDA Graphs assume static
+        # input shapes and break on VLAs that pad to longest (e.g. SmolVLA
+        # 2.2B), and compilation buys nothing at the async-inference rate.
+        policy_cfg = PreTrainedConfig.from_pretrained(policy_specs.pretrained_name_or_path)
+        policy_cfg.compile_model = False
+        self.policy = policy_class.from_pretrained(policy_specs.pretrained_name_or_path, config=policy_cfg)
         self.policy.to(self.device)
 
         # Load preprocessor and postprocessor, overriding device to match requested device
