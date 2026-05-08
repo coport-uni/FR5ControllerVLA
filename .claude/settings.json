@@ -120,7 +120,8 @@
       "Bash(.venv/bin/python -c ' *)",
       "Bash(chmod +x /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/9__run_client_pi0.sh)",
       "Bash(bash -n /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/9__run_client_pi0.sh)",
-      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA status --short)"
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA status --short)",
+      "Bash(bash -n /workspace/VLARelated/FR5ControllerVLA/7__train_smovla22_adv.sh)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",
