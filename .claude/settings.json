@@ -120,7 +120,16 @@
       "Bash(.venv/bin/python -c ' *)",
       "Bash(chmod +x /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/9__run_client_pi0.sh)",
       "Bash(bash -n /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/9__run_client_pi0.sh)",
-      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA status --short)"
+      "Bash(git -C /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA status --short)",
+      "Bash(git merge *)",
+      "Bash(python3)",
+      "Bash(git commit *)",
+      "Bash(find ~/.cache/huggingface ~/.cache/lerobot -name \"*.json\" 2>/dev/null | xargs grep -l \"FR5_pick_red_colored_marker_to_box_smolvla_model22\\\\|camera2\\\\|smolvla_model22\" 2>/dev/null | head -10)",
+      "Read(//home/inno-controller/.cache/**)",
+      "Bash(find /home/inno-controller -path \"*train/fr5_smolvla*\" -name \"config.json\" 2>/dev/null | head -5; find /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs -name \"config.json\" 2>/dev/null | head -10)",
+      "Read(//home/inno-controller/**)",
+      "Bash(curl -sL https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model/raw/main/config.json -o /tmp/cfg_450m.json)",
+      "Bash(curl -sL https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model22/raw/main/config.json -o /tmp/cfg_22b.json)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",

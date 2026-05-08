@@ -42,6 +42,9 @@ fi
 source "$_conda_sh"
 conda activate lerobot
 
+# coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper
+# coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model
+
 python3 -m lerobot.async_inference.robot_client \
     --server_address=10.0.12.139:17044 \
     --robot.type=fairino_follower \
@@ -52,12 +55,12 @@ python3 -m lerobot.async_inference.robot_client \
         top_left: {type: opencv, index_or_path: '/dev/video18', width: 640, height: 480, fps: 20}, \
         top_right: {type: opencv, index_or_path: '/dev/video19', width: 640, height: 480, fps: 20}, \
         hand: {type: intelrealsense, serial_number_or_name: '333422300435', width: 640, height: 480, fps: 30}}" \
-    --pretrained_name_or_path=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model \
+    --pretrained_name_or_path=coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model \
     --policy_type=pi0 \
     --policy_device=cuda \
     --actions_per_chunk=50 \
-    --chunk_size_threshold=0.6 \
-    --aggregate_fn_name=average \
+    --chunk_size_threshold=0.4 \
+    --aggregate_fn_name=weighted_average \
     --debug_visualize_queue_size=false \
     --task="pick red colored marker to box" \
     --fps=20
