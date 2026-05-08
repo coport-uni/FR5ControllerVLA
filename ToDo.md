@@ -1972,8 +1972,9 @@ plan: `/home/inno-controller/.claude/plans/synchronous-enchanting-seal.md`.
 - [x] `ruff check src/lerobot/async_inference/policy_server.py`
   와 `ruff format --check` 통과 확인.
 - [x] `gh issue create` 로 등록하고 issue 번호를 본 항목에 기록 (#75).
-- [ ] commit + push (issue link 포함, `Closes #N`).
-- [ ] `gh issue close` 로 종료 (commit 자동 close 가 안 걸렸을 때만).
+- [x] commit + push (issue link 포함, `Closes #N`) — cfe43371.
+- [x] `gh issue close` 로 종료 (commit 자동 close 가 안 걸렸을 때만)
+  — `Closes #75` 로 자동 종료됨, 별도 호출 불필요.
 - [ ] 검증 후 `LearnedPatterns.md` §3 Library Quirks 에 신규 항목
   추가 — "max-autotune CUDA Graphs vs variable-shape VLA inputs".
 
