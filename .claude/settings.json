@@ -130,6 +130,7 @@
       "Read(//home/inno-controller/**)",
       "Bash(curl -sL https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model/raw/main/config.json -o /tmp/cfg_450m.json)",
       "Bash(curl -sL https://huggingface.co/coport-uni/FR5_pick_red_colored_marker_to_box_smolvla_model22/raw/main/config.json -o /tmp/cfg_22b.json)"
+      "Bash(bash -n /workspace/VLARelated/FR5ControllerVLA/7__train_smovla22_adv.sh)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",
