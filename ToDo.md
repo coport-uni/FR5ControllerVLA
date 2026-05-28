@@ -1985,3 +1985,61 @@ Out of scope:
   제외한 점 — 별도 검토.
 - 학습 시점에 `compile_model=False` 로 저장하도록 학습 스크립트
   수정 — 이번 변경은 추론 측 한 줄 패치만 다룸.
+
+## CommonClaude/CLAUDE.md 를 Python convention 기반으로 전환 (2026-05-28)
+
+### 배경
+upstream `coport-uni/CommonClaude` 의 `CLAUDE.md` 를 현재 C 언어
+기준에서 Python 전용으로 전면 교체. 근거: (1) MIT CommLab Coding
+and Comment Style 의 Python convention, (2) 본 프로젝트
+FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
+의 Python 관련 내용을 reference 로 사용. 이전 시도 (로컬 머지,
+우선순위 역전, hook 글로벌화) 는 모두 폐기.
+
+### 결정 사항
+- Target: `coport-uni/CommonClaude:main` 에 PR 없이 직접 commit.
+- Issue: `coport-uni/CommonClaude` 에 등록, commit message 의
+  `Closes #N` 으로 자동 종료.
+- Hook 은 건드리지 않음. CommonClaude 의 5 개 hook (그 중 2 개는
+  secret scan / env guard) 와 그에 대응하는 settings.json 의
+  Bash/Read matcher 는 넓은 보안 footprint 로 그대로 유지.
+  프로젝트 hook 3 개와 CommonClaude 공유 hook 3 개는 이미
+  byte-identical 임을 diff 로 확인 완료.
+
+### 수정 대상 (CommonClaude/CLAUDE.md 만)
+1. `Overview`: 대상 언어를 Python 으로 명시.
+2. `§2 Naming` 표: C 기준 → Python 기준
+   (Variable/Function/Class/Constant/Module). 본 프로젝트
+   §"Code Style: MIT Code Convention > Naming" 표와 동일 포맷.
+3. `§2 Comments TODO` 포맷: `/* TODO: ... */`
+   → `# TODO: (@owner) action -- reason.`
+4. `§2 Documentation`: Doxygen `/** @brief @param @return */`
+   → PEP 257 / Google style docstring (`Args:`, `Returns:`,
+   `Raises:`).
+5. `§13 .gitignore`: C 빌드 산출물 → Python
+   (`*.pyc, __pycache__/, *.egg-info/, .venv/, venv/,
+   .pytest_cache/, .ruff_cache/, .mypy_cache/, dist/, build/`).
+   secrets / editor / OS 블록은 유지.
+6. `§16 Git Automation`: clang-format 예시 → ruff + ruff-format
+   예시.
+7. 잔여 "C" 단어 (예: §13 인트로) → "Python" 교체.
+
+### Work items
+- [x] MIT CommLab Python convention 페이지 WebFetch 로 확인,
+  본 프로젝트 표와 일치 검증 완료
+  (lower_case for vars/funcs/constants/modules, CamelCase for
+  classes, 80-col, 4-space indent, PEP 257 docstrings).
+- [x] `gh issue create -R coport-uni/CommonClaude ...` 로 등록 —
+  https://github.com/coport-uni/CommonClaude/issues/27.
+- [x] CommonClaude 를 `/tmp/CommonClaude` 에 HTTPS clone.
+- [x] CLAUDE.md 의 §Overview / §2 / §6 / §8 / §11.4 / §13 / §16
+  잔여 C 부분을 Python 전용으로 교체 (9 군데).
+- [x] `git diff` 검토 후 main 에 commit
+  (`refactor(claude-md): replace C-language style with Python
+  convention`, `Closes #27` 포함) —
+  https://github.com/coport-uni/CommonClaude/commit/e4f6e8d.
+- [x] `git push origin main` 직접 push 완료
+  (46fc4b8..e4f6e8d).
+- [x] commit footer 로 issue #27 자동 close 확인.
+- [x] FR5ControllerVLA/ToDo.md 의 본 항목 체크박스 갱신,
+  commit + push (CommonClaude commit `e4f6e8d` 링크 포함).
