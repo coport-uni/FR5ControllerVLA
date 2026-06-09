@@ -2043,3 +2043,50 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] commit footer 로 issue #27 자동 close 확인.
 - [x] FR5ControllerVLA/ToDo.md 의 본 항목 체크박스 갱신,
   commit + push (CommonClaude commit `e4f6e8d` 링크 포함).
+
+## 2026-06-10: Re-diagnose inactive arrow-key controls in 5__fr5_record.sh
+
+- User re-reported that Right/Left/Esc shortcuts do not work while
+  running `5__fr5_record.sh`. Diagnostic only — no code change
+  (see LP §G5, prior diagnosis ToDo 2026-04-22, gh issue #36).
+- Finding (unchanged plus one new failure path):
+  1. GUI terminal path: pynput uses the X11 (`_xorg`) backend; the
+     login session is still Wayland (`loginctl` session 832
+     Type=wayland), which blocks X11 global key capture. The
+     listener starts cleanly but never receives events.
+  2. SSH/remote terminal path (new): with no `DISPLAY`, `import
+     pynput` raises `DisplayNameError`, so `is_headless()` returns
+     True and `init_keyboard_listener()` returns `listener=None` —
+     keyboard control is disabled entirely with only a log warning.
+- [x] Verify pynput import failure in conda `lerobot` env
+      (`failed to acquire X connection: Bad display name ""`).
+- [x] Comment findings on existing gh issue #36 (no duplicate issue).
+- [ ] User decision: pick remediation (Xorg session / evdev reader /
+      termios stdin fallback) before any code change.
+
+## 2026-06-10: Merge CommonClaude global CLAUDE.md sections into project CLAUDE.md
+
+- User request: merge the contents of
+  https://github.com/coport-uni/CommonClaude CLAUDE.md into this
+  project's CLAUDE.md (see LP §W1, §W2).
+- Gap analysis: project CLAUDE.md already mirrors CommonClaude
+  §1-§6, §8-§10 (Rule Priority, MIT convention, debug files, task
+  management, testing, linting, exceptions, learned patterns).
+  Missing: §7 MCP servers (Serena/Context7/Fetch), §11 Commit
+  Messages, §12 Branching Strategy, §13 .gitignore, §14 Versioning,
+  §15 PR Guidelines, §16 Git Automation, §17 References.
+- Merge policy: import missing global sections verbatim where they
+  fit; keep project-specific overrides (110-col ruff, Fairino
+  examples, direct-to-main task workflow) per Rule Priority and add
+  explicit override notes where the global rule is superseded.
+- [x] Extend "Research Before Coding" with the §7 MCP server table
+      (Serena, Context7, Fetch), rules, and setup commands.
+- [x] Add "Commit Messages" (Conventional Commits) section.
+- [x] Add "Branching Strategy" (GitHub Flow) section with a project
+      override note for the existing direct-to-main task workflow.
+- [x] Add ".gitignore", "Versioning" (SemVer), "Pull Request
+      Guidelines", "Git Automation" (pre-commit), and "References
+      (Git Convention)" sections; also merged the §2 docstring
+      example into MIT Code Convention.
+- [x] Create GitHub issue via gh, commit, and push —
+      https://github.com/coport-uni/FR5ControllerVLA/issues/76.
