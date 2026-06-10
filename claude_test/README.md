@@ -41,3 +41,4 @@ These are **not** production tests -- they are preserved here for reference.
 - **Init settle times must be ≥1 s** per step; 0.2–0.3 s causes persistent ServoJ error 101.
 - **ServoJ must run from the main thread**; daemon threads always get error 101 on this firmware.
 - Hold-position ServoJ (same position) returns 101; after ~40 consecutive 101s the controller terminates the session (error 14).
+| `check_collision_level.py` | Issue #78: probes the FR5 controller for collision-level getters via XMLRPC introspection (`system.listMethods`), then applies `SetAnticollision(0, [level]*6, 1)` to set and persist the per-joint collision grade (1 = most sensitive, 10 = least). Usage: `python claude_test/check_collision_level.py [--ip 192.168.58.2] [--level 10] [--check-only]`. |

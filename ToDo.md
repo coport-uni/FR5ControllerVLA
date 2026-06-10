@@ -2115,3 +2115,21 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] ruff check + format on touched files
 - [x] Smoke-test device discovery in conda `lerobot` env
 - [x] Commit, push, update gh issue (2ec9d12e, #77)
+
+## 2026-06-10: Check and minimize FR5 collision sensitivity
+
+- User request: read the FR5's current collision detection
+  sensitivity and set it to the least sensitive value.
+- Fairino collision grade is per-joint 1-10 where 1 = most
+  sensitive and 10 = least sensitive (`SetAnticollision(mode=0,
+  level, config)`); the Python SDK exposes no getter, so the
+  current value is probed via XMLRPC introspection first
+  (see LP §E1 for network defaults).
+- Least-sensitive target: `SetAnticollision(0, [10]*6, 1)` with
+  `config=1` so the controller persists it across reboots.
+- [x] Append ToDo.md entry and create gh issue (#78)
+- [x] Write `claude_test/check_collision_level.py` (query via
+      XMLRPC introspection, then set grade 10 on all joints)
+- [ ] Run against follower at 192.168.58.2 and verify errcode 0
+- [x] Update `claude_test/README.md` index
+- [ ] Commit, push, update gh issue
