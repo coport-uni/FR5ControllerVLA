@@ -2114,4 +2114,4 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
       (re-login needed) and document it
 - [x] ruff check + format on touched files
 - [x] Smoke-test device discovery in conda `lerobot` env
-- [ ] Commit, push, update gh issue
+- [x] Commit, push, update gh issue (2ec9d12e, #77)
