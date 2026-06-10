@@ -2090,3 +2090,28 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
       example into MIT Code Convention.
 - [x] Create GitHub issue via gh, commit, and push —
       https://github.com/coport-uni/FR5ControllerVLA/issues/76.
+
+## 2026-06-10: Replace pynput record shortcuts with evdev reader
+
+- User picked remediation option 2 from the 2026-04-22 / 2026-06-10
+  diagnoses (see LP §G5, gh issue #36): read Right/Left/Esc directly
+  from `/dev/input/event*` via `evdev` so the lerobot-record
+  shortcuts work on Wayland and over SSH, independent of window
+  focus.
+- Design: new `src/lerobot/utils/evdev_keyboard.py` with an
+  `EvdevKeyboardListener` class (device scan + select() reader
+  thread, `start()`/`stop()` API). `init_keyboard_listener()` tries
+  evdev first and falls back to the existing pynput path when no
+  readable keyboard device exists, so upstream behavior is kept on
+  machines without input-group access.
+- [x] Append ToDo.md entry and create gh issue
+- [x] Add `evdev` (linux-only marker) to pyproject dependencies
+- [x] Implement `EvdevKeyboardListener` (80-col MIT convention)
+- [x] Rewire `init_keyboard_listener()` with evdev-first fallback
+- [x] Fix `lerobot_record.py` stop path: `if listener:` instead of
+      `if not is_headless() and listener:`
+- [ ] Grant `/dev/input` access: add user to `input` group
+      (re-login needed) and document it
+- [x] ruff check + format on touched files
+- [x] Smoke-test device discovery in conda `lerobot` env
+- [ ] Commit, push, update gh issue

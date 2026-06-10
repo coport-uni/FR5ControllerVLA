@@ -349,6 +349,23 @@
   `pip install`-ing projects that build C/C++ extensions.
   (from ToDo#47)
 
+### Q11. `evdev.list_devices()` silently returns [] without permissions
+
+- **Problem**: While replacing the pynput record-shortcut listener
+  (see G5), `evdev.list_devices()` returned an empty list on the
+  FR5 control PC even though `/dev/input/event*` nodes exist.
+- **Cause**: python-evdev filters the device list to nodes the
+  current user can open; `/dev/input/event*` is `root:input 660`,
+  and the user was not in the `input` group — no error is raised,
+  the list is just empty.
+- **Fix**: `sudo usermod -aG input <user>` plus re-login (or
+  `sudo setfacl -m u:<user>:r /dev/input/event*` for the current
+  boot). `EvdevKeyboardListener.start()` raises `RuntimeError`
+  mentioning the `input` group so the failure is loud.
+- **Rule**: Always treat an empty `evdev.list_devices()` result as
+  a permission problem first; check `input`-group membership before
+  debugging device detection. (from ToDo#76)
+
 ---
 
 ## §4. Workflow Lessons

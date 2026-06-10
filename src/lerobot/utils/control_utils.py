@@ -116,26 +116,93 @@ def predict_action(
     return action
 
 
+def _handle_record_shortcut(events, key_name):
+    """Applies one record-control shortcut to the shared event flags.
+
+    Args:
+        events: Mutable dict of control flags shared with the record
+            loop (`exit_early`, `rerecord_episode`, `stop_recording`).
+        key_name: One of "right", "left", or "esc".
+    """
+    if key_name == "right":
+        print("Right arrow key pressed. Exiting loop...")
+        events["exit_early"] = True
+    elif key_name == "left":
+        print("Left arrow key pressed. Exiting loop and rerecord the last episode...")
+        events["rerecord_episode"] = True
+        events["exit_early"] = True
+    elif key_name == "esc":
+        print("Escape key pressed. Stopping data recording...")
+        events["stop_recording"] = True
+        events["exit_early"] = True
+
+
+def _start_evdev_listener(events):
+    """Tries to start the evdev-based shortcut listener.
+
+    evdev reads `/dev/input/event*` directly, so it keeps working on
+    Wayland and over SSH where pynput's X11 backend receives nothing.
+
+    Returns:
+        A started `EvdevKeyboardListener`, or `None` when evdev is
+        not importable or no keyboard device is readable (e.g. the
+        user is not in the `input` group).
+    """
+    try:
+        from evdev import ecodes
+
+        from lerobot.utils.evdev_keyboard import EvdevKeyboardListener
+    except ImportError:
+        return None
+
+    key_names = {
+        ecodes.KEY_RIGHT: "right",
+        ecodes.KEY_LEFT: "left",
+        ecodes.KEY_ESC: "esc",
+    }
+
+    def on_press(key_code):
+        key_name = key_names.get(key_code)
+        if key_name is not None:
+            _handle_record_shortcut(events, key_name)
+
+    listener = EvdevKeyboardListener(on_press)
+    try:
+        listener.start()
+    except (RuntimeError, OSError) as error:
+        logging.info(f"evdev keyboard listener unavailable ({error}); falling back to pynput.")
+        return None
+    logging.info("Keyboard shortcuts active via evdev (display-server independent).")
+    return listener
+
+
 def init_keyboard_listener():
     """
     Initializes a non-blocking keyboard listener for real-time user interaction.
 
     This function sets up a listener for specific keys (right arrow, left arrow, escape) to control
-    the program flow during execution, such as stopping recording or exiting loops. It gracefully
-    handles headless environments where keyboard listening is not possible.
+    the program flow during execution, such as stopping recording or exiting loops. The evdev
+    backend is tried first because pynput's X11 backend silently receives no events under Wayland
+    and cannot start without a display (e.g. over SSH). It gracefully handles headless
+    environments where no keyboard listening is possible at all.
 
     Returns:
         A tuple containing:
-        - The `pynput.keyboard.Listener` instance, or `None` if in a headless environment.
+        - An `EvdevKeyboardListener` or `pynput.keyboard.Listener` instance (both expose
+          `stop()`), or `None` if no backend is available.
         - A dictionary of event flags (e.g., `exit_early`) that are set by key presses.
     """
     # Allow to exit early while recording an episode or resetting the environment,
-    # by tapping the right arrow key '->'. This might require a sudo permission
-    # to allow your terminal to monitor keyboard events.
+    # by tapping the right arrow key '->'. Reading /dev/input via evdev requires
+    # membership in the 'input' group.
     events = {}
     events["exit_early"] = False
     events["rerecord_episode"] = False
     events["stop_recording"] = False
+
+    listener = _start_evdev_listener(events)
+    if listener is not None:
+        return listener, events
 
     if is_headless():
         logging.warning(
@@ -150,16 +217,11 @@ def init_keyboard_listener():
     def on_press(key):
         try:
             if key == keyboard.Key.right:
-                print("Right arrow key pressed. Exiting loop...")
-                events["exit_early"] = True
+                _handle_record_shortcut(events, "right")
             elif key == keyboard.Key.left:
-                print("Left arrow key pressed. Exiting loop and rerecord the last episode...")
-                events["rerecord_episode"] = True
-                events["exit_early"] = True
+                _handle_record_shortcut(events, "left")
             elif key == keyboard.Key.esc:
-                print("Escape key pressed. Stopping data recording...")
-                events["stop_recording"] = True
-                events["exit_early"] = True
+                _handle_record_shortcut(events, "esc")
         except Exception as e:
             print(f"Error handling key press: {e}")
 

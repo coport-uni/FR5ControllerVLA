@@ -136,7 +136,6 @@ from lerobot.teleoperators.keyboard.teleop_keyboard import KeyboardTeleop
 from lerobot.utils.constants import ACTION, OBS_STR
 from lerobot.utils.control_utils import (
     init_keyboard_listener,
-    is_headless,
     predict_action,
     sanity_check_dataset_name,
     sanity_check_dataset_robot_compatibility,
@@ -593,7 +592,9 @@ def record(cfg: RecordConfig) -> LeRobotDataset:
         if teleop and teleop.is_connected:
             teleop.disconnect()
 
-        if not is_headless() and listener:
+        # The evdev backend works even when is_headless() is True
+        # (it does not depend on pynput), so gate only on the listener.
+        if listener:
             listener.stop()
 
         if cfg.dataset.push_to_hub:
