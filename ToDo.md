@@ -2157,4 +2157,4 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Append E7 to LearnedPatterns.md §5 and refresh the header
 - [x] Check off the open input-group item in the 2026-06-10 evdev
       section
-- [ ] Commit and push
+- [x] Commit and push (2271555b, #80)
