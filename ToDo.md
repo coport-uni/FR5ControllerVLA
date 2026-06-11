@@ -2133,3 +2133,13 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [ ] Run against follower at 192.168.58.2 and verify errcode 0
 - [x] Update `claude_test/README.md` index
 - [ ] Commit, push, update gh issue
+
+## 2026-06-11: Clean stale dataset dir before hf download in record script
+
+- User request: in `5__fr5_record.sh`, delete the local dataset
+  directory (`outputs/datasets/FR5_task1_move_the_brown_colored_
+  glass_bottle_to_the_designated_location`) if it exists, before
+  the `hf download` step, so the download always starts clean.
+- [x] Append ToDo.md entry and create gh issue
+- [x] Add `rm -rf <dataset dir>` before `hf download`
+- [ ] Commit, push, update gh issue

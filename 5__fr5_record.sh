@@ -19,10 +19,13 @@ export HF_HUB_ENABLE_HF_TRANSFER=1
 # Left Arrow (←): Cancel episode and re-record
 # Escape (ESC): Stop session and upload dataset
 
+# Remove any stale local copy so hf download starts from a clean state.
+rm -rf /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location
+
 hf download \
     --repo-type dataset \
-    coport-uni/FR5_pick_red_colored_marker_to_box \
-    --local-dir /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_pick_red_colored_marker_to_box
+    coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location \
+    --local-dir /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location
 
 lerobot-record \
     --robot.type=fairino_follower \
@@ -39,13 +42,13 @@ lerobot-record \
     --teleop.gripper_force=1 \
     --teleop.id=fr5_leader \
     --display_data=true \
-    --dataset.root="/home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_pick_red_colored_marker_to_box" \
-    --dataset.repo_id=coport-uni/FR5_pick_red_colored_marker_to_box \
+    --dataset.root="/home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location" \
+    --dataset.repo_id=coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location \
     --dataset.episode_time_s=60 \
     --dataset.reset_time_s=30 \
     --dataset.num_episodes=5 \
     --dataset.fps=20 \
-    --dataset.single_task="pick_red_colored_marker_to_box" \
+    --dataset.single_task="move the brown colored glass bottle to the designated location" \
     --dataset.streaming_encoding=true \
     --dataset.encoder_threads=8 \
     --resume=true \
