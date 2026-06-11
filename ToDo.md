@@ -2158,3 +2158,17 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Check off the open input-group item in the 2026-06-10 evdev
       section
 - [x] Commit and push (2271555b, #80)
+
+## 2026-06-11: Document RealSense xHCI HC-died gotcha in LearnedPatterns
+
+- User asked why the RealSense D455 ignored replugging until a
+  reboot. Previous-boot kernel log (18:46) showed the NUC's
+  USB4-side xHCI controller `0000:00:0d.0` hung on a
+  `stop endpoint` command and was marked dead (`HC died`), taking
+  down the whole USB bus — a dead host controller cannot
+  enumerate a replugged device; reboot reinitializes it. PCI
+  remove/rescan recovers without reboot. Contributing factor:
+  the camera hangs off the external dock hub on that controller.
+- [x] Append ToDo.md entry and create gh issue (#81)
+- [x] Append E8 to LearnedPatterns.md §5 and refresh the header
+- [ ] Commit and push

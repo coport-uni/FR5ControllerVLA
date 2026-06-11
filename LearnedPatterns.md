@@ -7,7 +7,7 @@
 > Reference").
 >
 > Last updated: 2026-06-11
-> Total patterns: 27
+> Total patterns: 28
 >
 > Provenance format: `(from ToDo#N)` where N is the 1-based index of
 > the top-level `##` heading in `ToDo.md` at the time of extraction.
@@ -502,6 +502,31 @@
   GID appears in `grep Groups /proc/$(pgrep -u $USER -x
   systemd)/status`; if it is missing, reboot — a plain desktop
   re-login is not sufficient. (from ToDo#79)
+
+### E8. NUC USB4 xHCI "HC died" — RealSense ignores replug until reboot
+
+- **Problem**: RealSense D455 was not recognized after unplugging
+  and replugging; only a full reboot restored it (2026-06-11
+  18:46 incident).
+- **Cause**: The NUC15's USB4-side xHCI controller
+  (`0000:00:0d.0`, USB buses 1/2) hung on a `stop endpoint`
+  command while a RealSense stream was closing; the kernel logged
+  `xHCI host controller not responding, assume dead` / `HC died`
+  and tore down the whole bus. A dead host controller cannot
+  enumerate anything, so replugging the camera is a no-op.
+  Contributing factor: the camera was connected through the
+  external USB3.2 dock hub (`usb 2-3`) on that controller rather
+  than directly to the body.
+- **Fix**: Reset the controller via PCI instead of rebooting:
+  `echo 1 | sudo tee /sys/bus/pci/devices/0000:00:0d.0/remove`,
+  wait 2 s, then `echo 1 | sudo tee /sys/bus/pci/rescan`.
+  Prevention: plug the D455 directly into a body port wired to
+  the other controller (`0000:00:14.0`, buses 3/4) and avoid the
+  dock hub.
+- **Rule**: When a USB camera ignores replug, always check
+  `journalctl -k` for `HC died` before suspecting the camera or
+  cable; recover with a PCI remove/rescan of the dead xHCI, not
+  a reboot. (from RealSense diagnosis session, 2026-06-11)
 
 ---
 
