@@ -6,8 +6,8 @@
 > after each task completes (see CLAUDE.md "Learned Patterns
 > Reference").
 >
-> Last updated: 2026-04-28
-> Total patterns: 26
+> Last updated: 2026-06-11
+> Total patterns: 27
 >
 > Provenance format: `(from ToDo#N)` where N is the 1-based index of
 > the top-level `##` heading in `ToDo.md` at the time of extraction.
@@ -482,6 +482,26 @@
   Hub namespace.
 - **Rule**: Always pull datasets via `hf download --repo-type dataset`.
   (from ToDo#27)
+
+### E7. Group changes do not propagate while `systemd --user` survives
+
+- **Problem**: After `sudo usermod -aG input <user>` (see Q11) and
+  a desktop re-login, `id` still lacked `input` and
+  `evdev.list_devices()` stayed empty in every terminal (VSCode
+  and native alike).
+- **Cause**: The `systemd --user` daemon from the previous login
+  survived the logout (a leftover process kept the session alive),
+  and desktop apps are spawned through it — so every new terminal
+  inherited the daemon's stale supplementary-group list.
+- **Fix**: Full reboot. (`sudo loginctl terminate-user <user>` also
+  works but kills the running desktop session just the same.)
+  Post-reboot, evdev discovered 21 readable devices and
+  `EvdevKeyboardListener.find_keyboard_devices()` matched 4
+  keyboards.
+- **Rule**: After changing group membership, always verify the new
+  GID appears in `grep Groups /proc/$(pgrep -u $USER -x
+  systemd)/status`; if it is missing, reboot — a plain desktop
+  re-login is not sufficient. (from ToDo#79)
 
 ---
 

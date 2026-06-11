@@ -2110,8 +2110,9 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Rewire `init_keyboard_listener()` with evdev-first fallback
 - [x] Fix `lerobot_record.py` stop path: `if listener:` instead of
       `if not is_headless() and listener:`
-- [ ] Grant `/dev/input` access: add user to `input` group
-      (re-login needed) and document it
+- [x] Grant `/dev/input` access: add user to `input` group
+      (re-login needed) and document it (reboot was required, see
+      LP §E7; documented via #80)
 - [x] ruff check + format on touched files
 - [x] Smoke-test device discovery in conda `lerobot` env
 - [x] Commit, push, update gh issue (2ec9d12e, #77)
@@ -2143,3 +2144,17 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Append ToDo.md entry and create gh issue
 - [x] Add `rm -rf <dataset dir>` before `hf download`
 - [x] Commit, push, update gh issue (28fe22c4, #79)
+
+## 2026-06-11: Document input-group propagation gotcha in LearnedPatterns
+
+- Follow-up to the evdev shortcut work (see LP §Q11, gh issue #77):
+  after `sudo usermod -aG input` the record shortcuts still failed
+  because the desktop re-login did not restart the `systemd --user`
+  daemon (started before the group change), so VSCode and all
+  terminals inherited the stale supplementary-group list. A full
+  reboot fixed it; evdev now discovers 4 keyboard devices.
+- [x] Append ToDo.md entry and create gh issue (#80)
+- [x] Append E7 to LearnedPatterns.md §5 and refresh the header
+- [x] Check off the open input-group item in the 2026-06-10 evdev
+      section
+- [ ] Commit and push
