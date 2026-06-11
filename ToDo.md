@@ -2171,4 +2171,4 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
   the camera hangs off the external dock hub on that controller.
 - [x] Append ToDo.md entry and create gh issue (#81)
 - [x] Append E8 to LearnedPatterns.md §5 and refresh the header
-- [ ] Commit and push
+- [x] Commit and push (70f85e6b, #81)
