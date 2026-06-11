@@ -2142,4 +2142,4 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
   the `hf download` step, so the download always starts clean.
 - [x] Append ToDo.md entry and create gh issue
 - [x] Add `rm -rf <dataset dir>` before `hf download`
-- [ ] Commit, push, update gh issue
+- [x] Commit, push, update gh issue (28fe22c4, #79)
