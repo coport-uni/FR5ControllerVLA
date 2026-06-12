@@ -51,6 +51,9 @@ JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_locati
 BATCH_SIZE=496
 GPU_NUMBER=2
 
+STEPS_NUMBER=100000
+CHECKPOINT_NUMBER=10
+
 accelerate launch \
     --multi_gpu \
     --num_processes=${GPU_NUMBER} \
@@ -67,10 +70,11 @@ accelerate launch \
     --wandb.enable=true \
     --num_workers=10 \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
-    --steps=100000 \
-    --save_freq=10000 \
+    --steps=${STEPS_NUMBER} \
+    --save_freq=$((STEPS_NUMBER / CHECKPOINT_NUMBER)) \
     --resume=false \
     --seed=55 \
     --tolerance_s=0.1 \
     --policy.optimizer_lr=4.5e-5 \
-    --policy.optimizer_lr_backbone=4.5e-5
+    --policy.optimizer_lr_backbone=4.5e-5 \
+    --num_workers=4
