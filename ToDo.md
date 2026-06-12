@@ -2200,7 +2200,8 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
   `self.stop_event` into a local variable at `_read_loop` entry so
   the loop condition no longer dereferences the attribute that
   `_stop_read_thread()` nulls after a timed-out join.
-- [ ] Append ToDo.md entry (fix tracked on existing issue #82)
-- [ ] Snapshot stop_event locally in `_read_loop`
-- [ ] Run ruff check/format and camera tests
-- [ ] Commit, push, update gh issue #82
+- [x] Append ToDo.md entry (fix tracked on existing issue #82)
+- [x] Snapshot stop_event locally in `_read_loop`
+- [x] Run ruff check/format and camera tests (41 failures are
+      pre-existing, identical on baseline)
+- [x] Commit, push, update gh issue #82 (aef21e80, #82 closed)
