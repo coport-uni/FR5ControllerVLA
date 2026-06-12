@@ -2189,4 +2189,4 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
   after a confirmed join.
 - [x] Diagnose root cause and report to user (see LP §E8)
 - [x] Append ToDo.md entry and create gh issue
-- [x] Commit and push
+- [x] Commit and push (ccaded17, #82)
