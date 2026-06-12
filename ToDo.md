@@ -2205,3 +2205,23 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Run ruff check/format and camera tests (41 failures are
       pre-existing, identical on baseline)
 - [x] Commit, push, update gh issue #82 (aef21e80, #82 closed)
+
+## 2026-06-12: Diagnose mid-recording crash (D455 drops off USB hub)
+
+- User reported lerobot-record aborting mid-episode with the
+  stop_event traceback reappearing. Diagnosis (gh issue #83): the
+  D455 sits behind a shared external USB3.2 hub (with an r8152 LAN
+  adapter) on the LP §E8 controller; kernel log shows 32x EPROTO
+  (-71) errors and three full hub resets in four minutes, so the
+  camera physically drops mid-episode, the read thread dies after
+  11 consecutive failures, and get_observation kills the session.
+- Also found: the working tree carries an uncommitted revert of the
+  #82 race fix (aef21e80) — awaiting user confirmation whether it
+  was intentional before discarding or keeping it.
+- [x] Inspect kernel log and USB topology, identify hub instability
+      as root cause (see LP §E8, §E9)
+- [x] Create gh issue with findings and hardware-first
+      recommendations (#83)
+- [x] Append LP §E9 (shared-hub EPROTO pattern)
+- [ ] Hardware mitigation (move D455 off hub, swap cable) — user
+      action, tracked on #83

@@ -528,6 +528,28 @@
   cable; recover with a PCI remove/rescan of the dead xHCI, not
   a reboot. (from RealSense diagnosis session, 2026-06-11)
 
+### E9. D455 on shared USB hub — EPROTO (-71) storms reset the hub mid-recording
+
+- **Problem**: `lerobot-record` aborted mid-episode; the D455
+  repeatedly vanished from the bus (three full hub resets in four
+  minutes, 2026-06-12 morning).
+- **Cause**: The D455 was connected through an external Generic
+  USB3.2 hub (`usb 2-1`) on the §E8 controller (`0000:00:0d.0`),
+  sharing the hub with an r8152 gigabit LAN adapter. The kernel
+  logged repeated `uvcvideo: Non-zero status (-71) in video
+  completion handler` (EPROTO, link-level transfer errors) before
+  each hub reset — a signal-integrity / shared-hub problem, not a
+  software bug. The read thread dies after 11 consecutive
+  failures, then `get_observation()` kills the session.
+- **Fix**: Move the D455 off the hub onto a body port of the
+  other controller (`0000:00:14.0`) with a known-good short
+  USB 3.0 cable; keep the LAN adapter on a separate port.
+- **Rule**: Never share a hub between a RealSense and other
+  bandwidth-hungry USB devices; when recordings die mid-episode,
+  always check `journalctl -k` for `-71` storms and hub
+  disconnects before debugging the camera stack. (from
+  mid-recording crash diagnosis, 2026-06-12, gh #83)
+
 ---
 
 ## §99. Uncategorized
