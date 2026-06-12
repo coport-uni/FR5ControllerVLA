@@ -2172,3 +2172,21 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Append ToDo.md entry and create gh issue (#81)
 - [x] Append E8 to LearnedPatterns.md §5 and refresh the header
 - [x] Commit and push (70f85e6b, #81)
+
+## 2026-06-12: Diagnose RealSense read-loop crash at stop_event check
+
+- User asked why the RealSense background read thread raised an
+  exception at `camera_realsense.py:474`
+  (`while not self.stop_event.is_set():`). Diagnosis: a shutdown
+  race in `_stop_read_thread()` — it joins the thread with a 2 s
+  timeout, then unconditionally sets `self.stop_event = None`
+  (line 523). If `_read_from_hardware()` blocks past the join
+  timeout (e.g. the xHCI HC-died USB hang, see LP §E8), the
+  still-alive thread re-enters the loop and calls
+  `None.is_set()` → AttributeError. Harmless at shutdown but it
+  masks the underlying USB hang. Fix deferred until requested:
+  snapshot `stop_event` locally in `_read_loop`, or only null it
+  after a confirmed join.
+- [x] Diagnose root cause and report to user (see LP §E8)
+- [x] Append ToDo.md entry and create gh issue
+- [x] Commit and push
