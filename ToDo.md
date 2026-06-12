@@ -2301,3 +2301,38 @@ ACT 의 LeRobot 기본 옵티마이저 설정은
 - [x] `hub_api.create_tag(repo, tag='v3.0', revision='main',
       repo_type='dataset')` 로 태그 생성 (사용자 승인).
 - [x] 태그 생성 후 #84 probe 재개하여 정상 동작 확인.
+
+## 2026-06-12: Diagnose mid-training stop of 7__train_act_task1_h200.sh at step 148 (diagnosis only)
+
+### Background
+사용자가 "왜 학습이 중간에 멈췄나" 질문. `7__train_act_task1_h200.sh`
+(#84 에서 튜닝, run zwmmk3ro) 가 `--steps=100000` 목표 중 **step 148**
+에서 멈춤. 진단 결과 코드/CUDA 예외가 아니라 외부 신호에 의한 강제
+종료로 판단.
+
+### Evidence
+- [output.log](outputs/train/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50/wandb/run-20260612_080647-zwmmk3ro/files/output.log)
+  마지막 줄이 `148/100000 [07:03<29:52:03, 1.08s/step]` 에서 끊김.
+- Python traceback / Exception / CUDA OOM 메시지 **없음**.
+- wandb debug-internal.log 에 정상 finish/atexit 기록 **없음**
+  → atexit 핸들러도 못 돌리고 즉사 = SIGKILL 패턴 (OOM-killer 또는
+  `kill -9` / 컨테이너·SSH 세션 종료).
+- `checkpoints/` 디렉토리 없음: `save_freq=10000` 이라 첫 체크포인트
+  (step 10000) 전에 죽어 복구 지점이 0 → `--resume` 불가.
+
+### Secondary finding (성능)
+- H200 2장인데 `1.08s/step` (ETA ~30h) 로 비정상 느림.
+- 원인: torch._dynamo `recompile_limit (8)` 도달. `modeling_act.py`
+  [L148](src/lerobot/policies/act/modeling_act.py#L148) / L157 의
+  `l1_loss.item()` / `mean_kld.item()` 가 매 step graph break +
+  재컴파일 유발.
+
+### Recommended remediation (별도 task, 사용자 승인 필요)
+- [ ] H200 박스에서 `dmesg -T | grep -iE "killed process|oom"` 로
+      OOM-killer 여부 확정. 잡히면 RAM OOM → `--num_workers` 축소.
+- [ ] 세션 끊김 방지: `tmux`/`nohup` 안에서 실행.
+- [ ] `save_freq` 를 1000 수준으로 낮춰 초반 복구 지점 확보.
+- [ ] torch.compile graph break (`.item()`) 완화 검토.
+
+### Out of scope (this task)
+- 위 remediation 의 실제 코드/스크립트 수정 (진단만 수행).
