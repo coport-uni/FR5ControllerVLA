@@ -2277,7 +2277,7 @@ ACT 의 LeRobot 기본 옵티마이저 설정은
 - [x] `bash -n 7__train_act_task1_h200.sh` 구문 검증.
 - [x] `claude_test/README.md` 업데이트 (새 probe 스크립트 행 추가).
 - [x] gh issue create (#84).
-- [ ] commit + push, gh issue 코멘트 등록 후 close.
+- [x] commit + push (1e0880b5), gh issue 코멘트 등록 후 close.
 
 ### Out of scope
 - 다른 `7__train_*` 스크립트의 H200 튜닝.
