@@ -2192,3 +2192,15 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Commit and push (ccaded17, #82)
 - [x] Assess dataset impact of the fix (none — shutdown-path only;
       crash occurs after episodes are saved) and record on #82
+
+## 2026-06-12: Fix RealSense stop_event race with minimal change
+
+- User approved the minimal fix for the shutdown race diagnosed in
+  the previous entry (gh issue #82, see LP §E8): snapshot
+  `self.stop_event` into a local variable at `_read_loop` entry so
+  the loop condition no longer dereferences the attribute that
+  `_stop_read_thread()` nulls after a timed-out join.
+- [ ] Append ToDo.md entry (fix tracked on existing issue #82)
+- [ ] Snapshot stop_event locally in `_read_loop`
+- [ ] Run ruff check/format and camera tests
+- [ ] Commit, push, update gh issue #82
