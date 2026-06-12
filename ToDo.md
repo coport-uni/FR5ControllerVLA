@@ -2226,3 +2226,78 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Hardware mitigation (move D455 off hub, swap cable) — user
       action, tracked on #83 (verified 2026-06-12: repeater cable
       + dedicated hub, LP §E9 updated)
+
+## 2026-06-12: 7__train_act_task1_h200.sh 의 batch_size 를 H200 141 GB VRAM 80% 기준으로 튜닝
+
+### Background
+[7__train_act_task1_h200.sh](7__train_act_task1_h200.sh) 는 헤더 주석상
+H200 2x, `--batch_size=8`, `global=16` 가정으로 작성되었으나, 실제 값은
+3090 (#56) 결과를 그대로 carry-over 한 `--batch_size=40`,
+`--mixed_precision=fp16`, `--policy.optimizer_lr=2.2e-5` 다. 학습 머신은
+H200 NVL 141 GB x 2 (143,771 MiB / GPU) 이므로 80 % 라인
+(~115,000 MiB) 까지 throughput 을 늘리고, 변경된 (per-GPU, 글로벌)
+배치에 맞는 learning rate 권장값을 함께 도출한다.
+
+ACT 의 LeRobot 기본 옵티마이저 설정은
+[configuration_act.py:127-129](src/lerobot/policies/act/configuration_act.py#L127-L129):
+`optimizer_lr=1e-5`, `optimizer_lr_backbone=1e-5`,
+`optimizer_weight_decay=1e-4`. LeRobot 멀티 GPU 문서는 LR auto-scale 을
+하지 않으므로 AdamW + no-warmup 환경 권장 경험칙인 sqrt scaling 을 사용
+한다 (see #56).
+
+### Decisions (사용자 확정)
+- Probe 우선. 추정값 (bs≈240, lr≈4.5e-5) 은 ladder 의 출발점으로만 사용.
+- `--steps=100000` 그대로 유지 (epoch 늘려 수렴 여유).
+- 스크립트 헤더 주석도 새 setting 에 맞춰 함께 갱신.
+- mixed_precision 은 H200 Hopper 권장값인 **bf16** 으로 전환.
+- 데이터셋은 스크립트가 가리키는
+  `coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50`
+  그대로 사용 (probe 도 동일 데이터셋).
+- Probe 동안 wandb / HF Hub push 비활성화 (7__train_act_task1_h200.sh
+  는 수정하지 않고 claude_test/ probe 래퍼에서만 override).
+- 첫 probe duration 300 s (데이터셋 캐시 미스 여유), 이후 150 s.
+
+### Work items
+- [x] `claude_test/probe_vram_batch_h200_task1.sh` 작성: #56 의
+      `probe_vram_batch.sh` 를 base 로 (num_processes=2, bf16,
+      task1 dataset, 143771 MiB 분모) 만든 H200 전용 wrapper.
+- [x] 후보 ladder probe: per-GPU `bs ∈ {64, 128, 192, 240, 280}`
+      부터 시작해 ~115,000 MiB peak 에 가장 가까운 후보까지
+      필요 시 binary refine. 결과: bs=248 binary-refined
+      (GPU0 78.6%, GPU1 80.8%).
+- [x] 선정된 글로벌 배치에 대한 LR 권장값 계산. sqrt: 4.5e-5
+      (1e-5 × sqrt(496/24) ≈ 4.55). linear: 2.07e-4 (warmup 시).
+- [x] [7__train_act_task1_h200.sh](7__train_act_task1_h200.sh)
+      값과 헤더 주석 동시 갱신: BATCH_SIZE=496 / GPU_NUMBER=2 →
+      per-GPU 248, `mixed_precision=bf16`, `optimizer_lr=4.5e-5`,
+      `optimizer_lr_backbone=4.5e-5`, `--steps=100000` 유지.
+      추가로 사용자가 추가하던 `${A} / ${B}` 리터럴 표현을
+      `$((A / B))` 산술로 교정, pre-existing JOB_NAME 이중
+      `coport-uni/` prefix 버그도 동시 정리 (사용자 승인).
+- [x] `bash -n 7__train_act_task1_h200.sh` 구문 검증.
+- [x] `claude_test/README.md` 업데이트 (새 probe 스크립트 행 추가).
+- [x] gh issue create (#84).
+- [ ] commit + push, gh issue 코멘트 등록 후 close.
+
+### Out of scope
+- 다른 `7__train_*` 스크립트의 H200 튜닝.
+- Probe 결과를 LeRobot multi_gpu_training 문서 또는 본 repo 의
+  CLAUDE.md / LP 에 추가하는 작업 (별도 task).
+
+## 2026-06-12: Add missing v3.0 git tag to FR5_task1 brown-bottle dataset
+
+### Background
+가 #84 probe 를 시작하자 `lerobot-train` 이
+`RevisionNotFoundError` 로 실패했다. 원인은 dataset
+`coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50`
+의 HF Hub repo 에 `v3.0` git tag 가 없었던 것. `meta/info.json` 자체는
+`codebase_version: v3.0` 이지만 LeRobot 의 `get_safe_version()`
+([utils.py:289](src/lerobot/datasets/utils.py#L289)) 는 git tag 가 없으면
+`RevisionNotFoundError` 를 던진다 (그리고 huggingface_hub 의 새 버전
+에서는 그 예외 생성 자체가 `response=` 미전달로 다시 죽음). 기존
+`FR5_pick_red_colored_marker_to_box` 에는 `v3.0` 태그가 있어 정상이었다.
+
+### Work items
+- [x] `hub_api.create_tag(repo, tag='v3.0', revision='main',
+      repo_type='dataset')` 로 태그 생성 (사용자 승인).
+- [x] 태그 생성 후 #84 probe 재개하여 정상 동작 확인.
