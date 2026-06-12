@@ -2190,3 +2190,5 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Diagnose root cause and report to user (see LP §E8)
 - [x] Append ToDo.md entry and create gh issue
 - [x] Commit and push (ccaded17, #82)
+- [x] Assess dataset impact of the fix (none — shutdown-path only;
+      crash occurs after episodes are saved) and record on #82
