@@ -2223,5 +2223,6 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Create gh issue with findings and hardware-first
       recommendations (#83)
 - [x] Append LP §E9 (shared-hub EPROTO pattern)
-- [ ] Hardware mitigation (move D455 off hub, swap cable) — user
-      action, tracked on #83
+- [x] Hardware mitigation (move D455 off hub, swap cable) — user
+      action, tracked on #83 (verified 2026-06-12: repeater cable
+      + dedicated hub, LP §E9 updated)

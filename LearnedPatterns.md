@@ -6,8 +6,8 @@
 > after each task completes (see CLAUDE.md "Learned Patterns
 > Reference").
 >
-> Last updated: 2026-06-11
-> Total patterns: 28
+> Last updated: 2026-06-12
+> Total patterns: 29
 >
 > Provenance format: `(from ToDo#N)` where N is the 1-based index of
 > the top-level `##` heading in `ToDo.md` at the time of extraction.
@@ -541,14 +541,19 @@
   each hub reset — a signal-integrity / shared-hub problem, not a
   software bug. The read thread dies after 11 consecutive
   failures, then `get_observation()` kills the session.
-- **Fix**: Move the D455 off the hub onto a body port of the
-  other controller (`0000:00:14.0`) with a known-good short
-  USB 3.0 cable; keep the LAN adapter on a separate port.
-- **Rule**: Never share a hub between a RealSense and other
-  bandwidth-hungry USB devices; when recordings die mid-episode,
-  always check `journalctl -k` for `-71` storms and hub
-  disconnects before debugging the camera stack. (from
-  mid-recording crash diagnosis, 2026-06-12, gh #83)
+- **Fix** (verified 2026-06-12): Connect the D455 through an
+  **active repeater USB 3 cable** into its own hub (VIA Labs,
+  `usb 2-4`), separated from the r8152 LAN hub. A passive cable
+  over this run length is what produced the EPROTO storms. After
+  the change: USB 3.2 link confirmed, zero `-71` errors, and a
+  clean 15 s lerobot stream test (333 reads, 0 timeouts, 30 fps).
+  Moving the camera to a body port of the other controller
+  (`0000:00:14.0`) remains the §E8-preferred fallback.
+- **Rule**: Always use an active repeater cable for the D455 run
+  and never share its hub with other bandwidth-hungry USB devices;
+  when recordings die mid-episode, check `journalctl -k` for `-71`
+  storms and hub disconnects before debugging the camera stack.
+  (from mid-recording crash diagnosis, 2026-06-12, gh #83)
 
 ---
 
