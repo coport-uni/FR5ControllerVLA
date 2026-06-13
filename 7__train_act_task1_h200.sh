@@ -62,11 +62,11 @@ accelerate launch \
     --dataset.repo_id=coport-uni/${JOB_NAME} \
     --dataset.video_backend=pyav \
     --policy.type=act \
-    --policy.repo_id=coport-uni/${JOB_NAME}_model \
+    --policy.repo_id=coport-uni/${JOB_NAME}_act_h200_model \
     --policy.push_to_hub=true \
     --policy.device=cuda \
-    --output_dir=outputs/train/${JOB_NAME} \
-    --job_name=${JOB_NAME} \
+    --output_dir=outputs/train/${JOB_NAME}_act_h200 \
+    --job_name=${JOB_NAME}_act_h200 \
     --wandb.enable=true \
     --num_workers=10 \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \

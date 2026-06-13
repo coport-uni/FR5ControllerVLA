@@ -1,0 +1,25 @@
+===== probing batch 176 =====
+[probe] BATCH=176 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b176
+[probe] Logs: claude_test/probe_logs/train_b200_b176.log / claude_test/probe_logs/vram_b200_b176.csv
+===== probing batch 192 =====
+[probe] BATCH=192 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b192
+[probe] Logs: claude_test/probe_logs/train_b200_b192.log / claude_test/probe_logs/vram_b200_b192.csv
+===== probing batch 208 =====
+[probe] BATCH=208 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b208
+[probe] Logs: claude_test/probe_logs/train_b200_b208.log / claude_test/probe_logs/vram_b200_b208.csv
+===== probing batch 224 =====
+[probe] BATCH=224 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b224
+[probe] Logs: claude_test/probe_logs/train_b200_b224.log / claude_test/probe_logs/vram_b200_b224.csv
+===== probing batch 240 =====
+[probe] BATCH=240 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b240
+[probe] Logs: claude_test/probe_logs/train_b200_b240.log / claude_test/probe_logs/vram_b200_b240.csv
+===== ladder done =====
+
+===== VRAM LADDER PEAKS v3 / P2P-on, compile_mode=default =====
+batch=176 peak=135458MiB (73.9%) laststep=50/50 [ sps=6.29s/step finished=1 oom=- illegal=0
+batch=192 peak=52652MiB (28.7%) laststep=0/50 [ sps=NA finished=0 oom=OOM illegal=0
+batch=208 peak=55432MiB (30.2%) laststep=0/50 [ sps=NA finished=0 oom=OOM illegal=0
+batch=224 peak=58206MiB (31.7%) laststep=0/50 [ sps=NA finished=0 oom=OOM illegal=0
+batch=240 peak=60980MiB (33.3%) laststep=0/50 [ sps=NA finished=0 oom=OOM illegal=0
+
+ALL_DONE3

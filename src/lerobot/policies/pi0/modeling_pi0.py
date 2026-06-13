@@ -1088,8 +1088,37 @@ class PI0Policy(PreTrainedPolicy):
 
         fixed_state_dict = {}
 
+        # Keys the instantiated model actually expects. Checkpoint keys
+        # may still lack the "model." prefix at this stage (it is added
+        # by the caller afterwards), so membership is checked both ways.
+        expected_keys = set(self.state_dict().keys())
+
+        def _is_expected(candidate_key):
+            return candidate_key in expected_keys or f"model.{candidate_key}" in expected_keys
+
+        vision_tower_remap_count = 0
+
         for key, value in state_dict.items():
             new_key = key
+
+            # transformers >= 5.x flattened PaliGemma's SigLIP path
+            # (vision_tower.vision_model.* -> vision_tower.*). Without a
+            # remap, strict=False loading silently skips every
+            # vision-tower tensor and the encoder trains from random
+            # init (see gh #88). Remap only when the checkpoint naming
+            # is absent from the model and the rewritten naming is
+            # present, so checkpoints matching the installed
+            # transformers pass through unchanged (both directions
+            # covered).
+            if ".vision_tower." in key and not _is_expected(key):
+                if ".vision_tower.vision_model." in key:
+                    candidate = key.replace(".vision_tower.vision_model.", ".vision_tower.")
+                else:
+                    candidate = key.replace(".vision_tower.", ".vision_tower.vision_model.")
+                if _is_expected(candidate):
+                    new_key = candidate
+                    vision_tower_remap_count += 1
+                    key = new_key  # let the checks below see the fixed name
 
             # Handle layer norm structure changes: .weight -> .dense.weight + .dense.bias
             # For gemma expert layers
@@ -1135,6 +1164,12 @@ class PI0Policy(PreTrainedPolicy):
                 ] = value.clone()
 
             fixed_state_dict[new_key] = value
+
+        if vision_tower_remap_count:
+            logging.info(
+                f"Remapped {vision_tower_remap_count} vision-tower keys to the installed "
+                "transformers naming (vision_tower.vision_model.* <-> vision_tower.*)."
+            )
 
         return fixed_state_dict
 

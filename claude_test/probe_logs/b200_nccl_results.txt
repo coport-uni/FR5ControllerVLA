@@ -1,0 +1,4 @@
+label  result  steady_step  (Sat Jun 13 09:14:24 KST 2026)
+p2p_off  HANG/timeout (first allreduce never cleared)  1.96s/step
+p2p_on  OK (completed 40 steps)  4.00s/step
+p2p_shm_off  OK (completed 40 steps)  6.67s/step
