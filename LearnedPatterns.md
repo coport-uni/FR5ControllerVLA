@@ -6,8 +6,8 @@
 > after each task completes (see CLAUDE.md "Learned Patterns
 > Reference").
 >
-> Last updated: 2026-06-12
-> Total patterns: 29
+> Last updated: 2026-06-13
+> Total patterns: 35
 >
 > Provenance format: `(from ToDo#N)` where N is the 1-based index of
 > the top-level `##` heading in `ToDo.md` at the time of extraction.
@@ -366,6 +366,96 @@
   a permission problem first; check `input`-group membership before
   debugging device detection. (from ToDo#76)
 
+### Q12. HF Hub model repos are mutable — pin revisions for old forks
+
+- **Problem**: `lerobot/pi0_base` suddenly failed to load with
+  `ImportError: Processor step 'relative_actions_processor' not
+  found in registry`; every probe died before training.
+- **Cause**: The Hub repo HEAD moved (2026-06-03 commit added new
+  processor steps for current LeRobot) while this fork is frozen at
+  v0.5.1; `from_pretrained` without a revision always pulls HEAD.
+- **Fix**: Pinned the prior revision `26b99b9439ac` (identical
+  weights, older processor JSON) via `snapshot_download` to
+  `models/pi0_base_v051compat/` and pointed
+  `--policy.pretrained_path` at the local dir.
+- **Rule**: Always pin a Hub revision (or keep a local snapshot)
+  for pretrained checkpoints consumed by a version-frozen fork;
+  never depend on repo HEAD. (from B200 probe, 2026-06-13, gh #87)
+
+### Q13. `strict=False` weight loading silently leaves modules random
+
+- **Problem**: pi0 fine-tune "loads" the checkpoint but the entire
+  PaliGemma vision tower stays randomly initialized; the only trace
+  is a `Warning: Could not load state dict` line.
+- **Cause**: transformers 5.11.0 flattened the PaliGemma key path
+  (`vision_tower.vision_model.*` → `vision_tower.*`);
+  `PreTrainedPolicy.from_pretrained` calls
+  `load_state_dict(strict=False)`, so every vision-tower tensor
+  mismatches and is skipped without an error.
+- **Fix**: Vision-tower key remap in the pi0 load path (gh #88);
+  see Q12 for the companion revision pin.
+- **Rule**: After any `from_pretrained` under `strict=False`,
+  always inspect missing/unexpected keys before training; treat
+  "Could not load state dict" warnings as fatal until explained.
+  (from B200 probe, 2026-06-13, gh #87/#88)
+
+### Q14. pi0 default `compile_mode="max-autotune"` crashes on Blackwell
+
+- **Problem**: 4 x B200 training died at step 0 with
+  `CUDA error: an illegal memory access was encountered` for
+  per-GPU batch >= ~176, while batch 64/96 ran fine.
+- **Cause**: pi0 compiles with `mode="max-autotune"`
+  (`configuration_pi0.py:76`); inductor's Triton GEMM autotune
+  benchmarks a `triton_mm` candidate that performs an illegal
+  access on sm_100 (torch 2.10.0+cu128) at large batch shapes.
+- **Fix**: Pass `--policy.compile_mode=default` (GEMMs fall back
+  to cuBLAS/ATen, pointwise fusion kept); probe drivers expose a
+  `COMPILE_MODE` env knob.
+- **Rule**: Always set `--policy.compile_mode=default` for pi0 on
+  the B200 box; when torch.compile dies with illegal-memory-access
+  only above a batch threshold, suspect Triton GEMM autotune
+  first. (from B200 probe, 2026-06-13, gh #87)
+
+### Q15. pi05 gemma RMSNorm hits the Triton shared-mem limit on B200
+
+- **Problem**: pi05 on 4 x B200 (with `compile_mode=default`, so Q14
+  is already handled) fails to compile at per-GPU batch >= 160 with
+  `No valid triton configs. OutOfMemoryError: out of resource:
+  triton_per_fused_..._mean_mul_pow_rsqrt_sum_...`; batch 152 and
+  below compile and train fine. This is NOT a VRAM OOM — batch 152
+  peaks at only 71.5 % of the 183 GB B200.
+- **Cause**: pi05's gemma backbone compiles RMSNorm to a Triton
+  persistent-reduction kernel whose per-block shared memory grows
+  with batch; at batch 168 it needs 294976 B vs the B200 per-SM
+  limit of 232448 B, so inductor finds no valid config and the build
+  fails before step 0. pi0 (Q14) does not hit this — different norm.
+- **Fix**: Cap per-GPU batch at the largest rung that compiles
+  (152 here, effective 608 on 4 GPUs). The usual VRAM ladder is not
+  the binding constraint for pi05 on this box.
+- **Rule**: For pi05 on B200, the batch ceiling is the compile
+  shared-mem limit, not VRAM — probe for the largest batch that
+  *compiles*, and read "out of resource" / "No valid triton configs"
+  as a compile-codegen limit (reduce batch), distinct from a CUDA
+  OOM. (from B200 pi05-adv probe, 2026-06-15, gh #89)
+
+### Q16. pi05_base needs the same v051compat snapshot treatment as pi0
+
+- **Problem**: `lerobot/pi05_base` HEAD fails to load on this v0.5.1
+  fork with `ImportError: Processor step 'relative_actions_processor'
+  not found` (preprocessor) and, once that is removed,
+  `'absolute_actions_processor' not found` (postprocessor).
+- **Cause**: Same mutable-HEAD drift as Q12 — the pi05_base HEAD adds
+  two `enabled: false` no-op processor steps this fork's registry
+  lacks; the preprocessor and postprocessor each carry one.
+- **Fix**: `snapshot_download` the HEAD to
+  `models/pi05_base_v051compat/`, then strip the two disabled steps
+  from `policy_preprocessor.json` and `policy_postprocessor.json`
+  (weights byte-identical); point `--policy.pretrained_path` there.
+  The gh #88 vision-tower key remap (Q13) already covers pi05.
+- **Rule**: When porting a pi0 checkpoint fix to pi05, check BOTH
+  processor JSONs (pre and post) for unknown steps, not just the
+  preprocessor. (from B200 pi05-adv probe, 2026-06-15, gh #89)
+
 ---
 
 ## §4. Workflow Lessons
@@ -554,6 +644,52 @@
   when recordings die mid-episode, check `journalctl -k` for `-71`
   storms and hub disconnects before debugging the camera stack.
   (from mid-recording crash diagnosis, 2026-06-12, gh #83)
+
+### E10. B200 bare-metal box: NCCL P2P must stay ENABLED (inverse of Q5)
+
+- **Problem**: First allreduce hung forever on 4 x B200 with the
+  scripts' inherited `NCCL_P2P_DISABLE=1`; every DDP run stalled
+  or died.
+- **Cause**: Q5's rule is specific to the Docker container on the
+  H200 box. On the bare-metal NVLink/NVSwitch B200 host, disabling
+  P2P forces a SHM path whose first barrier never clears.
+- **Fix**: Removed `NCCL_P2P_DISABLE=1`. Measured (batch 96,
+  40 steps): p2p_on OK at 4.00 s/step; p2p_off HANG; pure socket
+  (`P2P+SHM` off) OK but 6.67 s/step (+67 %).
+- **Rule**: Treat NCCL transport flags as per-host configuration
+  and never copy them between machines; on the B200 box leave NCCL
+  at its defaults (P2P on). (from B200 probe, 2026-06-13, gh #87)
+
+### E11. B200 box `/tmp` is noexec — torch.compile cannot dlopen kernels
+
+- **Problem**: `compile_model=true` crashed at step 0 with
+  `ImportError: /tmp/torchinductor_*/...cuda_utils...so: failed to
+  map segment from shared object`.
+- **Cause**: `/tmp` is mounted `rw,nosuid,nodev,noexec`;
+  triton/inductor write compiled kernels there and `dlopen` is
+  blocked by noexec.
+- **Fix**: `export TORCHINDUCTOR_CACHE_DIR` and `TRITON_CACHE_DIR`
+  to an exec-allowed dir (repo `.cache/`) before launch; baked into
+  the probe drivers and `7__train_pi0_adv_b200.sh`.
+- **Rule**: Always redirect inductor/triton caches off `/tmp` on
+  hosts with a noexec `/tmp` whenever torch.compile is enabled.
+  (from B200 probe, 2026-06-13, gh #87)
+
+### E12. B200 box conda is miniforge3; `activate` leaves `python` shadowed
+
+- **Problem**: The portable conda block (E5) found no root on the
+  B200 box; after manual activation, bare `python` still resolved
+  to `/usr/bin/python` (lerobot import failed) even though
+  `accelerate`/`lerobot-train` resolved into the env.
+- **Cause**: This host's conda root
+  (`/NHNHOME/workspace/sungwoo/miniforge3`) was missing from the
+  probe list, and in non-interactive shells `conda activate` does
+  not win the PATH race for bare `python`.
+- **Fix**: Added the miniforge3 root to the probe loop and
+  `export PATH="$root/envs/lerobot/bin:$PATH"` after activation.
+- **Rule**: Always add a new host's conda root to the portable
+  block and prepend the env bin to PATH when bare `python` must
+  resolve into the env. (from B200 probe, 2026-06-13, gh #87)
 
 ---
 

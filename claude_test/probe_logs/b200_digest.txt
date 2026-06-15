@@ -1,0 +1,48 @@
+smoke test passed (compile cache redirect OK)
+===== probing batch 176 =====
+[probe] BATCH=176 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b176
+[probe] Logs: claude_test/probe_logs/train_b200_b176.log / claude_test/probe_logs/vram_b200_b176.csv
+===== probing batch 192 =====
+[probe] BATCH=192 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b192
+[probe] Logs: claude_test/probe_logs/train_b200_b192.log / claude_test/probe_logs/vram_b200_b192.csv
+===== probing batch 208 =====
+[probe] BATCH=208 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b208
+[probe] Logs: claude_test/probe_logs/train_b200_b208.log / claude_test/probe_logs/vram_b200_b208.csv
+===== probing batch 224 =====
+[probe] BATCH=224 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b224
+[probe] Logs: claude_test/probe_logs/train_b200_b224.log / claude_test/probe_logs/vram_b200_b224.csv
+===== probing batch 240 =====
+[probe] BATCH=240 STEPS=50 JOB_NAME=fr5_pi0_vram_probe_b200_b240
+[probe] Logs: claude_test/probe_logs/train_b200_b240.log / claude_test/probe_logs/vram_b200_b240.csv
+===== ladder done =====
+
+===== VRAM LADDER PEAKS (cap 183359 MiB) =====
+batch=176 peak=62060MiB (33.8%) oom=- finished=0
+batch=192 peak=65478MiB (35.7%) oom=- finished=0
+batch=208 peak=68848MiB (37.5%) oom=- finished=0
+batch=224 peak=72658MiB (39.6%) oom=- finished=0
+batch=240 peak=76508MiB (41.7%) oom=- finished=0
+
+===== NCCL SWEEP =====
+===== NCCL config: p2p_off =====
+[nccl] label=p2p_off batch=96 steps=40 timeout=480s
+[nccl] NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=unset NCCL_NVLS_ENABLE=unset
+[nccl] label=p2p_off exit=124 -> HANG/timeout (first allreduce never cleared)
+[nccl] steady step time: 1.96s/step
+===== NCCL config: p2p_on =====
+[nccl] label=p2p_on batch=96 steps=40 timeout=480s
+[nccl] NCCL_P2P_DISABLE=0 NCCL_SHM_DISABLE=unset NCCL_NVLS_ENABLE=unset
+[nccl] label=p2p_on exit=0 -> OK (completed 40 steps)
+[nccl] steady step time: 4.00s/step
+===== NCCL config: p2p_shm_off =====
+[nccl] label=p2p_shm_off batch=96 steps=40 timeout=480s
+[nccl] NCCL_P2P_DISABLE=1 NCCL_SHM_DISABLE=1 NCCL_NVLS_ENABLE=unset
+[nccl] label=p2p_shm_off exit=0 -> OK (completed 40 steps)
+[nccl] steady step time: 6.67s/step
+===== nccl sweep done =====
+label  result  steady_step  (Sat Jun 13 09:14:24 KST 2026)
+p2p_off  HANG/timeout (first allreduce never cleared)  1.96s/step
+p2p_on  OK (completed 40 steps)  4.00s/step
+p2p_shm_off  OK (completed 40 steps)  6.67s/step
+
+ALL_DONE

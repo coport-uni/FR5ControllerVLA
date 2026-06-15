@@ -189,3 +189,6 @@ outputs/train/*/checkpoints/
 
 # Claude Code scheduled-task state
 .claude/scheduled_tasks.lock
+
+# Local pretrained checkpoints (large; pinned pi0_base revision)
+models/
