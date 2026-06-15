@@ -2472,4 +2472,4 @@ B200 is not yet probed (only pi0 = 176 @ 73.9 %), so probe it first.
 - [x] Smoke-test the production script for 6 steps (push/wandb off):
       exit 0, 6/6 steps, no errors
 - [x] Register GitHub issue via gh issue create (#89)
-- [ ] Commit and push
+- [x] Commit and push (5a5b692c, closes #89)
