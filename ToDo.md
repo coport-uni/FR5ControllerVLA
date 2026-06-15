@@ -2473,3 +2473,29 @@ B200 is not yet probed (only pi0 = 176 @ 73.9 %), so probe it first.
       exit 0, 6/6 steps, no errors
 - [x] Register GitHub issue via gh issue create (#89)
 - [x] Commit and push (5a5b692c, closes #89)
+
+## 2026-06-15: Check wandb login status (read-only diagnostic)
+
+Verify whether the workstation is authenticated to Weights & Biases so
+that upcoming pi05 B200 training runs log correctly.
+
+- [x] Inspect ~/.netrc for api.wandb.ai credentials (key present,
+      stored Jun 13)
+- [x] Validate the API key against api.wandb.ai GraphQL viewer query:
+      logged in as username=ohsungwoo, entity=ohsungwoo-unist,
+      email=ohsungwoo@unist.ac.kr
+- [x] Note: no wandb module in /usr/bin/python3 and no project .venv;
+      auth travels via ~/.netrc to whichever env runs training
+- [ ] GitHub issue: skipped (read-only status check, no repo change)
+
+## 2026-06-15: Add wandb login pre-flight check to B200 pi05 script
+
+Add a wandb authentication check to 7__train_pi05_task1_b200.sh so the
+run fails fast if the env is not logged in, instead of stalling on an
+interactive prompt mid-training (the script already sets
+--wandb.enable=true).
+
+- [x] Add WANDB_USER pre-flight block after the HF_USER check: query
+      wandb.Api().viewer.username via the active lerobot env python;
+      exit 1 with a clear message if empty (no valid API key)
+- [x] bash -n syntax check (OK); ruff N/A (bash script)
