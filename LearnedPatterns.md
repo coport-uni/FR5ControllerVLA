@@ -416,6 +416,46 @@
   only above a batch threshold, suspect Triton GEMM autotune
   first. (from B200 probe, 2026-06-13, gh #87)
 
+### Q15. pi05 gemma RMSNorm hits the Triton shared-mem limit on B200
+
+- **Problem**: pi05 on 4 x B200 (with `compile_mode=default`, so Q14
+  is already handled) fails to compile at per-GPU batch >= 160 with
+  `No valid triton configs. OutOfMemoryError: out of resource:
+  triton_per_fused_..._mean_mul_pow_rsqrt_sum_...`; batch 152 and
+  below compile and train fine. This is NOT a VRAM OOM — batch 152
+  peaks at only 71.5 % of the 183 GB B200.
+- **Cause**: pi05's gemma backbone compiles RMSNorm to a Triton
+  persistent-reduction kernel whose per-block shared memory grows
+  with batch; at batch 168 it needs 294976 B vs the B200 per-SM
+  limit of 232448 B, so inductor finds no valid config and the build
+  fails before step 0. pi0 (Q14) does not hit this — different norm.
+- **Fix**: Cap per-GPU batch at the largest rung that compiles
+  (152 here, effective 608 on 4 GPUs). The usual VRAM ladder is not
+  the binding constraint for pi05 on this box.
+- **Rule**: For pi05 on B200, the batch ceiling is the compile
+  shared-mem limit, not VRAM — probe for the largest batch that
+  *compiles*, and read "out of resource" / "No valid triton configs"
+  as a compile-codegen limit (reduce batch), distinct from a CUDA
+  OOM. (from B200 pi05-adv probe, 2026-06-15, gh #89)
+
+### Q16. pi05_base needs the same v051compat snapshot treatment as pi0
+
+- **Problem**: `lerobot/pi05_base` HEAD fails to load on this v0.5.1
+  fork with `ImportError: Processor step 'relative_actions_processor'
+  not found` (preprocessor) and, once that is removed,
+  `'absolute_actions_processor' not found` (postprocessor).
+- **Cause**: Same mutable-HEAD drift as Q12 — the pi05_base HEAD adds
+  two `enabled: false` no-op processor steps this fork's registry
+  lacks; the preprocessor and postprocessor each carry one.
+- **Fix**: `snapshot_download` the HEAD to
+  `models/pi05_base_v051compat/`, then strip the two disabled steps
+  from `policy_preprocessor.json` and `policy_postprocessor.json`
+  (weights byte-identical); point `--policy.pretrained_path` there.
+  The gh #88 vision-tower key remap (Q13) already covers pi05.
+- **Rule**: When porting a pi0 checkpoint fix to pi05, check BOTH
+  processor JSONs (pre and post) for unknown steps, not just the
+  preprocessor. (from B200 pi05-adv probe, 2026-06-15, gh #89)
+
 ---
 
 ## §4. Workflow Lessons

@@ -2445,3 +2445,31 @@ transformers. (see LP Q13 once recorded)
       claude_test/verify_pi0_vision_load.py: All keys loaded)
 - [x] ruff check + format on modified Python files (all clean)
 - [x] Register GitHub issue via gh issue create (#88)
+
+## 2026-06-15: Add B200 pi05-adv training script (probe + write + test)
+
+Create a 4 x B200 production training script for the Pi0.5 "adv"
+fine-tune, derived from 7__train_pi05_adv_h200.sh (pi05 policy + MEAN_STD
+norm + weight_decay=1e-10 + red-marker dataset) and the B200 environment
+conventions in 7__train_pi0_task1_b200.sh (miniforge3 conda root, PATH
+fix, torchinductor/triton cache redirect for noexec /tmp, P2P stays ON,
+compile_mode=default for sm_100, GPU_NUMBER=4). pi05 per-GPU batch on
+B200 is not yet probed (only pi0 = 176 @ 73.9 %), so probe it first.
+(see LP / SUMMARY_b200.md / SUMMARY_pi05.md)
+
+- [x] Write claude_test/probe_pi05_vram_b200.sh (pi05 policy options +
+      B200 env from probe_pi0_vram_b200.sh; 4 GPUs, samples GPUs 0-3)
+- [x] Run the VRAM probe ladder (128-168 per GPU); chosen per-GPU
+      batch=152 (eff 608) @ 71.5 % VRAM, 5.30 s/step. NOTE: ceiling is
+      the Triton compile shared-mem limit (160 fails to compile), not
+      VRAM. Also fixed 3 setup blockers: pi05_base v051compat snapshot
+      (relative/absolute_actions_processor steps), compile_mode=default
+      (sm_100 max-autotune crash), NCCL P2P on + /tmp cache redirect.
+- [x] Record results in claude_test/probe_logs/SUMMARY_pi05_b200.md
+- [x] Write 7__train_pi05_adv_b200.sh (batch 152/GPU=608 eff,
+      steps=1570 ~= 8.00 epoch, lr=1.1e-4, save_freq=157)
+- [x] ruff is N/A (bash); run bash -n on both new scripts (OK)
+- [x] Smoke-test the production script for 6 steps (push/wandb off):
+      exit 0, 6/6 steps, no errors
+- [x] Register GitHub issue via gh issue create (#89)
+- [ ] Commit and push
