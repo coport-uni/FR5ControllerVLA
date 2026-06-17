@@ -222,6 +222,29 @@
   shared pause flag. A second proxy (G8) prevents transport
   races but not session-state races. (from ToDo#74)
 
+### G10. Untagged dataset aborts training with a masked FileNotFoundError
+
+- **Problem**: Training on a freshly pushed dataset aborted with
+  `FileNotFoundError: .../lerobot/<repo>/meta/info.json`, even
+  though the file existed on the Hub. A sibling dataset trained
+  fine.
+- **Cause**: LeRobot's `get_safe_version` (datasets/utils.py)
+  resolves the dataset revision from a git tag matching
+  `codebase_version` in `info.json`. The failing repo had **no
+  tags** (the working one had `v3.0`). The `RevisionNotFoundError`
+  it tries to raise crashes on a huggingface_hub API change
+  (`HfHubHTTPError.__init__` now requires `response`), so the
+  actionable "tag your dataset" message is replaced by a confusing
+  `TypeError` and the local-load `FileNotFoundError`.
+- **Fix**: Tag the dataset with its `codebase_version` via
+  `HfApi().create_tag(repo, tag=version, repo_type="dataset")`.
+  Added a pre-flight block to `7__train_act_task1_h200.sh` that
+  reads `codebase_version` from the Hub `info.json`, checks repo
+  tags, and creates the tag if absent.
+- **Rule**: Always tag a LeRobot dataset repo with a git tag
+  matching its `codebase_version` before training; an untagged
+  repo fails with a misleading `FileNotFoundError`. (from ToDo#42)
+
 ---
 
 ## §3. Library Quirks

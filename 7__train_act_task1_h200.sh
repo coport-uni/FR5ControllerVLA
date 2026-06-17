@@ -47,7 +47,35 @@ conda activate lerobot
 HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
-JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50"
+# JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50"
+JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
+
+# LeRobot resolves the dataset revision from a git tag matching the
+# codebase_version in info.json (get_safe_version in utils.py). An
+# untagged repo aborts with a FileNotFoundError on meta/info.json --
+# the underlying RevisionNotFoundError is masked by a huggingface_hub
+# API change. Tag the dataset here if the tag is missing. See issue
+# #92.
+DATASET_REPO="coport-uni/${JOB_NAME}"
+python - "$DATASET_REPO" <<'PY'
+import json
+import sys
+
+from huggingface_hub import HfApi
+
+repo = sys.argv[1]
+api = HfApi()
+info_path = api.hf_hub_download(repo, "meta/info.json", repo_type="dataset")
+with open(info_path) as f:
+    version = json.load(f)["codebase_version"]
+tags = {t.name for t in api.list_repo_refs(repo, repo_type="dataset").tags}
+if version in tags:
+    print(f"dataset tag {version} already present")
+else:
+    api.create_tag(repo, tag=version, repo_type="dataset")
+    print(f"created dataset tag {version}")
+PY
+
 BATCH_SIZE=496
 GPU_NUMBER=2
 
@@ -68,7 +96,6 @@ accelerate launch \
     --output_dir=outputs/train/${JOB_NAME}_act_h200 \
     --job_name=${JOB_NAME}_act_h200 \
     --wandb.enable=true \
-    --num_workers=10 \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
     --steps=${STEPS_NUMBER} \
     --save_freq=$((STEPS_NUMBER / CHECKPOINT_NUMBER)) \

@@ -2499,3 +2499,22 @@ interactive prompt mid-training (the script already sets
       wandb.Api().viewer.username via the active lerobot env python;
       exit 1 with a clear message if empty (no valid API key)
 - [x] bash -n syntax check (OK); ruff N/A (bash script)
+
+## 2026-06-17: Add dataset version-tag pre-flight to ACT H200 script
+
+Training the _100 dataset aborted with FileNotFoundError on
+meta/info.json, masking the real cause: LeRobot's get_safe_version
+(utils.py:265) needs a git tag matching info.json codebase_version,
+and the _100 dataset on the Hub had no tags (the _50 one had v3.0).
+The RevisionNotFoundError it tries to raise also crashes on a
+huggingface_hub API change (HfHubHTTPError now requires `response`),
+hiding the message. Add a pre-flight to 7__train_act_task1_h200.sh
+that checks the dataset for a tag matching codebase_version and
+creates it if missing (see LP §2 G4, §3 Q12).
+
+- [x] Add tag pre-flight block after HF_USER/JOB_NAME: read
+      codebase_version from the Hub info.json, list repo tags, and
+      create the tag via HfApi().create_tag if absent
+- [x] bash -n syntax check (OK); ruff N/A (bash script)
+- [x] Tag the existing _100 dataset to unblock the current run (created v3.0; LeRobotDataset loads 100 ep / 64223 frames)
+- [x] Append LearnedPatterns entry for the missing-tag gotcha
