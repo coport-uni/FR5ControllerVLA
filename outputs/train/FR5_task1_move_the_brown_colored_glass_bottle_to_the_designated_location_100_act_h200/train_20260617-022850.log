@@ -1,0 +1,163 @@
+INFO 2026-06-17 02:28:50 ot_train.py:217 {'batch_size': 248,
+ 'checkpoint_path': None,
+ 'cudnn_deterministic': False,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'affine': {'kwargs': {'degrees': [-5.0,
+                                                                            5.0],
+                                                                'translate': [0.05,
+                                                                              0.05]},
+                                                     'type': 'RandomAffine',
+                                                     'weight': 1.0},
+                                          'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100',
+             'revision': None,
+             'root': None,
+             'streaming': False,
+             'use_imagenet_stats': True,
+             'video_backend': 'pyav'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200',
+ 'log_freq': 200,
+ 'num_workers': 4,
+ 'optimizer': {'betas': [0.9, 0.999],
+               'eps': 1e-08,
+               'grad_clip_norm': 10.0,
+               'lr': 4.5e-05,
+               'type': 'adamw',
+               'weight_decay': 0.0001},
+ 'output_dir': 'outputs/train/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200',
+ 'peft': None,
+ 'policy': {'chunk_size': 100,
+            'device': 'cuda',
+            'dim_feedforward': 3200,
+            'dim_model': 512,
+            'dropout': 0.1,
+            'feedforward_activation': 'relu',
+            'input_features': {},
+            'kl_weight': 10.0,
+            'latent_dim': 32,
+            'license': None,
+            'n_action_steps': 100,
+            'n_decoder_layers': 1,
+            'n_encoder_layers': 4,
+            'n_heads': 8,
+            'n_obs_steps': 1,
+            'n_vae_encoder_layers': 4,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.MEAN_STD: 'MEAN_STD'>},
+            'optimizer_lr': 4.5e-05,
+            'optimizer_lr_backbone': 4.5e-05,
+            'optimizer_weight_decay': 0.0001,
+            'output_features': {},
+            'pre_norm': False,
+            'pretrained_backbone_weights': 'ResNet18_Weights.IMAGENET1K_V1',
+            'pretrained_path': None,
+            'private': None,
+            'push_to_hub': True,
+            'replace_final_stride_with_dilation': False,
+            'repo_id': 'coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model',
+            'tags': None,
+            'temporal_ensemble_coeff': None,
+            'type': 'act',
+            'use_amp': False,
+            'use_peft': False,
+            'use_vae': True,
+            'vision_backbone': 'resnet18'},
+ 'rabc_epsilon': 1e-06,
+ 'rabc_head_mode': 'sparse',
+ 'rabc_kappa': 0.01,
+ 'rabc_progress_path': None,
+ 'rename_map': {},
+ 'resume': False,
+ 'save_checkpoint': True,
+ 'save_freq': 10000,
+ 'scheduler': None,
+ 'seed': 55,
+ 'steps': 100000,
+ 'tolerance_s': 0.1,
+ 'use_policy_training_preset': True,
+ 'use_rabc': False,
+ 'wandb': {'add_tags': True,
+           'disable_artifact': False,
+           'enable': True,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': None}}
+DEBUG 2026-06-17 02:28:51 or_events.py:64 Using selector: EpollSelector
+DEBUG 2026-06-17 02:28:51 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-06-17 02:28:51 git/cmd.py:1286 Popen(['git', 'version'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-06-17 02:28:51 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-06-17 02:28:51 git/cmd.py:1286 Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=None, shell=False, universal_newlines=False)
+DEBUG 2026-06-17 02:28:51 git/util.py:494 sys.platform='linux', git_executable='git'
+DEBUG 2026-06-17 02:28:51 git/cmd.py:1286 Popen(['git', 'cat-file', '--batch-check'], cwd=/workspace/VLARelated/FR5ControllerVLA, stdin=<valid stream>, shell=False, universal_newlines=False)
+INFO 2026-06-17 02:28:52 db_utils.py:117 [1m[34mLogs will be synced with wandb.[0m
+INFO 2026-06-17 02:28:52 db_utils.py:118 Track this run --> [1m[33mhttps://wandb.ai/ohsungwoo-unist/lerobot/runs/csj7qmbm[0m
+INFO 2026-06-17 02:28:52 ot_train.py:241 Creating dataset
+DEBUG 2026-06-17 02:28:52 ock/_api.py:501 Attempting to acquire lock 135123980251552 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:504 Lock 135123980251552 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-17 02:28:52 ock/_api.py:541 Attempting to release lock 135123980251552 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:545 Lock 135123980251552 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:501 Attempting to acquire lock 135123987966304 on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:504 Lock 135123987966304 acquired on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-17 02:28:52 ock/_api.py:541 Attempting to release lock 135123987966304 on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:545 Lock 135123987966304 released on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-06-17 02:28:52 eo_utils.py:108 Using video codec: libsvtav1
+DEBUG 2026-06-17 02:28:52 ock/_api.py:501 Attempting to acquire lock 135115041939552 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:504 Lock 135115041939552 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-17 02:28:52 ock/_api.py:541 Attempting to release lock 135115041939552 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:545 Lock 135115041939552 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-327c9c4dd671ad64_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:501 Attempting to acquire lock 135123861176784 on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:504 Lock 135123861176784 acquired on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-17 02:28:52 ock/_api.py:541 Attempting to release lock 135123861176784 on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:545 Lock 135123861176784 released on /root/.cache/huggingface/datasets/parquet/default-327c9c4dd671ad64/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:501 Attempting to acquire lock 135115041788112 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2fa9c255b851aa12_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:504 Lock 135115041788112 acquired on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2fa9c255b851aa12_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-2fa9c255b851aa12/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-17 02:28:52 ock/_api.py:541 Attempting to release lock 135115041788112 on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2fa9c255b851aa12_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:545 Lock 135115041788112 released on /root/.cache/huggingface/datasets/_root_.cache_huggingface_datasets_parquet_default-2fa9c255b851aa12_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:501 Attempting to acquire lock 135123858835696 on /root/.cache/huggingface/datasets/parquet/default-2fa9c255b851aa12/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:504 Lock 135123858835696 acquired on /root/.cache/huggingface/datasets/parquet/default-2fa9c255b851aa12/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ns/local.py:383 open file: /root/.cache/huggingface/datasets/parquet/default-2fa9c255b851aa12/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-17 02:28:52 ock/_api.py:541 Attempting to release lock 135123858835696 on /root/.cache/huggingface/datasets/parquet/default-2fa9c255b851aa12/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-17 02:28:52 ock/_api.py:545 Lock 135123858835696 released on /root/.cache/huggingface/datasets/parquet/default-2fa9c255b851aa12/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-06-17 02:28:52 ot_train.py:259 Creating policy
+INFO 2026-06-17 02:28:53 ot_train.py:314 Creating optimizer and scheduler
+INFO 2026-06-17 02:28:53 ot_train.py:349 [1m[33mOutput dir:[0m outputs/train/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200
+INFO 2026-06-17 02:28:53 ot_train.py:356 cfg.steps=100000 (100K)
+INFO 2026-06-17 02:28:53 ot_train.py:357 dataset.num_frames=64223 (64K)
+INFO 2026-06-17 02:28:53 ot_train.py:358 dataset.num_episodes=100
+INFO 2026-06-17 02:28:53 ot_train.py:361 Effective batch size: 248 x 2 = 496
+INFO 2026-06-17 02:28:53 ot_train.py:362 num_learnable_params=51599239 (52M)
+INFO 2026-06-17 02:28:53 ot_train.py:363 num_total_params=51599239 (52M)
+INFO 2026-06-17 02:28:53 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 496
