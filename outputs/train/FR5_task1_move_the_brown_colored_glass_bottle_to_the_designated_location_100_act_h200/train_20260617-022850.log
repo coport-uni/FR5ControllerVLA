@@ -161,3 +161,732 @@ INFO 2026-06-17 02:28:53 ot_train.py:361 Effective batch size: 248 x 2 = 496
 INFO 2026-06-17 02:28:53 ot_train.py:362 num_learnable_params=51599239 (52M)
 INFO 2026-06-17 02:28:53 ot_train.py:363 num_total_params=51599239 (52M)
 INFO 2026-06-17 02:28:53 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 496
+INFO 2026-06-17 02:40:05 ot_train.py:459 step:200 smpl:99K ep:154 epch:1.54 loss:2.850 grdn:43.953 lr:4.5e-05 updt_s:1.644 data_s:1.708
+INFO 2026-06-17 02:50:44 ot_train.py:459 step:400 smpl:198K ep:309 epch:3.09 loss:0.743 grdn:22.301 lr:4.5e-05 updt_s:1.935 data_s:1.255
+INFO 2026-06-17 03:01:13 ot_train.py:459 step:600 smpl:298K ep:463 epch:4.63 loss:0.386 grdn:17.479 lr:4.5e-05 updt_s:0.985 data_s:2.156
+INFO 2026-06-17 03:11:31 ot_train.py:459 step:800 smpl:397K ep:618 epch:6.18 loss:0.274 grdn:15.542 lr:4.5e-05 updt_s:1.109 data_s:1.975
+INFO 2026-06-17 03:21:42 ot_train.py:459 step:1K smpl:496K ep:772 epch:7.72 loss:0.226 grdn:14.401 lr:4.5e-05 updt_s:1.422 data_s:1.634
+INFO 2026-06-17 03:31:59 ot_train.py:459 step:1K smpl:595K ep:927 epch:9.27 loss:0.195 grdn:11.634 lr:4.5e-05 updt_s:2.230 data_s:0.848
+INFO 2026-06-17 03:42:23 ot_train.py:459 step:1K smpl:694K ep:1K epch:10.81 loss:0.170 grdn:9.378 lr:4.5e-05 updt_s:1.194 data_s:1.918
+INFO 2026-06-17 03:52:34 ot_train.py:459 step:2K smpl:794K ep:1K epch:12.36 loss:0.154 grdn:8.475 lr:4.5e-05 updt_s:1.737 data_s:1.310
+INFO 2026-06-17 04:02:47 ot_train.py:459 step:2K smpl:893K ep:1K epch:13.90 loss:0.144 grdn:7.787 lr:4.5e-05 updt_s:2.130 data_s:0.930
+INFO 2026-06-17 04:13:18 ot_train.py:459 step:2K smpl:992K ep:2K epch:15.45 loss:0.135 grdn:7.075 lr:4.5e-05 updt_s:1.117 data_s:2.034
+INFO 2026-06-17 04:23:43 ot_train.py:459 step:2K smpl:1M ep:2K epch:16.99 loss:0.130 grdn:7.131 lr:4.5e-05 updt_s:2.596 data_s:0.523
+INFO 2026-06-17 04:33:57 ot_train.py:459 step:2K smpl:1M ep:2K epch:18.54 loss:0.123 grdn:6.795 lr:4.5e-05 updt_s:0.930 data_s:2.137
+INFO 2026-06-17 04:44:02 ot_train.py:459 step:3K smpl:1M ep:2K epch:20.08 loss:0.120 grdn:7.026 lr:4.5e-05 updt_s:1.445 data_s:1.577
+INFO 2026-06-17 04:54:23 ot_train.py:459 step:3K smpl:1M ep:2K epch:21.62 loss:0.113 grdn:6.499 lr:4.5e-05 updt_s:0.682 data_s:2.420
+INFO 2026-06-17 05:04:44 ot_train.py:459 step:3K smpl:1M ep:2K epch:23.17 loss:0.111 grdn:6.314 lr:4.5e-05 updt_s:2.256 data_s:0.841
+INFO 2026-06-17 05:14:50 ot_train.py:459 step:3K smpl:2M ep:2K epch:24.71 loss:0.107 grdn:6.548 lr:4.5e-05 updt_s:1.106 data_s:1.921
+INFO 2026-06-17 05:25:04 ot_train.py:459 step:3K smpl:2M ep:3K epch:26.26 loss:0.105 grdn:6.352 lr:4.5e-05 updt_s:1.026 data_s:2.036
+INFO 2026-06-17 05:35:10 ot_train.py:459 step:4K smpl:2M ep:3K epch:27.80 loss:0.103 grdn:6.110 lr:4.5e-05 updt_s:1.200 data_s:1.828
+INFO 2026-06-17 05:45:26 ot_train.py:459 step:4K smpl:2M ep:3K epch:29.35 loss:0.102 grdn:6.025 lr:4.5e-05 updt_s:1.016 data_s:2.059
+INFO 2026-06-17 05:55:38 ot_train.py:459 step:4K smpl:2M ep:3K epch:30.89 loss:0.101 grdn:6.063 lr:4.5e-05 updt_s:1.831 data_s:1.223
+INFO 2026-06-17 06:05:58 ot_train.py:459 step:4K smpl:2M ep:3K epch:32.44 loss:0.100 grdn:5.610 lr:4.5e-05 updt_s:1.948 data_s:1.149
+INFO 2026-06-17 06:16:07 ot_train.py:459 step:4K smpl:2M ep:3K epch:33.98 loss:0.099 grdn:5.383 lr:4.5e-05 updt_s:0.870 data_s:2.170
+INFO 2026-06-17 06:26:17 ot_train.py:459 step:5K smpl:2M ep:4K epch:35.53 loss:0.098 grdn:5.851 lr:4.5e-05 updt_s:1.524 data_s:1.520
+INFO 2026-06-17 06:36:31 ot_train.py:459 step:5K smpl:2M ep:4K epch:37.07 loss:0.097 grdn:5.672 lr:4.5e-05 updt_s:2.090 data_s:0.971
+INFO 2026-06-17 06:46:51 ot_train.py:459 step:5K smpl:2M ep:4K epch:38.62 loss:0.099 grdn:5.542 lr:4.5e-05 updt_s:1.659 data_s:1.439
+INFO 2026-06-17 06:56:50 ot_train.py:459 step:5K smpl:3M ep:4K epch:40.16 loss:0.098 grdn:5.332 lr:4.5e-05 updt_s:1.966 data_s:1.019
+INFO 2026-06-17 07:07:04 ot_train.py:459 step:5K smpl:3M ep:4K epch:41.70 loss:0.096 grdn:5.262 lr:4.5e-05 updt_s:1.202 data_s:1.864
+INFO 2026-06-17 07:17:23 ot_train.py:459 step:6K smpl:3M ep:4K epch:43.25 loss:0.095 grdn:5.429 lr:4.5e-05 updt_s:0.695 data_s:2.400
+INFO 2026-06-17 07:27:44 ot_train.py:459 step:6K smpl:3M ep:4K epch:44.79 loss:0.094 grdn:5.324 lr:4.5e-05 updt_s:1.879 data_s:1.217
+INFO 2026-06-17 07:37:54 ot_train.py:459 step:6K smpl:3M ep:5K epch:46.34 loss:0.093 grdn:5.251 lr:4.5e-05 updt_s:1.389 data_s:1.659
+INFO 2026-06-17 07:47:56 ot_train.py:459 step:6K smpl:3M ep:5K epch:47.88 loss:0.094 grdn:5.108 lr:4.5e-05 updt_s:1.444 data_s:1.560
+INFO 2026-06-17 07:58:09 ot_train.py:459 step:6K smpl:3M ep:5K epch:49.43 loss:0.095 grdn:4.975 lr:4.5e-05 updt_s:1.748 data_s:1.318
+INFO 2026-06-17 08:08:15 ot_train.py:459 step:7K smpl:3M ep:5K epch:50.97 loss:0.095 grdn:4.892 lr:4.5e-05 updt_s:1.323 data_s:1.698
+INFO 2026-06-17 08:18:30 ot_train.py:459 step:7K smpl:3M ep:5K epch:52.52 loss:0.093 grdn:4.790 lr:4.5e-05 updt_s:1.881 data_s:1.193
+INFO 2026-06-17 08:28:49 ot_train.py:459 step:7K smpl:3M ep:5K epch:54.06 loss:0.092 grdn:4.967 lr:4.5e-05 updt_s:2.009 data_s:1.083
+INFO 2026-06-17 08:39:03 ot_train.py:459 step:7K smpl:4M ep:6K epch:55.61 loss:0.094 grdn:4.801 lr:4.5e-05 updt_s:1.819 data_s:1.248
+INFO 2026-06-17 08:49:17 ot_train.py:459 step:7K smpl:4M ep:6K epch:57.15 loss:0.092 grdn:4.636 lr:4.5e-05 updt_s:1.785 data_s:1.278
+INFO 2026-06-17 08:59:33 ot_train.py:459 step:8K smpl:4M ep:6K epch:58.70 loss:0.094 grdn:4.691 lr:4.5e-05 updt_s:1.569 data_s:1.506
+INFO 2026-06-17 09:09:46 ot_train.py:459 step:8K smpl:4M ep:6K epch:60.24 loss:0.097 grdn:5.093 lr:4.5e-05 updt_s:1.626 data_s:1.435
+INFO 2026-06-17 09:20:01 ot_train.py:459 step:8K smpl:4M ep:6K epch:61.78 loss:0.100 grdn:4.488 lr:4.5e-05 updt_s:1.845 data_s:1.224
+INFO 2026-06-17 09:30:17 ot_train.py:459 step:8K smpl:4M ep:6K epch:63.33 loss:0.097 grdn:4.311 lr:4.5e-05 updt_s:1.999 data_s:1.078
+INFO 2026-06-17 09:40:31 ot_train.py:459 step:8K smpl:4M ep:6K epch:64.87 loss:0.091 grdn:4.260 lr:4.5e-05 updt_s:0.992 data_s:2.074
+INFO 2026-06-17 09:50:45 ot_train.py:459 step:9K smpl:4M ep:7K epch:66.42 loss:0.091 grdn:4.362 lr:4.5e-05 updt_s:1.996 data_s:1.069
+INFO 2026-06-17 10:00:49 ot_train.py:459 step:9K smpl:4M ep:7K epch:67.96 loss:0.090 grdn:4.425 lr:4.5e-05 updt_s:1.378 data_s:1.638
+INFO 2026-06-17 10:10:57 ot_train.py:459 step:9K smpl:4M ep:7K epch:69.51 loss:0.092 grdn:4.246 lr:4.5e-05 updt_s:1.392 data_s:1.643
+INFO 2026-06-17 10:21:14 ot_train.py:459 step:9K smpl:5M ep:7K epch:71.05 loss:0.091 grdn:4.751 lr:4.5e-05 updt_s:2.517 data_s:0.557
+INFO 2026-06-17 10:31:25 ot_train.py:459 step:9K smpl:5M ep:7K epch:72.60 loss:0.090 grdn:4.461 lr:4.5e-05 updt_s:1.970 data_s:1.083
+INFO 2026-06-17 10:41:23 ot_train.py:459 step:10K smpl:5M ep:7K epch:74.14 loss:0.091 grdn:4.402 lr:4.5e-05 updt_s:1.929 data_s:1.058
+INFO 2026-06-17 10:51:29 ot_train.py:459 step:10K smpl:5M ep:8K epch:75.69 loss:0.089 grdn:4.207 lr:4.5e-05 updt_s:1.081 data_s:1.944
+INFO 2026-06-17 11:01:41 ot_train.py:459 step:10K smpl:5M ep:8K epch:77.23 loss:0.090 grdn:3.938 lr:4.5e-05 updt_s:0.660 data_s:2.396
+INFO 2026-06-17 11:01:41 ot_train.py:479 Checkpoint policy after step 10000
+DEBUG 2026-06-17 11:01:42 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-06-17 11:01:42 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-06-17 11:01:43 ionpool.py:1049 Starting new HTTPS connection (1): api.wandb.ai:443
+DEBUG 2026-06-17 11:01:43 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+DEBUG 2026-06-17 11:01:43 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-17 11:11:51 ot_train.py:459 step:10K smpl:5M ep:8K epch:78.78 loss:0.088 grdn:4.384 lr:4.5e-05 updt_s:1.465 data_s:1.569
+INFO 2026-06-17 11:21:51 ot_train.py:459 step:10K smpl:5M ep:8K epch:80.32 loss:0.087 grdn:4.193 lr:4.5e-05 updt_s:2.519 data_s:0.476
+INFO 2026-06-17 11:32:15 ot_train.py:459 step:11K smpl:5M ep:8K epch:81.86 loss:0.090 grdn:3.944 lr:4.5e-05 updt_s:2.564 data_s:0.554
+INFO 2026-06-17 11:42:28 ot_train.py:459 step:11K smpl:5M ep:8K epch:83.41 loss:0.089 grdn:4.216 lr:4.5e-05 updt_s:2.380 data_s:0.678
+INFO 2026-06-17 11:52:38 ot_train.py:459 step:11K smpl:5M ep:8K epch:84.95 loss:0.087 grdn:3.975 lr:4.5e-05 updt_s:2.417 data_s:0.633
+INFO 2026-06-17 12:03:06 ot_train.py:459 step:11K smpl:6M ep:9K epch:86.50 loss:0.086 grdn:4.091 lr:4.5e-05 updt_s:2.369 data_s:0.766
+INFO 2026-06-17 12:13:14 ot_train.py:459 step:11K smpl:6M ep:9K epch:88.04 loss:0.085 grdn:4.141 lr:4.5e-05 updt_s:2.449 data_s:0.584
+INFO 2026-06-17 12:23:24 ot_train.py:459 step:12K smpl:6M ep:9K epch:89.59 loss:0.086 grdn:4.024 lr:4.5e-05 updt_s:1.841 data_s:1.209
+INFO 2026-06-17 12:33:40 ot_train.py:459 step:12K smpl:6M ep:9K epch:91.13 loss:0.085 grdn:3.918 lr:4.5e-05 updt_s:2.290 data_s:0.782
+INFO 2026-06-17 12:43:40 ot_train.py:459 step:12K smpl:6M ep:9K epch:92.68 loss:0.084 grdn:3.854 lr:4.5e-05 updt_s:2.209 data_s:0.790
+INFO 2026-06-17 12:53:57 ot_train.py:459 step:12K smpl:6M ep:9K epch:94.22 loss:0.084 grdn:3.700 lr:4.5e-05 updt_s:2.620 data_s:0.458
+INFO 2026-06-17 13:04:12 ot_train.py:459 step:12K smpl:6M ep:10K epch:95.77 loss:0.083 grdn:3.797 lr:4.5e-05 updt_s:2.333 data_s:0.737
+INFO 2026-06-17 13:14:32 ot_train.py:459 step:13K smpl:6M ep:10K epch:97.31 loss:0.085 grdn:4.360 lr:4.5e-05 updt_s:2.687 data_s:0.408
+INFO 2026-06-17 13:24:54 ot_train.py:459 step:13K smpl:6M ep:10K epch:98.86 loss:0.082 grdn:3.724 lr:4.5e-05 updt_s:2.575 data_s:0.530
+INFO 2026-06-17 13:35:04 ot_train.py:459 step:13K smpl:6M ep:10K epch:100.40 loss:0.082 grdn:3.744 lr:4.5e-05 updt_s:2.705 data_s:0.342
+INFO 2026-06-17 13:45:28 ot_train.py:459 step:13K smpl:7M ep:10K epch:101.94 loss:0.083 grdn:3.633 lr:4.5e-05 updt_s:2.528 data_s:0.588
+INFO 2026-06-17 13:55:44 ot_train.py:459 step:13K smpl:7M ep:10K epch:103.49 loss:0.084 grdn:3.633 lr:4.5e-05 updt_s:2.611 data_s:0.465
+INFO 2026-06-17 14:05:58 ot_train.py:459 step:14K smpl:7M ep:11K epch:105.03 loss:0.080 grdn:3.564 lr:4.5e-05 updt_s:2.264 data_s:0.798
+INFO 2026-06-17 14:16:11 ot_train.py:459 step:14K smpl:7M ep:11K epch:106.58 loss:0.079 grdn:3.805 lr:4.5e-05 updt_s:2.193 data_s:0.869
+INFO 2026-06-17 14:26:27 ot_train.py:459 step:14K smpl:7M ep:11K epch:108.12 loss:0.077 grdn:3.345 lr:4.5e-05 updt_s:2.402 data_s:0.671
+INFO 2026-06-17 14:36:42 ot_train.py:459 step:14K smpl:7M ep:11K epch:109.67 loss:0.077 grdn:3.395 lr:4.5e-05 updt_s:2.377 data_s:0.697
+INFO 2026-06-17 14:46:55 ot_train.py:459 step:14K smpl:7M ep:11K epch:111.21 loss:0.076 grdn:3.708 lr:4.5e-05 updt_s:2.678 data_s:0.381
+INFO 2026-06-17 14:57:01 ot_train.py:459 step:15K smpl:7M ep:11K epch:112.76 loss:0.078 grdn:3.515 lr:4.5e-05 updt_s:2.070 data_s:0.959
+INFO 2026-06-17 15:07:09 ot_train.py:459 step:15K smpl:7M ep:11K epch:114.30 loss:0.077 grdn:3.746 lr:4.5e-05 updt_s:2.471 data_s:0.561
+INFO 2026-06-17 15:17:04 ot_train.py:459 step:15K smpl:7M ep:12K epch:115.85 loss:0.078 grdn:3.375 lr:4.5e-05 updt_s:2.205 data_s:0.769
+INFO 2026-06-17 15:27:11 ot_train.py:459 step:15K smpl:8M ep:12K epch:117.39 loss:0.073 grdn:3.405 lr:4.5e-05 updt_s:2.428 data_s:0.603
+INFO 2026-06-17 15:37:25 ot_train.py:459 step:15K smpl:8M ep:12K epch:118.94 loss:0.074 grdn:3.486 lr:4.5e-05 updt_s:2.313 data_s:0.750
+INFO 2026-06-17 15:47:30 ot_train.py:459 step:16K smpl:8M ep:12K epch:120.48 loss:0.075 grdn:3.520 lr:4.5e-05 updt_s:2.564 data_s:0.457
+INFO 2026-06-17 15:57:48 ot_train.py:459 step:16K smpl:8M ep:12K epch:122.02 loss:0.072 grdn:3.251 lr:4.5e-05 updt_s:2.184 data_s:0.903
+INFO 2026-06-17 16:07:56 ot_train.py:459 step:16K smpl:8M ep:12K epch:123.57 loss:0.074 grdn:3.445 lr:4.5e-05 updt_s:1.802 data_s:1.235
+INFO 2026-06-17 16:18:01 ot_train.py:459 step:16K smpl:8M ep:13K epch:125.11 loss:0.073 grdn:3.138 lr:4.5e-05 updt_s:2.221 data_s:0.797
+INFO 2026-06-17 16:28:24 ot_train.py:459 step:16K smpl:8M ep:13K epch:126.66 loss:0.077 grdn:4.159 lr:4.5e-05 updt_s:2.528 data_s:0.583
+INFO 2026-06-17 16:38:29 ot_train.py:459 step:17K smpl:8M ep:13K epch:128.20 loss:0.073 grdn:3.467 lr:4.5e-05 updt_s:2.609 data_s:0.412
+INFO 2026-06-17 16:48:44 ot_train.py:459 step:17K smpl:8M ep:13K epch:129.75 loss:0.072 grdn:3.219 lr:4.5e-05 updt_s:2.386 data_s:0.682
+INFO 2026-06-17 16:59:01 ot_train.py:459 step:17K smpl:8M ep:13K epch:131.29 loss:0.066 grdn:3.084 lr:4.5e-05 updt_s:2.686 data_s:0.396
+INFO 2026-06-17 17:09:05 ot_train.py:459 step:17K smpl:9M ep:13K epch:132.84 loss:0.061 grdn:2.993 lr:4.5e-05 updt_s:2.308 data_s:0.706
+INFO 2026-06-17 17:19:12 ot_train.py:459 step:17K smpl:9M ep:13K epch:134.38 loss:0.060 grdn:2.784 lr:4.5e-05 updt_s:2.289 data_s:0.740
+INFO 2026-06-17 17:29:32 ot_train.py:459 step:18K smpl:9M ep:14K epch:135.93 loss:0.065 grdn:3.093 lr:4.5e-05 updt_s:2.263 data_s:0.834
+INFO 2026-06-17 17:39:54 ot_train.py:459 step:18K smpl:9M ep:14K epch:137.47 loss:0.068 grdn:3.110 lr:4.5e-05 updt_s:2.792 data_s:0.315
+INFO 2026-06-17 17:49:50 ot_train.py:459 step:18K smpl:9M ep:14K epch:139.02 loss:0.073 grdn:3.674 lr:4.5e-05 updt_s:2.116 data_s:0.858
+INFO 2026-06-17 17:59:38 ot_train.py:459 step:18K smpl:9M ep:14K epch:140.56 loss:0.068 grdn:3.224 lr:4.5e-05 updt_s:1.991 data_s:0.947
+INFO 2026-06-17 18:09:56 ot_train.py:459 step:18K smpl:9M ep:14K epch:142.10 loss:0.068 grdn:3.190 lr:4.5e-05 updt_s:1.611 data_s:1.472
+INFO 2026-06-17 18:20:04 ot_train.py:459 step:19K smpl:9M ep:14K epch:143.65 loss:0.064 grdn:3.144 lr:4.5e-05 updt_s:1.911 data_s:1.125
+INFO 2026-06-17 18:30:08 ot_train.py:459 step:19K smpl:9M ep:15K epch:145.19 loss:0.062 grdn:2.909 lr:4.5e-05 updt_s:2.405 data_s:0.616
+INFO 2026-06-17 18:40:40 ot_train.py:459 step:19K smpl:9M ep:15K epch:146.74 loss:0.051 grdn:2.656 lr:4.5e-05 updt_s:2.519 data_s:0.629
+INFO 2026-06-17 18:50:54 ot_train.py:459 step:19K smpl:10M ep:15K epch:148.28 loss:0.064 grdn:3.250 lr:4.5e-05 updt_s:1.266 data_s:1.798
+INFO 2026-06-17 19:01:32 ot_train.py:459 step:19K smpl:10M ep:15K epch:149.83 loss:0.063 grdn:3.014 lr:4.5e-05 updt_s:2.481 data_s:0.704
+INFO 2026-06-17 19:11:57 ot_train.py:459 step:20K smpl:10M ep:15K epch:151.37 loss:0.057 grdn:3.011 lr:4.5e-05 updt_s:2.552 data_s:0.564
+INFO 2026-06-17 19:22:25 ot_train.py:459 step:20K smpl:10M ep:15K epch:152.92 loss:0.057 grdn:2.875 lr:4.5e-05 updt_s:2.314 data_s:0.823
+INFO 2026-06-17 19:32:34 ot_train.py:459 step:20K smpl:10M ep:15K epch:154.46 loss:0.048 grdn:2.643 lr:4.5e-05 updt_s:2.458 data_s:0.578
+INFO 2026-06-17 19:32:34 ot_train.py:479 Checkpoint policy after step 20000
+DEBUG 2026-06-17 19:32:35 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-17 19:32:35 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-17 19:42:48 ot_train.py:459 step:20K smpl:10M ep:16K epch:156.01 loss:0.064 grdn:3.203 lr:4.5e-05 updt_s:2.008 data_s:1.052
+INFO 2026-06-17 19:52:44 ot_train.py:459 step:20K smpl:10M ep:16K epch:157.55 loss:0.066 grdn:3.035 lr:4.5e-05 updt_s:2.268 data_s:0.703
+INFO 2026-06-17 20:02:56 ot_train.py:459 step:21K smpl:10M ep:16K epch:159.10 loss:0.047 grdn:2.414 lr:4.5e-05 updt_s:2.196 data_s:0.863
+INFO 2026-06-17 20:12:59 ot_train.py:459 step:21K smpl:10M ep:16K epch:160.64 loss:0.056 grdn:2.887 lr:4.5e-05 updt_s:2.587 data_s:0.421
+INFO 2026-06-17 20:23:13 ot_train.py:459 step:21K smpl:10M ep:16K epch:162.18 loss:0.048 grdn:2.511 lr:4.5e-05 updt_s:2.339 data_s:0.725
+INFO 2026-06-17 20:33:26 ot_train.py:459 step:21K smpl:11M ep:16K epch:163.73 loss:0.042 grdn:2.416 lr:4.5e-05 updt_s:2.658 data_s:0.404
+INFO 2026-06-17 20:43:42 ot_train.py:459 step:21K smpl:11M ep:17K epch:165.27 loss:0.059 grdn:2.828 lr:4.5e-05 updt_s:2.856 data_s:0.216
+INFO 2026-06-17 20:53:58 ot_train.py:459 step:22K smpl:11M ep:17K epch:166.82 loss:0.046 grdn:2.378 lr:4.5e-05 updt_s:2.519 data_s:0.556
+INFO 2026-06-17 21:04:13 ot_train.py:459 step:22K smpl:11M ep:17K epch:168.36 loss:0.057 grdn:2.806 lr:4.5e-05 updt_s:2.649 data_s:0.420
+INFO 2026-06-17 21:14:14 ot_train.py:459 step:22K smpl:11M ep:17K epch:169.91 loss:0.049 grdn:2.595 lr:4.5e-05 updt_s:2.299 data_s:0.704
+INFO 2026-06-17 21:24:28 ot_train.py:459 step:22K smpl:11M ep:17K epch:171.45 loss:0.040 grdn:2.206 lr:4.5e-05 updt_s:2.566 data_s:0.501
+INFO 2026-06-17 21:34:37 ot_train.py:459 step:22K smpl:11M ep:17K epch:173.00 loss:0.033 grdn:2.327 lr:4.5e-05 updt_s:2.218 data_s:0.822
+INFO 2026-06-17 21:45:09 ot_train.py:459 step:23K smpl:11M ep:17K epch:174.54 loss:0.062 grdn:2.927 lr:4.5e-05 updt_s:2.900 data_s:0.256
+INFO 2026-06-17 21:55:29 ot_train.py:459 step:23K smpl:11M ep:18K epch:176.09 loss:0.041 grdn:2.362 lr:4.5e-05 updt_s:2.323 data_s:0.770
+INFO 2026-06-17 22:05:37 ot_train.py:459 step:23K smpl:11M ep:18K epch:177.63 loss:0.033 grdn:2.209 lr:4.5e-05 updt_s:2.308 data_s:0.729
+INFO 2026-06-17 22:15:58 ot_train.py:459 step:23K smpl:12M ep:18K epch:179.18 loss:0.037 grdn:2.367 lr:4.5e-05 updt_s:2.420 data_s:0.679
+INFO 2026-06-17 22:26:03 ot_train.py:459 step:23K smpl:12M ep:18K epch:180.72 loss:0.048 grdn:2.596 lr:4.5e-05 updt_s:2.245 data_s:0.773
+INFO 2026-06-17 22:36:18 ot_train.py:459 step:24K smpl:12M ep:18K epch:182.26 loss:0.051 grdn:2.423 lr:4.5e-05 updt_s:2.253 data_s:0.818
+INFO 2026-06-17 22:46:31 ot_train.py:459 step:24K smpl:12M ep:18K epch:183.81 loss:0.030 grdn:2.111 lr:4.5e-05 updt_s:2.200 data_s:0.859
+INFO 2026-06-17 22:56:39 ot_train.py:459 step:24K smpl:12M ep:19K epch:185.35 loss:0.044 grdn:2.487 lr:4.5e-05 updt_s:2.324 data_s:0.713
+INFO 2026-06-17 23:07:02 ot_train.py:459 step:24K smpl:12M ep:19K epch:186.90 loss:0.045 grdn:2.301 lr:4.5e-05 updt_s:2.380 data_s:0.728
+INFO 2026-06-17 23:17:04 ot_train.py:459 step:24K smpl:12M ep:19K epch:188.44 loss:0.037 grdn:2.149 lr:4.5e-05 updt_s:2.434 data_s:0.572
+INFO 2026-06-17 23:27:20 ot_train.py:459 step:25K smpl:12M ep:19K epch:189.99 loss:0.032 grdn:2.144 lr:4.5e-05 updt_s:2.517 data_s:0.556
+INFO 2026-06-17 23:37:32 ot_train.py:459 step:25K smpl:12M ep:19K epch:191.53 loss:0.039 grdn:2.272 lr:4.5e-05 updt_s:2.426 data_s:0.630
+INFO 2026-06-17 23:47:43 ot_train.py:459 step:25K smpl:12M ep:19K epch:193.08 loss:0.033 grdn:2.195 lr:4.5e-05 updt_s:2.158 data_s:0.893
+INFO 2026-06-17 23:57:50 ot_train.py:459 step:25K smpl:12M ep:19K epch:194.62 loss:0.026 grdn:2.137 lr:4.5e-05 updt_s:2.178 data_s:0.850
+INFO 2026-06-18 00:08:11 ot_train.py:459 step:25K smpl:13M ep:20K epch:196.17 loss:0.058 grdn:2.597 lr:4.5e-05 updt_s:2.115 data_s:0.984
+INFO 2026-06-18 00:18:18 ot_train.py:459 step:26K smpl:13M ep:20K epch:197.71 loss:0.047 grdn:2.284 lr:4.5e-05 updt_s:1.450 data_s:1.576
+INFO 2026-06-18 00:28:40 ot_train.py:459 step:26K smpl:13M ep:20K epch:199.26 loss:0.018 grdn:1.872 lr:4.5e-05 updt_s:2.373 data_s:0.730
+INFO 2026-06-18 00:38:53 ot_train.py:459 step:26K smpl:13M ep:20K epch:200.80 loss:0.018 grdn:1.867 lr:4.5e-05 updt_s:2.688 data_s:0.371
+INFO 2026-06-18 00:49:22 ot_train.py:459 step:26K smpl:13M ep:20K epch:202.34 loss:0.039 grdn:2.180 lr:4.5e-05 updt_s:2.011 data_s:1.133
+INFO 2026-06-18 00:59:33 ot_train.py:459 step:26K smpl:13M ep:20K epch:203.89 loss:0.053 grdn:2.412 lr:4.5e-05 updt_s:2.412 data_s:0.636
+INFO 2026-06-18 01:09:37 ot_train.py:459 step:27K smpl:13M ep:21K epch:205.43 loss:0.048 grdn:2.249 lr:4.5e-05 updt_s:2.458 data_s:0.558
+INFO 2026-06-18 01:20:00 ot_train.py:459 step:27K smpl:13M ep:21K epch:206.98 loss:0.032 grdn:2.008 lr:4.5e-05 updt_s:2.446 data_s:0.664
+INFO 2026-06-18 01:30:05 ot_train.py:459 step:27K smpl:13M ep:21K epch:208.52 loss:0.038 grdn:2.116 lr:4.5e-05 updt_s:2.361 data_s:0.656
+INFO 2026-06-18 01:40:23 ot_train.py:459 step:27K smpl:13M ep:21K epch:210.07 loss:0.034 grdn:1.906 lr:4.5e-05 updt_s:2.533 data_s:0.556
+INFO 2026-06-18 01:50:38 ot_train.py:459 step:27K smpl:14M ep:21K epch:211.61 loss:0.033 grdn:2.033 lr:4.5e-05 updt_s:2.276 data_s:0.790
+INFO 2026-06-18 02:01:03 ot_train.py:459 step:28K smpl:14M ep:21K epch:213.16 loss:0.039 grdn:2.079 lr:4.5e-05 updt_s:2.397 data_s:0.724
+INFO 2026-06-18 02:11:25 ot_train.py:459 step:28K smpl:14M ep:21K epch:214.70 loss:0.041 grdn:2.183 lr:4.5e-05 updt_s:2.899 data_s:0.200
+INFO 2026-06-18 02:21:56 ot_train.py:459 step:28K smpl:14M ep:22K epch:216.25 loss:0.044 grdn:2.223 lr:4.5e-05 updt_s:2.505 data_s:0.648
+INFO 2026-06-18 02:32:20 ot_train.py:459 step:28K smpl:14M ep:22K epch:217.79 loss:0.034 grdn:2.012 lr:4.5e-05 updt_s:2.771 data_s:0.337
+INFO 2026-06-18 02:42:34 ot_train.py:459 step:28K smpl:14M ep:22K epch:219.34 loss:0.030 grdn:2.001 lr:4.5e-05 updt_s:2.288 data_s:0.779
+INFO 2026-06-18 02:52:37 ot_train.py:459 step:29K smpl:14M ep:22K epch:220.88 loss:0.032 grdn:1.952 lr:4.5e-05 updt_s:2.530 data_s:0.482
+INFO 2026-06-18 03:03:05 ot_train.py:459 step:29K smpl:14M ep:22K epch:222.42 loss:0.041 grdn:2.097 lr:4.5e-05 updt_s:2.464 data_s:0.671
+INFO 2026-06-18 03:13:29 ot_train.py:459 step:29K smpl:14M ep:22K epch:223.97 loss:0.035 grdn:2.038 lr:4.5e-05 updt_s:2.751 data_s:0.362
+INFO 2026-06-18 03:23:39 ot_train.py:459 step:29K smpl:14M ep:23K epch:225.51 loss:0.035 grdn:2.115 lr:4.5e-05 updt_s:2.423 data_s:0.621
+INFO 2026-06-18 03:33:49 ot_train.py:459 step:29K smpl:15M ep:23K epch:227.06 loss:0.039 grdn:2.214 lr:4.5e-05 updt_s:2.394 data_s:0.647
+INFO 2026-06-18 03:43:52 ot_train.py:459 step:30K smpl:15M ep:23K epch:228.60 loss:0.027 grdn:1.948 lr:4.5e-05 updt_s:2.617 data_s:0.390
+INFO 2026-06-18 03:54:00 ot_train.py:459 step:30K smpl:15M ep:23K epch:230.15 loss:0.022 grdn:1.981 lr:4.5e-05 updt_s:2.325 data_s:0.713
+INFO 2026-06-18 04:04:06 ot_train.py:459 step:30K smpl:15M ep:23K epch:231.69 loss:0.033 grdn:2.128 lr:4.5e-05 updt_s:2.545 data_s:0.480
+INFO 2026-06-18 04:04:06 ot_train.py:479 Checkpoint policy after step 30000
+DEBUG 2026-06-18 04:04:07 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-18 04:04:07 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-18 04:14:18 ot_train.py:459 step:30K smpl:15M ep:23K epch:233.24 loss:0.040 grdn:2.207 lr:4.5e-05 updt_s:2.418 data_s:0.630
+INFO 2026-06-18 04:24:34 ot_train.py:459 step:30K smpl:15M ep:23K epch:234.78 loss:0.027 grdn:1.991 lr:4.5e-05 updt_s:2.651 data_s:0.425
+INFO 2026-06-18 04:34:54 ot_train.py:459 step:31K smpl:15M ep:24K epch:236.33 loss:0.033 grdn:2.077 lr:4.5e-05 updt_s:2.656 data_s:0.443
+INFO 2026-06-18 04:45:11 ot_train.py:459 step:31K smpl:15M ep:24K epch:237.87 loss:0.035 grdn:2.110 lr:4.5e-05 updt_s:2.567 data_s:0.510
+INFO 2026-06-18 04:55:34 ot_train.py:459 step:31K smpl:15M ep:24K epch:239.42 loss:0.032 grdn:2.080 lr:4.5e-05 updt_s:2.439 data_s:0.668
+INFO 2026-06-18 05:05:30 ot_train.py:459 step:31K smpl:15M ep:24K epch:240.96 loss:0.032 grdn:2.108 lr:4.5e-05 updt_s:2.612 data_s:0.365
+INFO 2026-06-18 05:15:54 ot_train.py:459 step:31K smpl:16M ep:24K epch:242.51 loss:0.024 grdn:1.996 lr:4.5e-05 updt_s:2.252 data_s:0.862
+INFO 2026-06-18 05:26:00 ot_train.py:459 step:32K smpl:16M ep:24K epch:244.05 loss:0.027 grdn:1.958 lr:4.5e-05 updt_s:2.291 data_s:0.734
+INFO 2026-06-18 05:36:18 ot_train.py:459 step:32K smpl:16M ep:25K epch:245.59 loss:0.039 grdn:2.125 lr:4.5e-05 updt_s:2.471 data_s:0.615
+INFO 2026-06-18 05:46:42 ot_train.py:459 step:32K smpl:16M ep:25K epch:247.14 loss:0.037 grdn:2.058 lr:4.5e-05 updt_s:2.233 data_s:0.884
+INFO 2026-06-18 05:56:48 ot_train.py:459 step:32K smpl:16M ep:25K epch:248.68 loss:0.030 grdn:2.011 lr:4.5e-05 updt_s:1.931 data_s:1.090
+INFO 2026-06-18 06:07:14 ot_train.py:459 step:32K smpl:16M ep:25K epch:250.23 loss:0.027 grdn:1.802 lr:4.5e-05 updt_s:2.207 data_s:0.913
+INFO 2026-06-18 06:17:38 ot_train.py:459 step:33K smpl:16M ep:25K epch:251.77 loss:0.027 grdn:1.907 lr:4.5e-05 updt_s:2.873 data_s:0.243
+INFO 2026-06-18 06:28:00 ot_train.py:459 step:33K smpl:16M ep:25K epch:253.32 loss:0.041 grdn:2.135 lr:4.5e-05 updt_s:2.354 data_s:0.755
+INFO 2026-06-18 06:38:13 ot_train.py:459 step:33K smpl:16M ep:25K epch:254.86 loss:0.038 grdn:2.046 lr:4.5e-05 updt_s:2.683 data_s:0.375
+INFO 2026-06-18 06:48:17 ot_train.py:459 step:33K smpl:16M ep:26K epch:256.41 loss:0.025 grdn:1.897 lr:4.5e-05 updt_s:2.096 data_s:0.919
+INFO 2026-06-18 06:58:43 ot_train.py:459 step:33K smpl:17M ep:26K epch:257.95 loss:0.026 grdn:1.827 lr:4.5e-05 updt_s:2.739 data_s:0.384
+INFO 2026-06-18 07:09:02 ot_train.py:459 step:34K smpl:17M ep:26K epch:259.50 loss:0.029 grdn:1.864 lr:4.5e-05 updt_s:2.389 data_s:0.701
+INFO 2026-06-18 07:19:07 ot_train.py:459 step:34K smpl:17M ep:26K epch:261.04 loss:0.038 grdn:2.144 lr:4.5e-05 updt_s:2.638 data_s:0.381
+INFO 2026-06-18 07:29:25 ot_train.py:459 step:34K smpl:17M ep:26K epch:262.59 loss:0.036 grdn:1.958 lr:4.5e-05 updt_s:2.188 data_s:0.898
+INFO 2026-06-18 07:39:32 ot_train.py:459 step:34K smpl:17M ep:26K epch:264.13 loss:0.026 grdn:1.869 lr:4.5e-05 updt_s:2.466 data_s:0.564
+INFO 2026-06-18 07:49:42 ot_train.py:459 step:34K smpl:17M ep:27K epch:265.67 loss:0.023 grdn:1.799 lr:4.5e-05 updt_s:2.269 data_s:0.776
+INFO 2026-06-18 08:00:12 ot_train.py:459 step:35K smpl:17M ep:27K epch:267.22 loss:0.023 grdn:1.759 lr:4.5e-05 updt_s:2.460 data_s:0.686
+INFO 2026-06-18 08:10:21 ot_train.py:459 step:35K smpl:17M ep:27K epch:268.76 loss:0.034 grdn:2.021 lr:4.5e-05 updt_s:1.941 data_s:1.096
+INFO 2026-06-18 08:20:49 ot_train.py:459 step:35K smpl:17M ep:27K epch:270.31 loss:0.035 grdn:2.118 lr:4.5e-05 updt_s:2.569 data_s:0.563
+INFO 2026-06-18 08:31:12 ot_train.py:459 step:35K smpl:17M ep:27K epch:271.85 loss:0.022 grdn:1.824 lr:4.5e-05 updt_s:2.509 data_s:0.600
+INFO 2026-06-18 08:41:37 ot_train.py:459 step:35K smpl:18M ep:27K epch:273.40 loss:0.026 grdn:1.987 lr:4.5e-05 updt_s:2.469 data_s:0.653
+INFO 2026-06-18 08:51:43 ot_train.py:459 step:36K smpl:18M ep:27K epch:274.94 loss:0.021 grdn:1.818 lr:4.5e-05 updt_s:2.564 data_s:0.459
+INFO 2026-06-18 09:02:06 ot_train.py:459 step:36K smpl:18M ep:28K epch:276.49 loss:0.026 grdn:1.851 lr:4.5e-05 updt_s:2.511 data_s:0.599
+INFO 2026-06-18 09:12:21 ot_train.py:459 step:36K smpl:18M ep:28K epch:278.03 loss:0.028 grdn:1.986 lr:4.5e-05 updt_s:2.670 data_s:0.398
+INFO 2026-06-18 09:22:45 ot_train.py:459 step:36K smpl:18M ep:28K epch:279.58 loss:0.028 grdn:1.977 lr:4.5e-05 updt_s:2.177 data_s:0.936
+INFO 2026-06-18 09:32:42 ot_train.py:459 step:36K smpl:18M ep:28K epch:281.12 loss:0.021 grdn:1.891 lr:4.5e-05 updt_s:2.508 data_s:0.474
+INFO 2026-06-18 09:43:11 ot_train.py:459 step:37K smpl:18M ep:28K epch:282.67 loss:0.026 grdn:1.949 lr:4.5e-05 updt_s:2.479 data_s:0.657
+INFO 2026-06-18 09:53:30 ot_train.py:459 step:37K smpl:18M ep:28K epch:284.21 loss:0.032 grdn:1.995 lr:4.5e-05 updt_s:2.618 data_s:0.468
+INFO 2026-06-18 10:03:53 ot_train.py:459 step:37K smpl:18M ep:29K epch:285.75 loss:0.028 grdn:1.958 lr:4.5e-05 updt_s:2.572 data_s:0.537
+INFO 2026-06-18 10:14:15 ot_train.py:459 step:37K smpl:18M ep:29K epch:287.30 loss:0.025 grdn:1.936 lr:4.5e-05 updt_s:2.554 data_s:0.554
+INFO 2026-06-18 10:24:23 ot_train.py:459 step:37K smpl:19M ep:29K epch:288.84 loss:0.020 grdn:1.713 lr:4.5e-05 updt_s:2.264 data_s:0.773
+INFO 2026-06-18 10:34:34 ot_train.py:459 step:38K smpl:19M ep:29K epch:290.39 loss:0.024 grdn:1.908 lr:4.5e-05 updt_s:2.268 data_s:0.778
+INFO 2026-06-18 10:44:55 ot_train.py:459 step:38K smpl:19M ep:29K epch:291.93 loss:0.033 grdn:2.017 lr:4.5e-05 updt_s:2.490 data_s:0.612
+INFO 2026-06-18 10:55:10 ot_train.py:459 step:38K smpl:19M ep:29K epch:293.48 loss:0.026 grdn:1.818 lr:4.5e-05 updt_s:2.021 data_s:1.048
+INFO 2026-06-18 11:05:17 ot_train.py:459 step:38K smpl:19M ep:30K epch:295.02 loss:0.024 grdn:1.798 lr:4.5e-05 updt_s:2.404 data_s:0.629
+INFO 2026-06-18 11:15:36 ot_train.py:459 step:38K smpl:19M ep:30K epch:296.57 loss:0.027 grdn:1.880 lr:4.5e-05 updt_s:2.012 data_s:1.077
+INFO 2026-06-18 11:25:54 ot_train.py:459 step:39K smpl:19M ep:30K epch:298.11 loss:0.021 grdn:1.959 lr:4.5e-05 updt_s:2.382 data_s:0.702
+INFO 2026-06-18 11:36:14 ot_train.py:459 step:39K smpl:19M ep:30K epch:299.66 loss:0.024 grdn:1.898 lr:4.5e-05 updt_s:2.339 data_s:0.756
+INFO 2026-06-18 11:46:17 ot_train.py:459 step:39K smpl:19M ep:30K epch:301.20 loss:0.021 grdn:1.822 lr:4.5e-05 updt_s:2.619 data_s:0.391
+INFO 2026-06-18 11:57:02 ot_train.py:459 step:39K smpl:19M ep:30K epch:302.75 loss:0.020 grdn:1.824 lr:4.5e-05 updt_s:2.502 data_s:0.713
+INFO 2026-06-18 12:07:10 ot_train.py:459 step:39K smpl:20M ep:30K epch:304.29 loss:0.023 grdn:1.808 lr:4.5e-05 updt_s:2.476 data_s:0.562
+INFO 2026-06-18 12:17:18 ot_train.py:459 step:40K smpl:20M ep:31K epch:305.83 loss:0.018 grdn:1.834 lr:4.5e-05 updt_s:2.427 data_s:0.608
+INFO 2026-06-18 12:27:44 ot_train.py:459 step:40K smpl:20M ep:31K epch:307.38 loss:0.023 grdn:1.920 lr:4.5e-05 updt_s:2.139 data_s:0.984
+INFO 2026-06-18 12:37:50 ot_train.py:459 step:40K smpl:20M ep:31K epch:308.92 loss:0.024 grdn:2.007 lr:4.5e-05 updt_s:2.477 data_s:0.549
+INFO 2026-06-18 12:37:50 ot_train.py:479 Checkpoint policy after step 40000
+DEBUG 2026-06-18 12:37:50 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-18 12:37:51 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-18 12:47:58 ot_train.py:459 step:40K smpl:20M ep:31K epch:310.47 loss:0.030 grdn:2.119 lr:4.5e-05 updt_s:2.190 data_s:0.845
+INFO 2026-06-18 12:58:09 ot_train.py:459 step:40K smpl:20M ep:31K epch:312.01 loss:0.020 grdn:1.933 lr:4.5e-05 updt_s:2.132 data_s:0.914
+INFO 2026-06-18 13:08:33 ot_train.py:459 step:41K smpl:20M ep:31K epch:313.56 loss:0.021 grdn:1.938 lr:4.5e-05 updt_s:2.425 data_s:0.693
+INFO 2026-06-18 13:18:56 ot_train.py:459 step:41K smpl:20M ep:32K epch:315.10 loss:0.019 grdn:1.866 lr:4.5e-05 updt_s:2.855 data_s:0.248
+INFO 2026-06-18 13:28:59 ot_train.py:459 step:41K smpl:20M ep:32K epch:316.65 loss:0.021 grdn:1.942 lr:4.5e-05 updt_s:1.884 data_s:1.128
+INFO 2026-06-18 13:39:25 ot_train.py:459 step:41K smpl:20M ep:32K epch:318.19 loss:0.017 grdn:1.724 lr:4.5e-05 updt_s:2.858 data_s:0.270
+INFO 2026-06-18 13:49:43 ot_train.py:459 step:41K smpl:21M ep:32K epch:319.74 loss:0.017 grdn:1.711 lr:4.5e-05 updt_s:2.223 data_s:0.858
+INFO 2026-06-18 13:59:51 ot_train.py:459 step:42K smpl:21M ep:32K epch:321.28 loss:0.020 grdn:1.865 lr:4.5e-05 updt_s:2.812 data_s:0.224
+INFO 2026-06-18 14:10:19 ot_train.py:459 step:42K smpl:21M ep:32K epch:322.83 loss:0.027 grdn:1.997 lr:4.5e-05 updt_s:2.280 data_s:0.856
+INFO 2026-06-18 14:20:34 ot_train.py:459 step:42K smpl:21M ep:32K epch:324.37 loss:0.017 grdn:1.876 lr:4.5e-05 updt_s:2.436 data_s:0.634
+INFO 2026-06-18 14:30:43 ot_train.py:459 step:42K smpl:21M ep:33K epch:325.91 loss:0.017 grdn:1.826 lr:4.5e-05 updt_s:2.095 data_s:0.948
+INFO 2026-06-18 14:40:59 ot_train.py:459 step:42K smpl:21M ep:33K epch:327.46 loss:0.016 grdn:1.864 lr:4.5e-05 updt_s:2.039 data_s:1.036
+INFO 2026-06-18 14:51:00 ot_train.py:459 step:43K smpl:21M ep:33K epch:329.00 loss:0.022 grdn:1.861 lr:4.5e-05 updt_s:2.509 data_s:0.493
+INFO 2026-06-18 15:01:19 ot_train.py:459 step:43K smpl:21M ep:33K epch:330.55 loss:0.022 grdn:1.900 lr:4.5e-05 updt_s:2.523 data_s:0.564
+INFO 2026-06-18 15:11:23 ot_train.py:459 step:43K smpl:21M ep:33K epch:332.09 loss:0.020 grdn:1.878 lr:4.5e-05 updt_s:1.856 data_s:1.159
+INFO 2026-06-18 15:21:55 ot_train.py:459 step:43K smpl:21M ep:33K epch:333.64 loss:0.014 grdn:1.734 lr:4.5e-05 updt_s:2.426 data_s:0.727
+INFO 2026-06-18 15:32:09 ot_train.py:459 step:43K smpl:22M ep:34K epch:335.18 loss:0.023 grdn:1.893 lr:4.5e-05 updt_s:2.784 data_s:0.285
+INFO 2026-06-18 15:42:14 ot_train.py:459 step:44K smpl:22M ep:34K epch:336.73 loss:0.021 grdn:1.853 lr:4.5e-05 updt_s:1.828 data_s:1.189
+INFO 2026-06-18 15:52:24 ot_train.py:459 step:44K smpl:22M ep:34K epch:338.27 loss:0.023 grdn:1.919 lr:4.5e-05 updt_s:2.608 data_s:0.435
+INFO 2026-06-18 16:02:46 ot_train.py:459 step:44K smpl:22M ep:34K epch:339.82 loss:0.022 grdn:1.852 lr:4.5e-05 updt_s:2.486 data_s:0.623
+INFO 2026-06-18 16:12:50 ot_train.py:459 step:44K smpl:22M ep:34K epch:341.36 loss:0.017 grdn:1.820 lr:4.5e-05 updt_s:2.424 data_s:0.586
+INFO 2026-06-18 16:23:00 ot_train.py:459 step:44K smpl:22M ep:34K epch:342.91 loss:0.017 grdn:1.880 lr:4.5e-05 updt_s:1.751 data_s:1.296
+INFO 2026-06-18 16:33:08 ot_train.py:459 step:45K smpl:22M ep:34K epch:344.45 loss:0.022 grdn:1.955 lr:4.5e-05 updt_s:2.559 data_s:0.477
+INFO 2026-06-18 16:43:09 ot_train.py:459 step:45K smpl:22M ep:35K epch:345.99 loss:0.028 grdn:2.014 lr:4.5e-05 updt_s:1.984 data_s:1.015
+INFO 2026-06-18 16:53:29 ot_train.py:459 step:45K smpl:22M ep:35K epch:347.54 loss:0.020 grdn:1.952 lr:4.5e-05 updt_s:2.425 data_s:0.673
+INFO 2026-06-18 17:03:36 ot_train.py:459 step:45K smpl:22M ep:35K epch:349.08 loss:0.017 grdn:1.838 lr:4.5e-05 updt_s:2.420 data_s:0.612
+INFO 2026-06-18 17:13:33 ot_train.py:459 step:45K smpl:23M ep:35K epch:350.63 loss:0.020 grdn:1.967 lr:4.5e-05 updt_s:2.161 data_s:0.821
+INFO 2026-06-18 17:23:38 ot_train.py:459 step:46K smpl:23M ep:35K epch:352.17 loss:0.015 grdn:1.716 lr:4.5e-05 updt_s:2.636 data_s:0.379
+INFO 2026-06-18 17:33:57 ot_train.py:459 step:46K smpl:23M ep:35K epch:353.72 loss:0.015 grdn:1.725 lr:4.5e-05 updt_s:2.457 data_s:0.637
+INFO 2026-06-18 17:43:55 ot_train.py:459 step:46K smpl:23M ep:36K epch:355.26 loss:0.023 grdn:1.922 lr:4.5e-05 updt_s:2.595 data_s:0.385
+INFO 2026-06-18 17:54:00 ot_train.py:459 step:46K smpl:23M ep:36K epch:356.81 loss:0.021 grdn:1.866 lr:4.5e-05 updt_s:1.408 data_s:1.616
+INFO 2026-06-18 18:04:17 ot_train.py:459 step:46K smpl:23M ep:36K epch:358.35 loss:0.024 grdn:1.889 lr:4.5e-05 updt_s:2.680 data_s:0.400
+INFO 2026-06-18 18:14:37 ot_train.py:459 step:47K smpl:23M ep:36K epch:359.90 loss:0.026 grdn:1.999 lr:4.5e-05 updt_s:2.670 data_s:0.423
+INFO 2026-06-18 18:24:49 ot_train.py:459 step:47K smpl:23M ep:36K epch:361.44 loss:0.026 grdn:1.932 lr:4.5e-05 updt_s:2.726 data_s:0.331
+INFO 2026-06-18 18:35:02 ot_train.py:459 step:47K smpl:23M ep:36K epch:362.99 loss:0.020 grdn:1.812 lr:4.5e-05 updt_s:2.198 data_s:0.865
+INFO 2026-06-18 18:45:09 ot_train.py:459 step:47K smpl:23M ep:36K epch:364.53 loss:0.017 grdn:1.733 lr:4.5e-05 updt_s:2.513 data_s:0.517
+INFO 2026-06-18 18:55:30 ot_train.py:459 step:47K smpl:24M ep:37K epch:366.07 loss:0.022 grdn:1.841 lr:4.5e-05 updt_s:2.615 data_s:0.488
+INFO 2026-06-18 19:05:40 ot_train.py:459 step:48K smpl:24M ep:37K epch:367.62 loss:0.016 grdn:1.780 lr:4.5e-05 updt_s:2.123 data_s:0.924
+INFO 2026-06-18 19:15:50 ot_train.py:459 step:48K smpl:24M ep:37K epch:369.16 loss:0.020 grdn:1.934 lr:4.5e-05 updt_s:2.375 data_s:0.668
+INFO 2026-06-18 19:26:25 ot_train.py:459 step:48K smpl:24M ep:37K epch:370.71 loss:0.023 grdn:1.952 lr:4.5e-05 updt_s:2.584 data_s:0.584
+INFO 2026-06-18 19:36:39 ot_train.py:459 step:48K smpl:24M ep:37K epch:372.25 loss:0.016 grdn:1.785 lr:4.5e-05 updt_s:2.371 data_s:0.693
+INFO 2026-06-18 19:46:39 ot_train.py:459 step:48K smpl:24M ep:37K epch:373.80 loss:0.025 grdn:2.021 lr:4.5e-05 updt_s:1.952 data_s:1.042
+INFO 2026-06-18 19:56:54 ot_train.py:459 step:49K smpl:24M ep:38K epch:375.34 loss:0.023 grdn:1.864 lr:4.5e-05 updt_s:2.701 data_s:0.369
+INFO 2026-06-18 20:07:05 ot_train.py:459 step:49K smpl:24M ep:38K epch:376.89 loss:0.018 grdn:1.866 lr:4.5e-05 updt_s:2.148 data_s:0.903
+INFO 2026-06-18 20:17:22 ot_train.py:459 step:49K smpl:24M ep:38K epch:378.43 loss:0.018 grdn:1.843 lr:4.5e-05 updt_s:2.744 data_s:0.335
+INFO 2026-06-18 20:27:44 ot_train.py:459 step:49K smpl:24M ep:38K epch:379.98 loss:0.016 grdn:1.834 lr:4.5e-05 updt_s:2.254 data_s:0.854
+INFO 2026-06-18 20:37:47 ot_train.py:459 step:49K smpl:25M ep:38K epch:381.52 loss:0.025 grdn:2.035 lr:4.5e-05 updt_s:2.090 data_s:0.917
+INFO 2026-06-18 20:48:14 ot_train.py:459 step:50K smpl:25M ep:38K epch:383.07 loss:0.017 grdn:1.864 lr:4.5e-05 updt_s:2.106 data_s:1.022
+INFO 2026-06-18 20:58:26 ot_train.py:459 step:50K smpl:25M ep:38K epch:384.61 loss:0.010 grdn:1.762 lr:4.5e-05 updt_s:1.431 data_s:1.627
+INFO 2026-06-18 21:08:56 ot_train.py:459 step:50K smpl:25M ep:39K epch:386.15 loss:0.012 grdn:1.786 lr:4.5e-05 updt_s:2.500 data_s:0.641
+INFO 2026-06-18 21:08:56 ot_train.py:479 Checkpoint policy after step 50000
+DEBUG 2026-06-18 21:08:56 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-18 21:08:57 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-18 21:19:31 ot_train.py:459 step:50K smpl:25M ep:39K epch:387.70 loss:0.022 grdn:1.912 lr:4.5e-05 updt_s:2.542 data_s:0.619
+INFO 2026-06-18 21:29:41 ot_train.py:459 step:50K smpl:25M ep:39K epch:389.24 loss:0.018 grdn:1.853 lr:4.5e-05 updt_s:1.890 data_s:1.157
+INFO 2026-06-18 21:39:44 ot_train.py:459 step:51K smpl:25M ep:39K epch:390.79 loss:0.010 grdn:1.774 lr:4.5e-05 updt_s:1.214 data_s:1.794
+INFO 2026-06-18 21:49:54 ot_train.py:459 step:51K smpl:25M ep:39K epch:392.33 loss:0.022 grdn:1.979 lr:4.5e-05 updt_s:2.325 data_s:0.725
+INFO 2026-06-18 22:00:06 ot_train.py:459 step:51K smpl:25M ep:39K epch:393.88 loss:0.011 grdn:1.782 lr:4.5e-05 updt_s:2.065 data_s:0.990
+INFO 2026-06-18 22:10:11 ot_train.py:459 step:51K smpl:25M ep:40K epch:395.42 loss:0.007 grdn:1.754 lr:4.5e-05 updt_s:1.907 data_s:1.112
+INFO 2026-06-18 22:20:17 ot_train.py:459 step:51K smpl:25M ep:40K epch:396.97 loss:0.013 grdn:1.910 lr:4.5e-05 updt_s:1.518 data_s:1.510
+INFO 2026-06-18 22:30:13 ot_train.py:459 step:52K smpl:26M ep:40K epch:398.51 loss:0.008 grdn:1.814 lr:4.5e-05 updt_s:1.390 data_s:1.589
+INFO 2026-06-18 22:40:25 ot_train.py:459 step:52K smpl:26M ep:40K epch:400.06 loss:0.015 grdn:1.874 lr:4.5e-05 updt_s:1.743 data_s:1.314
+INFO 2026-06-18 22:50:22 ot_train.py:459 step:52K smpl:26M ep:40K epch:401.60 loss:0.017 grdn:1.989 lr:4.5e-05 updt_s:2.325 data_s:0.654
+INFO 2026-06-18 23:00:35 ot_train.py:459 step:52K smpl:26M ep:40K epch:403.15 loss:0.003 grdn:1.770 lr:4.5e-05 updt_s:1.903 data_s:1.158
+INFO 2026-06-18 23:10:40 ot_train.py:459 step:52K smpl:26M ep:40K epch:404.69 loss:0.015 grdn:1.826 lr:4.5e-05 updt_s:2.215 data_s:0.807
+INFO 2026-06-18 23:20:45 ot_train.py:459 step:53K smpl:26M ep:41K epch:406.23 loss:0.016 grdn:1.842 lr:4.5e-05 updt_s:1.915 data_s:1.106
+INFO 2026-06-18 23:31:02 ot_train.py:459 step:53K smpl:26M ep:41K epch:407.78 loss:0.012 grdn:1.767 lr:4.5e-05 updt_s:1.445 data_s:1.637
+INFO 2026-06-18 23:41:07 ot_train.py:459 step:53K smpl:26M ep:41K epch:409.32 loss:0.012 grdn:1.850 lr:4.5e-05 updt_s:1.938 data_s:1.083
+INFO 2026-06-18 23:51:21 ot_train.py:459 step:53K smpl:26M ep:41K epch:410.87 loss:0.018 grdn:1.928 lr:4.5e-05 updt_s:2.102 data_s:0.960
+INFO 2026-06-19 00:01:28 ot_train.py:459 step:53K smpl:26M ep:41K epch:412.41 loss:0.010 grdn:1.742 lr:4.5e-05 updt_s:2.681 data_s:0.350
+INFO 2026-06-19 00:11:45 ot_train.py:459 step:54K smpl:27M ep:41K epch:413.96 loss:0.012 grdn:1.795 lr:4.5e-05 updt_s:1.670 data_s:1.411
+INFO 2026-06-19 00:21:45 ot_train.py:459 step:54K smpl:27M ep:42K epch:415.50 loss:0.017 grdn:1.849 lr:4.5e-05 updt_s:2.236 data_s:0.760
+INFO 2026-06-19 00:31:51 ot_train.py:459 step:54K smpl:27M ep:42K epch:417.05 loss:0.024 grdn:1.936 lr:4.5e-05 updt_s:1.990 data_s:1.037
+INFO 2026-06-19 00:41:56 ot_train.py:459 step:54K smpl:27M ep:42K epch:418.59 loss:0.009 grdn:1.775 lr:4.5e-05 updt_s:2.301 data_s:0.719
+INFO 2026-06-19 00:52:05 ot_train.py:459 step:54K smpl:27M ep:42K epch:420.14 loss:0.011 grdn:1.702 lr:4.5e-05 updt_s:1.704 data_s:1.335
+INFO 2026-06-19 01:02:07 ot_train.py:459 step:55K smpl:27M ep:42K epch:421.68 loss:0.010 grdn:1.788 lr:4.5e-05 updt_s:2.580 data_s:0.426
+INFO 2026-06-19 01:12:08 ot_train.py:459 step:55K smpl:27M ep:42K epch:423.23 loss:0.012 grdn:1.760 lr:4.5e-05 updt_s:1.568 data_s:1.432
+INFO 2026-06-19 01:22:10 ot_train.py:459 step:55K smpl:27M ep:42K epch:424.77 loss:0.013 grdn:1.858 lr:4.5e-05 updt_s:1.710 data_s:1.298
+INFO 2026-06-19 01:32:20 ot_train.py:459 step:55K smpl:27M ep:43K epch:426.31 loss:0.015 grdn:1.915 lr:4.5e-05 updt_s:2.411 data_s:0.635
+INFO 2026-06-19 01:42:28 ot_train.py:459 step:55K smpl:27M ep:43K epch:427.86 loss:0.009 grdn:1.727 lr:4.5e-05 updt_s:2.267 data_s:0.767
+INFO 2026-06-19 01:52:24 ot_train.py:459 step:56K smpl:28M ep:43K epch:429.40 loss:0.003 grdn:1.676 lr:4.5e-05 updt_s:1.702 data_s:1.275
+INFO 2026-06-19 02:02:29 ot_train.py:459 step:56K smpl:28M ep:43K epch:430.95 loss:0.012 grdn:1.759 lr:4.5e-05 updt_s:1.495 data_s:1.524
+INFO 2026-06-19 02:12:39 ot_train.py:459 step:56K smpl:28M ep:43K epch:432.49 loss:0.022 grdn:1.972 lr:4.5e-05 updt_s:2.365 data_s:0.682
+INFO 2026-06-19 02:22:49 ot_train.py:459 step:56K smpl:28M ep:43K epch:434.04 loss:0.012 grdn:1.824 lr:4.5e-05 updt_s:1.776 data_s:1.270
+INFO 2026-06-19 02:32:52 ot_train.py:459 step:56K smpl:28M ep:44K epch:435.58 loss:0.004 grdn:1.698 lr:4.5e-05 updt_s:2.104 data_s:0.911
+INFO 2026-06-19 02:42:55 ot_train.py:459 step:57K smpl:28M ep:44K epch:437.13 loss:0.005 grdn:1.662 lr:4.5e-05 updt_s:2.118 data_s:0.894
+INFO 2026-06-19 02:53:00 ot_train.py:459 step:57K smpl:28M ep:44K epch:438.67 loss:0.006 grdn:1.725 lr:4.5e-05 updt_s:1.972 data_s:1.044
+INFO 2026-06-19 03:03:27 ot_train.py:459 step:57K smpl:28M ep:44K epch:440.22 loss:0.013 grdn:1.871 lr:4.5e-05 updt_s:2.326 data_s:0.807
+INFO 2026-06-19 03:13:26 ot_train.py:459 step:57K smpl:28M ep:44K epch:441.76 loss:0.015 grdn:1.923 lr:4.5e-05 updt_s:2.552 data_s:0.439
+INFO 2026-06-19 03:23:33 ot_train.py:459 step:57K smpl:28M ep:44K epch:443.31 loss:0.010 grdn:1.957 lr:4.5e-05 updt_s:1.476 data_s:1.556
+INFO 2026-06-19 03:33:44 ot_train.py:459 step:58K smpl:29M ep:44K epch:444.85 loss:0.013 grdn:1.856 lr:4.5e-05 updt_s:2.194 data_s:0.855
+INFO 2026-06-19 03:43:53 ot_train.py:459 step:58K smpl:29M ep:45K epch:446.39 loss:0.015 grdn:1.862 lr:4.5e-05 updt_s:1.630 data_s:1.408
+INFO 2026-06-19 03:54:01 ot_train.py:459 step:58K smpl:29M ep:45K epch:447.94 loss:0.008 grdn:1.786 lr:4.5e-05 updt_s:1.071 data_s:1.971
+INFO 2026-06-19 04:03:52 ot_train.py:459 step:58K smpl:29M ep:45K epch:449.48 loss:0.012 grdn:1.710 lr:4.5e-05 updt_s:1.397 data_s:1.551
+INFO 2026-06-19 04:14:08 ot_train.py:459 step:58K smpl:29M ep:45K epch:451.03 loss:0.012 grdn:1.832 lr:4.5e-05 updt_s:2.500 data_s:0.575
+INFO 2026-06-19 04:24:07 ot_train.py:459 step:59K smpl:29M ep:45K epch:452.57 loss:0.013 grdn:1.895 lr:4.5e-05 updt_s:1.336 data_s:1.654
+INFO 2026-06-19 04:34:36 ot_train.py:459 step:59K smpl:29M ep:45K epch:454.12 loss:0.010 grdn:1.820 lr:4.5e-05 updt_s:2.533 data_s:0.607
+INFO 2026-06-19 04:44:31 ot_train.py:459 step:59K smpl:29M ep:46K epch:455.66 loss:0.010 grdn:1.915 lr:4.5e-05 updt_s:2.327 data_s:0.642
+INFO 2026-06-19 04:54:43 ot_train.py:459 step:59K smpl:29M ep:46K epch:457.21 loss:0.013 grdn:1.884 lr:4.5e-05 updt_s:2.317 data_s:0.741
+INFO 2026-06-19 05:04:53 ot_train.py:459 step:59K smpl:29M ep:46K epch:458.75 loss:0.012 grdn:1.822 lr:4.5e-05 updt_s:2.373 data_s:0.674
+INFO 2026-06-19 05:15:11 ot_train.py:459 step:60K smpl:30M ep:46K epch:460.30 loss:0.020 grdn:1.958 lr:4.5e-05 updt_s:1.646 data_s:1.440
+INFO 2026-06-19 05:25:03 ot_train.py:459 step:60K smpl:30M ep:46K epch:461.84 loss:0.014 grdn:1.798 lr:4.5e-05 updt_s:2.279 data_s:0.677
+INFO 2026-06-19 05:35:13 ot_train.py:459 step:60K smpl:30M ep:46K epch:463.39 loss:0.012 grdn:1.879 lr:4.5e-05 updt_s:1.919 data_s:1.125
+INFO 2026-06-19 05:35:13 ot_train.py:479 Checkpoint policy after step 60000
+DEBUG 2026-06-19 05:35:14 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-19 05:35:14 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-19 05:45:27 ot_train.py:459 step:60K smpl:30M ep:46K epch:464.93 loss:0.006 grdn:1.815 lr:4.5e-05 updt_s:2.028 data_s:1.033
+INFO 2026-06-19 05:55:35 ot_train.py:459 step:60K smpl:30M ep:47K epch:466.47 loss:0.009 grdn:1.886 lr:4.5e-05 updt_s:1.657 data_s:1.381
+INFO 2026-06-19 06:05:50 ot_train.py:459 step:61K smpl:30M ep:47K epch:468.02 loss:0.023 grdn:2.030 lr:4.5e-05 updt_s:2.025 data_s:1.045
+INFO 2026-06-19 06:15:46 ot_train.py:459 step:61K smpl:30M ep:47K epch:469.56 loss:0.011 grdn:1.923 lr:4.5e-05 updt_s:2.094 data_s:0.879
+INFO 2026-06-19 06:25:47 ot_train.py:459 step:61K smpl:30M ep:47K epch:471.11 loss:0.004 grdn:1.795 lr:4.5e-05 updt_s:2.120 data_s:0.884
+INFO 2026-06-19 06:35:34 ot_train.py:459 step:61K smpl:30M ep:47K epch:472.65 loss:0.011 grdn:1.825 lr:4.5e-05 updt_s:1.241 data_s:1.685
+INFO 2026-06-19 06:45:53 ot_train.py:459 step:61K smpl:30M ep:47K epch:474.20 loss:0.011 grdn:1.790 lr:4.5e-05 updt_s:1.983 data_s:1.108
+INFO 2026-06-19 06:55:54 ot_train.py:459 step:62K smpl:31M ep:48K epch:475.74 loss:0.010 grdn:1.817 lr:4.5e-05 updt_s:2.517 data_s:0.488
+INFO 2026-06-19 07:06:01 ot_train.py:459 step:62K smpl:31M ep:48K epch:477.29 loss:0.008 grdn:1.769 lr:4.5e-05 updt_s:1.584 data_s:1.446
+INFO 2026-06-19 07:16:11 ot_train.py:459 step:62K smpl:31M ep:48K epch:478.83 loss:0.010 grdn:1.853 lr:4.5e-05 updt_s:2.597 data_s:0.446
+INFO 2026-06-19 07:26:30 ot_train.py:459 step:62K smpl:31M ep:48K epch:480.38 loss:0.011 grdn:1.977 lr:4.5e-05 updt_s:2.140 data_s:0.952
+INFO 2026-06-19 07:36:40 ot_train.py:459 step:62K smpl:31M ep:48K epch:481.92 loss:0.015 grdn:2.039 lr:4.5e-05 updt_s:1.787 data_s:1.256
+INFO 2026-06-19 07:46:58 ot_train.py:459 step:63K smpl:31M ep:48K epch:483.47 loss:0.004 grdn:1.859 lr:4.5e-05 updt_s:2.279 data_s:0.804
+INFO 2026-06-19 07:57:25 ot_train.py:459 step:63K smpl:31M ep:49K epch:485.01 loss:0.008 grdn:1.859 lr:4.5e-05 updt_s:2.554 data_s:0.575
+INFO 2026-06-19 08:07:35 ot_train.py:459 step:63K smpl:31M ep:49K epch:486.55 loss:0.012 grdn:1.940 lr:4.5e-05 updt_s:2.127 data_s:0.915
+INFO 2026-06-19 08:17:51 ot_train.py:459 step:63K smpl:31M ep:49K epch:488.10 loss:0.004 grdn:1.865 lr:4.5e-05 updt_s:2.274 data_s:0.799
+INFO 2026-06-19 08:27:58 ot_train.py:459 step:63K smpl:31M ep:49K epch:489.64 loss:0.006 grdn:1.756 lr:4.5e-05 updt_s:2.440 data_s:0.594
+INFO 2026-06-19 08:38:04 ot_train.py:459 step:64K smpl:32M ep:49K epch:491.19 loss:0.004 grdn:1.793 lr:4.5e-05 updt_s:2.164 data_s:0.860
+INFO 2026-06-19 08:48:05 ot_train.py:459 step:64K smpl:32M ep:49K epch:492.73 loss:0.008 grdn:1.877 lr:4.5e-05 updt_s:2.049 data_s:0.951
+INFO 2026-06-19 08:58:30 ot_train.py:459 step:64K smpl:32M ep:49K epch:494.28 loss:0.003 grdn:1.891 lr:4.5e-05 updt_s:2.193 data_s:0.927
+INFO 2026-06-19 09:08:39 ot_train.py:459 step:64K smpl:32M ep:50K epch:495.82 loss:0.018 grdn:2.025 lr:4.5e-05 updt_s:2.316 data_s:0.723
+INFO 2026-06-19 09:18:52 ot_train.py:459 step:64K smpl:32M ep:50K epch:497.37 loss:0.006 grdn:1.824 lr:4.5e-05 updt_s:2.233 data_s:0.829
+INFO 2026-06-19 09:29:17 ot_train.py:459 step:65K smpl:32M ep:50K epch:498.91 loss:0.014 grdn:1.930 lr:4.5e-05 updt_s:2.760 data_s:0.358
+INFO 2026-06-19 09:39:26 ot_train.py:459 step:65K smpl:32M ep:50K epch:500.46 loss:0.005 grdn:1.867 lr:4.5e-05 updt_s:2.248 data_s:0.795
+INFO 2026-06-19 09:49:29 ot_train.py:459 step:65K smpl:32M ep:50K epch:502.00 loss:0.006 grdn:1.869 lr:4.5e-05 updt_s:2.378 data_s:0.631
+INFO 2026-06-19 09:59:45 ot_train.py:459 step:65K smpl:32M ep:50K epch:503.55 loss:0.002 grdn:1.758 lr:4.5e-05 updt_s:2.230 data_s:0.844
+INFO 2026-06-19 10:10:03 ot_train.py:459 step:65K smpl:32M ep:51K epch:505.09 loss:0.009 grdn:1.763 lr:4.5e-05 updt_s:2.331 data_s:0.752
+INFO 2026-06-19 10:20:10 ot_train.py:459 step:66K smpl:33M ep:51K epch:506.63 loss:0.007 grdn:1.838 lr:4.5e-05 updt_s:1.890 data_s:1.143
+INFO 2026-06-19 10:30:02 ot_train.py:459 step:66K smpl:33M ep:51K epch:508.18 loss:0.005 grdn:1.929 lr:4.5e-05 updt_s:0.822 data_s:2.132
+INFO 2026-06-19 10:40:04 ot_train.py:459 step:66K smpl:33M ep:51K epch:509.72 loss:0.009 grdn:1.781 lr:4.5e-05 updt_s:2.017 data_s:0.989
+INFO 2026-06-19 10:50:17 ot_train.py:459 step:66K smpl:33M ep:51K epch:511.27 loss:0.012 grdn:1.888 lr:4.5e-05 updt_s:2.327 data_s:0.738
+INFO 2026-06-19 11:00:27 ot_train.py:459 step:66K smpl:33M ep:51K epch:512.81 loss:0.015 grdn:1.783 lr:4.5e-05 updt_s:2.426 data_s:0.613
+INFO 2026-06-19 11:10:38 ot_train.py:459 step:67K smpl:33M ep:51K epch:514.36 loss:-0.002 grdn:1.595 lr:4.5e-05 updt_s:2.057 data_s:0.996
+INFO 2026-06-19 11:20:40 ot_train.py:459 step:67K smpl:33M ep:52K epch:515.90 loss:0.005 grdn:1.673 lr:4.5e-05 updt_s:2.471 data_s:0.533
+INFO 2026-06-19 11:30:46 ot_train.py:459 step:67K smpl:33M ep:52K epch:517.45 loss:0.014 grdn:1.885 lr:4.5e-05 updt_s:1.874 data_s:1.153
+INFO 2026-06-19 11:40:40 ot_train.py:459 step:67K smpl:33M ep:52K epch:518.99 loss:0.010 grdn:1.839 lr:4.5e-05 updt_s:1.468 data_s:1.502
+INFO 2026-06-19 11:51:05 ot_train.py:459 step:67K smpl:33M ep:52K epch:520.54 loss:0.015 grdn:1.995 lr:4.5e-05 updt_s:2.225 data_s:0.895
+INFO 2026-06-19 12:01:16 ot_train.py:459 step:68K smpl:34M ep:52K epch:522.08 loss:0.006 grdn:1.753 lr:4.5e-05 updt_s:2.617 data_s:0.434
+INFO 2026-06-19 12:11:58 ot_train.py:459 step:68K smpl:34M ep:52K epch:523.63 loss:0.003 grdn:1.755 lr:4.5e-05 updt_s:2.757 data_s:0.444
+INFO 2026-06-19 12:22:09 ot_train.py:459 step:68K smpl:34M ep:53K epch:525.17 loss:0.017 grdn:2.030 lr:4.5e-05 updt_s:2.368 data_s:0.680
+INFO 2026-06-19 12:32:18 ot_train.py:459 step:68K smpl:34M ep:53K epch:526.71 loss:0.010 grdn:1.841 lr:4.5e-05 updt_s:1.609 data_s:1.438
+INFO 2026-06-19 12:42:24 ot_train.py:459 step:68K smpl:34M ep:53K epch:528.26 loss:0.006 grdn:1.892 lr:4.5e-05 updt_s:1.732 data_s:1.292
+INFO 2026-06-19 12:52:20 ot_train.py:459 step:69K smpl:34M ep:53K epch:529.80 loss:0.007 grdn:1.832 lr:4.5e-05 updt_s:1.859 data_s:1.113
+INFO 2026-06-19 13:02:31 ot_train.py:459 step:69K smpl:34M ep:53K epch:531.35 loss:0.005 grdn:1.913 lr:4.5e-05 updt_s:2.371 data_s:0.682
+INFO 2026-06-19 13:12:26 ot_train.py:459 step:69K smpl:34M ep:53K epch:532.89 loss:0.009 grdn:1.921 lr:4.5e-05 updt_s:2.109 data_s:0.864
+INFO 2026-06-19 13:22:46 ot_train.py:459 step:69K smpl:34M ep:53K epch:534.44 loss:0.008 grdn:1.983 lr:4.5e-05 updt_s:2.283 data_s:0.807
+INFO 2026-06-19 13:32:48 ot_train.py:459 step:69K smpl:34M ep:54K epch:535.98 loss:0.009 grdn:1.923 lr:4.5e-05 updt_s:2.209 data_s:0.801
+INFO 2026-06-19 13:43:04 ot_train.py:459 step:70K smpl:35M ep:54K epch:537.53 loss:0.005 grdn:1.864 lr:4.5e-05 updt_s:1.888 data_s:1.183
+INFO 2026-06-19 13:53:17 ot_train.py:459 step:70K smpl:35M ep:54K epch:539.07 loss:0.008 grdn:1.884 lr:4.5e-05 updt_s:2.498 data_s:0.560
+INFO 2026-06-19 14:03:39 ot_train.py:459 step:70K smpl:35M ep:54K epch:540.62 loss:0.008 grdn:1.804 lr:4.5e-05 updt_s:2.270 data_s:0.835
+INFO 2026-06-19 14:03:39 ot_train.py:479 Checkpoint policy after step 70000
+DEBUG 2026-06-19 14:03:40 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-19 14:03:40 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-19 14:13:51 ot_train.py:459 step:70K smpl:35M ep:54K epch:542.16 loss:0.007 grdn:1.819 lr:4.5e-05 updt_s:1.948 data_s:1.101
+INFO 2026-06-19 14:24:05 ot_train.py:459 step:70K smpl:35M ep:54K epch:543.71 loss:0.006 grdn:1.841 lr:4.5e-05 updt_s:1.651 data_s:1.416
+INFO 2026-06-19 14:34:17 ot_train.py:459 step:71K smpl:35M ep:55K epch:545.25 loss:0.016 grdn:1.979 lr:4.5e-05 updt_s:1.123 data_s:1.932
+INFO 2026-06-19 14:44:36 ot_train.py:459 step:71K smpl:35M ep:55K epch:546.79 loss:0.007 grdn:1.933 lr:4.5e-05 updt_s:2.355 data_s:0.734
+INFO 2026-06-19 14:54:59 ot_train.py:459 step:71K smpl:35M ep:55K epch:548.34 loss:0.017 grdn:2.077 lr:4.5e-05 updt_s:2.194 data_s:0.917
+INFO 2026-06-19 15:05:07 ot_train.py:459 step:71K smpl:35M ep:55K epch:549.88 loss:0.012 grdn:1.945 lr:4.5e-05 updt_s:1.813 data_s:1.222
+INFO 2026-06-19 15:15:21 ot_train.py:459 step:71K smpl:35M ep:55K epch:551.43 loss:0.000 grdn:1.795 lr:4.5e-05 updt_s:1.780 data_s:1.286
+INFO 2026-06-19 15:25:37 ot_train.py:459 step:72K smpl:36M ep:55K epch:552.97 loss:0.004 grdn:1.866 lr:4.5e-05 updt_s:2.397 data_s:0.676
+INFO 2026-06-19 15:35:59 ot_train.py:459 step:72K smpl:36M ep:55K epch:554.52 loss:0.007 grdn:1.863 lr:4.5e-05 updt_s:2.409 data_s:0.699
+INFO 2026-06-19 15:46:16 ot_train.py:459 step:72K smpl:36M ep:56K epch:556.06 loss:0.007 grdn:1.942 lr:4.5e-05 updt_s:1.947 data_s:1.134
+INFO 2026-06-19 15:56:25 ot_train.py:459 step:72K smpl:36M ep:56K epch:557.61 loss:0.004 grdn:1.829 lr:4.5e-05 updt_s:1.979 data_s:1.062
+INFO 2026-06-19 16:06:48 ot_train.py:459 step:72K smpl:36M ep:56K epch:559.15 loss:0.007 grdn:1.920 lr:4.5e-05 updt_s:2.423 data_s:0.683
+INFO 2026-06-19 16:17:14 ot_train.py:459 step:73K smpl:36M ep:56K epch:560.70 loss:0.006 grdn:1.922 lr:4.5e-05 updt_s:2.302 data_s:0.825
+INFO 2026-06-19 16:27:12 ot_train.py:459 step:73K smpl:36M ep:56K epch:562.24 loss:0.005 grdn:1.963 lr:4.5e-05 updt_s:1.889 data_s:1.097
+INFO 2026-06-19 16:37:26 ot_train.py:459 step:73K smpl:36M ep:56K epch:563.79 loss:0.006 grdn:1.938 lr:4.5e-05 updt_s:1.104 data_s:1.964
+INFO 2026-06-19 16:47:34 ot_train.py:459 step:73K smpl:36M ep:57K epch:565.33 loss:-0.000 grdn:1.775 lr:4.5e-05 updt_s:1.318 data_s:1.720
+INFO 2026-06-19 16:57:38 ot_train.py:459 step:73K smpl:36M ep:57K epch:566.87 loss:-0.001 grdn:1.745 lr:4.5e-05 updt_s:0.988 data_s:2.027
+INFO 2026-06-19 17:07:40 ot_train.py:459 step:74K smpl:37M ep:57K epch:568.42 loss:0.001 grdn:1.643 lr:4.5e-05 updt_s:0.819 data_s:2.188
+INFO 2026-06-19 17:17:43 ot_train.py:459 step:74K smpl:37M ep:57K epch:569.96 loss:0.003 grdn:1.799 lr:4.5e-05 updt_s:1.521 data_s:1.491
+INFO 2026-06-19 17:27:47 ot_train.py:459 step:74K smpl:37M ep:57K epch:571.51 loss:0.004 grdn:1.857 lr:4.5e-05 updt_s:1.901 data_s:1.115
+INFO 2026-06-19 17:37:58 ot_train.py:459 step:74K smpl:37M ep:57K epch:573.05 loss:0.010 grdn:1.942 lr:4.5e-05 updt_s:0.692 data_s:2.358
+INFO 2026-06-19 17:47:58 ot_train.py:459 step:74K smpl:37M ep:57K epch:574.60 loss:0.012 grdn:2.039 lr:4.5e-05 updt_s:1.366 data_s:1.632
+INFO 2026-06-19 17:58:03 ot_train.py:459 step:75K smpl:37M ep:58K epch:576.14 loss:0.005 grdn:1.854 lr:4.5e-05 updt_s:1.201 data_s:1.820
+INFO 2026-06-19 18:08:04 ot_train.py:459 step:75K smpl:37M ep:58K epch:577.69 loss:0.001 grdn:1.735 lr:4.5e-05 updt_s:1.152 data_s:1.852
+INFO 2026-06-19 18:18:04 ot_train.py:459 step:75K smpl:37M ep:58K epch:579.23 loss:0.007 grdn:1.899 lr:4.5e-05 updt_s:1.976 data_s:1.015
+INFO 2026-06-19 18:28:12 ot_train.py:459 step:75K smpl:37M ep:58K epch:580.78 loss:0.007 grdn:1.933 lr:4.5e-05 updt_s:1.624 data_s:1.415
+INFO 2026-06-19 18:38:01 ot_train.py:459 step:75K smpl:37M ep:58K epch:582.32 loss:0.001 grdn:1.750 lr:4.5e-05 updt_s:1.312 data_s:1.626
+INFO 2026-06-19 18:48:27 ot_train.py:459 step:76K smpl:37M ep:58K epch:583.87 loss:0.012 grdn:1.880 lr:4.5e-05 updt_s:2.280 data_s:0.847
+INFO 2026-06-19 18:58:34 ot_train.py:459 step:76K smpl:38M ep:59K epch:585.41 loss:0.003 grdn:1.778 lr:4.5e-05 updt_s:1.586 data_s:1.444
+INFO 2026-06-19 19:08:36 ot_train.py:459 step:76K smpl:38M ep:59K epch:586.95 loss:0.001 grdn:1.761 lr:4.5e-05 updt_s:1.294 data_s:1.710
+INFO 2026-06-19 19:19:17 ot_train.py:459 step:76K smpl:38M ep:59K epch:588.50 loss:0.010 grdn:1.931 lr:4.5e-05 updt_s:2.714 data_s:0.482
+INFO 2026-06-19 19:29:28 ot_train.py:459 step:76K smpl:38M ep:59K epch:590.04 loss:0.010 grdn:1.902 lr:4.5e-05 updt_s:2.394 data_s:0.652
+INFO 2026-06-19 19:39:55 ot_train.py:459 step:77K smpl:38M ep:59K epch:591.59 loss:0.001 grdn:1.783 lr:4.5e-05 updt_s:2.345 data_s:0.784
+INFO 2026-06-19 19:50:02 ot_train.py:459 step:77K smpl:38M ep:59K epch:593.13 loss:0.006 grdn:2.020 lr:4.5e-05 updt_s:1.554 data_s:1.479
+INFO 2026-06-19 20:00:19 ot_train.py:459 step:77K smpl:38M ep:59K epch:594.68 loss:0.005 grdn:1.909 lr:4.5e-05 updt_s:1.530 data_s:1.547
+INFO 2026-06-19 20:10:40 ot_train.py:459 step:77K smpl:38M ep:60K epch:596.22 loss:-0.006 grdn:1.746 lr:4.5e-05 updt_s:2.232 data_s:0.869
+INFO 2026-06-19 20:21:13 ot_train.py:459 step:77K smpl:38M ep:60K epch:597.77 loss:0.006 grdn:1.954 lr:4.5e-05 updt_s:2.355 data_s:0.802
+INFO 2026-06-19 20:31:29 ot_train.py:459 step:78K smpl:38M ep:60K epch:599.31 loss:0.005 grdn:1.938 lr:4.5e-05 updt_s:1.605 data_s:1.473
+INFO 2026-06-19 20:41:55 ot_train.py:459 step:78K smpl:39M ep:60K epch:600.86 loss:0.005 grdn:1.731 lr:4.5e-05 updt_s:2.420 data_s:0.706
+INFO 2026-06-19 20:52:01 ot_train.py:459 step:78K smpl:39M ep:60K epch:602.40 loss:0.004 grdn:1.802 lr:4.5e-05 updt_s:2.619 data_s:0.404
+INFO 2026-06-19 21:02:20 ot_train.py:459 step:78K smpl:39M ep:60K epch:603.95 loss:0.003 grdn:1.785 lr:4.5e-05 updt_s:2.472 data_s:0.623
+INFO 2026-06-19 21:12:37 ot_train.py:459 step:78K smpl:39M ep:61K epch:605.49 loss:0.002 grdn:1.940 lr:4.5e-05 updt_s:2.516 data_s:0.562
+INFO 2026-06-19 21:22:40 ot_train.py:459 step:79K smpl:39M ep:61K epch:607.03 loss:0.004 grdn:1.803 lr:4.5e-05 updt_s:1.582 data_s:1.429
+INFO 2026-06-19 21:32:59 ot_train.py:459 step:79K smpl:39M ep:61K epch:608.58 loss:0.015 grdn:2.047 lr:4.5e-05 updt_s:2.401 data_s:0.688
+INFO 2026-06-19 21:43:11 ot_train.py:459 step:79K smpl:39M ep:61K epch:610.12 loss:0.000 grdn:1.740 lr:4.5e-05 updt_s:2.501 data_s:0.553
+INFO 2026-06-19 21:53:20 ot_train.py:459 step:79K smpl:39M ep:61K epch:611.67 loss:0.003 grdn:1.822 lr:4.5e-05 updt_s:2.113 data_s:0.930
+INFO 2026-06-19 22:03:32 ot_train.py:459 step:79K smpl:39M ep:61K epch:613.21 loss:0.015 grdn:1.905 lr:4.5e-05 updt_s:2.259 data_s:0.795
+INFO 2026-06-19 22:13:42 ot_train.py:459 step:80K smpl:39M ep:61K epch:614.76 loss:0.002 grdn:1.796 lr:4.5e-05 updt_s:1.964 data_s:1.082
+INFO 2026-06-19 22:23:45 ot_train.py:459 step:80K smpl:40M ep:62K epch:616.30 loss:0.000 grdn:1.873 lr:4.5e-05 updt_s:2.631 data_s:0.377
+INFO 2026-06-19 22:34:09 ot_train.py:459 step:80K smpl:40M ep:62K epch:617.85 loss:0.008 grdn:1.918 lr:4.5e-05 updt_s:2.195 data_s:0.920
+INFO 2026-06-19 22:34:09 ot_train.py:479 Checkpoint policy after step 80000
+DEBUG 2026-06-19 22:34:10 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-19 22:34:10 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-19 22:44:13 ot_train.py:459 step:80K smpl:40M ep:62K epch:619.39 loss:0.008 grdn:1.934 lr:4.5e-05 updt_s:2.498 data_s:0.512
+INFO 2026-06-19 22:54:18 ot_train.py:459 step:80K smpl:40M ep:62K epch:620.94 loss:0.007 grdn:1.909 lr:4.5e-05 updt_s:2.150 data_s:0.871
+INFO 2026-06-19 23:04:31 ot_train.py:459 step:81K smpl:40M ep:62K epch:622.48 loss:0.017 grdn:2.055 lr:4.5e-05 updt_s:2.626 data_s:0.431
+INFO 2026-06-19 23:14:56 ot_train.py:459 step:81K smpl:40M ep:62K epch:624.03 loss:-0.001 grdn:1.829 lr:4.5e-05 updt_s:2.398 data_s:0.724
+INFO 2026-06-19 23:25:13 ot_train.py:459 step:81K smpl:40M ep:63K epch:625.57 loss:0.011 grdn:1.984 lr:4.5e-05 updt_s:2.476 data_s:0.604
+INFO 2026-06-19 23:35:32 ot_train.py:459 step:81K smpl:40M ep:63K epch:627.11 loss:0.008 grdn:1.903 lr:4.5e-05 updt_s:2.127 data_s:0.964
+INFO 2026-06-19 23:45:41 ot_train.py:459 step:81K smpl:40M ep:63K epch:628.66 loss:0.003 grdn:1.876 lr:4.5e-05 updt_s:2.118 data_s:0.925
+INFO 2026-06-19 23:55:55 ot_train.py:459 step:82K smpl:40M ep:63K epch:630.20 loss:-0.000 grdn:1.731 lr:4.5e-05 updt_s:2.140 data_s:0.921
+INFO 2026-06-20 00:06:25 ot_train.py:459 step:82K smpl:41M ep:63K epch:631.75 loss:0.003 grdn:1.880 lr:4.5e-05 updt_s:2.345 data_s:0.803
+INFO 2026-06-20 00:16:22 ot_train.py:459 step:82K smpl:41M ep:63K epch:633.29 loss:0.004 grdn:1.943 lr:4.5e-05 updt_s:2.170 data_s:0.809
+INFO 2026-06-20 00:26:36 ot_train.py:459 step:82K smpl:41M ep:63K epch:634.84 loss:0.009 grdn:1.976 lr:4.5e-05 updt_s:2.377 data_s:0.685
+INFO 2026-06-20 00:36:38 ot_train.py:459 step:82K smpl:41M ep:64K epch:636.38 loss:0.011 grdn:1.997 lr:4.5e-05 updt_s:2.152 data_s:0.854
+INFO 2026-06-20 00:47:13 ot_train.py:459 step:83K smpl:41M ep:64K epch:637.93 loss:0.002 grdn:1.835 lr:4.5e-05 updt_s:2.835 data_s:0.335
+INFO 2026-06-20 00:57:42 ot_train.py:459 step:83K smpl:41M ep:64K epch:639.47 loss:0.006 grdn:1.885 lr:4.5e-05 updt_s:2.296 data_s:0.848
+INFO 2026-06-20 01:08:05 ot_train.py:459 step:83K smpl:41M ep:64K epch:641.02 loss:0.003 grdn:1.954 lr:4.5e-05 updt_s:2.529 data_s:0.581
+INFO 2026-06-20 01:18:02 ot_train.py:459 step:83K smpl:41M ep:64K epch:642.56 loss:0.018 grdn:1.970 lr:4.5e-05 updt_s:2.598 data_s:0.382
+INFO 2026-06-20 01:28:13 ot_train.py:459 step:83K smpl:41M ep:64K epch:644.11 loss:0.003 grdn:1.816 lr:4.5e-05 updt_s:2.235 data_s:0.816
+INFO 2026-06-20 01:38:36 ot_train.py:459 step:84K smpl:41M ep:65K epch:645.65 loss:0.003 grdn:1.837 lr:4.5e-05 updt_s:2.627 data_s:0.484
+INFO 2026-06-20 01:48:56 ot_train.py:459 step:84K smpl:42M ep:65K epch:647.19 loss:0.007 grdn:1.927 lr:4.5e-05 updt_s:2.254 data_s:0.839
+INFO 2026-06-20 01:59:16 ot_train.py:459 step:84K smpl:42M ep:65K epch:648.74 loss:0.010 grdn:1.982 lr:4.5e-05 updt_s:2.426 data_s:0.663
+INFO 2026-06-20 02:09:25 ot_train.py:459 step:84K smpl:42M ep:65K epch:650.28 loss:0.003 grdn:1.891 lr:4.5e-05 updt_s:2.656 data_s:0.381
+INFO 2026-06-20 02:19:41 ot_train.py:459 step:84K smpl:42M ep:65K epch:651.83 loss:0.012 grdn:2.016 lr:4.5e-05 updt_s:2.309 data_s:0.766
+INFO 2026-06-20 02:29:52 ot_train.py:459 step:85K smpl:42M ep:65K epch:653.37 loss:0.003 grdn:1.854 lr:4.5e-05 updt_s:2.267 data_s:0.782
+INFO 2026-06-20 02:40:08 ot_train.py:459 step:85K smpl:42M ep:65K epch:654.92 loss:0.014 grdn:2.132 lr:4.5e-05 updt_s:2.114 data_s:0.964
+INFO 2026-06-20 02:50:20 ot_train.py:459 step:85K smpl:42M ep:66K epch:656.46 loss:0.006 grdn:1.951 lr:4.5e-05 updt_s:2.625 data_s:0.431
+INFO 2026-06-20 03:00:28 ot_train.py:459 step:85K smpl:42M ep:66K epch:658.01 loss:0.014 grdn:2.087 lr:4.5e-05 updt_s:2.279 data_s:0.755
+INFO 2026-06-20 03:10:37 ot_train.py:459 step:85K smpl:42M ep:66K epch:659.55 loss:0.008 grdn:1.989 lr:4.5e-05 updt_s:1.621 data_s:1.420
+INFO 2026-06-20 03:21:12 ot_train.py:459 step:86K smpl:42M ep:66K epch:661.10 loss:0.004 grdn:1.892 lr:4.5e-05 updt_s:2.678 data_s:0.486
+INFO 2026-06-20 03:31:19 ot_train.py:459 step:86K smpl:43M ep:66K epch:662.64 loss:0.006 grdn:1.970 lr:4.5e-05 updt_s:2.635 data_s:0.394
+INFO 2026-06-20 03:41:44 ot_train.py:459 step:86K smpl:43M ep:66K epch:664.19 loss:0.010 grdn:1.917 lr:4.5e-05 updt_s:2.564 data_s:0.558
+INFO 2026-06-20 03:51:59 ot_train.py:459 step:86K smpl:43M ep:67K epch:665.73 loss:-0.000 grdn:1.767 lr:4.5e-05 updt_s:2.579 data_s:0.489
+INFO 2026-06-20 04:02:13 ot_train.py:459 step:86K smpl:43M ep:67K epch:667.27 loss:-0.005 grdn:1.711 lr:4.5e-05 updt_s:2.546 data_s:0.520
+INFO 2026-06-20 04:12:25 ot_train.py:459 step:87K smpl:43M ep:67K epch:668.82 loss:0.002 grdn:1.887 lr:4.5e-05 updt_s:2.154 data_s:0.897
+INFO 2026-06-20 04:22:33 ot_train.py:459 step:87K smpl:43M ep:67K epch:670.36 loss:0.008 grdn:1.839 lr:4.5e-05 updt_s:2.160 data_s:0.875
+INFO 2026-06-20 04:32:41 ot_train.py:459 step:87K smpl:43M ep:67K epch:671.91 loss:0.008 grdn:2.014 lr:4.5e-05 updt_s:2.170 data_s:0.866
+INFO 2026-06-20 04:42:56 ot_train.py:459 step:87K smpl:43M ep:67K epch:673.45 loss:0.003 grdn:1.854 lr:4.5e-05 updt_s:2.472 data_s:0.598
+INFO 2026-06-20 04:53:18 ot_train.py:459 step:87K smpl:43M ep:67K epch:675.00 loss:0.013 grdn:1.965 lr:4.5e-05 updt_s:2.386 data_s:0.721
+INFO 2026-06-20 05:03:24 ot_train.py:459 step:88K smpl:43M ep:68K epch:676.54 loss:0.005 grdn:1.843 lr:4.5e-05 updt_s:2.524 data_s:0.501
+INFO 2026-06-20 05:13:42 ot_train.py:459 step:88K smpl:44M ep:68K epch:678.09 loss:0.008 grdn:1.785 lr:4.5e-05 updt_s:2.435 data_s:0.646
+INFO 2026-06-20 05:23:52 ot_train.py:459 step:88K smpl:44M ep:68K epch:679.63 loss:0.002 grdn:1.781 lr:4.5e-05 updt_s:2.613 data_s:0.433
+INFO 2026-06-20 05:34:03 ot_train.py:459 step:88K smpl:44M ep:68K epch:681.18 loss:0.007 grdn:1.828 lr:4.5e-05 updt_s:2.384 data_s:0.666
+INFO 2026-06-20 05:44:18 ot_train.py:459 step:88K smpl:44M ep:68K epch:682.72 loss:0.007 grdn:1.815 lr:4.5e-05 updt_s:2.464 data_s:0.603
+INFO 2026-06-20 05:54:32 ot_train.py:459 step:89K smpl:44M ep:68K epch:684.27 loss:0.008 grdn:2.093 lr:4.5e-05 updt_s:2.016 data_s:1.047
+INFO 2026-06-20 06:04:45 ot_train.py:459 step:89K smpl:44M ep:69K epch:685.81 loss:-0.003 grdn:1.731 lr:4.5e-05 updt_s:1.526 data_s:1.534
+INFO 2026-06-20 06:15:06 ot_train.py:459 step:89K smpl:44M ep:69K epch:687.35 loss:0.000 grdn:1.877 lr:4.5e-05 updt_s:2.564 data_s:0.540
+INFO 2026-06-20 06:25:27 ot_train.py:459 step:89K smpl:44M ep:69K epch:688.90 loss:0.005 grdn:1.802 lr:4.5e-05 updt_s:2.584 data_s:0.512
+INFO 2026-06-20 06:35:46 ot_train.py:459 step:89K smpl:44M ep:69K epch:690.44 loss:-0.003 grdn:1.724 lr:4.5e-05 updt_s:2.683 data_s:0.408
+INFO 2026-06-20 06:45:50 ot_train.py:459 step:90K smpl:44M ep:69K epch:691.99 loss:0.001 grdn:1.853 lr:4.5e-05 updt_s:1.732 data_s:1.286
+INFO 2026-06-20 06:56:15 ot_train.py:459 step:90K smpl:45M ep:69K epch:693.53 loss:0.002 grdn:1.838 lr:4.5e-05 updt_s:2.672 data_s:0.444
+INFO 2026-06-20 07:06:36 ot_train.py:459 step:90K smpl:45M ep:70K epch:695.08 loss:0.005 grdn:1.998 lr:4.5e-05 updt_s:2.414 data_s:0.688
+INFO 2026-06-20 07:06:36 ot_train.py:479 Checkpoint policy after step 90000
+DEBUG 2026-06-20 07:06:37 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-20 07:06:37 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-20 07:16:42 ot_train.py:459 step:90K smpl:45M ep:70K epch:696.62 loss:-0.006 grdn:1.855 lr:4.5e-05 updt_s:2.251 data_s:0.770
+INFO 2026-06-20 07:26:55 ot_train.py:459 step:90K smpl:45M ep:70K epch:698.17 loss:-0.004 grdn:1.764 lr:4.5e-05 updt_s:2.209 data_s:0.852
+INFO 2026-06-20 07:37:00 ot_train.py:459 step:91K smpl:45M ep:70K epch:699.71 loss:0.001 grdn:1.935 lr:4.5e-05 updt_s:2.222 data_s:0.799
+INFO 2026-06-20 07:47:19 ot_train.py:459 step:91K smpl:45M ep:70K epch:701.26 loss:0.008 grdn:1.938 lr:4.5e-05 updt_s:1.329 data_s:1.758
+INFO 2026-06-20 07:57:30 ot_train.py:459 step:91K smpl:45M ep:70K epch:702.80 loss:0.005 grdn:1.939 lr:4.5e-05 updt_s:2.583 data_s:0.470
+INFO 2026-06-20 08:07:47 ot_train.py:459 step:91K smpl:45M ep:70K epch:704.35 loss:-0.005 grdn:1.869 lr:4.5e-05 updt_s:1.702 data_s:1.376
+INFO 2026-06-20 08:17:56 ot_train.py:459 step:91K smpl:45M ep:71K epch:705.89 loss:-0.003 grdn:1.885 lr:4.5e-05 updt_s:2.343 data_s:0.701
+INFO 2026-06-20 08:28:13 ot_train.py:459 step:92K smpl:45M ep:71K epch:707.44 loss:0.006 grdn:1.919 lr:4.5e-05 updt_s:1.755 data_s:1.325
+INFO 2026-06-20 08:38:13 ot_train.py:459 step:92K smpl:46M ep:71K epch:708.98 loss:0.002 grdn:1.946 lr:4.5e-05 updt_s:1.659 data_s:1.340
+INFO 2026-06-20 08:48:24 ot_train.py:459 step:92K smpl:46M ep:71K epch:710.52 loss:0.003 grdn:1.844 lr:4.5e-05 updt_s:1.830 data_s:1.217
+INFO 2026-06-20 08:58:36 ot_train.py:459 step:92K smpl:46M ep:71K epch:712.07 loss:0.011 grdn:1.993 lr:4.5e-05 updt_s:2.390 data_s:0.667
+INFO 2026-06-20 09:08:45 ot_train.py:459 step:92K smpl:46M ep:71K epch:713.61 loss:0.004 grdn:1.945 lr:4.5e-05 updt_s:1.786 data_s:1.256
+INFO 2026-06-20 09:19:00 ot_train.py:459 step:93K smpl:46M ep:72K epch:715.16 loss:0.000 grdn:1.783 lr:4.5e-05 updt_s:1.895 data_s:1.172
+INFO 2026-06-20 09:29:09 ot_train.py:459 step:93K smpl:46M ep:72K epch:716.70 loss:-0.005 grdn:1.847 lr:4.5e-05 updt_s:2.336 data_s:0.708
+INFO 2026-06-20 09:39:23 ot_train.py:459 step:93K smpl:46M ep:72K epch:718.25 loss:0.009 grdn:2.100 lr:4.5e-05 updt_s:1.981 data_s:1.083
+INFO 2026-06-20 09:49:31 ot_train.py:459 step:93K smpl:46M ep:72K epch:719.79 loss:0.002 grdn:1.872 lr:4.5e-05 updt_s:2.037 data_s:0.999
+INFO 2026-06-20 09:59:54 ot_train.py:459 step:93K smpl:46M ep:72K epch:721.34 loss:0.001 grdn:1.928 lr:4.5e-05 updt_s:2.149 data_s:0.964
+INFO 2026-06-20 10:09:51 ot_train.py:459 step:94K smpl:46M ep:72K epch:722.88 loss:0.006 grdn:1.926 lr:4.5e-05 updt_s:2.124 data_s:0.856
+INFO 2026-06-20 10:20:11 ot_train.py:459 step:94K smpl:47M ep:72K epch:724.43 loss:0.007 grdn:1.914 lr:4.5e-05 updt_s:2.284 data_s:0.811
+INFO 2026-06-20 10:30:28 ot_train.py:459 step:94K smpl:47M ep:73K epch:725.97 loss:0.004 grdn:1.956 lr:4.5e-05 updt_s:2.500 data_s:0.577
+INFO 2026-06-20 10:40:45 ot_train.py:459 step:94K smpl:47M ep:73K epch:727.52 loss:0.004 grdn:2.006 lr:4.5e-05 updt_s:2.183 data_s:0.898
+INFO 2026-06-20 10:50:57 ot_train.py:459 step:94K smpl:47M ep:73K epch:729.06 loss:0.005 grdn:1.855 lr:4.5e-05 updt_s:2.353 data_s:0.701
+INFO 2026-06-20 11:01:08 ot_train.py:459 step:95K smpl:47M ep:73K epch:730.60 loss:0.008 grdn:1.966 lr:4.5e-05 updt_s:2.467 data_s:0.585
+INFO 2026-06-20 11:11:20 ot_train.py:459 step:95K smpl:47M ep:73K epch:732.15 loss:0.015 grdn:1.959 lr:4.5e-05 updt_s:1.697 data_s:1.361
+INFO 2026-06-20 11:21:47 ot_train.py:459 step:95K smpl:47M ep:73K epch:733.69 loss:0.009 grdn:1.928 lr:4.5e-05 updt_s:2.765 data_s:0.363
+INFO 2026-06-20 11:32:23 ot_train.py:459 step:95K smpl:47M ep:74K epch:735.24 loss:0.007 grdn:1.963 lr:4.5e-05 updt_s:2.027 data_s:1.145
+INFO 2026-06-20 11:42:43 ot_train.py:459 step:95K smpl:47M ep:74K epch:736.78 loss:0.011 grdn:2.054 lr:4.5e-05 updt_s:2.770 data_s:0.327
+INFO 2026-06-20 11:52:57 ot_train.py:459 step:96K smpl:47M ep:74K epch:738.33 loss:0.008 grdn:1.965 lr:4.5e-05 updt_s:1.437 data_s:1.626
+INFO 2026-06-20 12:02:58 ot_train.py:459 step:96K smpl:48M ep:74K epch:739.87 loss:0.005 grdn:1.991 lr:4.5e-05 updt_s:1.928 data_s:1.073
+INFO 2026-06-20 12:13:07 ot_train.py:459 step:96K smpl:48M ep:74K epch:741.42 loss:0.005 grdn:1.922 lr:4.5e-05 updt_s:1.311 data_s:1.731
+INFO 2026-06-20 12:23:10 ot_train.py:459 step:96K smpl:48M ep:74K epch:742.96 loss:0.009 grdn:1.981 lr:4.5e-05 updt_s:2.535 data_s:0.469
+INFO 2026-06-20 12:33:28 ot_train.py:459 step:96K smpl:48M ep:74K epch:744.51 loss:-0.002 grdn:1.867 lr:4.5e-05 updt_s:1.606 data_s:1.483
+INFO 2026-06-20 12:43:51 ot_train.py:459 step:97K smpl:48M ep:75K epch:746.05 loss:0.006 grdn:1.841 lr:4.5e-05 updt_s:2.519 data_s:0.588
+INFO 2026-06-20 12:54:14 ot_train.py:459 step:97K smpl:48M ep:75K epch:747.60 loss:0.012 grdn:2.029 lr:4.5e-05 updt_s:2.273 data_s:0.838
+INFO 2026-06-20 13:04:32 ot_train.py:459 step:97K smpl:48M ep:75K epch:749.14 loss:-0.001 grdn:1.821 lr:4.5e-05 updt_s:2.184 data_s:0.900
+INFO 2026-06-20 13:14:49 ot_train.py:459 step:97K smpl:48M ep:75K epch:750.68 loss:0.002 grdn:1.854 lr:4.5e-05 updt_s:2.508 data_s:0.573
+INFO 2026-06-20 13:25:01 ot_train.py:459 step:97K smpl:48M ep:75K epch:752.23 loss:0.007 grdn:1.976 lr:4.5e-05 updt_s:2.100 data_s:0.957
+INFO 2026-06-20 13:35:19 ot_train.py:459 step:98K smpl:48M ep:75K epch:753.77 loss:-0.004 grdn:1.843 lr:4.5e-05 updt_s:2.286 data_s:0.801
+INFO 2026-06-20 13:45:40 ot_train.py:459 step:98K smpl:49M ep:76K epch:755.32 loss:0.001 grdn:1.884 lr:4.5e-05 updt_s:2.354 data_s:0.748
+INFO 2026-06-20 13:56:05 ot_train.py:459 step:98K smpl:49M ep:76K epch:756.86 loss:0.000 grdn:1.925 lr:4.5e-05 updt_s:2.890 data_s:0.228
+INFO 2026-06-20 14:06:26 ot_train.py:459 step:98K smpl:49M ep:76K epch:758.41 loss:0.008 grdn:2.109 lr:4.5e-05 updt_s:2.086 data_s:1.011
+INFO 2026-06-20 14:16:38 ot_train.py:459 step:98K smpl:49M ep:76K epch:759.95 loss:-0.004 grdn:1.873 lr:4.5e-05 updt_s:2.853 data_s:0.202
+INFO 2026-06-20 14:27:05 ot_train.py:459 step:99K smpl:49M ep:76K epch:761.50 loss:-0.001 grdn:1.965 lr:4.5e-05 updt_s:2.227 data_s:0.903
+INFO 2026-06-20 14:37:15 ot_train.py:459 step:99K smpl:49M ep:76K epch:763.04 loss:0.002 grdn:1.879 lr:4.5e-05 updt_s:2.714 data_s:0.332
+INFO 2026-06-20 14:47:32 ot_train.py:459 step:99K smpl:49M ep:76K epch:764.59 loss:-0.000 grdn:1.977 lr:4.5e-05 updt_s:2.443 data_s:0.636
+INFO 2026-06-20 14:57:41 ot_train.py:459 step:99K smpl:49M ep:77K epch:766.13 loss:-0.008 grdn:1.871 lr:4.5e-05 updt_s:2.173 data_s:0.869
+INFO 2026-06-20 15:07:49 ot_train.py:459 step:99K smpl:49M ep:77K epch:767.68 loss:-0.009 grdn:1.706 lr:4.5e-05 updt_s:0.968 data_s:2.073
+INFO 2026-06-20 15:18:07 ot_train.py:459 step:100K smpl:49M ep:77K epch:769.22 loss:-0.014 grdn:1.680 lr:4.5e-05 updt_s:2.132 data_s:0.952
+INFO 2026-06-20 15:28:13 ot_train.py:459 step:100K smpl:50M ep:77K epch:770.76 loss:0.006 grdn:1.911 lr:4.5e-05 updt_s:2.545 data_s:0.484
+INFO 2026-06-20 15:38:32 ot_train.py:459 step:100K smpl:50M ep:77K epch:772.31 loss:0.005 grdn:2.039 lr:4.5e-05 updt_s:2.474 data_s:0.613
+INFO 2026-06-20 15:38:32 ot_train.py:479 Checkpoint policy after step 100000
+DEBUG 2026-06-20 15:38:32 tionpool.py:289 Resetting dropped connection: api.wandb.ai
+DEBUG 2026-06-20 15:38:33 tionpool.py:544 https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+INFO 2026-06-20 15:38:33 ot_train.py:553 End of training
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=3 socket_options=None
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ae1a6c1f350>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x7ae1a6e48350> server_hostname='huggingface.co' timeout=3
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ae1a6c1d310>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:33 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"1385-Y8rr//XuUWwLSEAs3xBVYxJE/Ek"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3f9-4b35aac4690d42dc326b4a09;45aef652-9931-4154-b366-3f29df2d4c7e'), (b'RateLimit', b'"api";r=499;t=15'), (b'RateLimit-Policy', b'"fixed window";"api";q=500;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'1cOJTekZogM06slLX2M42mMm2R5BCdXxA5QY6y6cRpJudOuUce3enQ==')])
+INFO 2026-06-20 15:38:33 _client.py:1025 HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'279'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:33 GMT'), (b'ETag', b'W/"117-wJElbLzfBOq31H5NSLZYGDwwvDA"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3f9-25f9e1be2135d4643b03e8ab;384bef46-9025-430d-9494-ed530d0fd507'), (b'RateLimit', b'"api";r=999;t=9'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'493MdWlU6PWB8D6F1uzvG3XvrBrHn9piOrJi5QYoaulv9-p6dH25xg==')])
+INFO 2026-06-20 15:38:33 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:33 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'2'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:34 GMT'), (b'ETag', b'W/"2-nOO9QiTIwXgNtWtBJezz8kv3SLc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3fa-3e260a6e104b6fbe2f969fe9;2ad23f15-2296-49d4-8f06-dfa766a73aa9'), (b'RateLimit', b'"api";r=9998;t=14'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'yx6kIUpRZtakf_dmfpmG9RkTHoBRfT67bqyS4MKo-UaSpF5LfvsMLg==')])
+INFO 2026-06-20 15:38:34 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:34 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3fa-6b9e5f962a7db91e13f7feb0;66a8ba34-701d-458e-9ac5-81872f68dfca'), (b'RateLimit', b'"api";r=9998;t=14'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'84y6U7P7DH4wqelOFPyA4xXdaXQSrYLKlQUHxIKvKCV6VaAmkxyMaw==')])
+INFO 2026-06-20 15:38:34 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:34 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3fa-60a4784b67c8473d55c20ec3;58f0676c-d1b9-45c8-b4e2-57302d079d02'), (b'RateLimit', b'"api";r=9997;t=14'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'tS5PcekOte3E06LQr1mDIy48PT-CRxeco11ax_nP904FH5_K0EsQWA==')])
+INFO 2026-06-20 15:38:34 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:34 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'340'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:34 GMT'), (b'ETag', b'W/"154-Kqav2qVw4qs67wlcsDG8TYp4oPg"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3fa-3ce2a604666f1ced48b4f033;3dd326a3-d2cf-48b6-ac79-6f93022a5c4e'), (b'RateLimit', b'"api";r=998;t=8'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'Amaayu4pSPmA0JoSP3OL54sBTdbpDyKZxlips81B_t5tkSQeXuDP3g==')])
+INFO 2026-06-20 15:38:35 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1187'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:35 GMT'), (b'ETag', b'W/"4a3-e//ZJ8JipDdPkPkVlyrc11Dz7BI"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b3fb-320487af7ed59c6c6932e80e;08c2ae57-cfbe-426a-bee5-a5e81762e1ce'), (b'RateLimit', b'"api";r=997;t=7'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 537fb246a629e70727949aab939451c6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'_LWeg9ikd044nXNc4c2mZDCY4ntjujqgcBh2rXe7lg8TbgchOnwlcg==')])
+INFO 2026-06-20 15:38:35 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:35 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 close.started
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 close.complete
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ae1a4f91280>
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x7ae1a6e48350> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ae1a4f91310>
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:53 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'275'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:54 GMT'), (b'ETag', b'W/"113-5Kw9+4xHZTxjdJp+FZOs3UwQyQA"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b40d-26ec153634da9c797e1e6841;70748926-af80-483c-a00f-912a82eb93ff'), (b'RateLimit', b'"api";r=999;t=289'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 00691a186801498f22935a668f623f14.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'o18zfh3VwLS7aHK2PCb5tg8Bf9Mn1PcMMqBxzDnioWRrtca_LvUOxA==')])
+INFO 2026-06-20 15:38:55 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.complete
+INFO 2026-06-20 15:38:55 etrained.py:245 Model pushed to https://huggingface.co/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'285'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:55 GMT'), (b'ETag', b'W/"11d-rrhwQT545pEOEReZ5Um06eRMQrU"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b40f-710af2ff02e54aae39a4c7d7;0cae9be5-bf69-46c0-a3f0-11d95166b8e2'), (b'RateLimit', b'"api";r=998;t=287'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 00691a186801498f22935a668f623f14.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'DoNw55SrLiX-PJINkSjwriP5VXFlqPrZCZJvZmfu0_5HMV15iWE-VQ==')])
+INFO 2026-06-20 15:38:55 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'257'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:55 GMT'), (b'ETag', b'W/"101-cpvRvAH5DOg1xEQ1J6/+H8Hx/mE"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b40f-007d0494766f46f347911deb;a99e8fff-4a58-4fc4-9e37-18954bae5ca9'), (b'RateLimit', b'"api";r=997;t=287'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 00691a186801498f22935a668f623f14.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'7QE6F_TPYzM-aX_ZkyHoh9WnJYxx_jSnQjxsb6HNJyTIuhc3pyOdBg==')])
+INFO 2026-06-20 15:38:55 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1182'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:38:55 GMT'), (b'ETag', b'W/"49e-O7rGlkh8LEkAtBhCzLAGUwh8N3Q"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b40f-4c098e487d7cc8e101044413;9046304f-3b1c-43c8-8ced-f90a6acda8db'), (b'RateLimit', b'"api";r=996;t=287'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 00691a186801498f22935a668f623f14.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'icYhxgdWwCXJH_rJzE4o16vZrNPWpbILhzMuc4MGg2IZj32Zn4MbMQ==')])
+INFO 2026-06-20 15:38:55 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:38:55 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 close.started
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 close.complete
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ae1a4f90ce0>
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x7ae1a6e48350> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7ae1a4f93a10>
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:39:00 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'275'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:39:01 GMT'), (b'ETag', b'W/"113-W+Y5POnP51zWFcsuW9PKuOiuNkg"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b414-4ba508512b3e56a903310fe9;78ca509f-18e6-46c8-be2c-901a182b935c'), (b'RateLimit', b'"api";r=994;t=282'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 1ffaab99be603658502bc9751758efb0.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'JvKVprNpZLDtfWNFc51jkwdF2eXnPoh-57oy6NqJFV29vfCHQsd0Bg==')])
+INFO 2026-06-20 15:39:01 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'285'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:39:01 GMT'), (b'ETag', b'W/"11d-rrhwQT545pEOEReZ5Um06eRMQrU"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b415-6b748c6b2d2497d15ecca69c;901f1c40-f973-4e51-a013-db5ecc254baf'), (b'RateLimit', b'"api";r=993;t=281'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 1ffaab99be603658502bc9751758efb0.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'7GHVecmnZ-VlYb6v8kSs1CnUW_qahpauCuuEybbdcWuC8bDxFpDyvQ==')])
+INFO 2026-06-20 15:39:01 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:39:01 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'261'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:39:02 GMT'), (b'ETag', b'W/"105-bJAKCR4/6YkAV2lNPySqIjpsxT4"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b416-0d90182c0802dd9d764b7b47;4913f694-981d-4040-a7d9-bd196b5b9c3e'), (b'RateLimit', b'"api";r=992;t=280'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 1ffaab99be603658502bc9751758efb0.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'2Z7Zg-6N5ETQs_iiQtN7-uz5fAZlQWhbbnPsz1EeJZfnijgT2M73UQ==')])
+INFO 2026-06-20 15:39:02 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'117'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:39:02 GMT'), (b'ETag', b'W/"75-8otoMssqBWANueDfXp+sCyV3Y+Y"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b416-4fe5f2382d84a48a3ac86327;0627c5bc-aff5-4a2f-a532-5f500198b222'), (b'RateLimit', b'"api";r=991;t=280'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 1ffaab99be603658502bc9751758efb0.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'9vTwIj9Wl3qnBZtST1aHnDLKpRnUoyrYTpKKvNkFmSA7DSNyf9eTpQ==')])
+INFO 2026-06-20 15:39:02 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:39:02 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:39:03 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:03 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-20 15:39:03 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:03 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-20 15:39:03 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:04 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'275'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 20 Jun 2026 15:39:04 GMT'), (b'ETag', b'W/"113-DJHkuHrQ/1mfVAe8nT6RKYZ3XLY"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a36b417-2ac74e0235d8622206691313;6809bb98-67b1-4b32-966c-6edf1bfecbd4'), (b'RateLimit', b'"api";r=989;t=279'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 1ffaab99be603658502bc9751758efb0.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'enaBNDg8KAqLTH9LmeZfHwhOzVTVXKoDA3iIzQ3QJGdJe07Txyk_gg==')])
+INFO 2026-06-20 15:39:04 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-06-20 15:39:04 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-06-20 15:39:04 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-20 15:39:04 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-20 15:39:04 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-20 15:39:07 re/_trace.py:47 close.started
+DEBUG 2026-06-20 15:39:07 re/_trace.py:47 close.complete
