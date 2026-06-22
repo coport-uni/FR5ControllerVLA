@@ -2227,6 +2227,298 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
       action, tracked on #83 (verified 2026-06-12: repeater cable
       + dedicated hub, LP §E9 updated)
 
+## 2026-06-12: 7__train_act_task1_h200.sh 의 batch_size 를 H200 141 GB VRAM 80% 기준으로 튜닝
+
+### Background
+[7__train_act_task1_h200.sh](7__train_act_task1_h200.sh) 는 헤더 주석상
+H200 2x, `--batch_size=8`, `global=16` 가정으로 작성되었으나, 실제 값은
+3090 (#56) 결과를 그대로 carry-over 한 `--batch_size=40`,
+`--mixed_precision=fp16`, `--policy.optimizer_lr=2.2e-5` 다. 학습 머신은
+H200 NVL 141 GB x 2 (143,771 MiB / GPU) 이므로 80 % 라인
+(~115,000 MiB) 까지 throughput 을 늘리고, 변경된 (per-GPU, 글로벌)
+배치에 맞는 learning rate 권장값을 함께 도출한다.
+
+ACT 의 LeRobot 기본 옵티마이저 설정은
+[configuration_act.py:127-129](src/lerobot/policies/act/configuration_act.py#L127-L129):
+`optimizer_lr=1e-5`, `optimizer_lr_backbone=1e-5`,
+`optimizer_weight_decay=1e-4`. LeRobot 멀티 GPU 문서는 LR auto-scale 을
+하지 않으므로 AdamW + no-warmup 환경 권장 경험칙인 sqrt scaling 을 사용
+한다 (see #56).
+
+### Decisions (사용자 확정)
+- Probe 우선. 추정값 (bs≈240, lr≈4.5e-5) 은 ladder 의 출발점으로만 사용.
+- `--steps=100000` 그대로 유지 (epoch 늘려 수렴 여유).
+- 스크립트 헤더 주석도 새 setting 에 맞춰 함께 갱신.
+- mixed_precision 은 H200 Hopper 권장값인 **bf16** 으로 전환.
+- 데이터셋은 스크립트가 가리키는
+  `coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50`
+  그대로 사용 (probe 도 동일 데이터셋).
+- Probe 동안 wandb / HF Hub push 비활성화 (7__train_act_task1_h200.sh
+  는 수정하지 않고 claude_test/ probe 래퍼에서만 override).
+- 첫 probe duration 300 s (데이터셋 캐시 미스 여유), 이후 150 s.
+
+### Work items
+- [x] `claude_test/probe_vram_batch_h200_task1.sh` 작성: #56 의
+      `probe_vram_batch.sh` 를 base 로 (num_processes=2, bf16,
+      task1 dataset, 143771 MiB 분모) 만든 H200 전용 wrapper.
+- [x] 후보 ladder probe: per-GPU `bs ∈ {64, 128, 192, 240, 280}`
+      부터 시작해 ~115,000 MiB peak 에 가장 가까운 후보까지
+      필요 시 binary refine. 결과: bs=248 binary-refined
+      (GPU0 78.6%, GPU1 80.8%).
+- [x] 선정된 글로벌 배치에 대한 LR 권장값 계산. sqrt: 4.5e-5
+      (1e-5 × sqrt(496/24) ≈ 4.55). linear: 2.07e-4 (warmup 시).
+- [x] [7__train_act_task1_h200.sh](7__train_act_task1_h200.sh)
+      값과 헤더 주석 동시 갱신: BATCH_SIZE=496 / GPU_NUMBER=2 →
+      per-GPU 248, `mixed_precision=bf16`, `optimizer_lr=4.5e-5`,
+      `optimizer_lr_backbone=4.5e-5`, `--steps=100000` 유지.
+      추가로 사용자가 추가하던 `${A} / ${B}` 리터럴 표현을
+      `$((A / B))` 산술로 교정, pre-existing JOB_NAME 이중
+      `coport-uni/` prefix 버그도 동시 정리 (사용자 승인).
+- [x] `bash -n 7__train_act_task1_h200.sh` 구문 검증.
+- [x] `claude_test/README.md` 업데이트 (새 probe 스크립트 행 추가).
+- [x] gh issue create (#84).
+- [x] commit + push (1e0880b5), gh issue 코멘트 등록 후 close.
+
+### Out of scope
+- 다른 `7__train_*` 스크립트의 H200 튜닝.
+- Probe 결과를 LeRobot multi_gpu_training 문서 또는 본 repo 의
+  CLAUDE.md / LP 에 추가하는 작업 (별도 task).
+
+## 2026-06-12: Add missing v3.0 git tag to FR5_task1 brown-bottle dataset
+
+### Background
+가 #84 probe 를 시작하자 `lerobot-train` 이
+`RevisionNotFoundError` 로 실패했다. 원인은 dataset
+`coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50`
+의 HF Hub repo 에 `v3.0` git tag 가 없었던 것. `meta/info.json` 자체는
+`codebase_version: v3.0` 이지만 LeRobot 의 `get_safe_version()`
+([utils.py:289](src/lerobot/datasets/utils.py#L289)) 는 git tag 가 없으면
+`RevisionNotFoundError` 를 던진다 (그리고 huggingface_hub 의 새 버전
+에서는 그 예외 생성 자체가 `response=` 미전달로 다시 죽음). 기존
+`FR5_pick_red_colored_marker_to_box` 에는 `v3.0` 태그가 있어 정상이었다.
+
+### Work items
+- [x] `hub_api.create_tag(repo, tag='v3.0', revision='main',
+      repo_type='dataset')` 로 태그 생성 (사용자 승인).
+- [x] 태그 생성 후 #84 probe 재개하여 정상 동작 확인.
+
+## 2026-06-12: Diagnose mid-training stop of 7__train_act_task1_h200.sh at step 148 (diagnosis only)
+
+### Background
+사용자가 "왜 학습이 중간에 멈췄나" 질문. `7__train_act_task1_h200.sh`
+(#84 에서 튜닝, run zwmmk3ro) 가 `--steps=100000` 목표 중 **step 148**
+에서 멈춤. 진단 결과 코드/CUDA 예외가 아니라 외부 신호에 의한 강제
+종료로 판단.
+
+### Evidence
+- [output.log](outputs/train/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50/wandb/run-20260612_080647-zwmmk3ro/files/output.log)
+  마지막 줄이 `148/100000 [07:03<29:52:03, 1.08s/step]` 에서 끊김.
+- Python traceback / Exception / CUDA OOM 메시지 **없음**.
+- wandb debug-internal.log 에 정상 finish/atexit 기록 **없음**
+  → atexit 핸들러도 못 돌리고 즉사 = SIGKILL 패턴 (OOM-killer 또는
+  `kill -9` / 컨테이너·SSH 세션 종료).
+- `checkpoints/` 디렉토리 없음: `save_freq=10000` 이라 첫 체크포인트
+  (step 10000) 전에 죽어 복구 지점이 0 → `--resume` 불가.
+
+### Secondary finding (성능)
+- H200 2장인데 `1.08s/step` (ETA ~30h) 로 비정상 느림.
+- 원인: torch._dynamo `recompile_limit (8)` 도달. `modeling_act.py`
+  [L148](src/lerobot/policies/act/modeling_act.py#L148) / L157 의
+  `l1_loss.item()` / `mean_kld.item()` 가 매 step graph break +
+  재컴파일 유발.
+
+### Recommended remediation (별도 task, 사용자 승인 필요)
+- [ ] H200 박스에서 `dmesg -T | grep -iE "killed process|oom"` 로
+      OOM-killer 여부 확정. 잡히면 RAM OOM → `--num_workers` 축소.
+- [ ] 세션 끊김 방지: `tmux`/`nohup` 안에서 실행.
+- [ ] `save_freq` 를 1000 수준으로 낮춰 초반 복구 지점 확보.
+- [ ] torch.compile graph break (`.item()`) 완화 검토.
+
+### Out of scope (this task)
+- 위 remediation 의 실제 코드/스크립트 수정 (진단만 수행).
+
+## 2026-06-12: Write B200 x4 Pi0 training script from 7__train_pi0_adv.sh
+
+Based on `7__train_act_task1_h200.sh` conventions (GPU_NUMBER +
+global BATCH_SIZE divided per-GPU), adapt `7__train_pi0_adv.sh`
+(2 x H200) to 4 x B200. (see LP §5 conda roots, §3 NCCL P2P)
+
+- [x] Create `7__train_pi0_adv_b200.sh` (num_processes=4)
+- [x] Keep per-GPU batch=160 as proven-safe on B200 180 GB
+      (issue #55 probe: 160 -> 79.6% on H200 143.77 GB, ~64% on
+      B200; 176 OOM was a transient first-step spike, not steady)
+- [x] Re-scale lr: effective batch 320->640 (20x openpi 32),
+      sqrt rule 2.5e-5*sqrt(20)=1.1e-4
+- [x] Keep bf16, compile, gradient_checkpointing, full fine-tune,
+      warmup=1000; suffix JOB_NAME/repo_id with _b200
+- [x] Validate `bash -n` syntax + computed values (lr/batch/save_freq)
+- [x] Register GitHub issue via `gh issue create` (#86)
+
+## 2026-06-12: Probe B200 VRAM to set Pi0 batch + LR (4 x B200)
+
+Run the issue-#55 VRAM probe ladder on this 4 x B200 box (183359 MiB
+= 179.06 GB/GPU) to replace the H200-extrapolated batch=160 in
+`7__train_pi0_adv_b200.sh` with an empirically measured ~80%-VRAM
+batch, then sqrt-scale the LR from openpi's 2.5e-5 baseline.
+(see LP §1 NCCL P2P, §5 conda roots)
+
+Context found during setup:
+- conda lives at `/NHNHOME/workspace/sungwoo/miniforge3` (miniforge3),
+  NOT in the discovery loop of the existing scripts -> probe driver
+  adds it. Env: torch 2.10.0+cu128 (CUDA 12.8, Blackwell sm_100), 4 GPU.
+- Dataset coport-uni/FR5_pick_red_colored_marker_to_box is public;
+  hf + gh authenticated as coport-uni.
+
+- [x] Write `claude_test/probe_pi0_vram_b200.sh` (num_processes=4,
+      sample 4 GPUs, miniforge3 conda path)
+- [x] Run ladder per-GPU batch 176/192/208/224/240 (50 steps, bf16 +
+      compile + gradient_checkpointing, full fine-tune; 3 attempts --
+      v3 valid after P2P-on + compile_mode=default fixes)
+- [x] Pick highest batch at <=~80% of 183359 MiB without OOM:
+      per-GPU 176 (73.9% peak, 50/50 steps; 192 OOMs)
+- [x] sqrt-scale LR: 2.5e-5 * sqrt(704/32) = 1.17e-4 -> 1.2e-4
+- [x] Write claude_test/probe_logs/SUMMARY_b200.md + update README
+- [x] Update batch/LR in 7__train_pi0_adv_b200.sh with measured values
+      (+ compile_mode=default, pinned checkpoint, env fixes)
+- [x] Register GitHub issue via gh issue create (#87)
+
+### Update 2026-06-13: probe blocked by pi0_base version drift
+First ladder run failed at startup on all batches (not VRAM): the
+`lerobot/pi0_base` HEAD (commit 25c379b, 2026-06-03 "Add relative
+action processor steps") ships a `policy_preprocessor.json` with step
+`relative_actions_processor` (enabled=false) that this v0.5.1 fork's
+ProcessorStepRegistry does not have -> ImportError before training.
+Fix: pin to the prior revision `26b99b9439ac` (2026-01-22), whose
+preprocessor lacks that step (weights identical). Downloaded to
+`models/pi0_base_v051compat/`; validating a short run, then rerun
+ladder + NCCL probe pointing at the local compatible checkpoint.
+
+### Update 2026-06-13 (cont.): third blocker -- noexec /tmp breaks torch.compile
+With the processor + weights issues handled, the probe still crashed at
+step 0/50 under `compile_model=true`:
+`ImportError: /tmp/torchinductor_*/...cuda_utils...so: failed to map
+segment from shared object`. Cause: `/tmp` is mounted `noexec`
+(`rw,nosuid,nodev,noexec`), so triton/inductor cannot dlopen the
+kernels it writes there. `compile_model=false` (loadcheck) was immune.
+This would also crash the real `7__train_pi0_adv_b200.sh`
+(compile_model=true).
+Fix: redirect caches to an exec-allowed dir
+(`TORCHINDUCTOR_CACHE_DIR`, `TRITON_CACHE_DIR` under repo `.cache/`).
+Added to both probe drivers; verifying with a compile smoke test, then
+relaunching the ladder + NCCL sweep.
+
+### Update 2026-06-13 (cont. 2): NCCL verdict + fourth blocker (max-autotune)
+NCCL sweep (batch=96, 40 steps each):
+- p2p_off (production default from issue #30): HANG, first allreduce
+  never clears (timeout 480 s).
+- p2p_on: OK, 4.00 s/step  <- fastest, correct setting for this box.
+- p2p_shm_off (pure socket): OK but 6.67 s/step (67 % slower).
+=> On bare-metal B200 NVLink, NCCL_P2P_DISABLE=1 must NOT be set
+   (exact opposite of the Docker H200 box in issue #30).
+
+Ladder v2 (P2P-on) still died at step 0 for batch 176-240:
+CUDA illegal memory access during *Triton GEMM autotune*
+(select_algorithm.py). Root cause: pi0's default
+compile_mode="max-autotune" (configuration_pi0.py:76) autotunes
+triton_mm kernels; at per-GPU batch >= ~176 a candidate kernel
+crashes on sm_100 (batch 96/64 runs passed). Fix: probe driver now
+passes --policy.compile_mode=default (COMPILE_MODE env knob);
+ladder v3 running. Production script must add the same flag.
+
+## 2026-06-13: Fix pi0 vision-tower random init via key remap (option b)
+
+Blocker #2 from the B200 probe (issue #87, SUMMARY_b200.md): under
+transformers 5.11.0 the PaliGemma vision tower is stored as
+`vision_tower.vision_model.*` in the pi0_base checkpoint but the model
+expects `vision_tower.*`; `from_pretrained` loads with `strict=False`,
+silently leaving the vision tower randomly initialized. User chose
+option (b): add a key remap in the load path instead of pinning
+transformers. (see LP Q13 once recorded)
+
+- [x] Record B200 probe lessons in LearnedPatterns.md (Q12-Q14,
+      E10-E12)
+- [x] Implement vision-tower key remap in the pi0 weight-load path
+      (conditional bidirectional remap in _fix_pytorch_state_dict_keys)
+- [x] Verify: from_pretrained(models/pi0_base_v051compat) loads with
+      zero vision-tower missing/unexpected keys; weights match the
+      safetensors content (437/437 tensors,
+      claude_test/verify_pi0_vision_load.py: All keys loaded)
+- [x] ruff check + format on modified Python files (all clean)
+- [x] Register GitHub issue via gh issue create (#88)
+
+## 2026-06-15: Add B200 pi05-adv training script (probe + write + test)
+
+Create a 4 x B200 production training script for the Pi0.5 "adv"
+fine-tune, derived from 7__train_pi05_adv_h200.sh (pi05 policy + MEAN_STD
+norm + weight_decay=1e-10 + red-marker dataset) and the B200 environment
+conventions in 7__train_pi0_task1_b200.sh (miniforge3 conda root, PATH
+fix, torchinductor/triton cache redirect for noexec /tmp, P2P stays ON,
+compile_mode=default for sm_100, GPU_NUMBER=4). pi05 per-GPU batch on
+B200 is not yet probed (only pi0 = 176 @ 73.9 %), so probe it first.
+(see LP / SUMMARY_b200.md / SUMMARY_pi05.md)
+
+- [x] Write claude_test/probe_pi05_vram_b200.sh (pi05 policy options +
+      B200 env from probe_pi0_vram_b200.sh; 4 GPUs, samples GPUs 0-3)
+- [x] Run the VRAM probe ladder (128-168 per GPU); chosen per-GPU
+      batch=152 (eff 608) @ 71.5 % VRAM, 5.30 s/step. NOTE: ceiling is
+      the Triton compile shared-mem limit (160 fails to compile), not
+      VRAM. Also fixed 3 setup blockers: pi05_base v051compat snapshot
+      (relative/absolute_actions_processor steps), compile_mode=default
+      (sm_100 max-autotune crash), NCCL P2P on + /tmp cache redirect.
+- [x] Record results in claude_test/probe_logs/SUMMARY_pi05_b200.md
+- [x] Write 7__train_pi05_adv_b200.sh (batch 152/GPU=608 eff,
+      steps=1570 ~= 8.00 epoch, lr=1.1e-4, save_freq=157)
+- [x] ruff is N/A (bash); run bash -n on both new scripts (OK)
+- [x] Smoke-test the production script for 6 steps (push/wandb off):
+      exit 0, 6/6 steps, no errors
+- [x] Register GitHub issue via gh issue create (#89)
+- [x] Commit and push (5a5b692c, closes #89)
+
+## 2026-06-15: Check wandb login status (read-only diagnostic)
+
+Verify whether the workstation is authenticated to Weights & Biases so
+that upcoming pi05 B200 training runs log correctly.
+
+- [x] Inspect ~/.netrc for api.wandb.ai credentials (key present,
+      stored Jun 13)
+- [x] Validate the API key against api.wandb.ai GraphQL viewer query:
+      logged in as username=ohsungwoo, entity=ohsungwoo-unist,
+      email=ohsungwoo@unist.ac.kr
+- [x] Note: no wandb module in /usr/bin/python3 and no project .venv;
+      auth travels via ~/.netrc to whichever env runs training
+- [ ] GitHub issue: skipped (read-only status check, no repo change)
+
+## 2026-06-15: Add wandb login pre-flight check to B200 pi05 script
+
+Add a wandb authentication check to 7__train_pi05_task1_b200.sh so the
+run fails fast if the env is not logged in, instead of stalling on an
+interactive prompt mid-training (the script already sets
+--wandb.enable=true).
+
+- [x] Add WANDB_USER pre-flight block after the HF_USER check: query
+      wandb.Api().viewer.username via the active lerobot env python;
+      exit 1 with a clear message if empty (no valid API key)
+- [x] bash -n syntax check (OK); ruff N/A (bash script)
+
+## 2026-06-17: Add dataset version-tag pre-flight to ACT H200 script
+
+Training the _100 dataset aborted with FileNotFoundError on
+meta/info.json, masking the real cause: LeRobot's get_safe_version
+(utils.py:265) needs a git tag matching info.json codebase_version,
+and the _100 dataset on the Hub had no tags (the _50 one had v3.0).
+The RevisionNotFoundError it tries to raise also crashes on a
+huggingface_hub API change (HfHubHTTPError now requires `response`),
+hiding the message. Add a pre-flight to 7__train_act_task1_h200.sh
+that checks the dataset for a tag matching codebase_version and
+creates it if missing (see LP §2 G4, §3 Q12).
+
+- [x] Add tag pre-flight block after HF_USER/JOB_NAME: read
+      codebase_version from the Hub info.json, list repo tags, and
+      create the tag via HfApi().create_tag if absent
+- [x] bash -n syntax check (OK); ruff N/A (bash script)
+- [x] Tag the existing _100 dataset to unblock the current run (created v3.0; LeRobotDataset loads 100 ep / 64223 frames)
+- [x] Append LearnedPatterns entry for the missing-tag gotcha
+
 ## 2026-06-16: Upload FR5_task1 dataset to existing HF repo
 
 - User asked to upload the local LeRobot v3.0 dataset

@@ -1,0 +1,302 @@
+INFO 2026-06-13 10:12:59 ot_train.py:217 {'batch_size': 224,
+ 'checkpoint_path': None,
+ 'cudnn_deterministic': False,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'affine': {'kwargs': {'degrees': [-5.0,
+                                                                            5.0],
+                                                                'translate': [0.05,
+                                                                              0.05]},
+                                                     'type': 'RandomAffine',
+                                                     'weight': 1.0},
+                                          'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'coport-uni/FR5_pick_red_colored_marker_to_box',
+             'revision': None,
+             'root': None,
+             'streaming': False,
+             'use_imagenet_stats': True,
+             'video_backend': 'pyav'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'fr5_pi0_vram_probe_b200_b224',
+ 'log_freq': 200,
+ 'num_workers': 10,
+ 'optimizer': {'betas': [0.9, 0.95],
+               'eps': 1e-08,
+               'grad_clip_norm': 1.0,
+               'lr': 2.5e-05,
+               'type': 'adamw',
+               'weight_decay': 0.01},
+ 'output_dir': 'outputs/train/fr5_pi0_vram_probe_b200_b224',
+ 'peft': None,
+ 'policy': {'action_expert_variant': 'gemma_300m',
+            'chunk_size': 50,
+            'compile_mode': 'default',
+            'compile_model': True,
+            'device': 'cuda',
+            'dtype': 'bfloat16',
+            'empty_cameras': 0,
+            'freeze_vision_encoder': False,
+            'gradient_checkpointing': True,
+            'image_resolution': [224, 224],
+            'input_features': {},
+            'license': None,
+            'max_action_dim': 32,
+            'max_period': 4.0,
+            'max_state_dim': 32,
+            'min_period': 0.004,
+            'n_action_steps': 50,
+            'n_obs_steps': 1,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},
+            'num_inference_steps': 10,
+            'optimizer_betas': [0.9, 0.95],
+            'optimizer_eps': 1e-08,
+            'optimizer_grad_clip_norm': 1.0,
+            'optimizer_lr': 2.5e-05,
+            'optimizer_weight_decay': 0.01,
+            'output_features': {},
+            'paligemma_variant': 'gemma_2b',
+            'pretrained_path': 'models/pi0_base_v051compat',
+            'private': None,
+            'push_to_hub': False,
+            'repo_id': None,
+            'rtc_config': None,
+            'scheduler_decay_lr': 2.5e-06,
+            'scheduler_decay_steps': 30000,
+            'scheduler_warmup_steps': 1000,
+            'tags': None,
+            'time_sampling_beta_alpha': 1.5,
+            'time_sampling_beta_beta': 1.0,
+            'time_sampling_offset': 0.001,
+            'time_sampling_scale': 0.999,
+            'tokenizer_max_length': 48,
+            'train_expert_only': False,
+            'type': 'pi0',
+            'use_amp': False,
+            'use_peft': False},
+ 'rabc_epsilon': 1e-06,
+ 'rabc_head_mode': 'sparse',
+ 'rabc_kappa': 0.01,
+ 'rabc_progress_path': None,
+ 'rename_map': {},
+ 'resume': False,
+ 'save_checkpoint': True,
+ 'save_freq': 999999,
+ 'scheduler': {'decay_lr': 2.5e-06,
+               'num_decay_steps': 30000,
+               'num_warmup_steps': 1000,
+               'peak_lr': 2.5e-05,
+               'type': 'cosine_decay_with_warmup'},
+ 'seed': 55,
+ 'steps': 50,
+ 'tolerance_s': 0.1,
+ 'use_policy_training_preset': True,
+ 'use_rabc': False,
+ 'wandb': {'add_tags': True,
+           'disable_artifact': False,
+           'enable': False,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': None}}
+INFO 2026-06-13 10:12:59 ot_train.py:225 Logs will be saved locally.
+INFO 2026-06-13 10:12:59 ot_train.py:241 Creating dataset
+DEBUG 2026-06-13 10:12:59 ock/_api.py:536 Attempting to acquire lock 138201098804384 on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:539 Lock 138201098804384 acquired on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ns/local.py:383 open file: /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-13 10:12:59 ock/_api.py:568 Attempting to release lock 138201098804384 on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:572 Lock 138201098804384 released on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:536 Attempting to acquire lock 138201100991904 on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:539 Lock 138201100991904 acquired on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ns/local.py:383 open file: /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-13 10:12:59 ock/_api.py:568 Attempting to release lock 138201100991904 on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:572 Lock 138201100991904 released on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-06-13 10:12:59 eo_utils.py:108 Using video codec: libsvtav1
+DEBUG 2026-06-13 10:12:59 ock/_api.py:536 Attempting to acquire lock 138201100542432 on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:539 Lock 138201100542432 acquired on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ns/local.py:383 open file: /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-13 10:12:59 ock/_api.py:568 Attempting to release lock 138201100542432 on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:572 Lock 138201100542432 released on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-844afe3388ebfae3_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:536 Attempting to acquire lock 138201100362976 on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:539 Lock 138201100362976 acquired on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ns/local.py:383 open file: /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-13 10:12:59 ock/_api.py:568 Attempting to release lock 138201100362976 on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:572 Lock 138201100362976 released on /home/ykcho/.cache/huggingface/datasets/parquet/default-844afe3388ebfae3/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:536 Attempting to acquire lock 138201094255872 on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-5021da723b7df66f_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:539 Lock 138201094255872 acquired on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-5021da723b7df66f_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ns/local.py:383 open file: /home/ykcho/.cache/huggingface/datasets/parquet/default-5021da723b7df66f/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-13 10:12:59 ock/_api.py:568 Attempting to release lock 138201094255872 on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-5021da723b7df66f_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:572 Lock 138201094255872 released on /home/ykcho/.cache/huggingface/datasets/_home_ykcho_.cache_huggingface_datasets_parquet_default-5021da723b7df66f_0.0.0_ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:536 Attempting to acquire lock 138201099234112 on /home/ykcho/.cache/huggingface/datasets/parquet/default-5021da723b7df66f/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:539 Lock 138201099234112 acquired on /home/ykcho/.cache/huggingface/datasets/parquet/default-5021da723b7df66f/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ns/local.py:383 open file: /home/ykcho/.cache/huggingface/datasets/parquet/default-5021da723b7df66f/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb/dataset_info.json
+DEBUG 2026-06-13 10:12:59 ock/_api.py:568 Attempting to release lock 138201099234112 on /home/ykcho/.cache/huggingface/datasets/parquet/default-5021da723b7df66f/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+DEBUG 2026-06-13 10:12:59 ock/_api.py:572 Lock 138201099234112 released on /home/ykcho/.cache/huggingface/datasets/parquet/default-5021da723b7df66f/0.0.0/ec3958b52035e87929642b609b5a781870321434b151a14fbe8fd5a26ff494bb_builder.lock
+INFO 2026-06-13 10:13:01 ot_train.py:259 Creating policy
+INFO 2026-06-13 10:14:05 ling_pi0.py:602 Enabled gradient checkpointing for PI0Pytorch model
+WARNING 2026-06-13 10:14:06 ing_pi0.py:1127 Vision embedding key might need handling: paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.bias
+WARNING 2026-06-13 10:14:06 ing_pi0.py:1127 Vision embedding key might need handling: paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7daf207e1700>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x7daf20820550> server_hostname='huggingface.co' timeout=10
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7daf20dc25a0>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'1027'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 13 Jun 2026 01:14:15 GMT'), (b'ETag', b'"b89393ba09b432265173f688b8a41a2c3c9e3e4c"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a2caee7-1a4e2d397c4642c06be47f4c;c38ff6fe-975a-4df9-976b-d928d7965329'), (b'RateLimit', b'"resolvers";r=4997;t=267'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 eb82a6dafc61946a11416ccfdf42d370.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'5lEveA_YcvtKFCp3V6i4qN9PltfCosuUazp_TFVdNqgkiC_CnaKuXQ==')])
+INFO 2026-06-13 10:14:15 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/config.json "HTTP/1.1 200 OK"
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'39968'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 13 Jun 2026 01:14:15 GMT'), (b'ETag', b'"960dcec0bccc6e594d865eceb63c8078e164cfb2"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a2caee7-7c886eb44bd4c77e281528f2;7e0ad637-6b53-469e-978d-c6d258c96444'), (b'RateLimit', b'"resolvers";r=4994;t=267'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=5000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'35e4f46485b4d07967e7e9935bc3786aad50687c'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 eb82a6dafc61946a11416ccfdf42d370.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'PnLC9otWfL35DvHkhHxVopd1BynmPszjWwffvYFzOLNAOjDOeyWKag==')])
+INFO 2026-06-13 10:14:15 _client.py:1025 HTTP Request: HEAD https://huggingface.co/google/paligemma-3b-pt-224/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.started request=<Request [b'HEAD']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 13 Jun 2026 01:14:15 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a2caee7-11871da875555b32420b41c9;51413271-745d-4c58-9003-5bb7823cd7f9'), (b'RateLimit', b'"api";r=998;t=267'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 eb82a6dafc61946a11416ccfdf42d370.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'uEas30KvLptTvWgFCjnATp7mBY_pgsubQldxA3PzmoR-8HcocjuCyQ==')])
+INFO 2026-06-13 10:14:15 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 13 Jun 2026 01:14:15 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"9c5-q9seafptu6jJvow4apCGJpG2b2M"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a2caee7-4222e88d458542bc4e570909;249e8558-bd86-46a7-bbab-600f2de62aa2'), (b'RateLimit', b'"api";r=994;t=267'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 eb82a6dafc61946a11416ccfdf42d370.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'x9yMlAG0Gfv3eI4fOLzC8a6qc7UfuGUKZllmrnYMKfnL97b7Es3p3A==')])
+INFO 2026-06-13 10:14:15 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-13 10:14:15 re/_trace.py:47 response_closed.complete
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 send_request_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 send_request_body.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 receive_response_headers.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 13 Jun 2026 01:14:16 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"ca0-jOsbv9/xR2b9PfLJ8nFVkmtzfPQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a2caee8-1a2570a2047ff0740f4b0656;e226b94b-e8e2-4c44-b33b-b9e3bbbcb85e'), (b'RateLimit', b'"api";r=988;t=266'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 eb82a6dafc61946a11416ccfdf42d370.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'X-Amz-Cf-Id', b'kiE7saMfgdc6HipPQyLbAGNF9-O9hFKSl_ifob7S3b-xQJqq_-OaNg==')])
+INFO 2026-06-13 10:14:16 _client.py:1025 HTTP Request: GET https://huggingface.co/api/models/google/paligemma-3b-pt-224 "HTTP/1.1 200 OK"
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 receive_response_body.started request=<Request [b'GET']>
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 response_closed.started
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 response_closed.complete
+INFO 2026-06-13 10:14:16 ot_train.py:314 Creating optimizer and scheduler
+INFO 2026-06-13 10:14:16 hedulers.py:105 Auto-scaling LR scheduler: num_training_steps (50) < num_decay_steps (30000). Scaling warmup: 1000 → 1, decay: 30000 → 50 (scale factor: 0.002)
+INFO 2026-06-13 10:14:16 ot_train.py:349 Output dir: outputs/train/fr5_pi0_vram_probe_b200_b224
+INFO 2026-06-13 10:14:16 ot_train.py:356 cfg.steps=50 (50)
+INFO 2026-06-13 10:14:16 ot_train.py:357 dataset.num_frames=119356 (119K)
+INFO 2026-06-13 10:14:16 ot_train.py:358 dataset.num_episodes=100
+INFO 2026-06-13 10:14:16 ot_train.py:361 Effective batch size: 224 x 4 = 896
+INFO 2026-06-13 10:14:16 ot_train.py:362 num_learnable_params=4028019472 (4B)
+INFO 2026-06-13 10:14:16 ot_train.py:363 num_total_params=4028019472 (4B)
+INFO 2026-06-13 10:14:16 ot_train.py:427 Start offline training on a fixed dataset, with effective batch size: 896
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:16 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:14:17 re/_trace.py:47 close.complete
+DEBUG 2026-06-13 10:15:05 ock/_api.py:536 Attempting to acquire lock 138165881690096 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cf3c2y3itjriwbc3lx4pjamef6f2iyh5u7427we2pywnktc4srcq.lock
+DEBUG 2026-06-13 10:15:05 ock/_api.py:539 Lock 138165881690096 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cf3c2y3itjriwbc3lx4pjamef6f2iyh5u7427we2pywnktc4srcq.lock
+DEBUG 2026-06-13 10:15:10 ock/_api.py:568 Attempting to release lock 138165881690096 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cf3c2y3itjriwbc3lx4pjamef6f2iyh5u7427we2pywnktc4srcq.lock
+DEBUG 2026-06-13 10:15:10 ock/_api.py:572 Lock 138165881690096 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cf3c2y3itjriwbc3lx4pjamef6f2iyh5u7427we2pywnktc4srcq.lock
+DEBUG 2026-06-13 10:15:10 ock/_api.py:536 Attempting to acquire lock 138165881309904 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cnqn66uwixyzuccim6bspnqfoahsve6ufksbo2mmmwnwvfye3zwq.lock
+DEBUG 2026-06-13 10:15:10 ock/_api.py:539 Lock 138165881309904 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cnqn66uwixyzuccim6bspnqfoahsve6ufksbo2mmmwnwvfye3zwq.lock
+DEBUG 2026-06-13 10:15:13 ock/_api.py:568 Attempting to release lock 138165881309904 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cnqn66uwixyzuccim6bspnqfoahsve6ufksbo2mmmwnwvfye3zwq.lock
+DEBUG 2026-06-13 10:15:13 ock/_api.py:572 Lock 138165881309904 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cnqn66uwixyzuccim6bspnqfoahsve6ufksbo2mmmwnwvfye3zwq.lock
+DEBUG 2026-06-13 10:15:13 ock/_api.py:536 Attempting to acquire lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cbuiawkcao226cm43gj2woepy52yi5beodvnkwntqpsqt3tpwl3z.lock
+DEBUG 2026-06-13 10:15:13 ock/_api.py:539 Lock 138165880435488 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cbuiawkcao226cm43gj2woepy52yi5beodvnkwntqpsqt3tpwl3z.lock
+DEBUG 2026-06-13 10:15:17 ock/_api.py:568 Attempting to release lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cbuiawkcao226cm43gj2woepy52yi5beodvnkwntqpsqt3tpwl3z.lock
+DEBUG 2026-06-13 10:15:17 ock/_api.py:572 Lock 138165880435488 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cbuiawkcao226cm43gj2woepy52yi5beodvnkwntqpsqt3tpwl3z.lock
+DEBUG 2026-06-13 10:15:17 ock/_api.py:536 Attempting to acquire lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cqzkpn554ktul6b6rfmhff45r6u4h5a3tp5juqeoaexdrr3uirbq.lock
+DEBUG 2026-06-13 10:15:17 ock/_api.py:539 Lock 138165880435488 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cqzkpn554ktul6b6rfmhff45r6u4h5a3tp5juqeoaexdrr3uirbq.lock
+DEBUG 2026-06-13 10:15:20 ock/_api.py:568 Attempting to release lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cqzkpn554ktul6b6rfmhff45r6u4h5a3tp5juqeoaexdrr3uirbq.lock
+DEBUG 2026-06-13 10:15:20 ock/_api.py:572 Lock 138165880435488 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cqzkpn554ktul6b6rfmhff45r6u4h5a3tp5juqeoaexdrr3uirbq.lock
+DEBUG 2026-06-13 10:15:20 ock/_api.py:536 Attempting to acquire lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/ccu2sfwnvwsiq6x3pig35rx2vmwcqmy52w575bsrlcrs5ighvgol.lock
+DEBUG 2026-06-13 10:15:20 ock/_api.py:539 Lock 138165880435488 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/ccu2sfwnvwsiq6x3pig35rx2vmwcqmy52w575bsrlcrs5ighvgol.lock
+DEBUG 2026-06-13 10:15:23 ock/_api.py:568 Attempting to release lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/ccu2sfwnvwsiq6x3pig35rx2vmwcqmy52w575bsrlcrs5ighvgol.lock
+DEBUG 2026-06-13 10:15:23 ock/_api.py:572 Lock 138165880435488 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/ccu2sfwnvwsiq6x3pig35rx2vmwcqmy52w575bsrlcrs5ighvgol.lock
+DEBUG 2026-06-13 10:15:23 ock/_api.py:536 Attempting to acquire lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cuxiebnh26foehyjwlpflpstp5bd5gkxcgz2kearg3pvp6bopaox.lock
+DEBUG 2026-06-13 10:15:23 ock/_api.py:539 Lock 138165880435488 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cuxiebnh26foehyjwlpflpstp5bd5gkxcgz2kearg3pvp6bopaox.lock
+DEBUG 2026-06-13 10:15:25 ock/_api.py:568 Attempting to release lock 138165880435488 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cuxiebnh26foehyjwlpflpstp5bd5gkxcgz2kearg3pvp6bopaox.lock
+DEBUG 2026-06-13 10:15:25 ock/_api.py:572 Lock 138165880435488 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cuxiebnh26foehyjwlpflpstp5bd5gkxcgz2kearg3pvp6bopaox.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:536 Attempting to acquire lock 138167575015456 on /tmp/torchinductor_ykcho/precompiled_headers/locks/cw7kyuoiou2qgbqfxfuplgwuromvcvbfvfwwtg7k4apogbttsqlx.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:539 Lock 138167575015456 acquired on /tmp/torchinductor_ykcho/precompiled_headers/locks/cw7kyuoiou2qgbqfxfuplgwuromvcvbfvfwwtg7k4apogbttsqlx.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:568 Attempting to release lock 138167575015456 on /tmp/torchinductor_ykcho/precompiled_headers/locks/cw7kyuoiou2qgbqfxfuplgwuromvcvbfvfwwtg7k4apogbttsqlx.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:572 Lock 138167575015456 released on /tmp/torchinductor_ykcho/precompiled_headers/locks/cw7kyuoiou2qgbqfxfuplgwuromvcvbfvfwwtg7k4apogbttsqlx.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:536 Attempting to acquire lock 138167575013824 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:539 Lock 138167575013824 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:568 Attempting to release lock 138167575013824 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:572 Lock 138167575013824 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:536 Attempting to acquire lock 138167575018144 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:539 Lock 138167575018144 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:568 Attempting to release lock 138167575018144 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:536 Attempting to acquire lock 138167575012240 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:572 Lock 138167575018144 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:539 Lock 138167575012240 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:536 Attempting to acquire lock 138167575017424 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:539 Lock 138167575017424 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:568 Attempting to release lock 138167575017424 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:572 Lock 138167575017424 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/cd2wwilydnxk5wiyw47fhyjc34chkk7jbdacdk4eqcvxqcspzlsw.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:568 Attempting to release lock 138167575012240 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:572 Lock 138167575012240 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:536 Attempting to acquire lock 138167575012240 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:539 Lock 138167575012240 acquired on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:568 Attempting to release lock 138167575012240 on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:15:26 ock/_api.py:572 Lock 138167575012240 released on /NHNHOME/workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/czdyfxqwboclbppcr2kaprtnj2pttfipommzeuzw4rscybqjtmlg.lock
+DEBUG 2026-06-13 10:16:28 re/_trace.py:47 close.started
+DEBUG 2026-06-13 10:16:28 re/_trace.py:47 close.complete
