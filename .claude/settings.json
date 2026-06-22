@@ -179,7 +179,8 @@
       "WebFetch(domain:manual.fairino.support)",
       "Bash(gh label *)",
       "Bash(git fetch *)",
-      "Bash(git rev-list *)"
+      "Bash(git rev-list *)",
+      "Bash(awk '/^ *)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",
