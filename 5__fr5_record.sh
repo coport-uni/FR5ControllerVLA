@@ -46,7 +46,7 @@ lerobot-record \
     --dataset.repo_id=coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location \
     --dataset.episode_time_s=60 \
     --dataset.reset_time_s=30 \
-    --dataset.num_episodes=5 \
+    --dataset.num_episodes=10 \
     --dataset.fps=20 \
     --dataset.single_task="move the brown colored glass bottle to the designated location" \
     --dataset.streaming_encoding=true \
