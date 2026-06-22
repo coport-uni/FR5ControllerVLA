@@ -62,6 +62,11 @@ _READ_RETRY_DELAY_S = 0.05
 # Error code: servo session terminated by controller.
 _SERVO_SESSION_LOST = 14
 
+# Minimum seconds between controller-fault recovery attempts.
+# A limit or safety fault usually persists for several ticks;
+# this keeps the full enable sequence from running every tick.
+_RECOVERY_MIN_INTERVAL_S = 2.0
+
 
 class FairinoFollower(Robot):
     """Control a Fairino FR5 6-DOF arm through the LeRobot API.
@@ -138,6 +143,18 @@ class FairinoFollower(Robot):
         # on exceptions.  Logging only fires on transitions, so
         # a persistent error prints once instead of every tick.
         self._last_servoj_state: str = "ret:0"
+
+        # Last good joint reading.  get_observation() serves this
+        # when a read fails so the teleop loop keeps running
+        # instead of crashing on a RuntimeError (the read can
+        # stall for several ticks while a fault is active).
+        self._last_joints: list[float] | None = None
+        # Edge-trigger flag for read-fallback logging.
+        self._joint_read_ok: bool = True
+        # Monotonic timestamp of the last fault recovery, used
+        # to rate-limit recovery so a persistent fault does not
+        # rerun the full enable sequence every tick.
+        self._last_recovery_time: float = 0.0
 
     # ---- properties (required by Robot base class) ---------
 
@@ -303,7 +320,25 @@ class FairinoFollower(Robot):
 
         ret, joints_deg = self._read_joints()
         if ret != 0:
-            raise RuntimeError(f"[Fairino] Joint read failed (err {ret})")
+            # A controller fault (e.g. a joint driven into its
+            # soft limit) can stall the read for several ticks.
+            # Serve the last good reading instead of raising so
+            # the teleoperation loop survives; send_action()
+            # runs the recovery sequence.
+            if self._last_joints is None:
+                raise RuntimeError(f"[Fairino] Joint read failed (err {ret})")
+            if self._joint_read_ok:
+                logger.warning(
+                    "[Fairino] Joint read failed (err %d); serving last-known position.",
+                    ret,
+                )
+                self._joint_read_ok = False
+            joints_deg = self._last_joints
+        else:
+            if not self._joint_read_ok:
+                logger.info("[Fairino] Joint read recovered.")
+                self._joint_read_ok = True
+            self._last_joints = list(joints_deg)
 
         for i, jname in enumerate(self.config.joint_names):
             obs[f"{jname}.pos"] = joints_deg[i]
@@ -363,52 +398,64 @@ class FairinoFollower(Robot):
                 self._enqueue_gripper_cmd(grip)
             return result
 
-        # Worker just resumed servo: anchor the ramp to the
-        # real joint reading before issuing ServoJ, otherwise
-        # the next delta would compound the gripper-pause
-        # drift into a single large step that the controller
-        # would reject.
-        if self._resync_needed:
-            ret, joints = self._read_joints()
-            if ret == 0:
-                self._commanded = list(joints)
-            self._resync_needed = False
+        # A joint driven into its soft limit (or a safety stop)
+        # faults the controller; ServoJ would then be rejected
+        # every tick and the arm would freeze.  Detect the fault
+        # from the real-time state package and run the full
+        # enable sequence, rate-limited.  Skip ServoJ this tick --
+        # _recover_from_fault re-anchors _commanded from a live
+        # read so the next tick resumes cleanly.
+        now = time.monotonic()
+        if self._detect_fault() and now - self._last_recovery_time >= _RECOVERY_MIN_INTERVAL_S:
+            self._last_recovery_time = now
+            self._recover_from_fault()
+        else:
+            # Worker just resumed servo: anchor the ramp to the
+            # real joint reading before issuing ServoJ, otherwise
+            # the next delta would compound the gripper-pause
+            # drift into a single large step that the controller
+            # would reject.
+            if self._resync_needed:
+                ret, joints = self._read_joints()
+                if ret == 0:
+                    self._commanded = list(joints)
+                self._resync_needed = False
 
-        # Ramp one step toward the target.
-        period = 1.0 / self.config.servo_hz
-        max_step = self.config.max_servo_speed * period
-        for i in range(len(self._commanded)):
-            delta = clamped_deg[i] - self._commanded[i]
-            if abs(delta) > max_step:
-                self._commanded[i] += max_step if delta > 0 else -max_step
-            else:
-                self._commanded[i] = clamped_deg[i]
+            # Ramp one step toward the target.
+            period = 1.0 / self.config.servo_hz
+            max_step = self.config.max_servo_speed * period
+            for i in range(len(self._commanded)):
+                delta = clamped_deg[i] - self._commanded[i]
+                if abs(delta) > max_step:
+                    self._commanded[i] += max_step if delta > 0 else -max_step
+                else:
+                    self._commanded[i] = clamped_deg[i]
 
-        # Send ServoJ synchronously.
-        axis_pos = [0.0, 0.0, 0.0, 0.0]
-        try:
-            ret = self._servo_proxy.ServoJ(
-                self._commanded,
-                axis_pos,
-                0.0,
-                0.0,
-                period,
-                0.0,
-                0.0,
-            )
-            self._log_servoj_state_change(f"ret:{ret}", ret, None)
-            # Only run the recovery path when the session loss
-            # is genuine; if the worker just took the session
-            # offline, leave recovery to the worker's
-            # ServoMoveStart (issue #74).
-            if ret == _SERVO_SESSION_LOST and not self._servo_paused.is_set():
-                self._recover_servo_session()
-        except Exception as exc:
-            self._log_servoj_state_change(
-                f"exc:{type(exc).__name__}",
-                0,
-                exc,
-            )
+            # Send ServoJ synchronously.
+            axis_pos = [0.0, 0.0, 0.0, 0.0]
+            try:
+                ret = self._servo_proxy.ServoJ(
+                    self._commanded,
+                    axis_pos,
+                    0.0,
+                    0.0,
+                    period,
+                    0.0,
+                    0.0,
+                )
+                self._log_servoj_state_change(f"ret:{ret}", ret, None)
+                # Only run the light recovery when the session
+                # loss is genuine; if the worker just took the
+                # session offline, leave recovery to the worker's
+                # ServoMoveStart (issue #74).
+                if ret == _SERVO_SESSION_LOST and not self._servo_paused.is_set():
+                    self._recover_servo_session()
+            except Exception as exc:
+                self._log_servoj_state_change(
+                    f"exc:{type(exc).__name__}",
+                    0,
+                    exc,
+                )
 
         if self.config.gripper_enabled and "gripper.pos" in action:
             grip = max(0.0, min(100.0, float(action["gripper.pos"])))
@@ -530,6 +577,51 @@ class FairinoFollower(Robot):
                 "[Fairino] Servo recovery failed: %s",
                 exc,
             )
+
+    def _detect_fault(self) -> bool:
+        """Return True if the controller reports an active fault.
+
+        Reads the main error code and both safety-stop flags
+        straight from the real-time TCP state package, so it
+        adds no RPC round-trip.  XMLRPC-only mode cannot see
+        these fields and always reports no fault.
+
+        Returns:
+            True if a main fault code is set or either safety
+            stop is asserted; False otherwise.
+        """
+        if self._use_xmlrpc_reads:
+            return False
+        try:
+            pkg = self._rpc.robot_state_pkg
+            return pkg.main_code != 0 or pkg.safety_stop0_state == 1 or pkg.safety_stop1_state == 1
+        except Exception:
+            return False
+
+    def _recover_from_fault(self) -> None:
+        """Clear a controller fault and restart servo mode.
+
+        Used for non-session faults such as a joint soft-limit
+        or a safety stop, where the light ServoMoveEnd/Start
+        cycle of ``_recover_servo_session`` is not enough.  Stops
+        any motion, re-runs the full enable sequence (the same
+        one used at connect), and resyncs the ramp anchor from a
+        live joint read so the next ServoJ delta starts from the
+        real position.
+        """
+        logger.warning("[Fairino] Controller fault; running recovery ...")
+        with contextlib.suppress(Exception):
+            self._rpc.StopMotion()
+        self._initialise_servo_mode()
+        ret, joints = self._read_joints()
+        if ret == 0:
+            self._commanded = list(joints)
+        else:
+            logger.warning(
+                "[Fairino] Post-recovery joint read failed (err %d); ramp anchor may be stale.",
+                ret,
+            )
+        logger.info("[Fairino] Controller fault recovery done.")
 
     def _wait_for_state_data(
         self,

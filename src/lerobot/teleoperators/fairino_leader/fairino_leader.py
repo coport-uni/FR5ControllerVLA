@@ -49,6 +49,11 @@ _SETTLE_LONG_S = 0.5
 _READ_RETRIES = 3
 _READ_RETRY_DELAY_S = 0.05
 
+# Minimum seconds between controller-fault recovery attempts.
+# A joint dragged into its limit faults the controller; this
+# keeps the re-enter-drag-teach sequence from hammering it.
+_RECOVERY_MIN_INTERVAL_S = 2.0
+
 # MoveGripper maxtime [ms] -- int32 max (~24.8 days).  The
 # SDK rejects -1, 600000 (10 min) expired mid-session
 # (issue #24), and even int32 max was observed to expire in
@@ -109,6 +114,16 @@ class FairinoLeader(Teleoperator):
         # mirror the ~1 % wobble.  Only the leader hardware
         # moves during keepalive; the follower stays put.
         self._reported_gripper_pos: float = 0.0
+
+        # Last good joint reading.  get_action() serves this
+        # when a read fails so the teleop loop keeps running
+        # instead of crashing on a RuntimeError.
+        self._last_joints: list[float] | None = None
+        # Edge-trigger flag for read-fallback logging.
+        self._joint_read_ok: bool = True
+        # Monotonic timestamp of the last drag-teach recovery,
+        # used to rate-limit recovery attempts.
+        self._last_recovery_time: float = 0.0
 
     # ---- properties (required by Teleoperator) ----------------
 
@@ -254,9 +269,33 @@ class FairinoLeader(Teleoperator):
         """
         self._assert_connected()
 
+        # If the operator dragged a joint into its limit, the
+        # controller faults and drops out of drag-teach.  Detect
+        # it from the state package and re-enter drag-teach so
+        # the arm stays back-drivable.
+        if self._detect_fault():
+            self._recover_from_fault()
+
         ret, joints_deg = self._read_joints()
         if ret != 0:
-            raise RuntimeError(f"[FairinoLeader] Joint read failed (err {ret})")
+            # The read can stall for several ticks while a fault
+            # is active.  Recover and serve the last good reading
+            # instead of raising so the teleop loop survives.
+            self._recover_from_fault()
+            if self._last_joints is None:
+                raise RuntimeError(f"[FairinoLeader] Joint read failed (err {ret})")
+            if self._joint_read_ok:
+                logger.warning(
+                    "[FairinoLeader] Joint read failed (err %d); serving last-known position.",
+                    ret,
+                )
+                self._joint_read_ok = False
+            joints_deg = self._last_joints
+        else:
+            if not self._joint_read_ok:
+                logger.info("[FairinoLeader] Joint read recovered.")
+                self._joint_read_ok = True
+            self._last_joints = list(joints_deg)
 
         action = {f"{jname}.pos": joints_deg[i] for i, jname in enumerate(self.config.joint_names)}
 
@@ -344,6 +383,57 @@ class FairinoLeader(Teleoperator):
                 ret,
             )
         time.sleep(_SETTLE_SHORT_S)
+
+    def _detect_fault(self) -> bool:
+        """Return True if the controller reports an active fault.
+
+        Reads the main error code and both safety-stop flags from
+        the real-time state package, so it adds no RPC round-trip.
+        XMLRPC-only mode cannot see these fields and reports no
+        fault.
+
+        Returns:
+            True if a main fault code is set or either safety
+            stop is asserted; False otherwise.
+        """
+        if self._use_xmlrpc_reads:
+            return False
+        try:
+            pkg = self._rpc.robot_state_pkg
+            return pkg.main_code != 0 or pkg.safety_stop0_state == 1 or pkg.safety_stop1_state == 1
+        except Exception:
+            return False
+
+    def _recover_from_fault(self) -> None:
+        """Clear a fault and re-enter drag-teach mode.
+
+        On the leader a fault usually means a joint was dragged
+        into its limit.  Re-running ResetAllError, RobotEnable(1)
+        and DragTeachSwitch(1) restores back-drive.  Rate-limited
+        so a persistent fault does not hammer the controller.
+        """
+        now = time.monotonic()
+        if now - self._last_recovery_time < _RECOVERY_MIN_INTERVAL_S:
+            return
+        self._last_recovery_time = now
+        logger.warning("[FairinoLeader] Controller fault; re-entering drag-teach ...")
+        try:
+            self._rpc.ResetAllError()
+            time.sleep(_SETTLE_MID_S)
+            self._rpc.RobotEnable(1)
+            time.sleep(_SETTLE_MID_S)
+            ret = self._rpc.DragTeachSwitch(1)
+            if ret != 0:
+                logger.warning(
+                    "[FairinoLeader] DragTeachSwitch(1) err: %d",
+                    ret,
+                )
+            logger.info("[FairinoLeader] Drag-teach recovered.")
+        except Exception as exc:
+            logger.warning(
+                "[FairinoLeader] Recovery failed: %s",
+                exc,
+            )
 
     @staticmethod
     def _probe_tcp(
