@@ -2226,3 +2226,72 @@ FR5ControllerVLA `CLAUDE.md` §"Code Style: MIT Code Convention"
 - [x] Hardware mitigation (move D455 off hub, swap cable) — user
       action, tracked on #83 (verified 2026-06-12: repeater cable
       + dedicated hub, LP §E9 updated)
+
+## 2026-06-16: Upload FR5_task1 dataset to existing HF repo
+
+- User asked to upload the local LeRobot v3.0 dataset
+  `outputs/datasets/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location`
+  (80 episodes, 53,717 frames, 3.83 GB) to its existing public
+  HuggingFace repo `coport-uni/FR5_task1_...`. Local carried one new
+  `file-011` (data + meta/episodes + 3 videos) plus refreshed
+  metadata not yet on the Hub; user confirmed "이어서 올려줘"
+  (append to the existing repo).
+- [x] Confirm repo name and visibility with user (same long name,
+      keep existing public repo)
+- [x] Verify HF auth (huggingface_hub, account coport-uni) and that
+      the remote repo exists (60 files, public)
+- [x] upload_folder additive push (ignore .cache); remote 60 -> 65
+      files, file-011 data/video present
+- [x] Verify uploaded files on the Hub
+
+## 2026-06-22: Fix FR5 teleop crash when a joint hits its motor limit
+
+- gh issue: #93
+- User reported the FR5 "connection dying" when a motor reaches its
+  limit during leader-follower teleoperation
+  (`4__fr5_leader_follower.sh`, follower 192.168.58.2 mirrors leader
+  192.168.59.2). The visible symptom is a Rerun gRPC error
+  (`re_grpc_client::write ... transport error`), which appears as the
+  main `lerobot-teleoperate` process tears down.
+- Root cause (confirmed by reading code, no hardware): when a joint
+  reaches its limit the controller faults/safety-stops; the SDK TCP
+  state thread resets (`reconnect_flag`), so `GetActualJointPosDegree`
+  returns nonzero after its 3 retries; `FairinoFollower.get_observation`
+  and `FairinoLeader.get_action` then raise `RuntimeError`; `teleop_loop`
+  has no per-iteration guard (outer try only catches KeyboardInterrupt),
+  so the process exits and Rerun logs the transport error.
+- User choices (clarified before work): symptom = process crash behind
+  the Rerun error; mode = follower mirroring leader; recovery policy =
+  auto-recover and continue.
+
+### A. Stop the crash (root cause of the transport error)
+- [ ] `FairinoFollower.get_observation`: on joint-read failure return
+      last-known joints (track `_last_joints`) with a rate-limited
+      warning instead of raising RuntimeError.
+- [ ] `FairinoLeader.get_action`: same last-known-joints fallback
+      instead of raising RuntimeError.
+
+### B. Auto-detect and recover the controller fault (see LP §G2, §G9)
+- [ ] Add a fault read from the state package (`GetRobotErrorCode` ->
+      main_code/sub_code, `GetSafetyCode`).
+- [ ] Follower: broaden recovery from error-14-only to any fault
+      (StopMotion -> ServoMoveEnd -> ResetAllError -> RobotEnable(1)
+      -> Mode(0) -> ServoMoveStart -> resync `_commanded` from a live
+      read). Gate behind `_servo_paused` so it cannot race the gripper
+      worker (LP §G9); rate-limit recovery attempts.
+- [ ] Leader: on fault, re-run ResetAllError -> RobotEnable(1) ->
+      DragTeachSwitch(1), rate-limited.
+
+### C. Prevent reaching the limit (follower clamp margin)
+- [ ] Add `limit_margin_deg` (default ~2.0) to FairinoFollowerConfig.
+- [ ] At connect, read firmware soft limits via `GetJointSoftLimitDeg`,
+      intersect with config limits, and clamp `send_action` to the
+      margin-adjusted bounds so ServoJ never drives into the fault zone.
+
+### Validation and housekeeping
+- [ ] Add `claude_test/` debug script to exercise fault detection /
+      recovery logic without hardware where possible; document in
+      `claude_test/README.md`.
+- [ ] ruff check + format on all touched files (80-col for new code).
+- [ ] Create gh issue; commit and push; append a LearnedPatterns entry
+      (limit-fault crash + recovery) if a new recurring pattern surfaced.
