@@ -167,7 +167,19 @@
       "Bash(v4l2-ctl --list-devices)",
       "Bash(/home/inno-controller/anaconda3/envs/lerobot/bin/python -)",
       "Bash(journalctl -k --since \"-6 min\" --no-pager)",
-      "Bash(journalctl -k --since \"-3 min\" --no-pager)"
+      "Bash(journalctl -k --since \"-3 min\" --no-pager)",
+      "Bash(python -c \"from huggingface_hub import HfFolder; print\\('token:', bool\\(HfFolder.get_token\\(\\)\\)\\)\")",
+      "Bash(hf auth *)",
+      "Bash(huggingface-cli whoami *)",
+      "Bash(.venv/bin/hf auth *)",
+      "Bash(.venv/bin/python -c \"from huggingface_hub import whoami; print\\(whoami\\(\\)['name']\\)\")",
+      "Bash(kill -0 901743)",
+      "Bash(gh auth *)",
+      "WebFetch(domain:www.fairino.us)",
+      "WebFetch(domain:manual.fairino.support)",
+      "Bash(gh label *)",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",
