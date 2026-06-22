@@ -2557,33 +2557,38 @@ creates it if missing (see LP §2 G4, §3 Q12).
   auto-recover and continue.
 
 ### A. Stop the crash (root cause of the transport error)
-- [ ] `FairinoFollower.get_observation`: on joint-read failure return
+- [x] `FairinoFollower.get_observation`: on joint-read failure return
       last-known joints (track `_last_joints`) with a rate-limited
-      warning instead of raising RuntimeError.
-- [ ] `FairinoLeader.get_action`: same last-known-joints fallback
-      instead of raising RuntimeError.
+      warning instead of raising RuntimeError. (folded into B)
+- [x] `FairinoLeader.get_action`: same last-known-joints fallback
+      instead of raising RuntimeError. (folded into B)
 
 ### B. Auto-detect and recover the controller fault (see LP §G2, §G9)
-- [ ] Add a fault read from the state package (`GetRobotErrorCode` ->
-      main_code/sub_code, `GetSafetyCode`).
-- [ ] Follower: broaden recovery from error-14-only to any fault
+- [x] Add a fault read from the state package (`GetRobotErrorCode` ->
+      main_code/sub_code, `GetSafetyCode`). Implemented as `_detect_fault`
+      reading main_code/safety_stop0/1_state directly off robot_state_pkg
+      (no extra RPC; avoids SDK @log_call spam at 20 Hz).
+- [x] Follower: broaden recovery from error-14-only to any fault
       (StopMotion -> ServoMoveEnd -> ResetAllError -> RobotEnable(1)
       -> Mode(0) -> ServoMoveStart -> resync `_commanded` from a live
       read). Gate behind `_servo_paused` so it cannot race the gripper
       worker (LP §G9); rate-limit recovery attempts.
-- [ ] Leader: on fault, re-run ResetAllError -> RobotEnable(1) ->
+- [x] Leader: on fault, re-run ResetAllError -> RobotEnable(1) ->
       DragTeachSwitch(1), rate-limited.
 
 ### C. Prevent reaching the limit (follower clamp margin)
 - [ ] Add `limit_margin_deg` (default ~2.0) to FairinoFollowerConfig.
+      (DEFERRED -- user chose to proceed with B only this pass.)
 - [ ] At connect, read firmware soft limits via `GetJointSoftLimitDeg`,
       intersect with config limits, and clamp `send_action` to the
       margin-adjusted bounds so ServoJ never drives into the fault zone.
 
 ### Validation and housekeeping
-- [ ] Add `claude_test/` debug script to exercise fault detection /
+- [x] Add `claude_test/` debug script to exercise fault detection /
       recovery logic without hardware where possible; document in
-      `claude_test/README.md`.
-- [ ] ruff check + format on all touched files (80-col for new code).
-- [ ] Create gh issue; commit and push; append a LearnedPatterns entry
-      (limit-fault crash + recovery) if a new recurring pattern surfaced.
+      `claude_test/README.md`. (debug_limit_fault_recovery.py, 16/16 pass)
+- [x] ruff check + format on all touched files (80-col for new code).
+- [x] Create gh issue (#93); append a LearnedPatterns entry (LP §2 G11);
+      commit and push.
+- [ ] Hardware validation on the robot (limit-fault recovery on
+      192.168.58.2 / 192.168.59.2) -- requires the robot, do with user.

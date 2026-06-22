@@ -247,6 +247,35 @@
 
 ---
 
+### G11. Joint limit fault crashes teleop (surfaces as Rerun gRPC error)
+
+- **Problem**: During FR5 leader-follower teleop, driving a joint
+  to its motor limit "killed the connection"; the visible error
+  was a Rerun `re_grpc_client::write ... transport error`, not a
+  robot-comms failure.
+- **Cause**: A joint at its limit faults/safety-stops the
+  controller; the SDK TCP state thread resets (`reconnect_flag`)
+  so `GetActualJointPosDegree` returns nonzero after its retries;
+  `FairinoFollower.get_observation` / `FairinoLeader.get_action`
+  then raise `RuntimeError`; `teleop_loop` has no per-iteration
+  guard (outer try only catches `KeyboardInterrupt`), so the
+  process exits and Rerun logs the transport error as it tears
+  down. The Rerun error is a symptom of the crash, not the cause.
+- **Fix**: (1) Both read paths now serve the last good joint
+  reading (rate-limited warning) instead of raising, so the loop
+  survives. (2) Added `_detect_fault()` (reads `main_code` /
+  `safety_stop0/1_state` straight from the state package, no extra
+  RPC) and `_recover_from_fault()` — follower re-runs the full
+  enable sequence, leader re-enters drag-teach — gated by
+  `_RECOVERY_MIN_INTERVAL_S` and (follower) `_servo_paused` so it
+  cannot race the gripper worker (see G9). Issue #93.
+- **Rule**: Never let a per-tick hardware read raise straight into
+  the teleop loop; serve last-known state and recover. A Rerun
+  `transport error` with no other traceback means the main process
+  died — look upstream of Rerun. (from ToDo#51)
+
+---
+
 ## §3. Library Quirks
 
 ### Q1. Fairino ServoJ 7-param signature (firmware V3.9.1)
