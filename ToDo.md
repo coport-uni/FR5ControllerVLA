@@ -2518,3 +2518,55 @@ creates it if missing (see LP §2 G4, §3 Q12).
 - [x] bash -n syntax check (OK); ruff N/A (bash script)
 - [x] Tag the existing _100 dataset to unblock the current run (created v3.0; LeRobotDataset loads 100 ep / 64223 frames)
 - [x] Append LearnedPatterns entry for the missing-tag gotcha
+
+## 2026-06-22: Install conda and create lerobot Python 3.12 env
+
+Set up a conda toolchain on a fresh machine (no conda present) and
+create the project's runtime environment per CLAUDE.md.
+
+- [x] Confirm no existing conda (which conda/mamba empty; no
+      ~/miniconda3, ~/anaconda3, /opt/conda); arch x86_64, Ubuntu 24.04
+- [x] Download and silently install Miniconda to ~/miniconda3
+      (conda 26.3.2); run conda init bash
+- [x] Create env "lerobot" with python=3.12 via -c conda-forge
+      --override-channels (defaults channel blocked on Anaconda ToS)
+- [x] Verify: env at ~/miniconda3/envs/lerobot, Python 3.12.13
+- [x] Transfer ToDo.md ownership to appeal via gcsudo to record this
+      entry (file was owned by ykcho, read-only to appeal)
+- [x] GitHub issue registered (#94) after gh login + git credential
+      setup (coport-uni/FR5ControllerVLA)
+
+## 2026-06-22: Editable-install lerobot into the lerobot conda env
+
+Install the project per CLAUDE.md Build & Test Commands so the FR5
+VLA fork is importable and the CLI entry points are available.
+
+- [x] Install pip into the conda env (conda-forge python ships no pip);
+      pip 26.1.2
+- [x] Run pip install -e ".[test,dev]" in the lerobot env (exit 0);
+      pulls torch 2.10.0 + CUDA 12.8 wheels, datasets, accelerate,
+      wandb, pytest, mypy, pre-commit
+- [x] Verify: import lerobot -> 0.5.1; editable source at src/lerobot;
+      CLI lerobot-train / lerobot-teleoperate registered
+- [x] GitHub issue registered (#95) — depends on #94
+      (coport-uni/FR5ControllerVLA)
+
+## 2026-06-22: Fix pi0/pi05 train crash (missing transformers) on B200 env
+
+`7__train_pi0_task1_b200.sh` crashed at "Creating policy" with
+`TypeError: 'NoneType' object is not subscriptable` at
+`modeling_pi0.py:359` (`CONFIG_MAPPING["paligemma"]`). Root cause: the
+active conda env `/home/appeal/miniconda3/envs/lerobot` had no
+`transformers`, so `_transformers_available` was False and
+`CONFIG_MAPPING` fell back to None. ACT training is unaffected (no
+transformers dependency); only pi0/pi05 need the `[pi]` extra.
+
+- [x] Diagnose crash from wandb output.log traceback (CONFIG_MAPPING None)
+- [x] Confirm `transformers` absent in the active lerobot env
+- [x] Install pi0/pi05 deps: pip install -e ".[pi]"
+      -> transformers 5.12.1, scipy 1.18.0, tokenizers 0.22.2
+- [x] Verify pi0 + pi05 modules import and CONFIG_MAPPING is populated
+- [x] Update 7__train_pi0_task1_b200.sh header: verify GPU count with
+      `nvidia-smi -L` every run and set GPU_NUMBER to match (count is
+      not fixed across boxes/sessions)
+- [x] GitHub issue registered (#96) — coport-uni/FR5ControllerVLA

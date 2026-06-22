@@ -16,6 +16,14 @@
 # Why these numbers on 4 x B200 -- MEASURED on this box (issue #87,
 # claude_test/probe_logs/SUMMARY_b200.md)
 # ---------------------------------------------------------------------
+# IMPORTANT: the GPU count is NOT fixed -- verify it every run with
+#   `nvidia-smi -L`  (or `nvidia-smi --query-gpu=index --format=csv`)
+# before launching, then set GPU_NUMBER to match. This box was probed at
+# 4 x B200, but the visible device count changes between sessions/boxes;
+# the per-GPU figures below assume the per-GPU batch, NOT a fixed GPU
+# count. Keep BATCH_SIZE / GPU_NUMBER at the validated per-GPU rung (176)
+# rather than holding BATCH_SIZE constant when GPU_NUMBER changes.
+#
 # Per-GPU batch = 176 (BATCH_SIZE 704):
 #   B200 VRAM ladder (4 x B200, 183359 MiB/GPU, bf16 + compile +
 #   gradient_checkpointing, full fine-tune): batch=176 completes
@@ -112,8 +120,10 @@ HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50"
-JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
-GPU_NUMBER=4
+# JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
+JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
+# Verify against `nvidia-smi -L` before each run; see header note.
+GPU_NUMBER=6
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 176,
 # measured at 73.9 % peak VRAM on this box (192/GPU OOMs). See header.
