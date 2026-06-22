@@ -129,7 +129,7 @@ fi
 echo "WANDB_USER=${WANDB_USER}"
 
 JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
-GPU_NUMBER=4
+GPU_NUMBER=6
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 152,
 # the largest rung that compiles (160 hits the Triton shared-memory
