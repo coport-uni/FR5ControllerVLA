@@ -2642,5 +2642,8 @@ transformers dependency); only pi0/pi05 need the `[pi]` extra.
 - [x] ruff check + format on all touched files (80-col for new code).
 - [x] Create gh issue (#93); append a LearnedPatterns entry (LP §2 G11);
       commit and push.
-- [ ] Hardware validation on the robot (limit-fault recovery on
-      192.168.58.2 / 192.168.59.2) -- requires the robot, do with user.
+- [x] Hardware validation on the robot (limit-fault recovery on
+      192.168.58.2 / 192.168.59.2) -- user confirmed success on
+      2026-06-23: teleop no longer crashes at a joint limit and
+      auto-recovers. Layer C (clamp margin) left as optional
+      follow-up.
