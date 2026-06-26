@@ -2647,3 +2647,31 @@ transformers dependency); only pi0/pi05 need the `[pi]` extra.
       2026-06-23: teleop no longer crashes at a joint limit and
       auto-recovers. Layer C (clamp margin) left as optional
       follow-up.
+
+## Rename dataset task3 valve 45 -> 90 degrees
+
+Rename the recorded LeRobot dataset
+`FR5_task3_turn_the_sliver_air_valve_45_degress_counterclockwise` to
+`FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise` and
+update its natural-language task string from
+"turn the sliver air valve 45 degress counterclockwise" to
+"turn the sliver air valve 90 degress counterclockwise".
+
+- Target: outputs/datasets/FR5_task3_turn_the_sliver_air_valve_45_degress_counterclockwise
+- Method: rename the directory; rewrite the task string in
+  `meta/tasks.parquet` and in the `tasks` list column of
+  `meta/episodes/chunk-000/file-00{0..4}.parquet`, preserving the
+  pyarrow schema (large_string / list<string>). The `data/` parquet
+  files only hold the integer `task_index` (0) and are left untouched.
+- Why: the recorded motion is 90 degrees, not 45; the dataset name and
+  task prompt must match for VLA training.
+
+- [x] Back up `meta/` before editing (reversible). (scratchpad/meta_backup_*)
+- [x] Rename dataset directory 45 -> 90.
+- [x] Rewrite `meta/tasks.parquet` task string.
+- [x] Rewrite the `tasks` column in the 5 episode metadata parquet files.
+- [x] Verify: reload with LeRobotDataset, assert the task string is 90
+      and no "45 degress" remains anywhere; data/videos untouched.
+      (50 episodes / 32706 frames load OK; grep clean; 5 data parquet +
+      16 mp4 untouched.)
+- [x] Create gh issue (#97); commit and push.
