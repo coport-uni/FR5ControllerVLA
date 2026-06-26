@@ -2675,3 +2675,14 @@ update its natural-language task string from
       (50 episodes / 32706 frames load OK; grep clean; 5 data parquet +
       16 mp4 untouched.)
 - [x] Create gh issue (#97); commit and push.
+
+### Hugging Face Hub upload (follow-up)
+- [x] Rename the Hub repo in place with `HfApi.move_repo` 45 -> 90
+      (preserves history; old URL auto-redirects to the new one).
+- [x] Push one atomic commit with the corrected `meta/tasks.parquet`,
+      the 5 `meta/episodes/*.parquet`, and a patched README.md
+      (visualize-dataset link repointed to the 90 path). Videos/data
+      were already identical on the Hub, so they were not re-uploaded.
+- [x] Verify on the Hub: task string reads 90, README clean of "45",
+      old id redirects to new. Repo stays public to match the other
+      coport-uni FR5 datasets.
