@@ -180,7 +180,8 @@
       "Bash(gh label *)",
       "Bash(git fetch *)",
       "Bash(git rev-list *)",
-      "Bash(awk '/^ *)"
+      "Bash(awk '/^ *)",
+      "Bash(git check-ignore *)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",
