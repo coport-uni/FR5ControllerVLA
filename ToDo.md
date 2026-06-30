@@ -2686,3 +2686,45 @@ update its natural-language task string from
 - [x] Verify on the Hub: task string reads 90, README clean of "45",
       old id redirects to new. Repo stays public to match the other
       coport-uni FR5 datasets.
+
+## 2026-06-30: Delete episode 119 from task3 valve 90deg dataset
+
+Delete episode 119 from
+`FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise`,
+both the local copy and the Hugging Face Hub copy.
+
+- Target: outputs/datasets/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise
+  and Hub repo coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise
+- Why: episode 119 is the last episode and only 4 frames long (a
+  botched/empty recording); it pollutes the training set and must go.
+- Method: use the official `lerobot-edit-dataset` tool,
+  `--operation.type delete_episodes --operation.episode_indices "[119]"`.
+  It re-indexes the data parquet, re-encodes only the 3 video files that
+  contain ep119 (top_left/file-019, top_right/file-017, hand/file-011),
+  and rewrites meta (episodes, stats, info.json). Run in-place with
+  `--root == --new_root` so a `_old` backup is created automatically.
+  The relocated `.venv` cannot import lerobot, so invoke via
+  `PYTHONPATH=src python -m lerobot.scripts.lerobot_edit_dataset`.
+- Note (see LP, ToDo#40): pushing after a local-only edit is safe here
+  because the freshly written 119-episode dataset is complete and
+  self-consistent, so the constructor loads locally and never tries to
+  reconcile against the Hub's 120-episode revision.
+
+- [x] Phase 1 (local): run delete_episodes in-place (auto `_old` backup).
+- [x] Verify local: 119 episodes / 85720 frames, ep119 absent, file
+      structure intact, affected videos re-encoded and loadable.
+- [x] Phase 2 (Hub): push the verified dataset to coport-uni/... ;
+      README auto-regenerates (corrects the stale 110-episode count).
+- [x] Verify on Hub: total_episodes=119, ep119 gone, README clean.
+- [ ] Remove the `_old` backup once both copies are verified.
+      (KEPT per user request; not removed.)
+- [x] Create gh issue (#98); mark ToDo items as work progresses.
+
+Post-run note: `push_to_hub` (upload_folder) overwrites but never
+deletes. delete_episodes re-packed `meta/episodes` from 12 shards
+(10 rows each) into 1 shard (119 rows), so the Hub kept the 11 stale
+old shards (eps 10..119, incl. 119) -> 229 meta rows even though
+info.json read 119. Fixed by an `HfApi.create_commit` deleting the
+11 stale `meta/episodes/chunk-000/file-0{01..11}.parquet`. Final Hub
+state: 119 episode rows, ep119 absent, 66 files matching local
+exactly. Recorded in LearnedPatterns.

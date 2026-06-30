@@ -508,6 +508,29 @@
   processor JSONs (pre and post) for unknown steps, not just the
   preprocessor. (from B200 pi05-adv probe, 2026-06-15, gh #89)
 
+### Q17. `push_to_hub` leaves stale shards after `delete_episodes` repacks `meta/episodes`
+
+- **Problem**: After `lerobot-edit-dataset delete_episodes` (removed
+  ep119) then `push_to_hub`, the Hub `info.json`/README correctly read
+  119 episodes, but reloading `meta/episodes/*.parquet` from the Hub
+  gave 229 rows with ep119 still present.
+- **Cause**: `delete_episodes` re-packs episode metadata through a
+  size-based writer, collapsing 12 small shards (10 rows each) into a
+  single `file-000.parquet` (119 rows). `push_to_hub` uses
+  `HfApi.upload_folder`, which OVERWRITES matching paths but NEVER
+  deletes Hub files absent locally — so the 11 orphan shards
+  `file-001..011` (eps 10..119, incl. 119) survived and double-counted.
+  Data/video files kept identical names, so only `meta/episodes`
+  orphaned.
+- **Fix**: After the push, diff Hub file list vs local
+  (`HfApi.list_repo_files` vs local glob) and delete orphans in one
+  `HfApi.create_commit` with `CommitOperationDelete`. Re-verify by
+  reloading the Hub `meta/episodes` row count.
+- **Rule**: Always reconcile the remote file list against local after a
+  `push_to_hub` that follows a structural edit (delete/split/merge);
+  `upload_folder` is overwrite-only, so repacked shard counts leave
+  orphans. (from ep119 deletion, 2026-06-30, gh #98)
+
 ---
 
 ## §4. Workflow Lessons
