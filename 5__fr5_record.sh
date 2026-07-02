@@ -50,7 +50,7 @@ lerobot-record \
     --dataset.reset_time_s=30 \
     --dataset.num_episodes=10 \
     --dataset.fps=20 \
-    --dataset.single_task="turn the sliver air valve 45 degress counterclockwise" \
+    --dataset.single_task="turn the sliver air valve 90 degress counterclockwise" \
     --dataset.streaming_encoding=true \
     --dataset.encoder_threads=8 \
     --resume=true \

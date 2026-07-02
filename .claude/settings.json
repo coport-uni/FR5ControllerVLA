@@ -181,7 +181,19 @@
       "Bash(git fetch *)",
       "Bash(git rev-list *)",
       "Bash(awk '/^ *)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(hf --version)",
+      "Bash(python -c \"import huggingface_hub; print\\(huggingface_hub.__version__\\)\")",
+      "Bash(.venv/bin/hf skills *)",
+      "Bash(python -m huggingface_hub --help)",
+      "Bash(/home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/.venv/bin/python3 /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/.venv/bin/hf version)",
+      "Bash(hf version *)",
+      "Bash(python -c \"from huggingface_hub import whoami; print\\(whoami\\(\\)['name']\\)\")",
+      "Bash(.venv/bin/python -c \"import lerobot; print\\('lerobot import OK', lerobot.__version__ if hasattr\\(lerobot,'__version__'\\) else ''\\)\")",
+      "Bash(python -c \"import lerobot, lerobot.scripts.lerobot_edit_dataset as m; print\\('OK lerobot at', lerobot.__file__\\)\")",
+      "Bash(python -c \"import lerobot, os; print\\(os.path.realpath\\(lerobot.__file__\\)\\)\")",
+      "Bash(PYTHONPATH=src python -)",
+      "Bash(git pull *)"
     ],
     "additionalDirectories": [
       "/workspace/FR5ControllerVLA",
