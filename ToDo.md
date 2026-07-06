@@ -2747,3 +2747,16 @@ scripts (`conda activate lerobot`) run again.
 - [x] `conda init bash` so scripts' `conda activate lerobot` works.
 - [x] Install `gh` CLI (also lost in migration) and create the
       tracking issue (#99). gh re-authenticated as coport-uni.
+
+## Push task3 h200 (100_act) model to HuggingFace (2026-07-06)
+
+Context: training finished 100K steps and all checkpoints saved, but
+the end-of-training `push_model_to_hub` failed with 401 because the HF
+token was invalid/expired at that time. Token has been reissued
+(`h200_token`, fineGrained with repo.write). Push the saved checkpoint
+directly instead of re-running training.
+
+- [x] Verify HF auth (whoami -> coport-uni, repo.write scope).
+- [x] Upload `checkpoints/last/pretrained_model` to
+      `coport-uni/FR5_task3_..._100_act_h200_model`.
+- [x] Confirm repo exists and files are present on the Hub.
