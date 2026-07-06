@@ -131,11 +131,10 @@ echo "WANDB_USER=${WANDB_USER}"
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50"
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
-# JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50"
-JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50"
-JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
 
-GPU_NUMBER=6
+# JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50"
+JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
+GPU_NUMBER=4
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 152,
 # the largest rung that compiles (160 hits the Triton shared-memory

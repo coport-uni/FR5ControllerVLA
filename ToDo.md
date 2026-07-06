@@ -2728,3 +2728,22 @@ info.json read 119. Fixed by an `HfApi.create_commit` deleting the
 11 stale `meta/episodes/chunk-000/file-0{01..11}.parquet`. Final Hub
 state: 119 episode rows, ep119 absent, 66 files matching local
 exactly. Recorded in LearnedPatterns.
+
+## Rebuild conda + lerobot env after container migration (2026-07-01)
+
+Context: container was moved; conda and the previous `lerobot`
+environment were lost. Rebuild the toolchain so the training/record
+scripts (`conda activate lerobot`) run again.
+
+- [x] Verify state: no conda, system Python 3.12.3, x86_64, Ubuntu
+      24.04, network up, 799G free.
+- [x] Install Miniconda to `~/miniconda3` (latest, x86_64).
+- [x] Accept conda channel ToS (main, r).
+- [x] Create `lerobot` env with Python 3.12 (repo requires >=3.12;
+      scripts activate the `lerobot` name).
+- [x] Install repo package editable: `pip install -e ".[test,dev]"`.
+- [x] Verify: `import lerobot` 0.5.1; torch 2.10.0+cu128 with
+      cuda_available=True; CLI entry points present.
+- [x] `conda init bash` so scripts' `conda activate lerobot` works.
+- [x] Install `gh` CLI (also lost in migration) and create the
+      tracking issue (#99). gh re-authenticated as coport-uni.

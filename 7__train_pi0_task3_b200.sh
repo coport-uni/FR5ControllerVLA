@@ -120,12 +120,33 @@ HF_USER=$(hf auth whoami | head -n 1)
 echo "HF_USER=${HF_USER}"
 
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50"
-JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
+# JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
+JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
+
+DATASET_REPO="coport-uni/${JOB_NAME}"
+python - "$DATASET_REPO" <<'PY'
+import json
+import sys
+
+from huggingface_hub import HfApi
+
+repo = sys.argv[1]
+api = HfApi()
+info_path = api.hf_hub_download(repo, "meta/info.json", repo_type="dataset")
+with open(info_path) as f:
+    version = json.load(f)["codebase_version"]
+tags = {t.name for t in api.list_repo_refs(repo, repo_type="dataset").tags}
+if version in tags:
+    print(f"dataset tag {version} already present")
+else:
+    api.create_tag(repo, tag=version, repo_type="dataset")
+    print(f"created dataset tag {version}")
+PY
 
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
 # Verify against `nvidia-smi -L` before each run; see header note.
-GPU_NUMBER=6
+GPU_NUMBER=4
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 176,
 # measured at 73.9 % peak VRAM on this box (192/GPU OOMs). See header.
