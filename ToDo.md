@@ -2866,8 +2866,21 @@ but only at 4 and 6 GPUs. (see LP §Q15, §Q15b, §Q15c)
       on 3 GPUs peaked at 131022 MiB vs 131024 MiB on 4 GPUs.
 - [x] Record findings in LearnedPatterns (Q15b, Q15c) and open gh #102.
 
-Open decision (user's call, deliberately not applied):
-- [ ] 3 GPUs cannot reproduce the existing experiments. Holding per-GPU
+Decision: user chose option 2 (scale BATCH_SIZE) -- restoring the 4th
+GPU is not possible right now.
+
+- [x] Apply option 2 to both task2 scripts, holding per-GPU at each
+      policy's validated rung and sqrt-rescaling the LR:
+      pi05 -> BATCH_SIZE 456 (152*3), lr 1.1e-4 -> 9.4e-5;
+      pi0  -> BATCH_SIZE 528 (176*3), lr 1.2e-4 -> 1.04e-4.
+      Headers updated so the stated rationale matches the values.
+- [x] Accepted trade-off (documented in both script headers): global
+      batch drops 608 -> 456 (pi05) and 704 -> 528 (pi0), so task2 is
+      NOT directly comparable to the 4-GPU task1/task3 runs. Per-GPU
+      batch is identical, so compile/VRAM behaviour matches.
+
+Original note, retained for the record:
+- [x] 3 GPUs cannot reproduce the existing experiments. Holding per-GPU
       at the validated rung forces global batch 704 -> 528 (pi0) or
       608 -> 456 (pi05) plus an LR rescale, which confounds any
       task2-vs-task3 comparison. 608 is unreachable on 3 GPUs at
