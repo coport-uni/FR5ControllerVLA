@@ -108,6 +108,14 @@ export TORCHINDUCTOR_CACHE_DIR="${_repo_root}/.cache/torchinductor"
 export TRITON_CACHE_DIR="${_repo_root}/.cache/triton"
 mkdir -p "${TORCHINDUCTOR_CACHE_DIR}" "${TRITON_CACHE_DIR}"
 
+# The HF cache defaults to ~/.cache, which lives on the container
+# overlay and is destroyed by a container swap -- the 2026-07-14
+# migration wiped it and training then failed on the gated
+# google/paligemma-3b-pt-224 tokenizer that pi0/pi05 fetch at startup.
+# Keep the cache (and the auth token) on the persistent disk instead.
+export HF_HOME=/NHNHOME/workspace/sungwoo/hf_cache
+mkdir -p "${HF_HOME}"
+
 # Force NCCL socket transport inside this Docker image; P2P/CUMEM fails
 # silently on the first allreduce/barrier here and stalls DDP forever.
 # See issue #30 for the full diagnosis. On a properly configured B200

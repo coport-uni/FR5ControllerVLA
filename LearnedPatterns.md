@@ -766,6 +766,68 @@
   block and prepend the env bin to PATH when bare `python` must
   resolve into the env. (from B200 probe, 2026-06-13, gh #87)
 
+### E13. Container swap moves the mount path; it does not delete the env
+
+- **Problem**: After a container migration `conda` was gone from PATH
+  and every root in the portable probe block (E5) was missing, so the
+  env looked destroyed and a 13 GB reinstall looked necessary.
+- **Cause**: The env was intact on the persistent disk the whole time.
+  Only the mount path moved (`/NHNHOME/workspace` ->
+  `/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace`). Conda bakes its
+  install prefix into every console script, so the move broke 134
+  shebangs in `envs/lerobot/bin` (including `conda` itself) and the
+  editable-install pointer `__editable__.lerobot-0.5.1.pth`. The
+  interpreter binary still ran fine -- only the prefix-baked wrappers
+  failed, which is why it presented as "everything is gone".
+- **Fix**: `ln -s <new-root> <old-path>` restored conda, all 134
+  scripts, the editable import, and all 5 training scripts that
+  hard-code the old root -- unmodified, in one command.
+- **Rule**: Never conclude a conda env is lost because `conda` is not
+  found; first check whether the install still exists at a moved path
+  and test the real interpreter (`envs/<name>/bin/python3.x`) directly.
+  Prefer a symlink restoring the old prefix over relocating a
+  prefix-baked env. (from ToDo#49, gh #101)
+
+### E14. Only `/NHNHOME` persists; `$HOME` and `/tmp` are container overlay
+
+- **Problem**: The 2026-07-01 rebuild installed conda to `~/miniconda3`
+  and the next container swap wiped it again. The same swap destroyed
+  the HF cache (`~/.cache/huggingface`), the HF/wandb/gh credentials,
+  and `gh` itself.
+- **Cause**: `/home` and `/tmp` live on the container overlay; only
+  `/NHNHOME` (the mounted nvme) survives a swap.
+- **Fix**: Install envs and caches under `/NHNHOME`. `HF_HOME` is now
+  redirected to `/NHNHOME/workspace/sungwoo/hf_cache` in the 5 B200
+  training scripts, alongside the existing inductor/triton redirect
+  (E11). Note `hf auth login` writes its token to `~/.cache` unless
+  `HF_HOME` is exported first, so the token must be placed on the
+  persistent disk explicitly.
+- **Rule**: Always install environments, caches, and tokens under
+  `/NHNHOME`; never `$HOME` or `/tmp`. Losing an overlay HF cache turns
+  a silent dependency on a gated repo into a hard training failure
+  (E15). (from ToDo#49, gh #101)
+
+### E15. pi0/pi05 need the GATED paligemma tokenizer at startup
+
+- **Problem**: pi05 training died before step 0 with
+  `Failed to instantiate processor step 'tokenizer_processor' ...
+  You are trying to access a gated repo`, even though the FR5 dataset
+  is public and the pi05 weights are pinned locally.
+- **Cause**: pi0/pi05 build `tokenizer_processor` from
+  `google/paligemma-3b-pt-224`, a gated repo requiring an authenticated
+  token whose account accepted the licence. It had always resolved
+  silently from the overlay HF cache; once that cache was wiped (E14)
+  the hidden network dependency surfaced. The pinned
+  `models/pi05_base_v051compat` snapshot carries weights but no
+  tokenizer, so there is no local fallback.
+- **Fix**: `hf auth login` with a licence-accepting account, with
+  `HF_HOME` pointed at the persistent disk so the tokenizer and token
+  survive the next swap.
+- **Rule**: Always treat the paligemma tokenizer as a required gated
+  dependency of pi0/pi05, not an implementation detail of the cache; a
+  pinned local checkpoint does NOT make training offline-capable.
+  (from ToDo#49, gh #101)
+
 ---
 
 ## §99. Uncategorized

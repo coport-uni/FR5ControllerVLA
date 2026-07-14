@@ -50,7 +50,7 @@
 #     the dataset with quantile stats and push to Hub; we skip that.
 #
 # ---------------------------------------------------------------------
-# B200-specific environment fixes (all four are required here; see
+# B200-specific environment fixes (all five are required here; see
 # SUMMARY_pi05_b200.md / SUMMARY_b200.md)
 # ---------------------------------------------------------------------
 #   1. pretrained_path points at the pinned local snapshot
@@ -71,6 +71,11 @@
 #   4. /tmp is mounted noexec, so torch.compile/triton cannot dlopen the
 #      kernels it writes there. Both caches are redirected to the repo
 #      .cache/ below.
+#   5. HF_HOME is redirected to the persistent disk. The default
+#      ~/.cache sits on the container overlay, so a container swap
+#      wipes both the auth token and the gated
+#      google/paligemma-3b-pt-224 tokenizer this policy fetches at
+#      startup -- which then fails before step 0. (2026-07-14 migration.)
 
 # Try known conda install roots in order (miniforge3 on this B200 box
 # first, then the FR5/H200 roots, then per-user fallbacks). Fail clearly
@@ -106,6 +111,14 @@ _repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export TORCHINDUCTOR_CACHE_DIR="${_repo_root}/.cache/torchinductor"
 export TRITON_CACHE_DIR="${_repo_root}/.cache/triton"
 mkdir -p "${TORCHINDUCTOR_CACHE_DIR}" "${TRITON_CACHE_DIR}"
+
+# The HF cache defaults to ~/.cache, which lives on the container
+# overlay and is destroyed by a container swap -- the 2026-07-14
+# migration wiped it and training then failed on the gated
+# google/paligemma-3b-pt-224 tokenizer that pi0/pi05 fetch at startup.
+# Keep the cache (and the auth token) on the persistent disk instead.
+export HF_HOME=/NHNHOME/workspace/sungwoo/hf_cache
+mkdir -p "${HF_HOME}"
 
 # NCCL: P2P must stay ENABLED on this bare-metal B200 NVLink/NVSwitch
 # box. The inherited NCCL_P2P_DISABLE=1 (issue #30, a Docker-image

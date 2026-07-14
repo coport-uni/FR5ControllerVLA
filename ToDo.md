@@ -2760,3 +2760,81 @@ directly instead of re-running training.
 - [x] Upload `checkpoints/last/pretrained_model` to
       `coport-uni/FR5_task3_..._100_act_h200_model`.
 - [x] Confirm repo exists and files are present on the Hub.
+
+## Rebuild conda + lerobot env after 2nd container migration (2026-07-14)
+
+Context: the container was swapped again and conda, the `lerobot` env,
+the HF cache, wandb/HF credentials, and `gh` were all lost -- the same
+loss as the 2026-07-01 rebuild. That rebuild installed to
+`~/miniconda3`, which sits on the container overlay and was therefore
+wiped a second time. Install to the persistent `/NHNHOME` disk instead
+so the next swap does not repeat this (see LP E5/E12).
+
+Goal: `7__train_pi05_task3_b200.sh` trains cleanly for 10 minutes.
+
+Findings from the pre-flight survey:
+- Only 3 of 4 B200s enumerate; the script hard-codes GPU_NUMBER=4.
+  User decision: verify on 3 GPUs via a temporary override and leave
+  the tuned 4-GPU script untouched.
+- No sudo, so LP Q10's `apt install cmake` fix is unavailable; use
+  conda-forge cmake (a native binary, not the PyPI Python wrapper).
+- Dataset `coport-uni/FR5_task3_..._200` is public, so it pulls
+  without an HF token. wandb/push_to_hub are disabled for the
+  verification run only (user decision).
+
+- [x] Install Miniforge3 to
+      `/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/miniforge3`
+      (persistent disk, survives container swaps).
+- [x] Create the `lerobot` env with Python 3.12 (repo requires >=3.12;
+      scripts activate the `lerobot` name).
+- [x] Install native cmake from conda-forge to avoid the PyPI cmake
+      wrapper breaking source builds (see LP Q10).
+- [x] Install the repo editable with the pi extra:
+      `pip install -e ".[pi,test,dev]"` (script header requires `[pi]`).
+- [x] Verify `import lerobot` 0.5.1, torch CUDA available on sm_100,
+      and CLI entry points resolve.
+- [x] Install `gh` CLI (lost again) and create the tracking issue.
+- [x] Add the new persistent conda root to the probe loop in the
+      training scripts (see LP E5/E12).
+- [ ] Verify: run `7__train_pi05_task3_b200.sh` for 10 minutes with
+      3-GPU / no-wandb / no-push overrides; confirm the loss decreases
+      and steps advance past torch.compile.
+- [ ] Append a LearnedPatterns entry: install envs on persistent
+      storage, not the container overlay.
+
+Revised findings (the original plan above assumed a from-scratch
+rebuild; that turned out to be unnecessary):
+- [x] The env was NOT lost. miniforge3 + the `lerobot` env survived
+      intact on the persistent disk (13G, torch 2.10.0+cu128, CUDA up).
+      The migration only moved the mount path
+      (`/NHNHOME/workspace` -> `/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace`),
+      which broke 134 prefix-baked console-script shebangs and the
+      editable-install `.pth`. No reinstall, no cmake install, and no
+      script probe-loop edit were needed.
+- [x] Fix: `ln -s /NHNHOME/WORKSPACE/26msit002_E/appeal_workspace
+      /NHNHOME/workspace` restores conda, all 134 scripts, the editable
+      lerobot import, and all 5 training scripts that hard-code the old
+      root -- unmodified.
+- [x] Re-download the 10.4 GB task3 dataset (the HF cache lived on the
+      container overlay and was wiped). Cache moved to
+      `/NHNHOME/workspace/sungwoo/hf_cache` (persistent) via HF_HOME.
+- [x] Install `gh` 2.96.0 into a separate `tools` env (kept out of the
+      verified `lerobot` env).
+- [x] Install `gh` and create the tracking issue (#101). gh
+      re-authenticated as coport-uni.
+- [x] Resolve the gated-tokenizer blocker: pi05's
+      `tokenizer_processor` pulls the GATED repo
+      `google/paligemma-3b-pt-224`, which had always resolved silently
+      from the overlay HF cache the migration wiped (the pinned
+      `models/pi05_base_v051compat` snapshot carries no tokenizer).
+      User ran `hf auth login`; note the token landed in the overlay
+      `~/.cache`, so it was copied to the persistent HF_HOME to survive
+      the next swap.
+- [x] VERIFIED: 10-minute run on 3 x B200 completed 194 steps at
+      3.17 s/step with zero errors. Loss fell 3.897 -> 0.113 and peak
+      VRAM was 131022 MiB/GPU -- within 2 MiB of the 131024 MiB
+      recorded by the original 4-GPU probe (issue #89), so the rebuilt
+      toolchain reproduces known-good behaviour.
+- [x] Append LearnedPatterns E13 (moved mount path != lost env), E14
+      (only /NHNHOME persists), E15 (pi0/pi05 need the gated paligemma
+      tokenizer).
