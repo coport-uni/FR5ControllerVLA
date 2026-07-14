@@ -490,6 +490,52 @@
   as a compile-codegen limit (reduce batch), distinct from a CUDA
   OOM. (from B200 pi05-adv probe, 2026-06-15, gh #89)
 
+### Q15b. Cutting GPU_NUMBER while holding BATCH_SIZE raises per-GPU batch
+
+- **Problem**: With 3 of 4 B200s enumerating, `7__train_pi0_task2_b200.sh`
+  (`GPU_NUMBER=3`, `BATCH_SIZE=704`) died before step 0 with
+  `No valid triton configs. OutOfMemoryError: out of resource:
+  triton_per_fused_..._mean_mul_pow_rsqrt_... Required: 294976
+  Hardware limit: 232448` -- the Q15 signature, on pi0 rather than pi05.
+  The same script had run fine for months.
+- **Cause**: `BATCH_SIZE` in these scripts is the GLOBAL batch;
+  `--batch_size` is passed as `BATCH_SIZE / GPU_NUMBER`. Holding the
+  global batch while dropping the GPU count therefore *raises* per-GPU
+  batch, which is the quantity the shared-mem ceiling binds on. The
+  same `BATCH_SIZE=704` gives 117/GPU on 6 GPUs (OK), 176/GPU on 4
+  (OK), and 234/GPU on 3 (fails). Nothing about the box changed --
+  only the divisor.
+- **Fix**: Scale `BATCH_SIZE` with `GPU_NUMBER` to hold per-GPU at the
+  validated rung (pi0: 176*3 = 528; pi05: 152*3 = 456), and sqrt-rescale
+  the LR for the new global batch. Verified: pi05 at 152/GPU on 3 GPUs
+  peaks at 131022 MiB vs 131024 MiB on 4 GPUs -- per-GPU batch alone
+  determines compile/VRAM behaviour; GPU count does not.
+- **Rule**: Always re-derive `BATCH_SIZE` when changing `GPU_NUMBER` --
+  per-GPU batch, not global batch, is what hits the ceiling. Note the
+  global batch then changes too, so an LR rescale is required and the
+  run is no longer directly comparable to a differently-batched one.
+  (from ToDo#50, gh #102)
+
+### Q15c. The gemma shared-mem ceiling is policy-specific, not shared
+
+- **Problem**: Q15 records the shared-mem failure as a pi05 trait
+  ("pi05's gemma RMSNorm"), which reads as though pi0 is exempt or
+  shares the 160 threshold. Both readings are wrong and led to a bad
+  prediction that pi0 would fail above ~160.
+- **Cause**: pi0 and pi05 share the gemma backbone and therefore the
+  same failing kernel and the same 232448 B per-SM limit, but the
+  per-block shared memory scales with model width, so the batch at
+  which they cross the limit differs.
+- **Fix**: Read the thresholds off this repo's own run logs
+  (`grep "Effective batch size" outputs/train/**/*.log`, then check
+  whether any step lines follow). Measured on B200:
+  pi0 -> 160 OK, 176 OK, 192/208/224/234/240 FAIL;
+  pi05 -> 152 OK, >=160 FAIL. (The one failing pi0 176 run predates
+  `compile_mode=default` and is Q14, not this.)
+- **Rule**: Never carry a batch ceiling across policies -- pi0's 176
+  does not license 176 for pi05. Treat each policy's largest
+  step-producing rung in the logs as its ceiling. (from ToDo#50, gh #102)
+
 ### Q16. pi05_base needs the same v051compat snapshot treatment as pi0
 
 - **Problem**: `lerobot/pi05_base` HEAD fails to load on this v0.5.1

@@ -2838,3 +2838,41 @@ rebuild; that turned out to be unnecessary):
 - [x] Append LearnedPatterns E13 (moved mount path != lost env), E14
       (only /NHNHOME persists), E15 (pi0/pi05 need the gated paligemma
       tokenizer).
+
+## Diagnose task2 B200 batch-scaling failure (2026-07-14)
+
+Context: with only 3 of 4 B200s enumerating, `7__train_pi0_task2_b200.sh`
+(`GPU_NUMBER=3`, `BATCH_SIZE=704`) died before step 0. User's prior
+belief was that pi0 was unaffected because "pi0 worked fine" -- it had,
+but only at 4 and 6 GPUs. (see LP §Q15, §Q15b, §Q15c)
+
+- [x] Read the failing run's wandb console capture (the `train_*.log`
+      holds no traceback; stderr goes to
+      `wandb/latest-run/files/output.log`).
+- [x] Root cause: `BATCH_SIZE` is the GLOBAL batch and `--batch_size`
+      is `BATCH_SIZE / GPU_NUMBER`, so cutting GPUs 4 -> 3 RAISED
+      per-GPU batch 176 -> 234. That crosses the gemma RMSNorm Triton
+      shared-mem ceiling: `Required: 294976 Hardware limit: 232448`
+      (byte-identical to the #89 probe). Not a VRAM shortage.
+- [x] Establish the real thresholds from this repo's own logs rather
+      than assumption. Measured on B200 (gemma policies):
+      pi0 -> 117/152/160/176 OK, 192/208/224/234/240 FAIL;
+      pi05 -> 152 OK, >=160 FAIL. ACT's 248/GPU is irrelevant (no
+      gemma backbone, and H200 not B200).
+- [x] Correct an over-generalisation made mid-session: the ceiling is
+      NOT policy-independent at ~160. pi0 runs fine at 176; the
+      mechanism is shared but each policy crosses at its own batch.
+- [x] Confirm per-GPU batch alone drives compile/VRAM: pi05 at 152/GPU
+      on 3 GPUs peaked at 131022 MiB vs 131024 MiB on 4 GPUs.
+- [x] Record findings in LearnedPatterns (Q15b, Q15c) and open gh #102.
+
+Open decision (user's call, deliberately not applied):
+- [ ] 3 GPUs cannot reproduce the existing experiments. Holding per-GPU
+      at the validated rung forces global batch 704 -> 528 (pi0) or
+      608 -> 456 (pi05) plus an LR rescale, which confounds any
+      task2-vs-task3 comparison. 608 is unreachable on 3 GPUs at
+      152/GPU (608/3 is not an integer; only multiples of 456 are
+      possible, gradient accumulation included). Restoring the 4th GPU
+      is the only path that keeps per-GPU, global batch and LR all
+      identical to the existing runs.
+- [ ] Investigate why only 3 of 4 B200s enumerate.
