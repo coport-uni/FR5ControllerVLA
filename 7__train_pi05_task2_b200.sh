@@ -183,7 +183,7 @@ accelerate launch \
     --policy.pretrained_path=models/pi05_base_v051compat \
     --policy.normalization_mapping='{"ACTION": "MEAN_STD", "STATE": "MEAN_STD", "VISUAL": "IDENTITY"}' \
     --dataset.video_backend=pyav \
-    --policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200_model \
+    --policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200 \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --policy.compile_model=true \
@@ -195,7 +195,7 @@ accelerate launch \
     --policy.optimizer_weight_decay=1e-10 \
     --output_dir=outputs/train/${JOB_NAME}_pi05_b200 \
     --job_name=${JOB_NAME}_pi05_b200 \
-    --wandb.enable=true \
+    --wandb.enable=false \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
     --policy.optimizer_lr=9.4e-5 \
     --steps=${STEPS_NUMBER} \

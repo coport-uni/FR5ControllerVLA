@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Train a Pi0 policy on the FR5 teleop dataset, tuned for 3 x B200.
+# Train a Pi0 policy on the FR5 teleop dataset, tuned for 4 x B200.
 # Adapted from 7__train_pi0_adv.sh (2 x H200) following the
 # global-batch / GPU_NUMBER convention of 7__train_act_task1_h200.sh.
 #
@@ -24,7 +24,7 @@
 # count. Keep BATCH_SIZE / GPU_NUMBER at the validated per-GPU rung (176)
 # rather than holding BATCH_SIZE constant when GPU_NUMBER changes.
 #
-# Per-GPU batch = 176 (BATCH_SIZE 528 on 3 GPUs; 704 on 4):
+# Per-GPU batch = 176 (BATCH_SIZE 704):
 #   B200 VRAM ladder (4 x B200, 183359 MiB/GPU, bf16 + compile +
 #   gradient_checkpointing, full fine-tune): batch=176 completes
 #   50/50 steps at peak 135458 MiB = 73.9 % VRAM, 6.29 s/step;
@@ -32,13 +32,9 @@
 #   validated rung, same accept-below-OOM rule as the H200 probe
 #   (issue #55, batch=160 there).
 #
-# Learning rate = 1.04e-4:
-#   Effective batch = 176 * 3 = 528 = 16.5x openpi's baseline 32.
-#   SQRT scaling: lr = 2.5e-5 * sqrt(16.5) = 1.02e-4 -> 1.04e-4.
-#   NOTE: this run is NOT directly comparable to the 4-GPU task1/task3
-#   pi0 runs -- they use global batch 704 at lr 1.2e-4. Per-GPU batch
-#   is identical (176), so compile/VRAM behaviour matches, but the
-#   global batch and LR both differ. See gh #102.
+# Learning rate = 1.2e-4:
+#   Effective batch = 176 * 4 = 704 = 22x openpi's baseline 32.
+#   SQRT scaling: lr = 2.5e-5 * sqrt(22) = 1.17e-4 -> 1.2e-4.
 #   SQRT (not linear) per the probe docs; LeRobot does no LR
 #   auto-scaling. scheduler_warmup_steps stays at the LeRobot default
 #   1000 (warmup length is not proportional to batch size). If the
@@ -80,6 +76,9 @@
 # Try known conda install roots in order (FR5 control PC first, then
 # the training box, then per-user fallbacks). Fail clearly if none is
 # present so we don't die later with "conda: not found".
+
+# source /NHNHOME/workspace/sungwoo/miniforge3/etc/profile.d/conda.sh
+
 _conda_sh=""
 for _root in /NHNHOME/workspace/sungwoo/miniforge3 \
              /home/inno-controller/anaconda3 /opt/conda \
@@ -135,7 +134,8 @@ echo "HF_USER=${HF_USER}"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
 
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
 
 DATASET_REPO="coport-uni/${JOB_NAME}"
 python - "$DATASET_REPO" <<'PY'
@@ -165,10 +165,6 @@ GPU_NUMBER=3
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 176,
 # measured at 73.9 % peak VRAM on this box (192/GPU OOMs). See header.
-# 528 = 176 * 3 because only 3 B200s enumerate. Do NOT keep the 4-GPU
-# value 704 here: 704/3 = 234 per-GPU, which crosses the gemma RMSNorm
-# Triton shared-mem ceiling (Required 294976 > limit 232448) and dies
-# before step 0 -- not a VRAM shortage. See gh #102.
 BATCH_SIZE=528
 
 STEPS_NUMBER=30000
@@ -182,7 +178,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/${JOB_NAME} \
     --policy.type=pi0 \
     --policy.pretrained_path=models/pi0_base_v051compat \
-    --policy.repo_id=coport-uni/${JOB_NAME}_pi0_b200_model \
+    --policy.repo_id=coport-uni/${JOB_NAME}_pi0_b200 \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \
@@ -194,7 +190,7 @@ accelerate launch \
     --policy.train_expert_only=false \
     --output_dir=outputs/train/${JOB_NAME}_pi0_b200 \
     --job_name=${JOB_NAME}_pi0_b200 \
-    --wandb.enable=true \
+    --wandb.enable=false \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
     --policy.optimizer_lr=1.04e-4 \
     --steps=${STEPS_NUMBER} \

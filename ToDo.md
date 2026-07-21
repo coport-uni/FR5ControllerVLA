@@ -2889,3 +2889,20 @@ Original note, retained for the record:
       is the only path that keeps per-GPU, global batch and LR all
       identical to the existing runs.
 - [ ] Investigate why only 3 of 4 B200s enumerate.
+
+## Upload task2 pi05 b200 checkpoint to the Hub
+
+Training finished 30000/30000 steps on 2026-07-20 15:16, but nothing
+reached the Hub: `--policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200_model`
+is 102 characters, over the Hugging Face 96-character repo-name limit,
+so `push_to_hub=true` never produced a repo. Dropping the `_model`
+suffix yields exactly 96 characters, matching the existing
+`..._50_act_h200` task2 repo (see LP §Q17 for push_to_hub caveats).
+
+- [ ] Create `coport-uni/FR5_task2_..._50_pi05_b200` (public, matching
+      every other coport-uni model repo).
+- [ ] Upload `checkpoints/last/pretrained_model/` (9.35 GB) from
+      `outputs/train/FR5_task2_..._50_pi05_b200/`.
+- [ ] Drop the `_model` suffix in `7__train_pi05_task2_b200.sh` so
+      future task2 runs push successfully.
+- [ ] Record the 96-character repo-name limit in `LearnedPatterns.md`.
