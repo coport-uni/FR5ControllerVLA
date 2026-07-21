@@ -531,6 +531,28 @@
   `upload_folder` is overwrite-only, so repacked shard counts leave
   orphans. (from ep119 deletion, 2026-06-30, gh #98)
 
+### Q18. Long `JOB_NAME` overflows the Hub's 96-char repo name limit
+
+- **Problem**: `7__train_act_task2_h200.sh` ran all 100K steps and saved
+  every checkpoint, then the end-of-training `push_model_to_hub` died
+  with `HFValidationError: ... the maximum length is 96`. Nothing was
+  uploaded, and the training log ended cleanly on `End of training`, so
+  the failure was invisible from the log alone.
+- **Cause**: `--policy.repo_id` was `${JOB_NAME}_act_h200_model`. The
+  task2 `JOB_NAME` (a full sentence-length task description) is 86
+  chars, and the `_act_h200_model` suffix pushed it to 101 — past the
+  Hub's 96-char repo name maximum. The shorter task3 job names had
+  always fit, so the suffix looked safe.
+- **Fix**: Dropped the `_model` suffix (`${JOB_NAME}_act_h200`, 86
+  chars) and uploaded the intact local
+  `checkpoints/last/pretrained_model` with `HfApi.upload_folder`. No
+  retraining needed — all 7 files verified byte-identical to local.
+- **Rule**: Always budget the `repo_id` suffix against a 96-char cap
+  when `JOB_NAME` encodes the task description; push failures land on
+  stderr, so a clean training log never proves the model reached the
+  Hub — verify with `list_models`. (from task2 h200 push, 2026-07-21,
+  gh #103)
+
 ---
 
 ## §4. Workflow Lessons

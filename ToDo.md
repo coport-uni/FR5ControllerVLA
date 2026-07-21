@@ -2760,3 +2760,27 @@ directly instead of re-running training.
 - [x] Upload `checkpoints/last/pretrained_model` to
       `coport-uni/FR5_task3_..._100_act_h200_model`.
 - [x] Confirm repo exists and files are present on the Hub.
+
+## Fix task2 h200 HF push failure: repo_id exceeds 96-char limit (2026-07-21)
+
+Context: `7__train_act_task2_h200.sh` finished all 100K steps and saved
+every checkpoint, but the end-of-training `push_model_to_hub` raised
+`HFValidationError` -- the policy repo name
+`FR5_task2_..._50_act_h200_model` is 101 chars against the Hub's 96-char
+maximum. Nothing was uploaded (no task2 model repo exists on the Hub);
+the local `checkpoints/last/pretrained_model` is intact. Same recovery
+shape as the task3 401 push failure (see ToDo section above, issue #100).
+
+- [x] Diagnose: read `train_20260715-130739.log` -- ends at
+      `End of training`, no error in the log (failure went to stderr).
+- [x] Confirm local artifacts intact: 10 checkpoints, `last -> 100000`,
+      model.safetensors 207 MB + pre/postprocessor files.
+- [x] Confirm the Hub state: `list_models(author=coport-uni,
+      search=task2)` returns empty -- upload never happened.
+- [x] Reproduce the root cause: repo name length 101 > 96.
+- [x] Shorten `--policy.repo_id` in `7__train_act_task2_h200.sh` to fit
+      the 96-char limit (e.g. drop the trailing `_model` suffix).
+- [x] Push the existing `checkpoints/last/pretrained_model` to the
+      shortened repo id (no retraining needed).
+- [x] Verify the repo exists on the Hub with all files present.
+- [x] Append the 96-char repo_id limit to LearnedPatterns.md.
