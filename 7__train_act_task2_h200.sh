@@ -54,7 +54,8 @@ echo "HF_USER=${HF_USER}"
 # JOB_NAME="FR5_tas3_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
 # JOB_NAME="FR5_task3_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
 
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
 
 # LeRobot resolves the dataset revision from a git tag matching the
 # codebase_version in info.json (get_safe_version in utils.py). An
@@ -96,12 +97,12 @@ accelerate launch \
     --dataset.repo_id=coport-uni/${JOB_NAME} \
     --dataset.video_backend=pyav \
     --policy.type=act \
-    --policy.repo_id=coport-uni/${JOB_NAME}_act_h200_model \
+    --policy.repo_id=coport-uni/${JOB_NAME}_act_h200 \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --output_dir=outputs/train/${JOB_NAME}_act_h200 \
     --job_name=${JOB_NAME}_act_h200 \
-    --wandb.enable=true \
+    --wandb.enable=false \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
     --steps=${STEPS_NUMBER} \
     --save_freq=$((STEPS_NUMBER / CHECKPOINT_NUMBER)) \
