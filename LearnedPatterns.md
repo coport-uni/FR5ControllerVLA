@@ -896,6 +896,26 @@
   pinned local checkpoint does NOT make training offline-capable.
   (from ToDo#49, gh #101)
 
+### E16. HWE kernel upgrade wedges apt when a DKMS module cannot build
+
+- **Problem**: `1__setup_camera.sh` died at its `sudo apt-get install`
+  line before ever reaching `modprobe`, so /dev/video18-20 were never
+  created and downstream capture silently lost the loopback cameras.
+- **Cause**: unattended HWE upgrade pulled kernel 7.0.0-28, whose
+  postinst fails because v4l2loopback 0.12.7 does not compile against
+  kernel 7.0 headers (`v4l2_fh_add`/`v4l2_fh_del` gained a
+  `struct file *` parameter). The kernel packages sit half-configured
+  (`iF`), so EVERY later apt run exits 100, and the script's
+  `set -euo pipefail` turns that unrelated failure into an abort.
+- **Fix**: purge `linux-image/-headers-7.0.0-28-generic` (pauses HWE
+  kernel updates until v4l2loopback catches up). Short-term: modprobe
+  manually — the running 6.17.0-40 kernel has a good module build —
+  then use the script's `stream` mode.
+- **Rule**: Never make a routine launch script depend on `apt-get`
+  succeeding at run time; guard installs behind a "package missing"
+  check, and after any kernel upgrade verify DKMS built the module for
+  the new kernel before rebooting. (from ToDo#107, gh #104)
+
 ---
 
 ## §99. Uncategorized
