@@ -10,7 +10,7 @@ conda activate lerobot
 HF_USER=$(hf auth whoami 2>/dev/null | head -n 1)
 echo "$HF_USER"
 
-export HF_HUB_ENABLE_HF_TRANSFER=1
+export HF_XET_HIGH_PERFORMANCE=1
 
 # Alternative hand camera: OpenCV instead of RealSense.
 # hand: {type: opencv, index_or_path: '/dev/video4', width: 640, height: 480, fps: 30}
@@ -51,4 +51,5 @@ lerobot-record \
     --dataset.single_task="move the brown colored glass bottle to the designated location" \
     --dataset.streaming_encoding=true \
     --dataset.encoder_threads=8 \
+    --dataset.upload_large_folder=true \
     --resume=true \

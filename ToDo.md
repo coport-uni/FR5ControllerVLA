@@ -2959,3 +2959,27 @@ no production code changed. Findings in gh issue #104. (see LP §E16)
       until then, modprobe manually before `stream`.
 - [ ] Optional hardening: guard the apt step in `1__setup_camera.sh`
       behind a "packages missing" check.
+
+## Enable upload_large_folder for recording uploads (2026-07-22)
+
+Context: user asked whether the HF Hub "upload a large folder" method
+(huggingface_hub docs, guides/upload#upload-a-large-folder) applies to
+the current upload path. `LeRobotDataset.push_to_hub` already accepts
+`upload_large_folder=True`, but `lerobot-record` never passes it, so
+every recording uploads through single-commit `upload_folder`. With
+the installed huggingface_hub 1.10.2 + hf_xet, `upload_large_folder`
+gives resumable multi-commit uploads suited to multi-GB video
+datasets. It stays overwrite-only, so the orphan-shard caveat still
+applies (see LP §Q17). Also `HF_HUB_ENABLE_HF_TRANSFER=1` in the
+record scripts is a no-op on hub 1.x (hf_transfer support removed);
+the current equivalent is `HF_XET_HIGH_PERFORMANCE=1`.
+
+- [x] Add `upload_large_folder: bool = False` to `DatasetRecordConfig`
+      in `src/lerobot/scripts/lerobot_record.py`.
+- [x] Pass the flag through to `dataset.push_to_hub()` in the
+      `record()` teardown.
+- [x] Add `--dataset.upload_large_folder=true` to all four
+      `5__fr5_record*.sh` scripts.
+- [x] Replace `HF_HUB_ENABLE_HF_TRANSFER=1` with
+      `HF_XET_HIGH_PERFORMANCE=1` in the same four scripts.
+- [x] Run ruff check / format --check on the modified Python file.
