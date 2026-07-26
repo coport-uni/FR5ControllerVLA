@@ -4223,3 +4223,2510 @@ DEBUG 2026-07-21 09:42:47 ock/_api.py:536 Attempting to acquire lock 13169373834
 DEBUG 2026-07-21 09:42:47 ock/_api.py:539 Lock 131693738342544 acquired on /NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/c7g4hyiheweontoyqro5za2c33ke3binfyc7itjlkfwcukucw7s6.lock
 DEBUG 2026-07-21 09:42:47 ock/_api.py:568 Attempting to release lock 131693738342544 on /NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/c7g4hyiheweontoyqro5za2c33ke3binfyc7itjlkfwcukucw7s6.lock
 DEBUG 2026-07-21 09:42:47 ock/_api.py:572 Lock 131693738342544 released on /NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/FR5ControllerVLA/.cache/torchinductor/locks/c7g4hyiheweontoyqro5za2c33ke3binfyc7itjlkfwcukucw7s6.lock
+INFO 2026-07-21 09:54:41 ot_train.py:459 step:200 smpl:106K ep:72 epch:0.72 loss:0.886 grdn:8.466 lr:1.1e-05 updt_s:3.678 data_s:0.239
+DEBUG 2026-07-21 09:59:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 09:59:08 re/_trace.py:47 close.complete
+INFO 2026-07-21 10:07:01 ot_train.py:459 step:400 smpl:211K ep:145 epch:1.45 loss:0.056 grdn:1.337 lr:3.1e-05 updt_s:3.461 data_s:0.234
+DEBUG 2026-07-21 10:15:50 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:50 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:15:51 re/_trace.py:47 close.complete
+INFO 2026-07-21 10:19:25 ot_train.py:459 step:600 smpl:317K ep:217 epch:2.17 loss:0.044 grdn:1.029 lr:5.2e-05 updt_s:3.496 data_s:0.224
+INFO 2026-07-21 10:30:53 ot_train.py:459 step:800 smpl:422K ep:289 epch:2.89 loss:0.038 grdn:0.918 lr:7.3e-05 updt_s:3.392 data_s:0.041
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:32:40 re/_trace.py:47 close.complete
+INFO 2026-07-21 10:43:12 ot_train.py:459 step:1K smpl:528K ep:362 epch:3.62 loss:0.033 grdn:0.813 lr:9.4e-05 updt_s:3.456 data_s:0.240
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.started
+DEBUG 2026-07-21 10:49:24 re/_trace.py:47 close.complete
+INFO 2026-07-21 10:55:35 ot_train.py:459 step:1K smpl:634K ep:434 epch:4.34 loss:0.029 grdn:0.711 lr:1.0e-04 updt_s:3.484 data_s:0.229
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:06:12 re/_trace.py:47 close.complete
+INFO 2026-07-21 11:07:48 ot_train.py:459 step:1K smpl:739K ep:506 epch:5.06 loss:0.025 grdn:0.605 lr:1.0e-04 updt_s:3.420 data_s:0.242
+INFO 2026-07-21 11:19:20 ot_train.py:459 step:2K smpl:845K ep:579 epch:5.79 loss:0.022 grdn:0.535 lr:1.0e-04 updt_s:3.416 data_s:0.042
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:22:54 re/_trace.py:47 close.complete
+INFO 2026-07-21 11:31:40 ot_train.py:459 step:2K smpl:950K ep:651 epch:6.51 loss:0.020 grdn:0.494 lr:1.0e-04 updt_s:3.457 data_s:0.238
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:39:39 re/_trace.py:47 close.complete
+INFO 2026-07-21 11:44:03 ot_train.py:459 step:2K smpl:1M ep:723 epch:7.23 loss:0.019 grdn:0.498 lr:1.0e-04 updt_s:3.486 data_s:0.227
+INFO 2026-07-21 11:55:29 ot_train.py:459 step:2K smpl:1M ep:796 epch:7.96 loss:0.017 grdn:0.499 lr:1.0e-04 updt_s:3.389 data_s:0.041
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 11:56:26 re/_trace.py:47 close.complete
+INFO 2026-07-21 12:07:51 ot_train.py:459 step:2K smpl:1M ep:868 epch:8.68 loss:0.016 grdn:0.478 lr:1.0e-04 updt_s:3.469 data_s:0.237
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:12 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:13:13 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:13:13 re/_trace.py:47 close.complete
+INFO 2026-07-21 12:20:12 ot_train.py:459 step:3K smpl:1M ep:940 epch:9.40 loss:0.015 grdn:0.482 lr:1.0e-04 updt_s:3.477 data_s:0.228
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:58 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:58 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:29:58 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:29:58 re/_trace.py:47 close.complete
+INFO 2026-07-21 12:32:30 ot_train.py:459 step:3K smpl:1M ep:1K epch:10.12 loss:0.014 grdn:0.428 lr:1.0e-04 updt_s:3.450 data_s:0.234
+INFO 2026-07-21 12:44:00 ot_train.py:459 step:3K smpl:2M ep:1K epch:10.85 loss:0.014 grdn:0.436 lr:1.0e-04 updt_s:3.409 data_s:0.041
+INFO 2026-07-21 12:44:00 ot_train.py:479 Checkpoint policy after step 3000
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 12:47:01 re/_trace.py:47 close.complete
+INFO 2026-07-21 12:56:40 ot_train.py:459 step:3K smpl:2M ep:1K epch:11.57 loss:0.013 grdn:0.411 lr:1.0e-04 updt_s:3.465 data_s:0.237
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:03:47 re/_trace.py:47 close.complete
+INFO 2026-07-21 13:08:59 ot_train.py:459 step:3K smpl:2M ep:1K epch:12.29 loss:0.013 grdn:0.405 lr:1.0e-04 updt_s:3.457 data_s:0.237
+INFO 2026-07-21 13:20:26 ot_train.py:459 step:4K smpl:2M ep:1K epch:13.02 loss:0.012 grdn:0.398 lr:1.0e-04 updt_s:3.389 data_s:0.041
+DEBUG 2026-07-21 13:20:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:20:31 re/_trace.py:47 close.complete
+INFO 2026-07-21 13:32:47 ot_train.py:459 step:4K smpl:2M ep:1K epch:13.74 loss:0.012 grdn:0.392 lr:1.0e-04 updt_s:3.474 data_s:0.227
+DEBUG 2026-07-21 13:37:14 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:14 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:14 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:37:15 re/_trace.py:47 close.complete
+INFO 2026-07-21 13:45:10 ot_train.py:459 step:4K smpl:2M ep:1K epch:14.46 loss:0.012 grdn:0.392 lr:1.0e-04 updt_s:3.504 data_s:0.207
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 13:54:06 re/_trace.py:47 close.complete
+INFO 2026-07-21 13:57:32 ot_train.py:459 step:4K smpl:2M ep:2K epch:15.19 loss:0.011 grdn:0.382 lr:9.9e-05 updt_s:3.485 data_s:0.222
+INFO 2026-07-21 14:09:02 ot_train.py:459 step:4K smpl:2M ep:2K epch:15.91 loss:0.011 grdn:0.396 lr:9.9e-05 updt_s:3.406 data_s:0.041
+DEBUG 2026-07-21 14:10:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:10:53 re/_trace.py:47 close.complete
+INFO 2026-07-21 14:21:23 ot_train.py:459 step:5K smpl:2M ep:2K epch:16.63 loss:0.011 grdn:0.375 lr:9.8e-05 updt_s:3.477 data_s:0.227
+DEBUG 2026-07-21 14:27:37 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:27:38 re/_trace.py:47 close.complete
+INFO 2026-07-21 14:33:42 ot_train.py:459 step:5K smpl:3M ep:2K epch:17.36 loss:0.010 grdn:0.372 lr:9.8e-05 updt_s:3.465 data_s:0.228
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:23 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 14:44:23 re/_trace.py:47 close.started
+DEBUG 2026-07-21 14:44:23 re/_trace.py:47 close.complete
+INFO 2026-07-21 14:45:53 ot_train.py:459 step:5K smpl:3M ep:2K epch:18.08 loss:0.010 grdn:0.374 lr:9.7e-05 updt_s:3.417 data_s:0.231
+INFO 2026-07-21 14:57:28 ot_train.py:459 step:5K smpl:3M ep:2K epch:18.80 loss:0.010 grdn:0.362 lr:9.7e-05 updt_s:3.430 data_s:0.045
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:04 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:01:05 re/_trace.py:47 close.complete
+INFO 2026-07-21 15:09:43 ot_train.py:459 step:5K smpl:3M ep:2K epch:19.53 loss:0.010 grdn:0.364 lr:9.6e-05 updt_s:3.455 data_s:0.219
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:45 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:45 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:17:45 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:17:45 re/_trace.py:47 close.complete
+INFO 2026-07-21 15:22:01 ot_train.py:459 step:6K smpl:3M ep:2K epch:20.25 loss:0.009 grdn:0.355 lr:9.6e-05 updt_s:3.465 data_s:0.222
+INFO 2026-07-21 15:33:27 ot_train.py:459 step:6K smpl:3M ep:2K epch:20.97 loss:0.009 grdn:0.344 lr:9.5e-05 updt_s:3.384 data_s:0.041
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:34:26 re/_trace.py:47 close.complete
+INFO 2026-07-21 15:45:41 ot_train.py:459 step:6K smpl:3M ep:2K epch:21.70 loss:0.009 grdn:0.347 lr:9.5e-05 updt_s:3.459 data_s:0.209
+INFO 2026-07-21 15:45:41 ot_train.py:479 Checkpoint policy after step 6000
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 15:51:25 re/_trace.py:47 close.complete
+INFO 2026-07-21 15:58:22 ot_train.py:459 step:6K smpl:3M ep:2K epch:22.42 loss:0.009 grdn:0.346 lr:9.4e-05 updt_s:3.465 data_s:0.237
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:08:09 re/_trace.py:47 close.complete
+INFO 2026-07-21 16:10:40 ot_train.py:459 step:6K smpl:3M ep:2K epch:23.14 loss:0.009 grdn:0.340 lr:9.3e-05 updt_s:3.444 data_s:0.245
+INFO 2026-07-21 16:22:08 ot_train.py:459 step:7K smpl:3M ep:2K epch:23.87 loss:0.009 grdn:0.324 lr:9.3e-05 updt_s:3.396 data_s:0.041
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:24:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:24:55 re/_trace.py:47 close.complete
+INFO 2026-07-21 16:34:27 ot_train.py:459 step:7K smpl:4M ep:2K epch:24.59 loss:0.008 grdn:0.320 lr:9.2e-05 updt_s:3.461 data_s:0.235
+DEBUG 2026-07-21 16:41:37 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:37 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:37 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:41:38 re/_trace.py:47 close.complete
+INFO 2026-07-21 16:46:50 ot_train.py:459 step:7K smpl:4M ep:3K epch:25.31 loss:0.008 grdn:0.322 lr:9.1e-05 updt_s:3.490 data_s:0.219
+INFO 2026-07-21 16:58:17 ot_train.py:459 step:7K smpl:4M ep:3K epch:26.04 loss:0.008 grdn:0.334 lr:9.1e-05 updt_s:3.395 data_s:0.041
+DEBUG 2026-07-21 16:58:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:25 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.started
+DEBUG 2026-07-21 16:58:26 re/_trace.py:47 close.complete
+INFO 2026-07-21 17:10:35 ot_train.py:459 step:7K smpl:4M ep:3K epch:26.76 loss:0.008 grdn:0.308 lr:9.0e-05 updt_s:3.467 data_s:0.221
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:15:07 re/_trace.py:47 close.complete
+INFO 2026-07-21 17:22:55 ot_train.py:459 step:8K smpl:4M ep:3K epch:27.48 loss:0.008 grdn:0.324 lr:8.9e-05 updt_s:3.455 data_s:0.240
+DEBUG 2026-07-21 17:31:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:31:53 re/_trace.py:47 close.complete
+INFO 2026-07-21 17:35:12 ot_train.py:459 step:8K smpl:4M ep:3K epch:28.21 loss:0.008 grdn:0.313 lr:8.8e-05 updt_s:3.465 data_s:0.220
+INFO 2026-07-21 17:46:40 ot_train.py:459 step:8K smpl:4M ep:3K epch:28.93 loss:0.008 grdn:0.318 lr:8.8e-05 updt_s:3.393 data_s:0.041
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 17:48:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 17:48:34 re/_trace.py:47 close.complete
+INFO 2026-07-21 17:59:01 ot_train.py:459 step:8K smpl:4M ep:3K epch:29.65 loss:0.007 grdn:0.337 lr:8.7e-05 updt_s:3.483 data_s:0.220
+DEBUG 2026-07-21 18:05:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:05:18 re/_trace.py:47 close.complete
+INFO 2026-07-21 18:11:19 ot_train.py:459 step:8K smpl:4M ep:3K epch:30.37 loss:0.007 grdn:0.296 lr:8.6e-05 updt_s:3.460 data_s:0.228
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:22:01 re/_trace.py:47 close.complete
+INFO 2026-07-21 18:23:28 ot_train.py:459 step:9K smpl:5M ep:3K epch:31.10 loss:0.007 grdn:0.306 lr:8.5e-05 updt_s:3.396 data_s:0.244
+INFO 2026-07-21 18:35:03 ot_train.py:459 step:9K smpl:5M ep:3K epch:31.82 loss:0.007 grdn:0.289 lr:8.4e-05 updt_s:3.427 data_s:0.044
+DEBUG 2026-07-21 18:38:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:38:43 re/_trace.py:47 close.complete
+INFO 2026-07-21 18:47:21 ot_train.py:459 step:9K smpl:5M ep:3K epch:32.54 loss:0.007 grdn:0.307 lr:8.4e-05 updt_s:3.457 data_s:0.231
+INFO 2026-07-21 18:47:21 ot_train.py:479 Checkpoint policy after step 9000
+DEBUG 2026-07-21 18:55:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:46 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.started
+DEBUG 2026-07-21 18:55:47 re/_trace.py:47 close.complete
+INFO 2026-07-21 19:00:02 ot_train.py:459 step:9K smpl:5M ep:3K epch:33.27 loss:0.007 grdn:0.289 lr:8.3e-05 updt_s:3.473 data_s:0.234
+INFO 2026-07-21 19:11:29 ot_train.py:459 step:9K smpl:5M ep:3K epch:33.99 loss:0.007 grdn:0.272 lr:8.2e-05 updt_s:3.395 data_s:0.041
+DEBUG 2026-07-21 19:12:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:12:32 re/_trace.py:47 close.complete
+INFO 2026-07-21 19:23:49 ot_train.py:459 step:10K smpl:5M ep:3K epch:34.71 loss:0.007 grdn:0.284 lr:8.1e-05 updt_s:3.465 data_s:0.229
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:29:18 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:29:18 re/_trace.py:47 close.complete
+INFO 2026-07-21 19:36:10 ot_train.py:459 step:10K smpl:5M ep:4K epch:35.44 loss:0.007 grdn:0.291 lr:8.0e-05 updt_s:3.458 data_s:0.246
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 19:46:06 re/_trace.py:47 close.started
+DEBUG 2026-07-21 19:46:06 re/_trace.py:47 close.complete
+INFO 2026-07-21 19:48:33 ot_train.py:459 step:10K smpl:5M ep:4K epch:36.16 loss:0.007 grdn:0.288 lr:7.9e-05 updt_s:3.481 data_s:0.234
+INFO 2026-07-21 20:00:05 ot_train.py:459 step:10K smpl:5M ep:4K epch:36.88 loss:0.007 grdn:0.268 lr:7.8e-05 updt_s:3.414 data_s:0.041
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:56 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:02:56 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:02:56 re/_trace.py:47 close.complete
+INFO 2026-07-21 20:12:29 ot_train.py:459 step:10K smpl:5M ep:4K epch:37.61 loss:0.006 grdn:0.260 lr:7.7e-05 updt_s:3.471 data_s:0.245
+DEBUG 2026-07-21 20:19:43 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:43 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:19:44 re/_trace.py:47 close.complete
+INFO 2026-07-21 20:24:51 ot_train.py:459 step:11K smpl:6M ep:4K epch:38.33 loss:0.006 grdn:0.277 lr:7.6e-05 updt_s:3.490 data_s:0.219
+INFO 2026-07-21 20:36:21 ot_train.py:459 step:11K smpl:6M ep:4K epch:39.05 loss:0.006 grdn:0.263 lr:7.5e-05 updt_s:3.409 data_s:0.041
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:36:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:36:34 re/_trace.py:47 close.complete
+INFO 2026-07-21 20:48:45 ot_train.py:459 step:11K smpl:6M ep:4K epch:39.78 loss:0.006 grdn:0.259 lr:7.4e-05 updt_s:3.470 data_s:0.245
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 20:53:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 20:53:21 re/_trace.py:47 close.complete
+INFO 2026-07-21 21:01:05 ot_train.py:459 step:11K smpl:6M ep:4K epch:40.50 loss:0.006 grdn:0.264 lr:7.3e-05 updt_s:3.466 data_s:0.232
+DEBUG 2026-07-21 21:10:04 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:04 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:10:05 re/_trace.py:47 close.complete
+INFO 2026-07-21 21:13:23 ot_train.py:459 step:11K smpl:6M ep:4K epch:41.22 loss:0.006 grdn:0.266 lr:7.2e-05 updt_s:3.472 data_s:0.216
+INFO 2026-07-21 21:24:53 ot_train.py:459 step:12K smpl:6M ep:4K epch:41.95 loss:0.006 grdn:0.273 lr:7.1e-05 updt_s:3.406 data_s:0.042
+DEBUG 2026-07-21 21:26:50 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:26:52 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:26:52 re/_trace.py:47 close.complete
+INFO 2026-07-21 21:37:13 ot_train.py:459 step:12K smpl:6M ep:4K epch:42.67 loss:0.006 grdn:0.248 lr:7.0e-05 updt_s:3.440 data_s:0.257
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.started
+DEBUG 2026-07-21 21:43:35 re/_trace.py:47 close.complete
+INFO 2026-07-21 21:49:32 ot_train.py:459 step:12K smpl:6M ep:4K epch:43.39 loss:0.005 grdn:0.252 lr:6.9e-05 updt_s:3.446 data_s:0.247
+INFO 2026-07-21 21:49:32 ot_train.py:479 Checkpoint policy after step 12000
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:00:42 re/_trace.py:47 close.complete
+INFO 2026-07-21 22:02:07 ot_train.py:459 step:12K smpl:6M ep:4K epch:44.12 loss:0.005 grdn:0.254 lr:6.8e-05 updt_s:3.433 data_s:0.242
+INFO 2026-07-21 22:13:45 ot_train.py:459 step:12K smpl:7M ep:4K epch:44.84 loss:0.006 grdn:0.263 lr:6.7e-05 updt_s:3.444 data_s:0.045
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:30 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:17:31 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:17:31 re/_trace.py:47 close.complete
+INFO 2026-07-21 22:26:08 ot_train.py:459 step:13K smpl:7M ep:5K epch:45.56 loss:0.005 grdn:0.233 lr:6.6e-05 updt_s:3.483 data_s:0.226
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:16 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:16 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:34:16 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:34:16 re/_trace.py:47 close.complete
+INFO 2026-07-21 22:38:26 ot_train.py:459 step:13K smpl:7M ep:5K epch:46.29 loss:0.005 grdn:0.227 lr:6.5e-05 updt_s:3.458 data_s:0.228
+INFO 2026-07-21 22:49:54 ot_train.py:459 step:13K smpl:7M ep:5K epch:47.01 loss:0.005 grdn:0.230 lr:6.4e-05 updt_s:3.397 data_s:0.041
+DEBUG 2026-07-21 22:50:59 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:50:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:50:59 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:50:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:50:59 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:50:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.started
+DEBUG 2026-07-21 22:51:00 re/_trace.py:47 close.complete
+INFO 2026-07-21 23:02:18 ot_train.py:459 step:13K smpl:7M ep:5K epch:47.73 loss:0.005 grdn:0.229 lr:6.3e-05 updt_s:3.461 data_s:0.260
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:07:49 re/_trace.py:47 close.complete
+INFO 2026-07-21 23:14:36 ot_train.py:459 step:13K smpl:7M ep:5K epch:48.45 loss:0.005 grdn:0.233 lr:6.2e-05 updt_s:3.439 data_s:0.246
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:24:35 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:24:35 re/_trace.py:47 close.complete
+INFO 2026-07-21 23:26:56 ot_train.py:459 step:14K smpl:7M ep:5K epch:49.18 loss:0.005 grdn:0.223 lr:6.1e-05 updt_s:3.468 data_s:0.227
+INFO 2026-07-21 23:38:28 ot_train.py:459 step:14K smpl:7M ep:5K epch:49.90 loss:0.005 grdn:0.219 lr:6.0e-05 updt_s:3.418 data_s:0.043
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:41:22 re/_trace.py:47 close.complete
+INFO 2026-07-21 23:50:49 ot_train.py:459 step:14K smpl:7M ep:5K epch:50.62 loss:0.005 grdn:0.219 lr:5.9e-05 updt_s:3.462 data_s:0.238
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-21 23:58:09 re/_trace.py:47 close.started
+DEBUG 2026-07-21 23:58:09 re/_trace.py:47 close.complete
+INFO 2026-07-22 00:03:12 ot_train.py:459 step:14K smpl:7M ep:5K epch:51.35 loss:0.005 grdn:0.224 lr:5.8e-05 updt_s:3.498 data_s:0.213
+INFO 2026-07-22 00:14:41 ot_train.py:459 step:14K smpl:8M ep:5K epch:52.07 loss:0.005 grdn:0.215 lr:5.7e-05 updt_s:3.405 data_s:0.041
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:14:57 re/_trace.py:47 close.complete
+INFO 2026-07-22 00:27:05 ot_train.py:459 step:15K smpl:8M ep:5K epch:52.79 loss:0.004 grdn:0.211 lr:5.6e-05 updt_s:3.492 data_s:0.224
+DEBUG 2026-07-22 00:31:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:31:45 re/_trace.py:47 close.complete
+INFO 2026-07-22 00:39:26 ot_train.py:459 step:15K smpl:8M ep:5K epch:53.52 loss:0.005 grdn:0.201 lr:5.5e-05 updt_s:3.451 data_s:0.249
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:31 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 00:48:32 re/_trace.py:47 close.complete
+INFO 2026-07-22 00:51:47 ot_train.py:459 step:15K smpl:8M ep:5K epch:54.24 loss:0.004 grdn:0.201 lr:5.4e-05 updt_s:3.467 data_s:0.239
+INFO 2026-07-22 00:51:47 ot_train.py:479 Checkpoint policy after step 15000
+INFO 2026-07-22 01:03:36 ot_train.py:459 step:15K smpl:8M ep:5K epch:54.96 loss:0.004 grdn:0.207 lr:5.3e-05 updt_s:3.405 data_s:0.041
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:05:38 re/_trace.py:47 close.complete
+INFO 2026-07-22 01:15:59 ot_train.py:459 step:15K smpl:8M ep:6K epch:55.69 loss:0.004 grdn:0.198 lr:5.2e-05 updt_s:3.483 data_s:0.229
+DEBUG 2026-07-22 01:22:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:22:27 re/_trace.py:47 close.complete
+INFO 2026-07-22 01:28:21 ot_train.py:459 step:16K smpl:8M ep:6K epch:56.41 loss:0.004 grdn:0.201 lr:5.1e-05 updt_s:3.467 data_s:0.240
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:39:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:39:14 re/_trace.py:47 close.complete
+INFO 2026-07-22 01:40:34 ot_train.py:459 step:16K smpl:8M ep:6K epch:57.13 loss:0.004 grdn:0.193 lr:5.0e-05 updt_s:3.433 data_s:0.229
+INFO 2026-07-22 01:52:12 ot_train.py:459 step:16K smpl:8M ep:6K epch:57.86 loss:0.004 grdn:0.203 lr:4.8e-05 updt_s:3.445 data_s:0.044
+DEBUG 2026-07-22 01:55:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:55:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:00 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 01:56:01 re/_trace.py:47 close.started
+DEBUG 2026-07-22 01:56:01 re/_trace.py:47 close.complete
+INFO 2026-07-22 02:04:35 ot_train.py:459 step:16K smpl:9M ep:6K epch:58.58 loss:0.004 grdn:0.204 lr:4.7e-05 updt_s:3.462 data_s:0.252
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:52 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:53 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:12:53 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:12:53 re/_trace.py:47 close.complete
+INFO 2026-07-22 02:17:00 ot_train.py:459 step:16K smpl:9M ep:6K epch:59.30 loss:0.004 grdn:0.187 lr:4.6e-05 updt_s:3.481 data_s:0.239
+INFO 2026-07-22 02:28:32 ot_train.py:459 step:17K smpl:9M ep:6K epch:60.03 loss:0.004 grdn:0.203 lr:4.5e-05 updt_s:3.417 data_s:0.041
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:42 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:42 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:29:42 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:29:42 re/_trace.py:47 close.complete
+INFO 2026-07-22 02:40:54 ot_train.py:459 step:17K smpl:9M ep:6K epch:60.75 loss:0.004 grdn:0.187 lr:4.4e-05 updt_s:3.488 data_s:0.220
+DEBUG 2026-07-22 02:46:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 02:46:28 re/_trace.py:47 close.complete
+INFO 2026-07-22 02:53:17 ot_train.py:459 step:17K smpl:9M ep:6K epch:61.47 loss:0.004 grdn:0.181 lr:4.3e-05 updt_s:3.477 data_s:0.235
+DEBUG 2026-07-22 03:03:19 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:19 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:19 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:19 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:03:20 re/_trace.py:47 close.complete
+INFO 2026-07-22 03:05:39 ot_train.py:459 step:17K smpl:9M ep:6K epch:62.20 loss:0.004 grdn:0.185 lr:4.2e-05 updt_s:3.456 data_s:0.253
+INFO 2026-07-22 03:17:10 ot_train.py:459 step:17K smpl:9M ep:6K epch:62.92 loss:0.003 grdn:0.180 lr:4.1e-05 updt_s:3.413 data_s:0.041
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:20:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:20:08 re/_trace.py:47 close.complete
+INFO 2026-07-22 03:29:32 ot_train.py:459 step:18K smpl:9M ep:6K epch:63.64 loss:0.004 grdn:0.180 lr:4.0e-05 updt_s:3.463 data_s:0.241
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:36:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:36:55 re/_trace.py:47 close.complete
+INFO 2026-07-22 03:41:55 ot_train.py:459 step:18K smpl:9M ep:6K epch:64.37 loss:0.003 grdn:0.171 lr:3.9e-05 updt_s:3.479 data_s:0.234
+INFO 2026-07-22 03:53:24 ot_train.py:459 step:18K smpl:10M ep:7K epch:65.09 loss:0.003 grdn:0.159 lr:3.8e-05 updt_s:3.402 data_s:0.041
+INFO 2026-07-22 03:53:24 ot_train.py:479 Checkpoint policy after step 18000
+DEBUG 2026-07-22 03:54:01 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:01 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 03:54:03 re/_trace.py:47 close.started
+DEBUG 2026-07-22 03:54:03 re/_trace.py:47 close.complete
+INFO 2026-07-22 04:06:06 ot_train.py:459 step:18K smpl:10M ep:7K epch:65.81 loss:0.003 grdn:0.163 lr:3.7e-05 updt_s:3.483 data_s:0.229
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:50 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:51 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:51 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:51 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:10:51 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:10:51 re/_trace.py:47 close.complete
+INFO 2026-07-22 04:18:31 ot_train.py:459 step:18K smpl:10M ep:7K epch:66.54 loss:0.003 grdn:0.164 lr:3.6e-05 updt_s:3.503 data_s:0.220
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:41 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:42 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:42 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:42 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:27:42 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:27:42 re/_trace.py:47 close.complete
+INFO 2026-07-22 04:30:56 ot_train.py:459 step:19K smpl:10M ep:7K epch:67.26 loss:0.003 grdn:0.159 lr:3.5e-05 updt_s:3.469 data_s:0.251
+INFO 2026-07-22 04:42:24 ot_train.py:459 step:19K smpl:10M ep:7K epch:67.98 loss:0.003 grdn:0.158 lr:3.4e-05 updt_s:3.399 data_s:0.040
+DEBUG 2026-07-22 04:44:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 04:44:29 re/_trace.py:47 close.complete
+INFO 2026-07-22 04:54:49 ot_train.py:459 step:19K smpl:10M ep:7K epch:68.70 loss:0.003 grdn:0.152 lr:3.3e-05 updt_s:3.489 data_s:0.231
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:01:18 re/_trace.py:47 close.complete
+INFO 2026-07-22 05:07:12 ot_train.py:459 step:19K smpl:10M ep:7K epch:69.43 loss:0.003 grdn:0.149 lr:3.2e-05 updt_s:3.472 data_s:0.238
+DEBUG 2026-07-22 05:18:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:18:07 re/_trace.py:47 close.complete
+INFO 2026-07-22 05:19:23 ot_train.py:459 step:19K smpl:10M ep:7K epch:70.15 loss:0.003 grdn:0.150 lr:3.1e-05 updt_s:3.443 data_s:0.213
+INFO 2026-07-22 05:31:02 ot_train.py:459 step:20K smpl:10M ep:7K epch:70.87 loss:0.003 grdn:0.145 lr:3.0e-05 updt_s:3.447 data_s:0.043
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:34:55 re/_trace.py:47 close.complete
+INFO 2026-07-22 05:43:23 ot_train.py:459 step:20K smpl:10M ep:7K epch:71.60 loss:0.003 grdn:0.142 lr:2.9e-05 updt_s:3.473 data_s:0.232
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:44 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 05:51:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 05:51:45 re/_trace.py:47 close.complete
+INFO 2026-07-22 05:55:49 ot_train.py:459 step:20K smpl:11M ep:7K epch:72.32 loss:0.003 grdn:0.141 lr:2.8e-05 updt_s:3.473 data_s:0.254
+INFO 2026-07-22 06:07:20 ot_train.py:459 step:20K smpl:11M ep:7K epch:73.04 loss:0.003 grdn:0.147 lr:2.7e-05 updt_s:3.408 data_s:0.041
+DEBUG 2026-07-22 06:08:32 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:32 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:08:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:08:34 re/_trace.py:47 close.complete
+INFO 2026-07-22 06:19:41 ot_train.py:459 step:20K smpl:11M ep:7K epch:73.77 loss:0.003 grdn:0.145 lr:2.7e-05 updt_s:3.458 data_s:0.247
+DEBUG 2026-07-22 06:25:19 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:19 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:19 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:19 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:19 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:19 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:25:20 re/_trace.py:47 close.complete
+INFO 2026-07-22 06:32:05 ot_train.py:459 step:21K smpl:11M ep:7K epch:74.49 loss:0.003 grdn:0.129 lr:2.6e-05 updt_s:3.469 data_s:0.247
+DEBUG 2026-07-22 06:42:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:42:11 re/_trace.py:47 close.complete
+INFO 2026-07-22 06:44:27 ot_train.py:459 step:21K smpl:11M ep:8K epch:75.21 loss:0.002 grdn:0.135 lr:2.5e-05 updt_s:3.485 data_s:0.221
+INFO 2026-07-22 06:56:01 ot_train.py:459 step:21K smpl:11M ep:8K epch:75.94 loss:0.003 grdn:0.140 lr:2.4e-05 updt_s:3.428 data_s:0.041
+INFO 2026-07-22 06:56:01 ot_train.py:479 Checkpoint policy after step 21000
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:20 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.started
+DEBUG 2026-07-22 06:59:21 re/_trace.py:47 close.complete
+INFO 2026-07-22 07:08:43 ot_train.py:459 step:21K smpl:11M ep:8K epch:76.66 loss:0.002 grdn:0.124 lr:2.3e-05 updt_s:3.483 data_s:0.230
+DEBUG 2026-07-22 07:16:09 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:09 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:09 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:16:10 re/_trace.py:47 close.complete
+INFO 2026-07-22 07:21:06 ot_train.py:459 step:21K smpl:11M ep:8K epch:77.38 loss:0.003 grdn:0.128 lr:2.2e-05 updt_s:3.472 data_s:0.240
+INFO 2026-07-22 07:32:36 ot_train.py:459 step:22K smpl:11M ep:8K epch:78.11 loss:0.002 grdn:0.126 lr:2.1e-05 updt_s:3.407 data_s:0.041
+DEBUG 2026-07-22 07:32:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:32:58 re/_trace.py:47 close.complete
+INFO 2026-07-22 07:45:00 ot_train.py:459 step:22K smpl:12M ep:8K epch:78.83 loss:0.002 grdn:0.119 lr:2.0e-05 updt_s:3.510 data_s:0.208
+DEBUG 2026-07-22 07:49:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 07:49:48 re/_trace.py:47 close.complete
+INFO 2026-07-22 07:57:22 ot_train.py:459 step:22K smpl:12M ep:8K epch:79.55 loss:0.002 grdn:0.120 lr:2.0e-05 updt_s:3.483 data_s:0.223
+DEBUG 2026-07-22 08:06:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:37 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:37 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:06:38 re/_trace.py:47 close.complete
+INFO 2026-07-22 08:09:45 ot_train.py:459 step:22K smpl:12M ep:8K epch:80.28 loss:0.002 grdn:0.119 lr:1.9e-05 updt_s:3.475 data_s:0.239
+INFO 2026-07-22 08:21:17 ot_train.py:459 step:22K smpl:12M ep:8K epch:81.00 loss:0.002 grdn:0.123 lr:1.8e-05 updt_s:3.415 data_s:0.041
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:23:26 re/_trace.py:47 close.complete
+INFO 2026-07-22 08:33:41 ot_train.py:459 step:23K smpl:12M ep:8K epch:81.72 loss:0.002 grdn:0.115 lr:1.7e-05 updt_s:3.501 data_s:0.221
+DEBUG 2026-07-22 08:40:15 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:15 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:15 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:40:16 re/_trace.py:47 close.complete
+INFO 2026-07-22 08:46:04 ot_train.py:459 step:23K smpl:12M ep:8K epch:82.45 loss:0.002 grdn:0.105 lr:1.7e-05 updt_s:3.491 data_s:0.222
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:06 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 08:57:07 re/_trace.py:47 close.complete
+INFO 2026-07-22 08:58:19 ot_train.py:459 step:23K smpl:12M ep:8K epch:83.17 loss:0.002 grdn:0.105 lr:1.6e-05 updt_s:3.440 data_s:0.232
+INFO 2026-07-22 09:10:01 ot_train.py:459 step:23K smpl:12M ep:8K epch:83.89 loss:0.002 grdn:0.104 lr:1.5e-05 updt_s:3.462 data_s:0.045
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:13:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:13:59 re/_trace.py:47 close.complete
+INFO 2026-07-22 09:22:26 ot_train.py:459 step:23K smpl:12M ep:8K epch:84.62 loss:0.002 grdn:0.109 lr:1.4e-05 updt_s:3.495 data_s:0.226
+DEBUG 2026-07-22 09:30:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:30:48 re/_trace.py:47 close.complete
+INFO 2026-07-22 09:34:50 ot_train.py:459 step:24K smpl:12M ep:9K epch:85.34 loss:0.002 grdn:0.103 lr:1.4e-05 updt_s:3.486 data_s:0.233
+INFO 2026-07-22 09:46:23 ot_train.py:459 step:24K smpl:13M ep:9K epch:86.06 loss:0.002 grdn:0.095 lr:1.3e-05 updt_s:3.421 data_s:0.041
+DEBUG 2026-07-22 09:47:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.started
+DEBUG 2026-07-22 09:47:40 re/_trace.py:47 close.complete
+INFO 2026-07-22 09:58:45 ot_train.py:459 step:24K smpl:13M ep:9K epch:86.79 loss:0.002 grdn:0.094 lr:1.3e-05 updt_s:3.474 data_s:0.231
+INFO 2026-07-22 09:58:45 ot_train.py:479 Checkpoint policy after step 24000
+DEBUG 2026-07-22 10:04:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:04:48 re/_trace.py:47 close.complete
+INFO 2026-07-22 10:11:26 ot_train.py:459 step:24K smpl:13M ep:9K epch:87.51 loss:0.002 grdn:0.091 lr:1.2e-05 updt_s:3.487 data_s:0.219
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:21:35 re/_trace.py:47 close.complete
+INFO 2026-07-22 10:23:49 ot_train.py:459 step:24K smpl:13M ep:9K epch:88.23 loss:0.002 grdn:0.095 lr:1.1e-05 updt_s:3.461 data_s:0.247
+INFO 2026-07-22 10:35:21 ot_train.py:459 step:25K smpl:13M ep:9K epch:88.95 loss:0.002 grdn:0.091 lr:1.1e-05 updt_s:3.418 data_s:0.041
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:38:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:38:26 re/_trace.py:47 close.complete
+INFO 2026-07-22 10:47:46 ot_train.py:459 step:25K smpl:13M ep:9K epch:89.68 loss:0.002 grdn:0.081 lr:1.0e-05 updt_s:3.484 data_s:0.240
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:16 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 10:55:17 re/_trace.py:47 close.complete
+INFO 2026-07-22 11:00:12 ot_train.py:459 step:25K smpl:13M ep:9K epch:90.40 loss:0.002 grdn:0.088 lr:9.6e-06 updt_s:3.505 data_s:0.222
+INFO 2026-07-22 11:11:42 ot_train.py:459 step:25K smpl:13M ep:9K epch:91.12 loss:0.002 grdn:0.079 lr:9.0e-06 updt_s:3.406 data_s:0.041
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:12:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:12:08 re/_trace.py:47 close.complete
+INFO 2026-07-22 11:24:07 ot_train.py:459 step:25K smpl:13M ep:9K epch:91.85 loss:0.002 grdn:0.079 lr:8.5e-06 updt_s:3.488 data_s:0.236
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:28:59 re/_trace.py:47 close.complete
+INFO 2026-07-22 11:36:30 ot_train.py:459 step:26K smpl:14M ep:9K epch:92.57 loss:0.002 grdn:0.082 lr:8.0e-06 updt_s:3.478 data_s:0.232
+DEBUG 2026-07-22 11:45:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:47 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:47 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.started
+DEBUG 2026-07-22 11:45:48 re/_trace.py:47 close.complete
+INFO 2026-07-22 11:48:54 ot_train.py:459 step:26K smpl:14M ep:9K epch:93.29 loss:0.002 grdn:0.077 lr:7.6e-06 updt_s:3.496 data_s:0.224
+INFO 2026-07-22 12:00:27 ot_train.py:459 step:26K smpl:14M ep:9K epch:94.02 loss:0.002 grdn:0.072 lr:7.1e-06 updt_s:3.419 data_s:0.041
+DEBUG 2026-07-22 12:02:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:02:39 re/_trace.py:47 close.complete
+INFO 2026-07-22 12:12:49 ot_train.py:459 step:26K smpl:14M ep:9K epch:94.74 loss:0.002 grdn:0.076 lr:6.7e-06 updt_s:3.503 data_s:0.205
+DEBUG 2026-07-22 12:19:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:25 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:25 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:19:26 re/_trace.py:47 close.complete
+INFO 2026-07-22 12:25:09 ot_train.py:459 step:26K smpl:14M ep:10K epch:95.46 loss:0.002 grdn:0.072 lr:6.3e-06 updt_s:3.460 data_s:0.241
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:13 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:36:14 re/_trace.py:47 close.complete
+INFO 2026-07-22 12:37:24 ot_train.py:459 step:27K smpl:14M ep:10K epch:96.19 loss:0.002 grdn:0.072 lr:5.9e-06 updt_s:3.456 data_s:0.213
+INFO 2026-07-22 12:49:03 ot_train.py:459 step:27K smpl:14M ep:10K epch:96.91 loss:0.001 grdn:0.068 lr:5.5e-06 updt_s:3.449 data_s:0.045
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:02 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:03 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:03 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:03 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:03 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 12:53:03 re/_trace.py:47 close.started
+DEBUG 2026-07-22 12:53:03 re/_trace.py:47 close.complete
+INFO 2026-07-22 13:01:24 ot_train.py:459 step:27K smpl:14M ep:10K epch:97.63 loss:0.002 grdn:0.065 lr:5.2e-06 updt_s:3.461 data_s:0.240
+INFO 2026-07-22 13:01:24 ot_train.py:479 Checkpoint policy after step 27000
+DEBUG 2026-07-22 13:10:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:10:08 re/_trace.py:47 close.complete
+INFO 2026-07-22 13:14:04 ot_train.py:459 step:27K smpl:14M ep:10K epch:98.36 loss:0.001 grdn:0.064 lr:4.8e-06 updt_s:3.470 data_s:0.236
+INFO 2026-07-22 13:25:35 ot_train.py:459 step:27K smpl:14M ep:10K epch:99.08 loss:0.001 grdn:0.062 lr:4.5e-06 updt_s:3.412 data_s:0.041
+DEBUG 2026-07-22 13:26:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:55 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:55 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:26:56 re/_trace.py:47 close.complete
+INFO 2026-07-22 13:38:00 ot_train.py:459 step:28K smpl:15M ep:10K epch:99.80 loss:0.001 grdn:0.063 lr:4.2e-06 updt_s:3.495 data_s:0.225
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:45 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:46 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:46 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:46 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 13:43:46 re/_trace.py:47 close.started
+DEBUG 2026-07-22 13:43:46 re/_trace.py:47 close.complete
+INFO 2026-07-22 13:50:21 ot_train.py:459 step:28K smpl:15M ep:10K epch:100.53 loss:0.002 grdn:0.061 lr:4.0e-06 updt_s:3.463 data_s:0.239
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:33 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:34 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:00:34 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:00:34 re/_trace.py:47 close.complete
+INFO 2026-07-22 14:02:41 ot_train.py:459 step:28K smpl:15M ep:10K epch:101.25 loss:0.001 grdn:0.052 lr:3.7e-06 updt_s:3.476 data_s:0.223
+INFO 2026-07-22 14:14:15 ot_train.py:459 step:28K smpl:15M ep:10K epch:101.97 loss:0.001 grdn:0.056 lr:3.5e-06 updt_s:3.424 data_s:0.042
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:22 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:17:23 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:17:23 re/_trace.py:47 close.complete
+INFO 2026-07-22 14:26:34 ot_train.py:459 step:28K smpl:15M ep:10K epch:102.70 loss:0.001 grdn:0.053 lr:3.3e-06 updt_s:3.469 data_s:0.226
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:07 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:34:08 re/_trace.py:47 close.complete
+INFO 2026-07-22 14:38:56 ot_train.py:459 step:29K smpl:15M ep:10K epch:103.42 loss:0.001 grdn:0.054 lr:3.1e-06 updt_s:3.462 data_s:0.243
+INFO 2026-07-22 14:50:25 ot_train.py:459 step:29K smpl:15M ep:10K epch:104.14 loss:0.001 grdn:0.051 lr:3.0e-06 updt_s:3.402 data_s:0.041
+DEBUG 2026-07-22 14:50:53 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:53 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:53 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.started
+DEBUG 2026-07-22 14:50:54 re/_trace.py:47 close.complete
+INFO 2026-07-22 15:02:45 ot_train.py:459 step:29K smpl:15M ep:10K epch:104.87 loss:0.001 grdn:0.053 lr:2.8e-06 updt_s:3.465 data_s:0.232
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:38 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:07:39 re/_trace.py:47 close.complete
+INFO 2026-07-22 15:15:06 ot_train.py:459 step:29K smpl:15M ep:11K epch:105.59 loss:0.001 grdn:0.053 lr:2.7e-06 updt_s:3.459 data_s:0.244
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:27 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:28 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:24:28 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:24:28 re/_trace.py:47 close.complete
+INFO 2026-07-22 15:27:28 ot_train.py:459 step:29K smpl:16M ep:11K epch:106.31 loss:0.001 grdn:0.050 lr:2.6e-06 updt_s:3.492 data_s:0.216
+INFO 2026-07-22 15:38:56 ot_train.py:459 step:30K smpl:16M ep:11K epch:107.03 loss:0.001 grdn:0.048 lr:2.6e-06 updt_s:3.396 data_s:0.041
+DEBUG 2026-07-22 15:41:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:10 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:10 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:41:11 re/_trace.py:47 close.complete
+INFO 2026-07-22 15:51:18 ot_train.py:459 step:30K smpl:16M ep:11K epch:107.76 loss:0.001 grdn:0.051 lr:2.5e-06 updt_s:3.467 data_s:0.239
+DEBUG 2026-07-22 15:57:57 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:57 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 15:57:58 re/_trace.py:47 close.complete
+INFO 2026-07-22 16:03:39 ot_train.py:459 step:30K smpl:16M ep:11K epch:108.48 loss:0.001 grdn:0.052 lr:2.5e-06 updt_s:3.469 data_s:0.235
+INFO 2026-07-22 16:03:39 ot_train.py:479 Checkpoint policy after step 30000
+INFO 2026-07-22 16:03:58 ot_train.py:553 End of training
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 close.started
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77c0c8bb05f0>
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77c9399762d0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77c0c8c01a60>
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:03:58 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:00 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'289'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:04:00 GMT'), (b'ETag', b'W/"121-q3HqYs7bHCRs/sGnZYNXw09tQW8"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606b5e-6dd011896f4635440f0a7a3b;953fbf5b-7596-4519-83fe-86ce9f147b4a'), (b'RateLimit', b'"api";r=999;t=283'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 ca56b3ee23ee40fa0075f20b9167539c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'byklnXDU9ASMqQY5VojQpGKDyOJOFLGY9EqmLD8QOd__blx_63m2xA==')])
+INFO 2026-07-22 16:04:00 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:04:00 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:00 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:04:00 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:04:00 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'2'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:04:04 GMT'), (b'ETag', b'W/"2-nOO9QiTIwXgNtWtBJezz8kv3SLc"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606b64-4a4e6248352f054b2a153896;2734be83-bcea-4286-98bf-92f7d52f48f4'), (b'RateLimit', b'"api";r=9938;t=4'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 ca56b3ee23ee40fa0075f20b9167539c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'y7A-sSQVueazE_5cXqZQKRyko8FmVtJvPlMjUY8ltU1QBeDf9Cd3mQ==')])
+INFO 2026-07-22 16:04:04 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:04:04 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606b64-13a8013e4d6a0c432d652cd6;7ad343b3-db98-40e1-be64-f3011881cdc7'), (b'RateLimit', b'"api";r=9950;t=4'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 ca56b3ee23ee40fa0075f20b9167539c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'wbTL863FZY6Kyfql74xjmgO3Y82HAegrsjzYQvGWct2JdkwjSBS-6g==')])
+INFO 2026-07-22 16:04:04 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:04:04 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'27'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:04:09 GMT'), (b'ETag', b'W/"1b-cMjusAgmzfbmgmCE/uezyFkHDTo"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606b69-252489103d354af30b1594a6;f845264b-fb51-4509-8004-794316f274df'), (b'RateLimit', b'"api";r=9998;t=299'), (b'RateLimit-Policy', b'"fixed window";"api";q=10000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 ca56b3ee23ee40fa0075f20b9167539c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'kTM7ovrr45RtK1YshY839h0uAGV0848Hq0CqI121VEJ1r5TrrFnN6Q==')])
+INFO 2026-07-22 16:04:09 _client.py:1025 HTTP Request: POST https://huggingface.co/api/validate-yaml "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'340'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:04:09 GMT'), (b'ETag', b'W/"154-tg+FvaSzkaDd/sasBGa4ly5fO1Q"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606b69-0b88405c6703816b5e3339c4;1ba476be-6a53-41da-ad37-954f0ed1cfc7'), (b'RateLimit', b'"api";r=998;t=273'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 ca56b3ee23ee40fa0075f20b9167539c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'mnfbd0BRuDssgPxH-whA4hxTRoUNXDJZfQeQBIawpTs1jdIHHbO8Gg==')])
+INFO 2026-07-22 16:04:09 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:04:09 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:10 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1198'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:04:10 GMT'), (b'ETag', b'W/"4ae-xB4s7N75yxidO4IwCVy4MCBlglk"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606b6a-4964fe8607cda1084ae79421;9d81f2a2-e8f0-409d-9ab2-f12285b05fc6'), (b'RateLimit', b'"api";r=997;t=272'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 ca56b3ee23ee40fa0075f20b9167539c.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'-M3iVKSoU0Q6DyZ6PgToVqbwfuLUSpkitAZEyLRMLWR6ZFYDw-ACeQ==')])
+INFO 2026-07-22 16:04:10 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:04:10 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:04:10 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:04:10 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:04:10 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 close.started
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77c0c88fb380>
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77c9399762d0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77c0c902a6c0>
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:17 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:19 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'280'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:19 GMT'), (b'ETag', b'W/"118-ccnCOCm/1V2bXMwshzFYFIAfblY"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bad-401fa3055c7ab4770bb80b2d;7f1cdead-6ea1-4460-9f86-82d68e640ff9'), (b'RateLimit', b'"api";r=995;t=205'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 cd59529676cd6614aefd1a455d902808.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'_R1kGb2sS23TbNIqtWsCZ9Iea-RB1xo-5a5G2HLzX5lTa82aciHIMg==')])
+INFO 2026-07-22 16:05:19 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:19 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:19 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:19 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:19 re/_trace.py:47 response_closed.complete
+INFO 2026-07-22 16:05:19 etrained.py:245 Model pushed to https://huggingface.co/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'295'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:20 GMT'), (b'ETag', b'W/"127-ieglxiXcktkrQoGwqgGA0tNwJp8"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bb0-5d24faab0f8f736615179f77;72ddefda-aa50-4d08-ad06-be69cce641ad'), (b'RateLimit', b'"api";r=994;t=202'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 cd59529676cd6614aefd1a455d902808.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'b_Am7c23GfBDSeM9-wX7ReROBUUDlzXMGOigzpx55Qnobovhi_Oc8w==')])
+INFO 2026-07-22 16:05:20 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'257'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:20 GMT'), (b'ETag', b'W/"101-9mtNBbUEsj4D4tHlUjeNvJwS7kg"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bb0-345c8748643d7326662ab773;4d17b3ae-57fa-4395-a946-90454408cb6b'), (b'RateLimit', b'"api";r=993;t=202'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 cd59529676cd6614aefd1a455d902808.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'ZZnBsebXA4JoU62fiQkMq0mpYI3XOpHGGplMGIHqNh_2aGf9punRrw==')])
+INFO 2026-07-22 16:05:20 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'1192'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:20 GMT'), (b'ETag', b'W/"4a8-mSClAw5bTJkQHIauFCbe/YB+ako"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bb0-3149c95a3d0eea3e0096cae6;fae793b5-a9f5-4290-8e20-d3599cb1ed0e'), (b'RateLimit', b'"api";r=992;t=202'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 cd59529676cd6614aefd1a455d902808.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'QEmeHDQn3ABvGtWiKbGL9RujkUzpMuxFWeAW0zpDAckhy4kJJ2wCnQ==')])
+INFO 2026-07-22 16:05:20 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:20 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 close.started
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 close.complete
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77c0c902b9b0>
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 start_tls.started ssl_context=<ssl.SSLContext object at 0x77c9399762d0> server_hostname='huggingface.co' timeout=None
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x77c0c902bfe0>
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:29 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'280'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:31 GMT'), (b'ETag', b'W/"118-Er9BlwGNMqwYTEcQi4jtw3e+3Bw"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bb9-06f448c52bffeb245cc04fef;26aedf2c-58c5-460a-a9ae-8989a20ab0bb'), (b'RateLimit', b'"api";r=990;t=193'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'yvUY1OMOF7FohL5AKjrJH-lvkak_0IpWyuiAYngWocw3c1PbHT80MQ==')])
+INFO 2026-07-22 16:05:31 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 409, b'Conflict', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'295'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:31 GMT'), (b'ETag', b'W/"127-ieglxiXcktkrQoGwqgGA0tNwJp8"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bbb-35ed69f62f68c4c93be186c2;9e7e4aba-ac0e-421b-8cf0-ca2326b00511'), (b'RateLimit', b'"api";r=989;t=191'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Message', b'You already created this model repo: coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'H60zH41-JLtosRuE_ZbvQ7cRwa3ndcCwnM2a-kUqd_1U1HlgFWKFRQ==')])
+INFO 2026-07-22 16:05:31 _client.py:1025 HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 409 Conflict"
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'261'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:31 GMT'), (b'ETag', b'W/"105-XIX9rAeiuWGWAjk1nTiNKmU1KKg"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bbb-47c067662c0204074759bdae;c8676fd5-9dbe-49a4-b9e7-f4f43c73260e'), (b'RateLimit', b'"api";r=988;t=191'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'uzoQ3wmyqEKt4b-Y81RIgiw1DDb15vSsE7_xuVBKoUfxncLRCikuyA==')])
+INFO 2026-07-22 16:05:31 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200/preupload/main "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:31 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:32 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/vnd.git-lfs+json; charset=utf-8'), (b'Content-Length', b'117'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:32 GMT'), (b'ETag', b'W/"75-5EzrcE83CZvGNF+X6x+kPJSBZMg"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bbc-028ab9324da28cfa3879d4bd;44050b4f-7c78-4c20-a17c-48660d8b50db'), (b'RateLimit', b'"api";r=987;t=190'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'ZNcac37_l445HCaZuBv4yyoGXM9y1tuuMRIOAkfNkPIpbm57eF4Jpg==')])
+INFO 2026-07-22 16:05:32 _client.py:1025 HTTP Request: POST https://huggingface.co/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200.git/info/lfs/objects/batch "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:32 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:32 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:32 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:32 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:35 re/_trace.py:47 send_request_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:35 re/_trace.py:47 send_request_headers.complete
+DEBUG 2026-07-22 16:05:35 re/_trace.py:47 send_request_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:35 re/_trace.py:47 send_request_body.complete
+DEBUG 2026-07-22 16:05:35 re/_trace.py:47 receive_response_headers.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:36 re/_trace.py:47 receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'280'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 22 Jul 2026 07:05:36 GMT'), (b'ETag', b'W/"118-SHCkV/pJpk4MQ7kyzKMK0/pbrZ0"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6a606bbf-6fc0703139bc488128b39166;c5650ce3-662c-4cc1-86c7-8834947cafe9'), (b'RateLimit', b'"api";r=985;t=187'), (b'RateLimit-Policy', b'"fixed window";"api";q=1000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 0a311f4b1a24ec1bb616391bb5bef318.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'ICN57-P5'), (b'Alt-Svc', b'h3=":443"; ma=86400'), (b'X-Amz-Cf-Id', b'uZtVkzRMb_MspiAWf-yP9dMhd58ahlDnFgHe3HQQeXPgwoqTUUuEzQ==')])
+INFO 2026-07-22 16:05:36 _client.py:1025 HTTP Request: POST https://huggingface.co/api/models/coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi0_b200/commit/main "HTTP/1.1 200 OK"
+DEBUG 2026-07-22 16:05:36 re/_trace.py:47 receive_response_body.started request=<Request [b'POST']>
+DEBUG 2026-07-22 16:05:36 re/_trace.py:47 receive_response_body.complete
+DEBUG 2026-07-22 16:05:36 re/_trace.py:47 response_closed.started
+DEBUG 2026-07-22 16:05:36 re/_trace.py:47 response_closed.complete
+DEBUG 2026-07-22 16:05:38 re/_trace.py:47 close.started
+DEBUG 2026-07-22 16:05:38 re/_trace.py:47 close.complete
