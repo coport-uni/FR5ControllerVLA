@@ -172,6 +172,9 @@ class DatasetRecordConfig:
     push_to_hub: bool = True
     # Upload on private repository on the Hugging Face hub.
     private: bool = False
+    # Push with HfApi.upload_large_folder instead of upload_folder:
+    # resumable multi-commit uploads suited to multi-GB video datasets.
+    upload_large_folder: bool = False
     # Add tags to your dataset on the hub.
     tags: list[str] | None = None
     # Number of subprocesses handling the saving of frames as PNG. Set to 0 to use threads only;
@@ -598,7 +601,11 @@ def record(cfg: RecordConfig) -> LeRobotDataset:
             listener.stop()
 
         if cfg.dataset.push_to_hub:
-            dataset.push_to_hub(tags=cfg.dataset.tags, private=cfg.dataset.private)
+            dataset.push_to_hub(
+                tags=cfg.dataset.tags,
+                private=cfg.dataset.private,
+                upload_large_folder=cfg.dataset.upload_large_folder,
+            )
 
         log_say("Exiting", cfg.play_sounds)
     return dataset

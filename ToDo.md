@@ -2761,6 +2761,135 @@ directly instead of re-running training.
       `coport-uni/FR5_task3_..._100_act_h200_model`.
 - [x] Confirm repo exists and files are present on the Hub.
 
+## Rebuild conda + lerobot env after 2nd container migration (2026-07-14)
+
+Context: the container was swapped again and conda, the `lerobot` env,
+the HF cache, wandb/HF credentials, and `gh` were all lost -- the same
+loss as the 2026-07-01 rebuild. That rebuild installed to
+`~/miniconda3`, which sits on the container overlay and was therefore
+wiped a second time. Install to the persistent `/NHNHOME` disk instead
+so the next swap does not repeat this (see LP E5/E12).
+
+Goal: `7__train_pi05_task3_b200.sh` trains cleanly for 10 minutes.
+
+Findings from the pre-flight survey:
+- Only 3 of 4 B200s enumerate; the script hard-codes GPU_NUMBER=4.
+  User decision: verify on 3 GPUs via a temporary override and leave
+  the tuned 4-GPU script untouched.
+- No sudo, so LP Q10's `apt install cmake` fix is unavailable; use
+  conda-forge cmake (a native binary, not the PyPI Python wrapper).
+- Dataset `coport-uni/FR5_task3_..._200` is public, so it pulls
+  without an HF token. wandb/push_to_hub are disabled for the
+  verification run only (user decision).
+
+- [x] Install Miniforge3 to
+      `/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/miniforge3`
+      (persistent disk, survives container swaps).
+- [x] Create the `lerobot` env with Python 3.12 (repo requires >=3.12;
+      scripts activate the `lerobot` name).
+- [x] Install native cmake from conda-forge to avoid the PyPI cmake
+      wrapper breaking source builds (see LP Q10).
+- [x] Install the repo editable with the pi extra:
+      `pip install -e ".[pi,test,dev]"` (script header requires `[pi]`).
+- [x] Verify `import lerobot` 0.5.1, torch CUDA available on sm_100,
+      and CLI entry points resolve.
+- [x] Install `gh` CLI (lost again) and create the tracking issue.
+- [x] Add the new persistent conda root to the probe loop in the
+      training scripts (see LP E5/E12).
+- [ ] Verify: run `7__train_pi05_task3_b200.sh` for 10 minutes with
+      3-GPU / no-wandb / no-push overrides; confirm the loss decreases
+      and steps advance past torch.compile.
+- [ ] Append a LearnedPatterns entry: install envs on persistent
+      storage, not the container overlay.
+
+Revised findings (the original plan above assumed a from-scratch
+rebuild; that turned out to be unnecessary):
+- [x] The env was NOT lost. miniforge3 + the `lerobot` env survived
+      intact on the persistent disk (13G, torch 2.10.0+cu128, CUDA up).
+      The migration only moved the mount path
+      (`/NHNHOME/workspace` -> `/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace`),
+      which broke 134 prefix-baked console-script shebangs and the
+      editable-install `.pth`. No reinstall, no cmake install, and no
+      script probe-loop edit were needed.
+- [x] Fix: `ln -s /NHNHOME/WORKSPACE/26msit002_E/appeal_workspace
+      /NHNHOME/workspace` restores conda, all 134 scripts, the editable
+      lerobot import, and all 5 training scripts that hard-code the old
+      root -- unmodified.
+- [x] Re-download the 10.4 GB task3 dataset (the HF cache lived on the
+      container overlay and was wiped). Cache moved to
+      `/NHNHOME/workspace/sungwoo/hf_cache` (persistent) via HF_HOME.
+- [x] Install `gh` 2.96.0 into a separate `tools` env (kept out of the
+      verified `lerobot` env).
+- [x] Install `gh` and create the tracking issue (#101). gh
+      re-authenticated as coport-uni.
+- [x] Resolve the gated-tokenizer blocker: pi05's
+      `tokenizer_processor` pulls the GATED repo
+      `google/paligemma-3b-pt-224`, which had always resolved silently
+      from the overlay HF cache the migration wiped (the pinned
+      `models/pi05_base_v051compat` snapshot carries no tokenizer).
+      User ran `hf auth login`; note the token landed in the overlay
+      `~/.cache`, so it was copied to the persistent HF_HOME to survive
+      the next swap.
+- [x] VERIFIED: 10-minute run on 3 x B200 completed 194 steps at
+      3.17 s/step with zero errors. Loss fell 3.897 -> 0.113 and peak
+      VRAM was 131022 MiB/GPU -- within 2 MiB of the 131024 MiB
+      recorded by the original 4-GPU probe (issue #89), so the rebuilt
+      toolchain reproduces known-good behaviour.
+- [x] Append LearnedPatterns E13 (moved mount path != lost env), E14
+      (only /NHNHOME persists), E15 (pi0/pi05 need the gated paligemma
+      tokenizer).
+
+## Diagnose task2 B200 batch-scaling failure (2026-07-14)
+
+Context: with only 3 of 4 B200s enumerating, `7__train_pi0_task2_b200.sh`
+(`GPU_NUMBER=3`, `BATCH_SIZE=704`) died before step 0. User's prior
+belief was that pi0 was unaffected because "pi0 worked fine" -- it had,
+but only at 4 and 6 GPUs. (see LP §Q15, §Q15b, §Q15c)
+
+- [x] Read the failing run's wandb console capture (the `train_*.log`
+      holds no traceback; stderr goes to
+      `wandb/latest-run/files/output.log`).
+- [x] Root cause: `BATCH_SIZE` is the GLOBAL batch and `--batch_size`
+      is `BATCH_SIZE / GPU_NUMBER`, so cutting GPUs 4 -> 3 RAISED
+      per-GPU batch 176 -> 234. That crosses the gemma RMSNorm Triton
+      shared-mem ceiling: `Required: 294976 Hardware limit: 232448`
+      (byte-identical to the #89 probe). Not a VRAM shortage.
+- [x] Establish the real thresholds from this repo's own logs rather
+      than assumption. Measured on B200 (gemma policies):
+      pi0 -> 117/152/160/176 OK, 192/208/224/234/240 FAIL;
+      pi05 -> 152 OK, >=160 FAIL. ACT's 248/GPU is irrelevant (no
+      gemma backbone, and H200 not B200).
+- [x] Correct an over-generalisation made mid-session: the ceiling is
+      NOT policy-independent at ~160. pi0 runs fine at 176; the
+      mechanism is shared but each policy crosses at its own batch.
+- [x] Confirm per-GPU batch alone drives compile/VRAM: pi05 at 152/GPU
+      on 3 GPUs peaked at 131022 MiB vs 131024 MiB on 4 GPUs.
+- [x] Record findings in LearnedPatterns (Q15b, Q15c) and open gh #102.
+
+Decision: user chose option 2 (scale BATCH_SIZE) -- restoring the 4th
+GPU is not possible right now.
+
+- [x] Apply option 2 to both task2 scripts, holding per-GPU at each
+      policy's validated rung and sqrt-rescaling the LR:
+      pi05 -> BATCH_SIZE 456 (152*3), lr 1.1e-4 -> 9.4e-5;
+      pi0  -> BATCH_SIZE 528 (176*3), lr 1.2e-4 -> 1.04e-4.
+      Headers updated so the stated rationale matches the values.
+- [x] Accepted trade-off (documented in both script headers): global
+      batch drops 608 -> 456 (pi05) and 704 -> 528 (pi0), so task2 is
+      NOT directly comparable to the 4-GPU task1/task3 runs. Per-GPU
+      batch is identical, so compile/VRAM behaviour matches.
+
+Original note, retained for the record:
+- [x] 3 GPUs cannot reproduce the existing experiments. Holding per-GPU
+      at the validated rung forces global batch 704 -> 528 (pi0) or
+      608 -> 456 (pi05) plus an LR rescale, which confounds any
+      task2-vs-task3 comparison. 608 is unreachable on 3 GPUs at
+      152/GPU (608/3 is not an integer; only multiples of 456 are
+      possible, gradient accumulation included). Restoring the 4th GPU
+      is the only path that keeps per-GPU, global batch and LR all
+      identical to the existing runs.
+- [ ] Investigate why only 3 of 4 B200s enumerate.
+
 ## Fix task2 h200 HF push failure: repo_id exceeds 96-char limit (2026-07-21)
 
 Context: `7__train_act_task2_h200.sh` finished all 100K steps and saved
@@ -2784,3 +2913,73 @@ shape as the task3 401 push failure (see ToDo section above, issue #100).
       shortened repo id (no retraining needed).
 - [x] Verify the repo exists on the Hub with all files present.
 - [x] Append the 96-char repo_id limit to LearnedPatterns.md.
+
+## Upload task2 pi05 b200 checkpoint to the Hub
+
+Training finished 30000/30000 steps on 2026-07-20 15:16, but nothing
+reached the Hub: `--policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200_model`
+is 102 characters, over the Hugging Face 96-character repo-name limit,
+so `push_to_hub=true` never produced a repo. Dropping the `_model`
+suffix yields exactly 96 characters, matching the existing
+`..._50_act_h200` task2 repo (see LP §Q17 for push_to_hub caveats).
+
+- [x] Create `coport-uni/FR5_task2_..._50_pi05_b200` (public, matching
+      every other coport-uni model repo).
+- [x] Upload `checkpoints/last/pretrained_model/` (9.35 GB) from
+      `outputs/train/FR5_task2_..._50_pi05_b200/`.
+- [ ] Drop the `_model` suffix in `7__train_pi05_task2_b200.sh` so
+      future task2 runs push successfully.
+- [x] Record the 96-character repo-name limit in `LearnedPatterns.md`.
+
+## Diagnose 1__setup_camera.sh failure (2026-07-21)
+
+Context: user asked why `1__setup_camera.sh` errors. Diagnosis only --
+no production code changed. Findings in gh issue #104. (see LP §E16)
+
+- [x] Trace the failing step: conda activate, the PTZ preset script
+      (onvif importable, all three cameras reachable) and `apt-get
+      update` all pass; the script dies at `sudo apt-get install -y
+      v4l2loopback-dkms ...`, which exits 100, so `set -euo pipefail`
+      aborts before `modprobe` and /dev/video18-20 are never created.
+- [x] Root cause: HWE kernel 7.0.0-28 (auto-installed 2026-07-18)
+      fails to configure because DKMS cannot compile v4l2loopback
+      0.12.7 against kernel 7.0 headers (`v4l2_fh_add`/`v4l2_fh_del`
+      gained a `struct file *` parameter). The kernel image and
+      headers packages are stuck half-configured (`iF`), so every apt
+      run since 2026-07-19 ends with "Sub-process /usr/bin/dpkg
+      returned an error code (1)". Confirmed by rebuilding the module
+      out-of-tree against the 7.0.0-28 headers.
+- [x] Verify the running kernel 6.17.0-40 still has a working
+      v4l2loopback DKMS build, so a manual modprobe plus the script's
+      `stream` mode works today.
+- [x] Flag the boot hazard: /boot/vmlinuz points at 7.0.0-28, a
+      kernel with no v4l2loopback module at all.
+- [x] Record LearnedPatterns E16 and open gh issue #104.
+- [x] Operator (needs sudo): purge linux-image/-headers-7.0.0-28 and,
+      until then, modprobe manually before `stream`.
+- [ ] Optional hardening: guard the apt step in `1__setup_camera.sh`
+      behind a "packages missing" check.
+
+## Enable upload_large_folder for recording uploads (2026-07-22)
+
+Context: user asked whether the HF Hub "upload a large folder" method
+(huggingface_hub docs, guides/upload#upload-a-large-folder) applies to
+the current upload path. `LeRobotDataset.push_to_hub` already accepts
+`upload_large_folder=True`, but `lerobot-record` never passes it, so
+every recording uploads through single-commit `upload_folder`. With
+the installed huggingface_hub 1.10.2 + hf_xet, `upload_large_folder`
+gives resumable multi-commit uploads suited to multi-GB video
+datasets. It stays overwrite-only, so the orphan-shard caveat still
+applies (see LP §Q17). Also `HF_HUB_ENABLE_HF_TRANSFER=1` in the
+record scripts is a no-op on hub 1.x (hf_transfer support removed);
+the current equivalent is `HF_XET_HIGH_PERFORMANCE=1`.
+
+- [x] Add `upload_large_folder: bool = False` to `DatasetRecordConfig`
+      in `src/lerobot/scripts/lerobot_record.py`.
+- [x] Pass the flag through to `dataset.push_to_hub()` in the
+      `record()` teardown.
+- [x] Add `--dataset.upload_large_folder=true` to all four
+      `5__fr5_record*.sh` scripts.
+- [x] Replace `HF_HUB_ENABLE_HF_TRANSFER=1` with
+      `HF_XET_HIGH_PERFORMANCE=1` in the same four scripts.
+- [x] Run ruff check / format --check on the modified Python file.

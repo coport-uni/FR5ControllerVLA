@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Train a Pi0.5 "adv" policy on the FR5 teleop dataset, tuned for 4 x B200.
+# Train a Pi0.5 "adv" policy on the FR5 teleop dataset, tuned for 3 x B200.
 # Adapted from 7__train_pi05_adv_h200.sh (pi05 policy + MEAN_STD norm +
 # weight_decay=1e-10 + red-marker dataset) using the 4 x B200 environment
 # conventions of 7__train_pi0_task1_b200.sh.
@@ -24,10 +24,16 @@
 #   resource"). 152 is the largest validated rung, same accept-below-
 #   failure rule as the pi0 B200 probe (issue #87, batch 176 there).
 #
-# Learning rate = 1.1e-4:
-#   Effective batch = 152 * 4 = 608 = 19x openpi's baseline 32.
-#   SQRT scaling: lr = 2.5e-5 * sqrt(19) = 1.09e-4 -> 1.1e-4. SQRT (not
-#   linear) per the probe docs; LeRobot does no LR auto-scaling.
+# Learning rate = 9.4e-5:
+#   Effective batch = 152 * 3 = 456 = 14.25x openpi's baseline 32.
+#   SQRT scaling: lr = 2.5e-5 * sqrt(14.25) = 9.44e-5 -> 9.4e-5. SQRT
+#   (not linear) per the probe docs; LeRobot does no LR auto-scaling.
+#   NOTE: this run is NOT directly comparable to the 4-GPU task1/task3
+#   pi05 runs -- they use global batch 608 at lr 1.1e-4. Per-GPU batch
+#   is identical (152), so compile/VRAM behaviour matches, but the
+#   global batch and LR both differ. 3 GPUs cannot reach 608 at
+#   152/GPU: 608/3 is not an integer, and only multiples of 456 are
+#   reachable, gradient accumulation included. See gh #102.
 #   scheduler_warmup_steps stays at the LeRobot/openpi default 1000
 #   (warmup length is not proportional to batch size). If the model
 #   underfits, raise lr toward the linear bound (4.75e-4) or extend
@@ -143,18 +149,29 @@ echo "WANDB_USER=${WANDB_USER}"
 
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50"
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
-JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
+# JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
 
-GPU_NUMBER=6
+# JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50"
+# JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
+# JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
+
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+GPU_NUMBER=3
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 152,
 # the largest rung that compiles (160 hits the Triton shared-memory
-# limit) at 71.5 % peak VRAM. See header.
-BATCH_SIZE=608
+# limit) at 71.5 % peak VRAM. See header. 456 = 152 * 3 because only
+# 3 B200s enumerate on this box -- do NOT keep the 4-GPU value 608
+# here: 608/3 = 202 per-GPU, which fails to compile before step 0.
+BATCH_SIZE=456
 
-# 1570 * 608 = 954,560 samples ~= 8.00 epoch on the 119,356-frame
-# dataset (holds the openpi sample budget). CHECKPOINT_NUMBER=10 ->
-# save every 157 steps.
+# 30000 * 456 = 13,680,000 samples ~= 188 epoch on the 72,541-frame
+# task2 dataset. This deliberately far exceeds openpi's ~8-epoch
+# sample budget, matching the 30000-step task3 pi05 run rather than
+# the 1570-step figure quoted in the header's openpi comparison.
+# CHECKPOINT_NUMBER=10 -> save every 3000 steps.
 STEPS_NUMBER=30000
 CHECKPOINT_NUMBER=10
 
@@ -168,7 +185,7 @@ accelerate launch \
     --policy.pretrained_path=models/pi05_base_v051compat \
     --policy.normalization_mapping='{"ACTION": "MEAN_STD", "STATE": "MEAN_STD", "VISUAL": "IDENTITY"}' \
     --dataset.video_backend=pyav \
-    --policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200_model \
+    --policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200 \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --policy.compile_model=true \
@@ -180,9 +197,9 @@ accelerate launch \
     --policy.optimizer_weight_decay=1e-10 \
     --output_dir=outputs/train/${JOB_NAME}_pi05_b200 \
     --job_name=${JOB_NAME}_pi05_b200 \
-    --wandb.enable=true \
+    --wandb.enable=false \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
-    --policy.optimizer_lr=1.1e-4 \
+    --policy.optimizer_lr=9.4e-5 \
     --steps=${STEPS_NUMBER} \
     --save_freq=$((STEPS_NUMBER / CHECKPOINT_NUMBER)) \
     --num_workers=10 \

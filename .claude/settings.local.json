@@ -21,7 +21,8 @@
       "Bash(grep -v \"^[0-9]*:[a-z ]*$\")",
       "Bash(git -C /workspace/VLARelated/FR5ControllerVLA diff 7__train_pi05.sh)",
       "Bash(git commit -m ' *)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(awk '/^ *)"
     ]
   }
 }

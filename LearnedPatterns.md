@@ -490,6 +490,52 @@
   as a compile-codegen limit (reduce batch), distinct from a CUDA
   OOM. (from B200 pi05-adv probe, 2026-06-15, gh #89)
 
+### Q15b. Cutting GPU_NUMBER while holding BATCH_SIZE raises per-GPU batch
+
+- **Problem**: With 3 of 4 B200s enumerating, `7__train_pi0_task2_b200.sh`
+  (`GPU_NUMBER=3`, `BATCH_SIZE=704`) died before step 0 with
+  `No valid triton configs. OutOfMemoryError: out of resource:
+  triton_per_fused_..._mean_mul_pow_rsqrt_... Required: 294976
+  Hardware limit: 232448` -- the Q15 signature, on pi0 rather than pi05.
+  The same script had run fine for months.
+- **Cause**: `BATCH_SIZE` in these scripts is the GLOBAL batch;
+  `--batch_size` is passed as `BATCH_SIZE / GPU_NUMBER`. Holding the
+  global batch while dropping the GPU count therefore *raises* per-GPU
+  batch, which is the quantity the shared-mem ceiling binds on. The
+  same `BATCH_SIZE=704` gives 117/GPU on 6 GPUs (OK), 176/GPU on 4
+  (OK), and 234/GPU on 3 (fails). Nothing about the box changed --
+  only the divisor.
+- **Fix**: Scale `BATCH_SIZE` with `GPU_NUMBER` to hold per-GPU at the
+  validated rung (pi0: 176*3 = 528; pi05: 152*3 = 456), and sqrt-rescale
+  the LR for the new global batch. Verified: pi05 at 152/GPU on 3 GPUs
+  peaks at 131022 MiB vs 131024 MiB on 4 GPUs -- per-GPU batch alone
+  determines compile/VRAM behaviour; GPU count does not.
+- **Rule**: Always re-derive `BATCH_SIZE` when changing `GPU_NUMBER` --
+  per-GPU batch, not global batch, is what hits the ceiling. Note the
+  global batch then changes too, so an LR rescale is required and the
+  run is no longer directly comparable to a differently-batched one.
+  (from ToDo#50, gh #102)
+
+### Q15c. The gemma shared-mem ceiling is policy-specific, not shared
+
+- **Problem**: Q15 records the shared-mem failure as a pi05 trait
+  ("pi05's gemma RMSNorm"), which reads as though pi0 is exempt or
+  shares the 160 threshold. Both readings are wrong and led to a bad
+  prediction that pi0 would fail above ~160.
+- **Cause**: pi0 and pi05 share the gemma backbone and therefore the
+  same failing kernel and the same 232448 B per-SM limit, but the
+  per-block shared memory scales with model width, so the batch at
+  which they cross the limit differs.
+- **Fix**: Read the thresholds off this repo's own run logs
+  (`grep "Effective batch size" outputs/train/**/*.log`, then check
+  whether any step lines follow). Measured on B200:
+  pi0 -> 160 OK, 176 OK, 192/208/224/234/240 FAIL;
+  pi05 -> 152 OK, >=160 FAIL. (The one failing pi0 176 run predates
+  `compile_mode=default` and is Q14, not this.)
+- **Rule**: Never carry a batch ceiling across policies -- pi0's 176
+  does not license 176 for pi05. Treat each policy's largest
+  step-producing rung in the logs as its ceiling. (from ToDo#50, gh #102)
+
 ### Q16. pi05_base needs the same v051compat snapshot treatment as pi0
 
 - **Problem**: `lerobot/pi05_base` HEAD fails to load on this v0.5.1
@@ -787,6 +833,88 @@
 - **Rule**: Always add a new host's conda root to the portable
   block and prepend the env bin to PATH when bare `python` must
   resolve into the env. (from B200 probe, 2026-06-13, gh #87)
+
+### E13. Container swap moves the mount path; it does not delete the env
+
+- **Problem**: After a container migration `conda` was gone from PATH
+  and every root in the portable probe block (E5) was missing, so the
+  env looked destroyed and a 13 GB reinstall looked necessary.
+- **Cause**: The env was intact on the persistent disk the whole time.
+  Only the mount path moved (`/NHNHOME/workspace` ->
+  `/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace`). Conda bakes its
+  install prefix into every console script, so the move broke 134
+  shebangs in `envs/lerobot/bin` (including `conda` itself) and the
+  editable-install pointer `__editable__.lerobot-0.5.1.pth`. The
+  interpreter binary still ran fine -- only the prefix-baked wrappers
+  failed, which is why it presented as "everything is gone".
+- **Fix**: `ln -s <new-root> <old-path>` restored conda, all 134
+  scripts, the editable import, and all 5 training scripts that
+  hard-code the old root -- unmodified, in one command.
+- **Rule**: Never conclude a conda env is lost because `conda` is not
+  found; first check whether the install still exists at a moved path
+  and test the real interpreter (`envs/<name>/bin/python3.x`) directly.
+  Prefer a symlink restoring the old prefix over relocating a
+  prefix-baked env. (from ToDo#49, gh #101)
+
+### E14. Only `/NHNHOME` persists; `$HOME` and `/tmp` are container overlay
+
+- **Problem**: The 2026-07-01 rebuild installed conda to `~/miniconda3`
+  and the next container swap wiped it again. The same swap destroyed
+  the HF cache (`~/.cache/huggingface`), the HF/wandb/gh credentials,
+  and `gh` itself.
+- **Cause**: `/home` and `/tmp` live on the container overlay; only
+  `/NHNHOME` (the mounted nvme) survives a swap.
+- **Fix**: Install envs and caches under `/NHNHOME`. `HF_HOME` is now
+  redirected to `/NHNHOME/workspace/sungwoo/hf_cache` in the 5 B200
+  training scripts, alongside the existing inductor/triton redirect
+  (E11). Note `hf auth login` writes its token to `~/.cache` unless
+  `HF_HOME` is exported first, so the token must be placed on the
+  persistent disk explicitly.
+- **Rule**: Always install environments, caches, and tokens under
+  `/NHNHOME`; never `$HOME` or `/tmp`. Losing an overlay HF cache turns
+  a silent dependency on a gated repo into a hard training failure
+  (E15). (from ToDo#49, gh #101)
+
+### E15. pi0/pi05 need the GATED paligemma tokenizer at startup
+
+- **Problem**: pi05 training died before step 0 with
+  `Failed to instantiate processor step 'tokenizer_processor' ...
+  You are trying to access a gated repo`, even though the FR5 dataset
+  is public and the pi05 weights are pinned locally.
+- **Cause**: pi0/pi05 build `tokenizer_processor` from
+  `google/paligemma-3b-pt-224`, a gated repo requiring an authenticated
+  token whose account accepted the licence. It had always resolved
+  silently from the overlay HF cache; once that cache was wiped (E14)
+  the hidden network dependency surfaced. The pinned
+  `models/pi05_base_v051compat` snapshot carries weights but no
+  tokenizer, so there is no local fallback.
+- **Fix**: `hf auth login` with a licence-accepting account, with
+  `HF_HOME` pointed at the persistent disk so the tokenizer and token
+  survive the next swap.
+- **Rule**: Always treat the paligemma tokenizer as a required gated
+  dependency of pi0/pi05, not an implementation detail of the cache; a
+  pinned local checkpoint does NOT make training offline-capable.
+  (from ToDo#49, gh #101)
+
+### E16. HWE kernel upgrade wedges apt when a DKMS module cannot build
+
+- **Problem**: `1__setup_camera.sh` died at its `sudo apt-get install`
+  line before ever reaching `modprobe`, so /dev/video18-20 were never
+  created and downstream capture silently lost the loopback cameras.
+- **Cause**: unattended HWE upgrade pulled kernel 7.0.0-28, whose
+  postinst fails because v4l2loopback 0.12.7 does not compile against
+  kernel 7.0 headers (`v4l2_fh_add`/`v4l2_fh_del` gained a
+  `struct file *` parameter). The kernel packages sit half-configured
+  (`iF`), so EVERY later apt run exits 100, and the script's
+  `set -euo pipefail` turns that unrelated failure into an abort.
+- **Fix**: purge `linux-image/-headers-7.0.0-28-generic` (pauses HWE
+  kernel updates until v4l2loopback catches up). Short-term: modprobe
+  manually — the running 6.17.0-40 kernel has a good module build —
+  then use the script's `stream` mode.
+- **Rule**: Never make a routine launch script depend on `apt-get`
+  succeeding at run time; guard installs behind a "package missing"
+  check, and after any kernel upgrade verify DKMS built the module for
+  the new kernel before rebooting. (from ToDo#107, gh #104)
 
 ---
 

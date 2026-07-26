@@ -76,6 +76,9 @@
 # Try known conda install roots in order (FR5 control PC first, then
 # the training box, then per-user fallbacks). Fail clearly if none is
 # present so we don't die later with "conda: not found".
+
+# source /NHNHOME/workspace/sungwoo/miniforge3/etc/profile.d/conda.sh
+
 _conda_sh=""
 for _root in /NHNHOME/workspace/sungwoo/miniforge3 \
              /home/inno-controller/anaconda3 /opt/conda \
@@ -129,7 +132,10 @@ echo "HF_USER=${HF_USER}"
 
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
-JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
+# JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
+
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
 
 DATASET_REPO="coport-uni/${JOB_NAME}"
 python - "$DATASET_REPO" <<'PY'
@@ -153,12 +159,13 @@ PY
 
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100"
 # JOB_NAME="FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
+
 # Verify against `nvidia-smi -L` before each run; see header note.
-GPU_NUMBER=4
+GPU_NUMBER=3
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 176,
 # measured at 73.9 % peak VRAM on this box (192/GPU OOMs). See header.
-BATCH_SIZE=704
+BATCH_SIZE=528
 
 STEPS_NUMBER=30000
 CHECKPOINT_NUMBER=10
@@ -171,7 +178,7 @@ accelerate launch \
     --dataset.repo_id=coport-uni/${JOB_NAME} \
     --policy.type=pi0 \
     --policy.pretrained_path=models/pi0_base_v051compat \
-    --policy.repo_id=coport-uni/${JOB_NAME}_pi0_b200_model \
+    --policy.repo_id=coport-uni/${JOB_NAME}_pi0_b200 \
     --policy.push_to_hub=true \
     --dataset.video_backend=pyav \
     --policy.device=cuda \
@@ -183,9 +190,9 @@ accelerate launch \
     --policy.train_expert_only=false \
     --output_dir=outputs/train/${JOB_NAME}_pi0_b200 \
     --job_name=${JOB_NAME}_pi0_b200 \
-    --wandb.enable=true \
+    --wandb.enable=false \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
-    --policy.optimizer_lr=1.2e-4 \
+    --policy.optimizer_lr=1.04e-4 \
     --steps=${STEPS_NUMBER} \
     --save_freq=$((STEPS_NUMBER / CHECKPOINT_NUMBER)) \
     --num_workers=10 \
