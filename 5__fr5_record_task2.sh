@@ -19,7 +19,7 @@ export HF_XET_HIGH_PERFORMANCE=1
 # Left Arrow (←): Cancel episode and re-record
 # Escape (ESC): Stop session and upload dataset
 
-JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise"
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle"
 
 # Remove any stale local copy so hf download starts from a clean state.
 # rm -rf /home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/${JOB_NAME}
@@ -41,16 +41,17 @@ lerobot-record \
     --teleop.type=fairino_leader \
     --teleop.ip_address=192.168.59.2 \
     --teleop.gripper_enabled=true \
+    --robot.gripper_force=25 \
     --teleop.gripper_force=1 \
     --teleop.id=fr5_leader \
     --display_data=true \
     --dataset.root="/home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/datasets/${JOB_NAME}" \
     --dataset.repo_id=coport-uni/${JOB_NAME} \
-    --dataset.episode_time_s=60 \
+    --dataset.episode_time_s=120 \
     --dataset.reset_time_s=30 \
-    --dataset.num_episodes=10 \
+    --dataset.num_episodes=5 \
     --dataset.fps=20 \
-    --dataset.single_task="turn the sliver air valve 90 degress counterclockwise" \
+    --dataset.single_task="transfer the gray tablets from the brown bottle into another brown bottle" \
     --dataset.streaming_encoding=true \
     --dataset.encoder_threads=8 \
     --dataset.upload_large_folder=true \

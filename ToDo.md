@@ -2930,3 +2930,56 @@ suffix yields exactly 96 characters, matching the existing
 - [ ] Drop the `_model` suffix in `7__train_pi05_task2_b200.sh` so
       future task2 runs push successfully.
 - [x] Record the 96-character repo-name limit in `LearnedPatterns.md`.
+
+## Diagnose 1__setup_camera.sh failure (2026-07-21)
+
+Context: user asked why `1__setup_camera.sh` errors. Diagnosis only --
+no production code changed. Findings in gh issue #104. (see LP §E16)
+
+- [x] Trace the failing step: conda activate, the PTZ preset script
+      (onvif importable, all three cameras reachable) and `apt-get
+      update` all pass; the script dies at `sudo apt-get install -y
+      v4l2loopback-dkms ...`, which exits 100, so `set -euo pipefail`
+      aborts before `modprobe` and /dev/video18-20 are never created.
+- [x] Root cause: HWE kernel 7.0.0-28 (auto-installed 2026-07-18)
+      fails to configure because DKMS cannot compile v4l2loopback
+      0.12.7 against kernel 7.0 headers (`v4l2_fh_add`/`v4l2_fh_del`
+      gained a `struct file *` parameter). The kernel image and
+      headers packages are stuck half-configured (`iF`), so every apt
+      run since 2026-07-19 ends with "Sub-process /usr/bin/dpkg
+      returned an error code (1)". Confirmed by rebuilding the module
+      out-of-tree against the 7.0.0-28 headers.
+- [x] Verify the running kernel 6.17.0-40 still has a working
+      v4l2loopback DKMS build, so a manual modprobe plus the script's
+      `stream` mode works today.
+- [x] Flag the boot hazard: /boot/vmlinuz points at 7.0.0-28, a
+      kernel with no v4l2loopback module at all.
+- [x] Record LearnedPatterns E16 and open gh issue #104.
+- [x] Operator (needs sudo): purge linux-image/-headers-7.0.0-28 and,
+      until then, modprobe manually before `stream`.
+- [ ] Optional hardening: guard the apt step in `1__setup_camera.sh`
+      behind a "packages missing" check.
+
+## Enable upload_large_folder for recording uploads (2026-07-22)
+
+Context: user asked whether the HF Hub "upload a large folder" method
+(huggingface_hub docs, guides/upload#upload-a-large-folder) applies to
+the current upload path. `LeRobotDataset.push_to_hub` already accepts
+`upload_large_folder=True`, but `lerobot-record` never passes it, so
+every recording uploads through single-commit `upload_folder`. With
+the installed huggingface_hub 1.10.2 + hf_xet, `upload_large_folder`
+gives resumable multi-commit uploads suited to multi-GB video
+datasets. It stays overwrite-only, so the orphan-shard caveat still
+applies (see LP §Q17). Also `HF_HUB_ENABLE_HF_TRANSFER=1` in the
+record scripts is a no-op on hub 1.x (hf_transfer support removed);
+the current equivalent is `HF_XET_HIGH_PERFORMANCE=1`.
+
+- [x] Add `upload_large_folder: bool = False` to `DatasetRecordConfig`
+      in `src/lerobot/scripts/lerobot_record.py`.
+- [x] Pass the flag through to `dataset.push_to_hub()` in the
+      `record()` teardown.
+- [x] Add `--dataset.upload_large_folder=true` to all four
+      `5__fr5_record*.sh` scripts.
+- [x] Replace `HF_HUB_ENABLE_HF_TRANSFER=1` with
+      `HF_XET_HIGH_PERFORMANCE=1` in the same four scripts.
+- [x] Run ruff check / format --check on the modified Python file.
