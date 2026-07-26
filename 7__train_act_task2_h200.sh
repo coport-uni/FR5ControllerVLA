@@ -55,7 +55,8 @@ echo "HF_USER=${HF_USER}"
 # JOB_NAME="FR5_task3_move_the_brown_colored_glass_bottle_to_the_designated_location_200"
 
 # JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200"
 
 # LeRobot resolves the dataset revision from a git tag matching the
 # codebase_version in info.json (get_safe_version in utils.py). An
