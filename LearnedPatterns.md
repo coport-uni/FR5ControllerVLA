@@ -6,8 +6,8 @@
 > after each task completes (see CLAUDE.md "Learned Patterns
 > Reference").
 >
-> Last updated: 2026-06-13
-> Total patterns: 35
+> Last updated: 2026-07-26
+> Total patterns: 59
 >
 > Provenance format: `(from ToDo#N)` where N is the 1-based index of
 > the top-level `##` heading in `ToDo.md` at the time of extraction.
@@ -660,6 +660,40 @@
 - **Rule**: Always confirm with the user before `rm -rf` on any
   path outside of `/tmp` or the build output directories.
   (from ToDo#40)
+
+### W7. Same fix committed from two machines looks like divergence
+
+- **Problem**: Local `main` reported "ahead 1, behind 13" and
+  `git cherry` flagged the commit as unmerged, but the merge
+  produced conflicts whose two sides were the same change.
+- **Cause**: The identical fix was committed on two machines. The
+  added lines match byte for byte; only the surrounding context
+  differs, so the patch-ids differ and git cannot detect the
+  duplicate.
+- **Fix**: Diff the two commits with `diff <(git show A --format=)
+  <(git show B --format=)` -- when only index/`@@` headers and
+  context lines differ, resolve every conflict to the upstream
+  side, then confirm `git diff --stat origin/main` is empty before
+  committing the merge.
+- **Rule**: Always prove a "divergent" commit is not a duplicate
+  before merging, and always verify the merged tree against
+  upstream instead of trusting a clean conflict resolution.
+  (from ToDo#109)
+
+### W8. A detached HEAD hides which branch work belongs to
+
+- **Problem**: The working copy sat on a detached HEAD that was
+  already an ancestor of `origin/main`, so uncommitted work had no
+  branch to land on and `git checkout main` would have carried the
+  changes onto an unrelated line of history.
+- **Cause**: A previous session checked out a commit rather than a
+  branch and left it that way.
+- **Fix**: `git checkout -b <topic>` at the detached commit, commit
+  the working tree there, then merge that branch into `main` after
+  `main` is synced with upstream.
+- **Rule**: Always run `git status` before starting git work; when
+  it says "Not currently on any branch", create a branch before
+  committing anything. (from ToDo#109)
 
 ---
 
