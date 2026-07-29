@@ -2984,6 +2984,41 @@ the current equivalent is `HF_XET_HIGH_PERFORMANCE=1`.
       `HF_XET_HIGH_PERFORMANCE=1` in the same four scripts.
 - [x] Run ruff check / format --check on the modified Python file.
 
+## Consolidate branches and sync to latest origin/main (2026-07-26)
+
+Context: the working copy sat on a **detached HEAD** (`cc409ab2`, already
+an ancestor of `origin/main`), while local `main` (`c4fcf4ec`) was ahead 1
+/ behind 13. That one "ahead" commit is a duplicate of `c8f220d7` already
+in `origin/main` -- the same fix was committed twice from two machines, so
+its added lines are byte-identical and only the surrounding context
+differs. Only `main` exists locally and remotely, so "integrate all
+branches" reduces to merging `origin/main` into `main` and checking it
+out. A task2 200-episode ACT run started at 06:19 and is still training,
+so the uncommitted `JOB_NAME` switch must be preserved (see LP §4 W2,
+W3). Issue #106.
+
+- [x] Commit the working-tree changes first on `chore/task2-200-run`:
+      `7__train_act_task2_h200.sh` switched to the 200-episode dataset
+      (336098eb), plus the completed 100-ep run log
+      `train_20260721-003419.log` (defe8539). Explicit paths only (LP W2).
+- [x] Leave the live `..._200_act_h200/train_20260726-061952.log`
+      untracked -- the running job is still appending to it.
+- [x] Check out `main` and `git merge --no-ff origin/main`.
+- [x] Resolve the two conflicts (`7__train_act_task2_h200.sh`, `ToDo.md`)
+      by taking the `origin/main` side. The `main` side of the script
+      also carried a stale uncommented `..._50` JOB_NAME line, which the
+      `origin/main` side correctly has commented out.
+- [x] Verify the merged tree is byte-identical to `origin/main`
+      (`git diff --stat origin/main` empty) -- confirms `c4fcf4ec`
+      contributed no new content (87230df0).
+- [x] Merge `chore/task2-200-run` back into `main`; clean, no conflicts.
+- [x] Confirm only `JOB_NAME=..._200` is active in the merged script.
+- [x] Push `main` to `origin` and confirm the branch is no longer
+      ahead/behind.
+- [x] Append LP §4 W7 (duplicate commit across machines) and W8
+      (detached HEAD hides the target branch) to `LearnedPatterns.md`.
+- [x] Delete the merged `chore/task2-200-run` branch.
+
 ## Audit async-inference scripts and add a pi05 client (2026-07-29)
 
 Context: user asked whether `8__run_server.sh`, `9__run_client_act.sh`
