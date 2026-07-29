@@ -90,6 +90,24 @@ GPU_NUMBER=2
 STEPS_NUMBER=100000
 CHECKPOINT_NUMBER=10
 
+# Lowered 4 -> 2 after a rank-0 DataLoader worker segfault killed
+# the 2026-07-26 run at step 67,706/100,000 (issue #109); fewer
+# workers reduce exposure to the sporadic video-decode crash.
+WORKER_NUMBER=2
+
+# Resume the crashed run from checkpoints/last (step 60000). Set to
+# false for a fresh run. On resume, lerobot loads the entire train
+# config from the checkpoint's train_config.json and the CLI flags
+# below act as overrides (only num_workers differs).
+RESUME=true
+
+RESUME_FLAGS=(--resume=false)
+if [ "$RESUME" = true ]; then
+    CKPT_CONFIG="outputs/train/${JOB_NAME}_act_h200"
+    CKPT_CONFIG+="/checkpoints/last/pretrained_model/train_config.json"
+    RESUME_FLAGS=(--resume=true --config_path="$CKPT_CONFIG")
+fi
+
 accelerate launch \
     --multi_gpu \
     --num_processes=${GPU_NUMBER} \
@@ -107,9 +125,9 @@ accelerate launch \
     --batch_size=$((BATCH_SIZE / GPU_NUMBER)) \
     --steps=${STEPS_NUMBER} \
     --save_freq=$((STEPS_NUMBER / CHECKPOINT_NUMBER)) \
-    --resume=false \
+    "${RESUME_FLAGS[@]}" \
     --seed=55 \
     --tolerance_s=0.1 \
     --policy.optimizer_lr=4.5e-5 \
     --policy.optimizer_lr_backbone=4.5e-5 \
-    --num_workers=4
+    --num_workers=${WORKER_NUMBER}

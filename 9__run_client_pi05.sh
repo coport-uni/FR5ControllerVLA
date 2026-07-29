@@ -52,9 +52,22 @@ fi
 source "$_conda_sh"
 conda activate lerobot
 
-# Must match the --port that 8__run_server.sh binds. The two are easy to
-# desync: the server currently defaults its active block to 17040.
-SERVER_ADDRESS="10.0.12.139:17044"
+# The policy server runs in the NHN GPU-hub container, which exposes no
+# routable address of its own -- open an SSH tunnel from this machine
+# first, then dial the forwarded local port:
+#
+#   ssh -N -C -i ~/.ssh/appeal_test_key -p 45406 \
+#       -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+#       -L 17040:127.0.0.1:17040 appeal@59.150.32.1
+#
+# The hub's HTTPS entry point (https://cl1.gpuhub.nhncloud.com:50030/
+# FiF42P8A3y/) cannot be used here: this value goes straight into
+# grpc.insecure_channel(), which parses "host:port" only, and gRPC puts
+# the service/method in the HTTP/2 :path, so the proxy's path prefix has
+# nowhere to live.
+#
+# The port must also match the --port that 8__run_server.sh binds.
+SERVER_ADDRESS="127.0.0.1:17040"
 
 # Note the "_pi5_b200" suffix, NOT "_pi05_b200" as in the training
 # script: "<JOB_NAME>_pi05_b200" is 97 chars and the Hub caps repo names

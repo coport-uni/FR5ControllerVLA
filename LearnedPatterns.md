@@ -969,6 +969,30 @@
   check, and after any kernel upgrade verify DKMS built the module for
   the new kernel before rebooting. (from ToDo#107, gh #104)
 
+### E17. GPU-hub exposes only an HTTPS path proxy; gRPC needs an SSH tunnel
+
+- **Problem**: the FR5 control PC could not reach the async-inference
+  policy server running inside the NHN GPU-hub container. The only
+  address the console hands out is an HTTPS entry point with a path
+  token, `https://cl1.gpuhub.nhncloud.com:50030/FiF42P8A3y/`, and
+  putting it in `--server_address` cannot work.
+- **Cause**: two independent blockers. The client passes that value
+  straight to `grpc.insecure_channel()`, which parses `host:port` only,
+  and even on a TLS channel gRPC carries the service/method in the
+  HTTP/2 `:path` (`/async_inference.AsyncInference/GetActions`), so the
+  proxy's `/FiF42P8A3y/` prefix has nowhere to live. Separately the
+  container's own egress to that host is filtered — TCP 50030 and 443
+  both time out while `huggingface.co` returns 200 — so the URL is an
+  inbound path for external clients only.
+- **Fix**: tunnel the port instead of routing gRPC through the proxy.
+  From the FR5 PC, `ssh -N -C -i <key> -p 45406 -L 17040:127.0.0.1:17040
+  appeal@59.150.32.1`, then dial `127.0.0.1:17040`. Confirmed working:
+  the robot PC established a gRPC connection to the container's server.
+- **Rule**: Always give `--server_address` a bare `host:port`; when the
+  only public entry point is an HTTP path proxy, forward the port over
+  SSH rather than trying to route gRPC through it. (from ToDo#114,
+  gh #110)
+
 ---
 
 ## §99. Uncategorized

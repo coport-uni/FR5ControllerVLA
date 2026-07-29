@@ -45,10 +45,21 @@ conda activate lerobot
 # coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper
 # coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model
 
-# https://cl1.gpuhub.nhncloud.com:50030/FiF42P8A3y/ 컨테이너 17040 포트 접근방법
+# The policy server runs in the NHN GPU-hub container, reachable only
+# through an SSH tunnel opened beforehand from this machine:
+#
+#   ssh -N -C -i ~/.ssh/appeal_test_key -p 45406 \
+#       -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+#       -L 17040:127.0.0.1:17040 appeal@59.150.32.1
+#
+# The hub's HTTPS entry point (https://cl1.gpuhub.nhncloud.com:50030/
+# FiF42P8A3y/) cannot serve as --server_address: the value goes straight
+# into grpc.insecure_channel(), which parses "host:port" only, and gRPC
+# carries the service/method in the HTTP/2 :path, leaving no room for the
+# proxy's path prefix.
 
 python3 -m lerobot.async_inference.robot_client \
-    --server_address=https://cl1.gpuhub.nhncloud.com:50030/FiF42P8A3y/ \
+    --server_address=127.0.0.1:17040 \
     --robot.type=fairino_follower \
     --robot.ip_address=192.168.58.2 \
     --robot.gripper_enabled=true \
