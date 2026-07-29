@@ -155,9 +155,9 @@ echo "WANDB_USER=${WANDB_USER}"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
 
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
-
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200"
 GPU_NUMBER=3
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 152,
