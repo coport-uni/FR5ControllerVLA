@@ -3039,8 +3039,9 @@ is `checkpoints/last -> 060000`, so a resume loses ~7.7K steps.
       `free -h` (114 GiB free).
 - [x] Confirm resume point: `checkpoints/last -> 060000`,
       `save_freq=10000`, cfg.steps=100000.
-- [ ] Resume training from `checkpoints/last` with
-      `--resume=true` (pending user go-ahead).
+- [x] Resume training from `checkpoints/last` with
+      `--resume=true` (pending user go-ahead) -- done in the
+      follow-up entry below.
 - [ ] Leave the crashed run's log untracked until the run is
       actually finished via resume.
 
@@ -3142,10 +3143,11 @@ video-decode worker segfault. On resume, lerobot loads the full
 train config from the checkpoint's `train_config.json` and the
 CLI flags act as overrides, so only the worker count changes.
 
-- [ ] Add a `RESUME` toggle and `WORKER_NUMBER=2` to
+- [x] Add a `RESUME` toggle and `WORKER_NUMBER=2` to
       `7__train_act_task2_h200.sh`; pass `--config_path` pointing
       at `checkpoints/last/pretrained_model/train_config.json`
       when resuming.
-- [ ] Relaunch the run in the `act_train` tmux session and confirm
-      it picks up from step 60000.
-- [ ] Update issue #109 and commit/push the script change.
+- [x] Relaunch the run in the `act_train` tmux session and confirm
+      it picks up from step 60000 (new log train_20260729-093930.log,
+      resume=True, num_workers=2, progress bar 40000 steps remaining).
+- [x] Update issue #109 and commit/push the script change (9d4647d6).
