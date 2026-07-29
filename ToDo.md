@@ -3090,3 +3090,16 @@ no action -- that run is still training.
 - [x] Verify the remote file list against local (7/7 files byte-size
       identical; `.cache/` is a local dir, not an upload target).
 - [x] Point `9__run_client_pi05.sh` `PRETRAINED` at the new Hub repo.
+
+## Fix the pi05 task2 push repo name to `_pi5_b200` (2026-07-29)
+
+Context: follow-up to the upload above. The training script still pushed
+to `<JOB_NAME>_pi05_b200` (97 chars), so a re-run would silently fail to
+upload again. User asked to standardise on the `_pi5_b200` spelling.
+(see LP §Q18)
+
+- [x] Change `--policy.repo_id` in `7__train_pi05_task2_b200.sh` to
+      `${JOB_NAME}_pi5_b200` (96 chars) and document why the Hub name
+      differs from the local `output_dir` / `job_name`.
+- [x] Leave `output_dir` / `job_name` on `_pi05_b200` -- local paths have
+      no length cap and existing checkpoint dirs use that spelling.
