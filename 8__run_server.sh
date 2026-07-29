@@ -10,11 +10,12 @@
 # Paired with: 9__run_client.sh
 
 _conda_sh=""
-
-for _root in /home/inno-controller/anaconda3 /opt/conda \
+for _root in /NHNHOME/workspace/sungwoo/miniforge3 \
+             /home/inno-controller/anaconda3 /opt/conda \
              "$HOME/anaconda3" "$HOME/miniconda3"; do
     if [ -f "$_root/etc/profile.d/conda.sh" ]; then
         _conda_sh="$_root/etc/profile.d/conda.sh"
+        _conda_root="$_root"
         break
     fi
 done

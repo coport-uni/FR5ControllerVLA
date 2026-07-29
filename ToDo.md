@@ -3103,3 +3103,31 @@ upload again. User asked to standardise on the `_pi5_b200` spelling.
       differs from the local `output_dir` / `job_name`.
 - [x] Leave `output_dir` / `job_name` on `_pi05_b200` -- local paths have
       no length cap and existing checkpoint dirs use that spelling.
+
+## Reach the GPU-hub policy server over an SSH tunnel (2026-07-29)
+
+Context: user set `--server_address` to the NHN GPU-hub HTTPS entry
+point `https://cl1.gpuhub.nhncloud.com:50030/FiF42P8A3y/` and asked
+whether that address can work, starting with a reachability check. It
+cannot: the value is passed unchanged to `grpc.insecure_channel()`,
+which parses `host:port` only, and gRPC carries the service/method in
+the HTTP/2 `:path`, so the proxy's path prefix has nowhere to live.
+User's own SSH config (`59.150.32.1:45406`, user `appeal`) reaches the
+container, so a local port forward is the workable route.
+
+- [x] Probe the HTTPS endpoint from the container: DNS resolves to
+      59.150.34.6, but TCP 50030 and 443 both time out while general
+      egress works (huggingface.co -> 200). The URL is an inbound path
+      for external clients, so this must be re-checked from the FR5 PC.
+- [x] Confirm the policy server is healthy: pid 2844054 on
+      `0.0.0.0:17040`, gRPC channel READY.
+- [x] Confirm the container's sshd is exposed (this session arrived via
+      `SSH_CONNECTION=... 30001`).
+- [x] Point `9__run_client_pi0.sh` / `9__run_client_pi05.sh` at
+      `127.0.0.1:17040` and document the tunnel command in both.
+- [ ] Operator: move the key to the FR5 PC, `chmod 600`, open the
+      tunnel, and verify with a `grpc.channel_ready_future` probe.
+- [ ] Measure whether the WAN link sustains the observation stream:
+      3 cameras x 640x480x3 = 2.76 MB per observation, pickled
+      uncompressed, sent every 20 Hz tick while the action queue sits
+      below `chunk_size_threshold`.
