@@ -28,11 +28,11 @@ source "$_conda_sh"
 conda activate lerobot
 
 # ACT
-# python3 -m lerobot.async_inference.policy_server \
-#     --host=0.0.0.0 \
-#     --port=17044 \
-#     --fps=20 \
-#     --inference_latency=0.05
+python3 -m lerobot.async_inference.policy_server \
+    --host=0.0.0.0 \
+    --port=17040 \
+    --fps=20 \
+    --inference_latency=0.05
 
 # SmolVLA
 # python3 -m lerobot.async_inference.policy_server \
@@ -42,8 +42,8 @@ conda activate lerobot
 #     --inference_latency=0.1
 
 # Pi0
-python3 -m lerobot.async_inference.policy_server \
-    --host=0.0.0.0 \
-    --port=17044 \
-    --fps=20 \
-    --inference_latency=1
+# python3 -m lerobot.async_inference.policy_server \
+#     --host=0.0.0.0 \
+#     --port=17040 \
+#     --fps=20 \
+#     --inference_latency=1

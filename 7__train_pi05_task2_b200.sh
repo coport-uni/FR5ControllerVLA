@@ -155,9 +155,9 @@ echo "WANDB_USER=${WANDB_USER}"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100"
 # JOB_NAME="FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200"
 
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
-
-JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50"
+# JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100"
+JOB_NAME="FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200"
 GPU_NUMBER=3
 
 # Global (effective) batch; per-GPU = BATCH_SIZE / GPU_NUMBER = 152,
@@ -175,6 +175,14 @@ BATCH_SIZE=456
 STEPS_NUMBER=30000
 CHECKPOINT_NUMBER=10
 
+# The Hub repo below is "_pi5_b200", one char shorter than the local
+# "_pi05_b200" output_dir/job_name. task2's JOB_NAME is 87 chars, so
+# "_pi05_b200" lands on 97 and overflows the Hub's 96-char repo-name cap
+# -- push_to_hub then fails on stderr after the whole run finishes, with
+# a clean-looking training log (LP §Q18, gh #103). Local paths have no
+# such cap, so they keep the "_pi05_b200" spelling that existing
+# checkpoint dirs already use.
+
 accelerate launch \
     --multi_gpu \
     --num_processes=${GPU_NUMBER} \
@@ -185,7 +193,7 @@ accelerate launch \
     --policy.pretrained_path=models/pi05_base_v051compat \
     --policy.normalization_mapping='{"ACTION": "MEAN_STD", "STATE": "MEAN_STD", "VISUAL": "IDENTITY"}' \
     --dataset.video_backend=pyav \
-    --policy.repo_id=coport-uni/${JOB_NAME}_pi05_b200 \
+    --policy.repo_id=coport-uni/${JOB_NAME}_pi5_b200 \
     --policy.push_to_hub=true \
     --policy.device=cuda \
     --policy.compile_model=true \

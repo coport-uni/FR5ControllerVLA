@@ -3043,3 +3043,63 @@ is `checkpoints/last -> 060000`, so a resume loses ~7.7K steps.
       `--resume=true` (pending user go-ahead).
 - [ ] Leave the crashed run's log untracked until the run is
       actually finished via resume.
+
+## Audit async-inference scripts and add a pi05 client (2026-07-29)
+
+Context: user asked whether `8__run_server.sh`, `9__run_client_act.sh`
+and `9__run_client_pi0.sh` are fit to serve the current FR5 checkpoints
+(cross-checked against `src/lerobot/async_inference/*` and
+`docs/source/async.mdx`), and to add `9__run_client_pi05.sh` matching
+the task2-200 pi05 training setup in `7__train_pi05_task2_b200.sh`.
+(see LP §Q18 for the 96-char repo-id cap)
+
+- [x] Verify client CLI flags against `RobotClientConfig` /
+      `PolicyServerConfig` in `src/lerobot/async_inference/configs.py`.
+- [x] Confirm `pi05` is in `SUPPORTED_POLICIES` (constants.py) and that
+      the `SUPPORTED_ROBOTS` guard is commented out, so
+      `fairino_follower` passes.
+- [x] Cross-check camera keys / state shape / chunk size against the
+      trained checkpoint `config.json` (top_left, top_right, hand;
+      state 7; chunk_size 50).
+- [x] Find the server/client port mismatch: `8__run_server.sh` binds
+      17040 while every client dials 17044.
+- [x] Find the stale `--pretrained_name_or_path` and `--task` values
+      (red-marker task) in the act/pi0 clients.
+- [x] Confirm `coport-uni/FR5_task2_..._200_pi05_b200` is 97 chars and
+      therefore was never pushed (Hub cap 96, LP §Q18); the pi0 repo
+      (96) exists.
+- [x] Write `9__run_client_pi05.sh` from the task2-200 pi05 training
+      setup.
+- [x] Open the GitHub issue for this task -- gh #107 (the stored `gh`
+      token was invalid until the user re-authenticated mid-task).
+
+## Upload the task2-200 pi05 checkpoint as `_pi5_b200` (2026-07-29)
+
+Context: follow-up to the audit above. `<JOB_NAME>_pi05_b200` is 97
+chars, one over the Hub's 96-char repo-name cap (LP §Q18), so the
+training run's `push_to_hub` failed silently and only the local
+checkpoint exists. User asked to shorten `pi05` -> `pi5` in the repo
+name (96 chars exactly) and upload. The missing `_act_h200` repo needs
+no action -- that run is still training.
+
+- [x] Create `coport-uni/FR5_task2_..._200_pi5_b200` (public, matching
+      every other coport-uni model repo).
+- [x] Upload `checkpoints/last/pretrained_model` (8.8 GB, symlinked to
+      step 030000 = end of the 30000-step run) with
+      `upload_large_folder` (resumable; see the 2026-07-22 entry).
+- [x] Verify the remote file list against local (7/7 files byte-size
+      identical; `.cache/` is a local dir, not an upload target).
+- [x] Point `9__run_client_pi05.sh` `PRETRAINED` at the new Hub repo.
+
+## Fix the pi05 task2 push repo name to `_pi5_b200` (2026-07-29)
+
+Context: follow-up to the upload above. The training script still pushed
+to `<JOB_NAME>_pi05_b200` (97 chars), so a re-run would silently fail to
+upload again. User asked to standardise on the `_pi5_b200` spelling.
+(see LP §Q18)
+
+- [x] Change `--policy.repo_id` in `7__train_pi05_task2_b200.sh` to
+      `${JOB_NAME}_pi5_b200` (96 chars) and document why the Hub name
+      differs from the local `output_dir` / `job_name`.
+- [x] Leave `output_dir` / `job_name` on `_pi05_b200` -- local paths have
+      no length cap and existing checkpoint dirs use that spelling.

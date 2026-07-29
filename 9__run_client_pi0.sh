@@ -45,8 +45,10 @@ conda activate lerobot
 # coport-uni/FR5_pick_red_colored_marker_to_box_pi0_model_paper
 # coport-uni/FR5_pick_red_colored_marker_to_box_pi0_adv_model
 
+# https://cl1.gpuhub.nhncloud.com:50030/FiF42P8A3y/ 컨테이너 17040 포트 접근방법
+
 python3 -m lerobot.async_inference.robot_client \
-    --server_address=10.0.12.139:17044 \
+    --server_address=https://cl1.gpuhub.nhncloud.com:50030/FiF42P8A3y/ \
     --robot.type=fairino_follower \
     --robot.ip_address=192.168.58.2 \
     --robot.gripper_enabled=true \
