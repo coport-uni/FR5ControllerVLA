@@ -274,6 +274,25 @@
   `transport error` with no other traceback means the main process
   died — look upstream of Rerun. (from ToDo#51)
 
+### G12. Backgrounding a compound command over ssh hangs the session
+
+- **Problem**: `ssh host "... cd repo && nohup bash 8__run_server.sh
+  > log 2>&1 < /dev/null & echo done"` started the remote policy
+  server, but the ssh call never returned and the client script hung.
+- **Cause**: Backgrounding a compound list (`cd && nohup ... &`) makes
+  bash fork a wrapper subshell that inherits sshd's stdout/stderr
+  pipes (only the inner command's fds are redirected) and then waits
+  on the never-exiting server, so sshd keeps the channel open even
+  after the main remote shell exits.
+- **Fix**: Split `cd` into its own statement and background only the
+  simple command (`cd repo || exit 1; nohup bash 8__run_server.sh
+  > log 2>&1 < /dev/null &`) — bash fork+execs it directly with every
+  fd redirected, and ssh returns immediately.
+- **Rule**: Never background a compound command inside a remote ssh
+  command string; background a simple command with stdin, stdout, and
+  stderr all redirected. (from ToDo 2026-07-29 ACT client automation,
+  gh #112)
+
 ---
 
 ## §3. Library Quirks

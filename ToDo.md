@@ -3103,3 +3103,44 @@ upload again. User asked to standardise on the `_pi5_b200` spelling.
       differs from the local `output_dir` / `job_name`.
 - [x] Leave `output_dir` / `job_name` on `_pi05_b200` -- local paths have
       no length cap and existing checkpoint dirs use that spelling.
+
+## Automate the ACT client and audit its inference settings (2026-07-29)
+
+Context: user asked to (1) parameterise `9__run_client_act.sh` with a
+PRETRAINED variable and derive the natural-language `--task` string
+from the repo name automatically, (2) have the script (re)start the
+remote policy server over SSH before launching the client --
+`appeal@59.150.32.1:45406`, key `outputs/appeal_test_key`, remote repo
+`/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/FR5ControllerVLA`,
+`bash 8__run_server.sh`; kill the server first if one is already
+alive -- and (3) summarise inference-code improvements given the
+current task2 checkpoints and training logs. Pre-work audit: the
+remote `8__run_server.sh` binds 17044 (matches the client tunnel), no
+policy_server was running, and both the 50ep and 100ep task2 ACT runs
+completed 100K steps to loss ~0.003 (683 / 339 epochs respectively);
+the 100ep repo name is exactly 96 chars so its push succeeded.
+(see LP §Q18, §E13, §E14)
+
+- [x] Rewrite `9__run_client_act.sh`: PRETRAINED variable at the top,
+      TASK derived from the repo name (strip the `FR5_`/`taskN_`
+      prefix and the `_<episodes>_<policy>_<host>` suffix, underscores
+      to spaces), with a manual TASK override kept available. User
+      confirmed: default stays on the 50ep checkpoint, aggregate_fn
+      moves to weighted_average, act client only.
+- [x] Add a server-restart block: over SSH, pkill any running
+      policy_server, `nohup bash 8__run_server.sh` in the remote repo,
+      restart the local `-L 17044` tunnel, and wait for gRPC channel
+      readiness (a plain port probe false-positives through the
+      tunnel) before launching the client.
+- [x] Verify with `bash -n`, a 5-name task-parsing check, and two live
+      server-restart round trips (cold start and kill-live-server;
+      ~20 s to gRPC-ready). The robot client itself was NOT run; it
+      moves the FR5. First attempt hung: backgrounding the compound
+      `cd && nohup ... &` left a wrapper subshell holding the sshd
+      pipes -- recorded as LP §G12.
+- [x] Write the improvement summary (checkpoint choice 50/100/200ep,
+      aggregate_fn, actions_per_chunk trade-off, overfitting and
+      checkpoint selection, task-string typo) in the reply and the
+      GitHub issue.
+- [x] `gh issue create` (#112); commit + push with explicit paths
+      (LP §W2).
