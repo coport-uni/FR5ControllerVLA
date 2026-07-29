@@ -3126,8 +3126,11 @@ container, so a local port forward is the workable route.
       `SSH_CONNECTION=... 30001`).
 - [x] Point `9__run_client_pi0.sh` / `9__run_client_pi05.sh` at
       `127.0.0.1:17040` and document the tunnel command in both.
-- [ ] Operator: move the key to the FR5 PC, `chmod 600`, open the
+- [x] Operator: move the key to the FR5 PC, `chmod 600`, open the
       tunnel, and verify with a `grpc.channel_ready_future` probe.
+      Confirmed 2026-07-29: the robot PC reached the container's
+      policy server over gRPC through the tunnel.
+- [x] Record the outcome in `LearnedPatterns.md` (see LP §5 E17).
 - [ ] Measure whether the WAN link sustains the observation stream:
       3 cameras x 640x480x3 = 2.76 MB per observation, pickled
       uncompressed, sent every 20 Hz tick while the action queue sits
