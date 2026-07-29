@@ -3131,3 +3131,21 @@ container, so a local port forward is the workable route.
       3 cameras x 640x480x3 = 2.76 MB per observation, pickled
       uncompressed, sent every 20 Hz tick while the action queue sits
       below `chunk_size_threshold`.
+
+## Resume task2 200-ep h200 run with num_workers=2 (2026-07-29)
+
+Context: apply the two recovery measures from the crash diagnosis
+above (issue #109): resume the run from `checkpoints/last`
+(step 60000) instead of restarting, and lower the dataloader
+`num_workers` from 4 to 2 to reduce exposure to the sporadic
+video-decode worker segfault. On resume, lerobot loads the full
+train config from the checkpoint's `train_config.json` and the
+CLI flags act as overrides, so only the worker count changes.
+
+- [ ] Add a `RESUME` toggle and `WORKER_NUMBER=2` to
+      `7__train_act_task2_h200.sh`; pass `--config_path` pointing
+      at `checkpoints/last/pretrained_model/train_config.json`
+      when resuming.
+- [ ] Relaunch the run in the `act_train` tmux session and confirm
+      it picks up from step 60000.
+- [ ] Update issue #109 and commit/push the script change.
