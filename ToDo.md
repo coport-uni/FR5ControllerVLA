@@ -3019,6 +3019,31 @@ W3). Issue #106.
       (detached HEAD hides the target branch) to `LearnedPatterns.md`.
 - [x] Delete the merged `chore/task2-200-run` branch.
 
+## Diagnose task2 200-ep h200 training crash at step 67K (2026-07-29)
+
+Context: the ACT run in `outputs/train/FR5_task2_..._200_act_h200`
+stopped mid-training on 2026-07-28 17:08 with no error in
+`train_20260726-061952.log`. The tmux session `act_train` held the
+real traceback: a rank-0 DataLoader worker (pid 2902919) died by
+Segmentation fault at step 67,706/100,000, rank 0 exited with
+RuntimeError, and torchrun sent SIGTERM to rank 1 -- a sporadic
+video-decode / worker crash, not OOM (no kernel OOM trace, host
+memory healthy). Diagnosis only; no code changed. Latest checkpoint
+is `checkpoints/last -> 060000`, so a resume loses ~7.7K steps.
+
+- [x] Inspect the log tail -- ends abruptly on DEBUG lines, no
+      traceback captured in the file.
+- [x] Capture the `act_train` tmux pane and find the root cause
+      (DataLoader worker segfault on rank 0, SIGTERM fan-out).
+- [x] Rule out OOM via dmesg (unavailable in container) and
+      `free -h` (114 GiB free).
+- [x] Confirm resume point: `checkpoints/last -> 060000`,
+      `save_freq=10000`, cfg.steps=100000.
+- [ ] Resume training from `checkpoints/last` with
+      `--resume=true` (pending user go-ahead).
+- [ ] Leave the crashed run's log untracked until the run is
+      actually finished via resume.
+
 ## Audit async-inference scripts and add a pi05 client (2026-07-29)
 
 Context: user asked whether `8__run_server.sh`, `9__run_client_act.sh`
