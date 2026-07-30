@@ -3245,10 +3245,21 @@ untouched (not measured on this pipeline). Server runs from the
 appeal-box clone, so push + remote pull before the live check
 (see LP §E18).
 
-- [ ] Keep the user's `--inference_latency=0.01` in the ACT block of
+- [x] Keep the user's `--inference_latency=0.01` in the ACT block of
       `8__run_server.sh`; add a comment citing the #113 measurement
       and the floor semantics, drop the stray trailing whitespace.
-- [ ] Commit + push, `git pull --ff-only` on the appeal clone, then
-      re-run the setup harness + fake client and confirm round-trip
-      times stay at the measured baseline (263-342 ms).
-- [ ] `gh issue create` (#114); update and close after verification.
+- [x] Commit + push (c5caf35a), `git pull --ff-only` on the appeal
+      clone, then re-run the setup harness + fake client and confirm
+      round-trip times stay at the measured baseline (263-342 ms).
+- [x] `gh issue create` (#114); update and close after verification.
+
+Outcome note: the server booted with inference_latency 0.01 (config
+dump streamed) and the floor stayed inert. The live check collided
+with a concurrent real robot-client session that started while the
+harness restarted the server; the client-side stale-chunk filter
+discarded the fake client's noise chunks (timesteps 0-104 < its
+latest_action 160+), so no foreign action reached the FR5 -- recorded
+as LP §G13. Bonus finding: with the GPU kept warm by that client's
+continuous traffic, the server pipeline measured 13-17 ms per chunk
+and round trips 52-210 ms, so the earlier 240-320 ms figure was
+cold-GPU behaviour, not intrinsic pipeline cost.

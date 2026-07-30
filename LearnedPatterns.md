@@ -293,6 +293,30 @@
   stderr all redirected. (from ToDo 2026-07-29 ACT client automation,
   gh #112)
 
+### G13. Concurrent async-inference sessions silently hijack each other
+
+- **Problem**: while a verification harness restarted the policy
+  server, another operator's `9__run_client_act.sh` run was starting
+  concurrently; the harness killed that run's fresh server and
+  streamer, the other run's readiness probe then attached its robot
+  client to the harness's server, and both clients fed one server.
+- **Cause**: the restart blocks (pkill server / pkill streamer / pkill
+  tunnel) assume exclusive ownership of the async stack. There is no
+  lock, and the server accepts any number of clients: `Ready()` from a
+  second client resets server state under the first, and both share
+  one observation queue. The only reason no foreign action reached the
+  FR5 is the client-side stale-chunk filter (timesteps <=
+  latest_action are dropped), which happened to discard the other
+  client's chunks.
+- **Fix**: stopped the harness immediately and verified quiescence
+  (no local robot_client, server log idle) before continuing. No code
+  guard exists yet.
+- **Rule**: Never restart the policy server, tunnel, or streamer
+  without first checking for a live session (`pgrep -af robot_client`
+  locally, recent write activity on outputs/policy_server.log
+  remotely); only one operator may run the async stack at a time.
+  (from ToDo 2026-07-30 inference_latency, gh #114)
+
 ---
 
 ## §3. Library Quirks
