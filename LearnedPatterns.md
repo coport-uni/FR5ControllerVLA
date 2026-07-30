@@ -317,6 +317,24 @@
   remotely); only one operator may run the async stack at a time.
   (from ToDo 2026-07-30 inference_latency, gh #114)
 
+### G14. Async-client queue plot appears only after clean shutdown
+
+- **Problem**: `--debug_visualize_queue_size=true` seemed to do
+  nothing during or after `9__run_client_act.sh` runs.
+- **Cause**: `visualize_action_queue_size` runs in `async_client()`'s
+  finally block only after `stop()` (multi-second robot/camera
+  teardown) plus receiver join, then blocks in `plt.show()`. A second
+  Ctrl+C during that teardown, or an unsuppressed `cam.disconnect()`
+  exception in `FairinoFollower.disconnect()`, kills the process
+  before the window; the Tk window can also open behind the editor
+  while the terminal looks hung.
+- **Fix**: press Ctrl+C once and wait for the teardown; verified via
+  `claude_test/debug_queue_plot_shutdown.py` (single SIGINT ->
+  finally -> TkAgg window opens). PNG-save fix proposed in #118.
+- **Rule**: Never expect the queue-size plot mid-run; after Ctrl+C,
+  press nothing else until "Client stopped" or the plot window
+  appears. (from ToDo 2026-07-30 queue plot diagnosis, gh #118)
+
 ---
 
 ## §3. Library Quirks

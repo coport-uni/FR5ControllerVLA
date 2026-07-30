@@ -3324,3 +3324,29 @@ is unchanged (its derived task equals the old hardcoded string).
 - [x] Verify derivation for all eleven Pi0 checkpoints; bash -n.
 - [x] `gh issue create` (#117); commit + push explicit paths
       (LP §W2).
+
+## Diagnose --debug_visualize_queue_size no-show in ACT client (2026-07-30)
+
+Context: the user reported the queue-size plot never appears when
+running `9__run_client_act.sh` with `--debug_visualize_queue_size=true`.
+Diagnosis only -- no production code changed; the PNG-save fix is
+proposed in #118 and awaits user confirmation.
+
+- [x] Trace the flag: the plot is drawn only in `async_client()`'s
+      finally block after full shutdown (robot_client.py:505-512);
+      it is a post-run plot, not a live view.
+- [x] Verify the environment: lerobot conda env resolves TkAgg,
+      tkinter present, DISPLAY=:0 opens a bare Tk window.
+- [x] Reproduce the shutdown path without the robot
+      (`claude_test/debug_queue_plot_shutdown.py`): single SIGINT
+      -> finally -> plt.show() opens the window and blocks, so the
+      mechanism works on this box.
+- [x] Conclude likely field causes: a second Ctrl+C during the
+      multi-second stop() teardown kills the finally block; an
+      unsuppressed cam.disconnect() exception in
+      FairinoFollower.disconnect() skips visualize; or the window
+      opens behind the editor and the run looks hung (see LP §G14).
+- [x] Update claude_test/README.md; `gh issue create` (#118);
+      commit + push explicit paths (LP §W2).
+- [ ] Fix: write the figure to `outputs/queue_size_<timestamp>.png`
+      instead of relying on plt.show() (pending user confirmation).
