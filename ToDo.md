@@ -3263,3 +3263,22 @@ as LP §G13. Bonus finding: with the GPU kept warm by that client's
 continuous traffic, the server pipeline measured 13-17 ms per chunk
 and round trips 52-210 ms, so the earlier 240-320 ms figure was
 cold-GPU behaviour, not intrinsic pipeline cost.
+
+## List all Hub FR5 ACT checkpoints in the client comment (2026-07-30)
+
+Context: the user asked to add every fr5+act model from their
+Hugging Face account to the PRETRAINED comment block of
+`9__run_client_act.sh`. `hf models list --author coport-uni`
+returns nine FR5 ACT repos: task1 100/200, task2 50/100,
+task3 50/100/200, plus the two legacy red-marker checkpoints.
+The task2 200-episode variant is absent because it is still
+training (confirmed by the user); task1 has no 50-episode ACT
+variant on the Hub. The user's uncommitted edits in the same
+block (ACTIONCHUNK=150, hardcoded TASK, all PRETRAINED lines
+commented out) stay untouched.
+
+- [x] Replace the PRETRAINED comment block in
+      `9__run_client_act.sh` with the full Hub list grouped by
+      task, noting the still-training task2_200 variant.
+- [x] `gh issue create` (#115); commit + push explicit paths
+      (LP §W2).
