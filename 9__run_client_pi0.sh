@@ -109,7 +109,7 @@ echo "TASK=${TASK}"
 # proxy's path prefix.
 
 python3 -m lerobot.async_inference.robot_client \
-    --server_address=127.0.0.1:17040 \
+    --server_address=127.0.0.1:17044 \
     --robot.type=fairino_follower \
     --robot.ip_address=192.168.58.2 \
     --robot.gripper_enabled=true \
@@ -122,7 +122,7 @@ python3 -m lerobot.async_inference.robot_client \
     --policy_type=pi0 \
     --policy_device=cuda \
     --actions_per_chunk=50 \
-    --chunk_size_threshold=0.4 \
+    --chunk_size_threshold=0.7 \
     --aggregate_fn_name=weighted_average \
     --debug_visualize_queue_size=false \
     --task="${TASK}" \

@@ -49,7 +49,7 @@ lerobot-record \
     --dataset.repo_id=coport-uni/${JOB_NAME} \
     --dataset.episode_time_s=120 \
     --dataset.reset_time_s=30 \
-    --dataset.num_episodes=5 \
+    --dataset.num_episodes=9 \
     --dataset.fps=20 \
     --dataset.single_task="transfer the gray tablets from the brown bottle into another brown bottle" \
     --dataset.streaming_encoding=true \

@@ -60,7 +60,7 @@ conda activate lerobot
 # Checkpoint selection. TASK is derived from the repo name below;
 # switching checkpoints is a one-line change here.
 # ---------------------------------------------------------------
-ACTIONCHUNK=25
+ACTIONCHUNK=40
 
 # Every FR5 ACT checkpoint on the Hub under coport-uni as of
 # 2026-07-30 (hf models list --author coport-uni). Uncomment one.
@@ -73,9 +73,8 @@ ACTIONCHUNK=25
 # task1 -- move the brown glass bottle to the designated location
 # (no 50-episode ACT variant on the Hub):
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_model"
-PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model"
-# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_act_h200_model"
-#
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model"
+PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_act_h200_model"
 # task3 -- turn the silver air valve 90 degrees counterclockwise:
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50_act_h200_model"
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100_act_h200_model"
