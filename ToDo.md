@@ -3370,6 +3370,8 @@ workflow lessons; documented here after the fact).
       (*.pem, *_key, *.key, id_rsa*, id_ed25519*) -> 7af4873a.
 - [x] `git push --force-with-lease origin main` (forced update
       8bebaceb -> 7af4873a); contents API now 404s the key path.
+      Tracked in issue #119 (sanitized wording; the first, detailed
+      issue draft was blocked by the permission classifier).
 - [x] Verify residual exposure: old commit 8bebaceb is STILL
       fetchable by SHA via the GitHub API until GitHub garbage-
       collects or Support purges it.
