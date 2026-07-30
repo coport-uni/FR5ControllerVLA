@@ -756,6 +756,26 @@
   it says "Not currently on any branch", create a branch before
   committing anything. (from ToDo#109)
 
+### W9. A pushed secret needs rotation, not just history rewrite
+
+- **Problem**: An OpenSSH private key (`outputs/appeal_test_key`)
+  rode a bulk `outputs/` snapshot commit onto the public GitHub
+  repo.
+- **Cause**: `.gitignore` excluded only specific `outputs/`
+  subtrees (datasets, smoke_logs, checkpoints), so a stray key
+  dropped at the `outputs/` top level was swept up by the snapshot
+  commit; no rule blocked key-like filenames.
+- **Fix**: `git rm --cached` + `commit --amend` +
+  `push --force-with-lease` removed the file from `main` (the
+  W3 rewrite pattern), and repo-wide ignore rules for `*.pem`,
+  `*_key`, `*.key`, `id_rsa*`, `id_ed25519*` now block a repeat;
+  the old commit stayed fetchable by SHA via the GitHub API, so
+  the key itself must be rotated.
+- **Rule**: Never treat history rewrite as containment for a
+  pushed secret — GitHub keeps the old commit reachable by SHA
+  until garbage collection, so always rotate the credential and
+  treat it as compromised. (from ToDo#123)
+
 ---
 
 ## §5. Environment Specifics

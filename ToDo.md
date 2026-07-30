@@ -3380,3 +3380,18 @@ workflow lessons; documented here after the fact).
       generate a new keypair, update the tunnel command.
 - [ ] USER ACTION -- ask GitHub Support to purge cached commit
       8bebaceb (or accept it until GC runs).
+
+## Document key-leak lessons in LearnedPatterns.md (2026-07-30)
+
+User asked to write up today's work; scope confirmed via question:
+append the SSH key-leak incident lessons to LearnedPatterns.md only
+(no separate summary document).
+
+- [x] Add §4 Workflow Lessons entry W9 (Problem/Cause/Fix/Rule,
+      matching W8's format) covering: partial outputs/ ignore let a
+      stray private key ride a bulk snapshot commit; force-push
+      removes the file from the branch but the old commit stays
+      fetchable by SHA, so rotation is mandatory (see LP §W3 for
+      the related history-rewrite pattern).
+- [x] `gh issue create` (#120); commit + push explicit paths
+      (LP §W2).
