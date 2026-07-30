@@ -3282,3 +3282,23 @@ commented out) stay untouched.
       task, noting the still-training task2_200 variant.
 - [x] `gh issue create` (#115); commit + push explicit paths
       (LP §W2).
+
+## Restore underscore-to-space TASK derivation in ACT client (2026-07-30)
+
+Context: the user asked for the natural-language command to map
+underscores to spaces. In `9__run_client_act.sh` the helper
+`derive_task_from_repo()` (which already does `${name//_/ }`)
+survived the recent edits, but the `TASK="$(derive_task_from_repo
+"$PRETRAINED")"` call was removed, so TASK echoes empty. Restore
+the call. The user also listed a `_50_model`-suffixed task1
+checkpoint whose name carries no policy token, so the sed pipeline
+needs a `_model$` strip for that generation to derive cleanly.
+
+- [x] Re-add `TASK="$(derive_task_from_repo "$PRETRAINED")"` above
+      the manual-override comment.
+- [x] Strip a bare `_model` suffix in the sed pipeline so the
+      `..._50_model` naming generation derives without a trailing
+      "50 model"; extend the docstring examples.
+- [x] Verify derivation for every checkpoint in the comment block.
+- [x] `gh issue create` (#116); commit + push explicit paths
+      (LP §W2).

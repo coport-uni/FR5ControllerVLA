@@ -60,7 +60,7 @@ conda activate lerobot
 # Checkpoint selection. TASK is derived from the repo name below;
 # switching checkpoints is a one-line change here.
 # ---------------------------------------------------------------
-ACTIONCHUNK=150
+ACTIONCHUNK=25
 
 # Every FR5 ACT checkpoint on the Hub under coport-uni as of
 # 2026-07-30 (hf models list --author coport-uni). Uncomment one.
@@ -72,35 +72,33 @@ ACTIONCHUNK=150
 #
 # task1 -- move the brown glass bottle to the designated location
 # (no 50-episode ACT variant on the Hub):
-# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model"
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_model"
+PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_act_h200_model"
 #
 # task3 -- turn the silver air valve 90 degrees counterclockwise:
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50_act_h200_model"
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100_act_h200_model"
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200_act_h200_model"
-#
-# Earlier red-marker checkpoints (no taskN prefix, no episode
-# count):
-# PRETRAINED="coport-uni/FR5_pick_red_colored_marker_to_box_act_model"
-# PRETRAINED="coport-uni/FR5_pick_red_colored_marker_to_box_act_adv_model"
 
 derive_task_from_repo() {
     # Turn a checkpoint repo id into the dataset's natural-language
     # task string: drop the namespace, the FR5_/taskN_ prefix and
-    # the _<episodes>_<policy>_<hardware> suffix, then map
-    # underscores to spaces. Handles both naming generations:
+    # the _<episodes>_<policy>_<hardware>/_model suffix, then map
+    # underscores to spaces. Handles all naming generations:
     #   FR5_task2_transfer_..._brown_bottle_50_act_h200
+    #   FR5_task1_move_..._designated_location_50_model
     #   FR5_pick_red_colored_marker_to_box_act_adv_model
     local name="${1##*/}"
     name="${name#FR5_}"
     name="$(sed -E -e 's/^task[0-9]+_//' \
                    -e 's/_(act|pi05|pi5|pi0|smovla22|smovla)_.*$//' \
+                   -e 's/_model$//' \
                    -e 's/_[0-9]+$//' <<< "$name")"
     printf '%s\n' "${name//_/ }"
 }
 
-TASK="transfer the gray tablets from the brown bottle into another brown bottle"
+TASK="$(derive_task_from_repo "$PRETRAINED")"
 
 # TASK="manual override"      # uncomment to bypass auto-derivation
 
