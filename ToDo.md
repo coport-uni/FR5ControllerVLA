@@ -3302,3 +3302,25 @@ needs a `_model$` strip for that generation to derive cleanly.
 - [x] Verify derivation for every checkpoint in the comment block.
 - [x] `gh issue create` (#116); commit + push explicit paths
       (LP §W2).
+
+## Port checkpoint list + TASK derivation to the Pi0 client (2026-07-30)
+
+Context: the user asked to reflect the ACT-client changes (full Hub
+checkpoint comment list, TASK derived from the repo name with
+underscores mapped to spaces) in `9__run_client_pi0.sh`. That script
+still hardcodes `--pretrained_name_or_path` and `--task`. The Hub
+holds eleven FR5 Pi0 checkpoints: task1 50/100/200 and task3
+50/100/200 (`_pi0_b200_model`), task2 50/100/200 (`_pi0_b200`),
+plus the two legacy red-marker repos (`pi0_model_paper`,
+`pi0_adv_model`). Keep `pi0_adv_model` active so current behaviour
+is unchanged (its derived task equals the old hardcoded string).
+
+- [x] Introduce PRETRAINED with the full grouped Hub list in
+      `9__run_client_pi0.sh`; keep `pi0_adv_model` active.
+- [x] Copy `derive_task_from_repo()` (incl. the `_model$` strip)
+      and set `TASK` from it; pass both vars to the client and
+      echo them; update the stale header note about the task
+      string.
+- [x] Verify derivation for all eleven Pi0 checkpoints; bash -n.
+- [x] `gh issue create` (#117); commit + push explicit paths
+      (LP §W2).
