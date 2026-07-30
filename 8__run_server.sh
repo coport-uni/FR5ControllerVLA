@@ -28,12 +28,18 @@ fi
 source "$_conda_sh"
 conda activate lerobot
 
-# ACT
+# ACT. inference_latency is a floor on GetActions duration: the
+# server pads faster calls up to it and never delays slower ones
+# (policy_server.py GetActions). Measured in gh #113: pure ACT
+# forward ~8 ms, full server pipeline 240-320 ms per 100-action
+# chunk. 0.01 s sits at the forward-pass scale, below any real
+# call, so chunks always flow at true pipeline speed -- even if
+# pre/postprocessing gets faster later.
 python3 -m lerobot.async_inference.policy_server \
     --host=0.0.0.0 \
     --port=17044 \
     --fps=20 \
-    --inference_latency=0.05
+    --inference_latency=0.01
 
 # SmolVLA
 # python3 -m lerobot.async_inference.policy_server \

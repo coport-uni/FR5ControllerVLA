@@ -3228,3 +3228,27 @@ setup portion plus a synthetic-observation gRPC client from
       275-342 ms per 100-action chunk.
 - [x] `gh issue create` (#113); commit + push explicit paths
       (LP §W2).
+
+## Match server inference_latency to the measured value (2026-07-30)
+
+Context: follow-up to gh #113. The user asked to adjust the server's
+`--inference_latency` to the inference times just measured, and set
+the ACT block to 0.01 s in the IDE themselves (pure forward ~8 ms).
+The flag's only effect is a sleep floor on GetActions duration
+(`policy_server.py`): calls faster than the value are padded, slower
+ones unaffected, so with the measured 240-320 ms pipeline any value
+at or below it adds zero delay. 0.01 is kept: it matches the
+forward-pass scale and stays inert even if pre/postprocessing gets
+faster later, whereas a pipeline-median floor (0.25) would then cap
+chunk delivery artificially. The pi0/smolvla comment blocks stay
+untouched (not measured on this pipeline). Server runs from the
+appeal-box clone, so push + remote pull before the live check
+(see LP §E18).
+
+- [ ] Keep the user's `--inference_latency=0.01` in the ACT block of
+      `8__run_server.sh`; add a comment citing the #113 measurement
+      and the floor semantics, drop the stray trailing whitespace.
+- [ ] Commit + push, `git pull --ff-only` on the appeal clone, then
+      re-run the setup harness + fake client and confirm round-trip
+      times stay at the measured baseline (263-342 ms).
+- [ ] `gh issue create` (#114); update and close after verification.
