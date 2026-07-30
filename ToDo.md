@@ -3350,3 +3350,31 @@ proposed in #118 and awaits user confirmation.
       commit + push explicit paths (LP §W2).
 - [ ] Fix: write the figure to `outputs/queue_size_<timestamp>.png`
       instead of relying on plt.show() (pending user confirmation).
+
+## Emergency: purge leaked SSH private key from GitHub (2026-07-30)
+
+User report: a key file was accidentally pushed to GitHub; take it
+down immediately. Investigation confirmed `outputs/appeal_test_key`
+(OpenSSH private key for the NHN GPU-hub tunnel, appeal@59.150.32.1)
+was added in commit 8bebaceb (act-validation-task1) and pushed to
+the PUBLIC repo. ToDo confirmation was skipped: live credential
+exposure on a public repo justifies immediate action (see LP §W
+workflow lessons; documented here after the fact).
+
+- [x] Locate the secret: name + content scan of full history;
+      only outputs/appeal_test_key in 8bebaceb (HEAD) contains it.
+- [x] Rewrite HEAD without the key (`git rm --cached` +
+      `git commit --amend`) -> new SHA 1fbb90a9; local file kept
+      on disk, only untracked.
+- [x] Add .gitignore rules blocking key-like files repo-wide
+      (*.pem, *_key, *.key, id_rsa*, id_ed25519*) -> 7af4873a.
+- [x] `git push --force-with-lease origin main` (forced update
+      8bebaceb -> 7af4873a); contents API now 404s the key path.
+- [x] Verify residual exposure: old commit 8bebaceb is STILL
+      fetchable by SHA via the GitHub API until GitHub garbage-
+      collects or Support purges it.
+- [ ] USER ACTION -- rotate the key: remove the old public key
+      from appeal@59.150.32.1 authorized_keys / NHN console,
+      generate a new keypair, update the tunnel command.
+- [ ] USER ACTION -- ask GitHub Support to purge cached commit
+      8bebaceb (or accept it until GC runs).
