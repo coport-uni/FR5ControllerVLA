@@ -10,9 +10,13 @@
 #   1. Restarts the remote policy server on the B200 "appeal" box:
 #      kills any running policy_server over SSH, then starts a fresh
 #      one with `bash 8__run_server.sh` (binds 0.0.0.0:17044 there).
-#   2. Restarts the local SSH tunnel mapping 127.0.0.1:17044 to the
+#   2. Streams the remote outputs/policy_server.log into this
+#      terminal with a "[server]" prefix, so policy-side output
+#      (model loading, per-chunk inference timings) is visible next
+#      to the client output. The streamer dies with this script.
+#   3. Restarts the local SSH tunnel mapping 127.0.0.1:17044 to the
 #      server box, so a stale or dead tunnel cannot linger.
-#   3. Waits for gRPC channel readiness before starting the client.
+#   4. Waits for gRPC channel readiness before starting the client.
 #
 # Checkpoint / task handling:
 #   - Set PRETRAINED below to switch checkpoints; the --task string
@@ -56,6 +60,7 @@ conda activate lerobot
 # Checkpoint selection. TASK is derived from the repo name below;
 # switching checkpoints is a one-line change here.
 # ---------------------------------------------------------------
+ACTIONCHUNK=100
 PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50_act_h200"
 
 # 100-episode variant of the same task (verified on the Hub; the
@@ -123,6 +128,31 @@ ssh "${ssh_opts[@]}" "$SSH_DEST" "
 " || { echo "ERROR: ssh to ${SSH_DEST} failed" >&2; exit 1; }
 
 # ---------------------------------------------------------------
+# Stream the remote server log into this terminal. The [server]
+# prefix is added on the remote side so the stream stays a single
+# local ssh process that the EXIT trap can kill. tail -n +1 replays
+# the log from the top, so lines written while the tunnel and the
+# readiness probe below run are not lost. The remote tail outlives
+# the ssh channel until its next write hits the broken pipe, which
+# is harmless. The bracketed pkill pattern cannot match this
+# script or the pkill itself (compare LP §G12 on the restart
+# block above).
+# ---------------------------------------------------------------
+pkill -f "tail -n [+]1 -F outputs/policy_server[.]log" && sleep 1
+ssh "${ssh_opts[@]}" "$SSH_DEST" "
+    cd '${REMOTE_REPO}' || exit 1
+    tail -n +1 -F outputs/policy_server.log | sed -u 's/^/[server] /'
+" &
+server_log_stream_pid=$!
+# INT/TERM re-enter through exit so the EXIT trap always runs and
+# the streamer never outlives this script.
+trap 'kill "$server_log_stream_pid" 2>/dev/null' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+echo "Streaming the remote server log (local pid" \
+     "${server_log_stream_pid})"
+
+# ---------------------------------------------------------------
 # Local SSH tunnel: 127.0.0.1:17044 -> appeal box 127.0.0.1:17044.
 # Kill any previous tunnel first so the forward is never stale.
 # ---------------------------------------------------------------
@@ -166,7 +196,7 @@ python3 -m lerobot.async_inference.robot_client \
     --pretrained_name_or_path="${PRETRAINED}" \
     --policy_type=act \
     --policy_device=cuda \
-    --actions_per_chunk=100 \
+    --actions_per_chunk="${ACTIONCHUNK}" \
     --chunk_size_threshold=0.6 \
     --aggregate_fn_name=weighted_average \
     --debug_visualize_queue_size=true \

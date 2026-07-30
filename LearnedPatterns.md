@@ -993,6 +993,25 @@
   SSH rather than trying to route gRPC through it. (from ToDo#114,
   gh #110)
 
+### E18. Server-side code edits are inert until the appeal-box clone pulls
+
+- **Problem**: a `policy_server.py` log-message fix committed on the
+  FR5 control PC did not show up in the streamed `[server]` log; the
+  remote server still printed the old text.
+- **Cause**: the async-inference server runs from a *separate clone*
+  of this repo on the appeal box
+  (`/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/FR5ControllerVLA`).
+  `9__run_client_act.sh` restarts that server over SSH but never
+  syncs its code, so local commits change nothing remotely until the
+  clone pulls.
+- **Fix**: push to origin/main, then `ssh appeal ... git pull
+  --ff-only` (after `git status --porcelain` confirms the clone is
+  clean) before restarting the server.
+- **Rule**: Always push and pull the appeal-box clone before
+  expecting any `src/lerobot/async_inference/` server-side change to
+  take effect at inference time. (from ToDo 2026-07-30 log
+  streaming, gh #113)
+
 ---
 
 ## §99. Uncategorized

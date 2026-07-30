@@ -3195,3 +3195,36 @@ the 100ep repo name is exactly 96 chars so its push succeeded.
       GitHub issue.
 - [x] `gh issue create` (#112); commit + push with explicit paths
       (LP §W2).
+
+## Stream the policy-server log to the client terminal (2026-07-30)
+
+Context: user asked to make the remote policy server's output log
+visible from the local ACT client terminal, and to verify the change
+by measuring how long inference actually takes. The server already
+logs inference timings at INFO level (`policy_server.py` GetActions /
+`_predict_action_chunk`), but they only land in
+`outputs/policy_server.log` on the appeal box -- nothing streams back
+to the operator. Plan: background `ssh tail -F` streamer with a
+`[server]` prefix inside `9__run_client_act.sh`, cleaned up by an
+EXIT trap; verify without moving the FR5 by running the script's
+setup portion plus a synthetic-observation gRPC client from
+`claude_test/`. (see LP §G12 for the ssh backgrounding rule)
+
+- [x] Add a `[server]`-prefixed background log streamer to
+      `9__run_client_act.sh`: kill any stale streamer, then
+      `ssh ... tail -n +1 -F outputs/policy_server.log` after the
+      server restart block, with EXIT/INT/TERM traps for cleanup.
+- [x] Fix the mislabeled INFO line in `policy_server.py`: the message
+      "Preprocessing and inference took" only measures the
+      `predict_action_chunk` call, not preprocessing. Takes effect
+      remotely only after the appeal-box clone pulls (LP §E18).
+- [x] Verify end-to-end without moving the FR5: ran the setup portion
+      of the script, then `claude_test/
+      debug_policy_server_log_timing.py` (fake gRPC client, 5
+      synthetic must-go observations). `[server]` lines streamed
+      locally; measured on the B200: policy load 4.05 s, first chunk
+      1.06 s (CUDA warmup), steady-state pure inference ~8 ms,
+      server pipeline total 250-320 ms, tunnel round trip
+      275-342 ms per 100-action chunk.
+- [x] `gh issue create` (#113); commit + push explicit paths
+      (LP §W2).
