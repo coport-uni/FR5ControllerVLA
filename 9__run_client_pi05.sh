@@ -110,7 +110,8 @@ python3 -m lerobot.async_inference.robot_client \
 #     i.e. it gives the server ~1.5 s to answer at 20 fps. If the
 #     queue still drains (watch it with
 #     --debug_visualize_queue_size=true), lower fps before lowering
-#     the threshold -- 0.4, as in 9__run_client_pi0.sh, shrinks the
-#     inference budget to ~1.0 s rather than growing it.
+#     the threshold: dropping to 0.4 would shrink the inference
+#     budget to ~1.0 s rather than growing it. 9__run_client_pi0.sh
+#     goes the other way, to 0.7, for Pi0's slower forward pass.
 #   - aggregate_fn_name=weighted_average (0.3*old + 0.7*new) is the
 #     LeRobot default for overlapping chunk regions.

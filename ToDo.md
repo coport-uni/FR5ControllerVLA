@@ -3395,3 +3395,33 @@ append the SSH key-leak incident lessons to LearnedPatterns.md only
       the related history-rewrite pattern).
 - [x] `gh issue create` (#120); commit + push explicit paths
       (LP §W2).
+
+## Port the ACT client automation into the Pi0 client (2026-07-31)
+
+User request: "act 추론 코드 진행상황을 pi0에도 반영해줘" -- carry the
+async-inference progress made in `9__run_client_act.sh` over to
+`9__run_client_pi0.sh`. Scope is the shell client only: the ACT work
+also touched `src/lerobot/async_inference/policy_server.py` (log
+flushing, 9d889aef) and `8__run_server.sh`, but both are
+policy-agnostic and already benefit Pi0. The checkpoint list was
+already ported in 944bf25b.
+
+- [x] Hoist `ACTIONCHUNK` to a named variable (Pi0 keeps 50, its
+      configuration_pi0.py chunk_size / n_action_steps default).
+- [x] Add the remote policy-server restart block: pkill the running
+      `policy_server` over SSH, then `nohup bash 8__run_server.sh`
+      as a SIMPLE backgrounded command (see LP §G12).
+- [x] Stream `outputs/policy_server.log` back with a `[server]`
+      prefix; kill the streamer from EXIT/INT/TERM traps.
+- [x] Restart the local SSH tunnel (`-L 17044:127.0.0.1:17044`,
+      `ExitOnForwardFailure=yes`) so a stale forward cannot linger.
+- [x] Wait on gRPC channel readiness before launching the client --
+      a plain TCP probe passes while the server is still booting.
+- [x] Switch `--server_address` to the `${SERVER_ADDRESS}` variable
+      and turn `--debug_visualize_queue_size` on, matching ACT
+      (plot appears only after a clean single Ctrl+C, see LP §G14).
+- [x] Keep Pi0-specific values untouched: `chunk_size_threshold=0.7`
+      and `policy_type=pi0`; keep the note on why the GPU-hub HTTPS
+      entry point cannot serve as `--server_address`.
+- [x] Sanity-check with `bash -n`; `gh issue create`; commit + push
+      explicit paths (LP §W2).
