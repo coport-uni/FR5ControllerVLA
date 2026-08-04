@@ -32,11 +32,12 @@
 #     SmolVLA, unlike ACT), so the string matters at inference.
 #   - Camera keys (top_left / top_right / hand) follow the dataset
 #     feature names used at training time, matching 9__run_client_act.sh.
-#   - 8__run_server.sh currently boots with the ACT-tuned
-#     --inference_latency=0.01. That value is only a floor on the
-#     GetActions duration -- it pads faster calls and never delays
-#     slower ones -- so Pi0's much longer forward pass runs at its
-#     true speed without editing the server script.
+#   - The appeal box's copy of 8__run_server.sh has the Pi0 block
+#     active, so the server boots with --inference_latency=1.0.
+#     That value is only a floor on the GetActions duration -- it
+#     pads faster calls and never delays slower ones -- so either
+#     that or the ACT-tuned 0.01 works here; check the config dump
+#     at the top of outputs/policy_server.log to see which is live.
 #
 # Prerequisite: pip install -e ".[pi]"        (Pi0 dependencies)
 #               pip install -e ".[async]"     (grpcio + matplotlib extras)

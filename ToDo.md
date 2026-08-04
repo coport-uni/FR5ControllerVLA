@@ -3425,3 +3425,40 @@ already ported in 944bf25b.
       entry point cannot serve as `--server_address`.
 - [x] Sanity-check with `bash -n`; `gh issue create`; commit + push
       explicit paths (LP §W2).
+
+## Fix Pi0 inference crash: transformers v5 create_causal_mask (2026-07-31)
+
+User report: the Pi0 client printed only `[server] Starting receiver`
+and never moved the robot. Diagnosed as a crash loop, not a hang, then
+the user asked for the fix to land in this repo so it can be pulled on
+the server box.
+
+- [x] Diagnose: server log shows a clean handshake and
+      `Time taken to put policy on cuda: 111.37 s`, then
+      `Error in StreamActions: create_causal_mask() got an unexpected
+      keyword argument 'cache_position'` on observation #0.
+      StreamActions dies, the client receiver reconnects, and the
+      server re-logs "Starting receiver" at ~10 Hz forever.
+- [x] Confirm the client side is innocent: `Starting receiver` comes
+      from `src/lerobot/transport/utils.py:77` (server), relayed by
+      the `[server]` stream added in the ACT port (see #121). ACT is
+      unaffected because it never touches PaliGemma/transformers.
+- [x] Establish the version boundary from upstream sources: v5.3.0
+      `create_causal_mask` accepts `cache_position`, v5.11.0 (installed
+      on the server) does not and takes `position_ids` instead. Both
+      satisfy the `transformers>=5.3.0,<6.0.0` pin, so deleting the
+      argument outright would break v5.3 environments.
+- [x] Fix `src/lerobot/policies/pi_gemma.py`: probe the installed
+      signature once at import (`_CAUSAL_MASK_TAKES_CACHE_POSITION`)
+      and pass `cache_position` only when supported. `position_ids`
+      was already being passed, so the semantics are unchanged.
+- [x] Verify: `ruff check` + `ruff format --check` pass; the reduced
+      kwarg set binds against the server's real transformers 5.11.
+- [x] Correct the `inference_latency` note in the Pi0 client header --
+      the remote `8__run_server.sh` actually boots the Pi0 block at
+      1.0 s, not the ACT-tuned 0.01 s.
+- [x] Append LP §3 Q19; `gh issue create`; commit + push explicit
+      paths (LP §W2).
+- [ ] USER ACTION -- pull on the appeal box and restart the policy
+      server, then re-run `9__run_client_pi0.sh` to confirm chunks
+      actually flow (only one operator at a time, LP §G13).

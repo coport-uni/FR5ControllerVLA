@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import inspect
 from typing import TYPE_CHECKING
 
 import torch
@@ -49,6 +50,29 @@ else:
     GradientCheckpointingLayer = None
     BaseModelOutputWithPast = None
     create_causal_mask = None
+
+
+def _causal_mask_takes_cache_position() -> bool:
+    """Report whether ``create_causal_mask`` accepts ``cache_position``.
+
+    Transformers dropped that parameter partway through the v5 series
+    and derives the query positions from ``position_ids`` instead:
+    v5.3.0 still accepts it, v5.11.0 raises ``TypeError``. Both satisfy
+    this project's ``transformers>=5.3.0,<6.0.0`` pin, so the argument
+    has to be chosen from the installed signature rather than assumed.
+
+    Returns:
+        ``True`` when the installed Transformers still takes
+        ``cache_position``, ``False`` when it does not or when
+        Transformers is unavailable.
+    """
+    if create_causal_mask is None:
+        return False
+    parameters = inspect.signature(create_causal_mask).parameters
+    return "cache_position" in parameters
+
+
+_CAUSAL_MASK_TAKES_CACHE_POSITION = _causal_mask_takes_cache_position()
 
 
 def _gated_residual(
@@ -258,13 +282,17 @@ class PiGemmaModel(GemmaModel):  # type: ignore[misc]
         if position_ids is None:
             position_ids = cache_position.unsqueeze(0)
 
+        # position_ids is always set just above, so newer Transformers
+        # releases get the same query positions that cache_position
+        # carried before they dropped it.
+        cache_position_kwarg = {"cache_position": cache_position} if _CAUSAL_MASK_TAKES_CACHE_POSITION else {}
         causal_mask = create_causal_mask(
             config=self.config,
             inputs_embeds=inputs_embeds,
             attention_mask=attention_mask,
-            cache_position=cache_position,
             past_key_values=past_key_values,
             position_ids=position_ids,
+            **cache_position_kwarg,
         )
 
         # embed positions

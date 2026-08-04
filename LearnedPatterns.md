@@ -660,6 +660,30 @@
   Hub — verify with `list_models`. (from task2 h200 push, 2026-07-21,
   gh #103)
 
+### Q19. transformers v5 dropped `create_causal_mask(cache_position=)`
+
+- **Problem**: Pi0 async inference never produced a single action
+  chunk. The client looked hung on `[server] Starting receiver`, but
+  the server was crashing on observation #0 with
+  `Error in StreamActions: create_causal_mask() got an unexpected
+  keyword argument 'cache_position'` and the client kept reconnecting,
+  re-logging that line at ~10 Hz.
+- **Cause**: `pi_gemma.py` passed `cache_position=` to
+  `transformers.masking_utils.create_causal_mask`. Transformers removed
+  that parameter partway through the v5 series (v5.3.0 accepts it,
+  v5.11.0 does not, deriving query positions from `position_ids`), and
+  upstream commit f0d2b37b bumped the pin to `transformers>=5.3.0,<6.0.0`
+  without updating this call site. Both versions satisfy the pin, so the
+  breakage depends on which v5 the box happens to have.
+- **Fix**: Probe `inspect.signature(create_causal_mask)` once at import
+  and pass `cache_position` only when the installed version accepts it;
+  `position_ids` was already supplied, so behaviour is unchanged either
+  way. Deleting the argument outright would have broken v5.3 boxes.
+- **Rule**: Never assume a kwarg survives inside a permitted version
+  range -- when a pin spans a major series (`>=5.3,<6`), probe the
+  signature instead of matching the version installed on one machine.
+  (from Pi0 inference crash, 2026-07-31, gh #122)
+
 ---
 
 ## §4. Workflow Lessons
