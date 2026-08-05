@@ -6,6 +6,23 @@
 # then streams observations (joints + cameras) and executes the returned
 # action chunks on the FR5 follower via ServoJ.
 #
+# What this script automates before launching the client (ported
+# from 9__run_client_pi0.sh, gh #121):
+#   1. Restarts the remote policy server on the B200 "appeal" box:
+#      kills any running policy_server over SSH, then starts a fresh
+#      one with `bash 8__run_server.sh` (binds 0.0.0.0:17044 there).
+#   2. Streams the remote outputs/policy_server.log into this
+#      terminal with a "[server]" prefix, so policy-side output
+#      (model loading, per-chunk inference timings) is visible next
+#      to the client output. The streamer dies with this script.
+#   3. Restarts the local SSH tunnel mapping 127.0.0.1:17044 to the
+#      server box, so a stale or dead tunnel cannot linger.
+#   4. Waits for gRPC channel readiness before starting the client.
+#
+# Only one operator may drive the async stack at a time -- these
+# restarts assume exclusive ownership of the server, tunnel, and
+# streamer (see LP §G13).
+#
 # Settings below are derived from 7__train_pi05_task2_b200.sh and were
 # cross-checked against the trained checkpoint's config.json:
 #   - input_features: observation.state (7) + observation.images.
@@ -55,23 +72,6 @@ fi
 source "$_conda_sh"
 conda activate lerobot
 
-# The policy server runs in the NHN GPU-hub container, which exposes no
-# routable address of its own -- open an SSH tunnel from this machine
-# first, then dial the forwarded local port:
-#
-#   ssh -N -C -i ~/.ssh/appeal_test_key -p 45406 \
-#       -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
-#       -L 17040:127.0.0.1:17040 appeal@59.150.32.1
-#
-# The hub's HTTPS entry point (https://cl1.gpuhub.nhncloud.com:50030/
-# FiF42P8A3y/) cannot be used here: this value goes straight into
-# grpc.insecure_channel(), which parses "host:port" only, and gRPC puts
-# the service/method in the HTTP/2 :path, so the proxy's path prefix has
-# nowhere to live.
-#
-# The port must also match the --port that 8__run_server.sh binds.
-SERVER_ADDRESS="127.0.0.1:17040"
-
 # ---------------------------------------------------------------
 # Checkpoint selection. TASK is derived from the repo name below;
 # switching checkpoints is a one-line change here.
@@ -85,7 +85,7 @@ ACTIONCHUNK=50
 # task1 -- move the brown glass bottle to the designated location:
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi05_b200_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_pi05_b200_model"
-# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi05_b200_model"
+PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi05_b200_model"
 #
 # task2 -- transfer the gray tablets between brown bottles (no
 # 100-episode Pi0.5 variant on the Hub). The 200-episode repo ends in
@@ -95,23 +95,13 @@ ACTIONCHUNK=50
 # silently and the checkpoint was uploaded by hand under the
 # one-char-shorter name, which lands on exactly 96:
 # PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50_pi05_b200"
-PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_pi5_b200"
+# PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_pi5_b200"
+# PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_pi5_b200"
 #
 # task3 -- turn the silver air valve 90 degrees counterclockwise:
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50_pi05_b200_model"
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100_pi05_b200_model"
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200_pi05_b200_model"
-#
-# Legacy red-marker checkpoints (single-camera era, kept for
-# reference -- they predate the top_left/top_right/hand layout below):
-# PRETRAINED="coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model"
-# PRETRAINED="coport-uni/FR5_pick_red_colored_marker_to_box_pi05_adv_model"
-#
-# Local fallback. This path must exist on the SERVER box, which is
-# where the policy is actually loaded -- not on the machine running
-# this client. TASK cannot be derived from a path like this one, so
-# use the manual override below with it.
-# PRETRAINED="outputs/train/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_pi05_b200/checkpoints/last/pretrained_model"
 
 derive_task_from_repo() {
     # Turn a checkpoint repo id into the dataset's natural-language
@@ -137,6 +127,106 @@ TASK="$(derive_task_from_repo "$PRETRAINED")"
 echo "PRETRAINED=${PRETRAINED}"
 echo "TASK=${TASK}"
 
+# ---------------------------------------------------------------
+# Remote policy server -- kill any live instance and start fresh.
+# ---------------------------------------------------------------
+SSH_KEY="/home/inno-controller/workspace/SungwooVLA/FR5ControllerVLA/outputs/appeal_test_key"
+SSH_DEST="appeal@59.150.32.1"
+SSH_PORT=45406
+REMOTE_REPO="/NHNHOME/WORKSPACE/26msit002_E/appeal_workspace/sungwoo/FR5ControllerVLA"
+SERVER_PORT=17044
+SERVER_ADDRESS="127.0.0.1:${SERVER_PORT}"
+
+chmod 600 "$SSH_KEY"
+
+ssh_opts=(-i "$SSH_KEY" -p "$SSH_PORT"
+          -o StrictHostKeyChecking=no
+          -o UserKnownHostsFile=/dev/null
+          -o ConnectTimeout=10
+          -o ServerAliveInterval=30
+          -o ServerAliveCountMax=3)
+
+# The [.] brackets keep pkill from matching this command's own
+# shell on the remote side (the pattern text appears in its own
+# command line). The backgrounded job must stay a SIMPLE command:
+# backgrounding a compound like `cd ... && nohup ... &` makes bash
+# fork a wrapper subshell that keeps the ssh stdout/stderr pipes
+# and waits on the server forever, so ssh never returns. With a
+# simple command bash fork+execs it directly and every fd is
+# redirected to the log, letting the ssh call return immediately.
+echo "Restarting the policy server on ${SSH_DEST} ..."
+ssh "${ssh_opts[@]}" "$SSH_DEST" "
+    pkill -f 'lerobot[.]async_inference[.]policy_server' && sleep 2
+    cd '${REMOTE_REPO}' || exit 1
+    nohup bash 8__run_server.sh \
+        > outputs/policy_server.log 2>&1 < /dev/null &
+    echo 'policy server launched (log: outputs/policy_server.log)'
+" || { echo "ERROR: ssh to ${SSH_DEST} failed" >&2; exit 1; }
+
+# ---------------------------------------------------------------
+# Stream the remote server log into this terminal. The [server]
+# prefix is added on the remote side so the stream stays a single
+# local ssh process that the EXIT trap can kill. tail -n +1 replays
+# the log from the top, so lines written while the tunnel and the
+# readiness probe below run are not lost. The remote tail outlives
+# the ssh channel until its next write hits the broken pipe, which
+# is harmless. The bracketed pkill pattern cannot match this
+# script or the pkill itself (compare LP §G12 on the restart
+# block above).
+# ---------------------------------------------------------------
+pkill -f "tail -n [+]1 -F outputs/policy_server[.]log" && sleep 1
+ssh "${ssh_opts[@]}" "$SSH_DEST" "
+    cd '${REMOTE_REPO}' || exit 1
+    tail -n +1 -F outputs/policy_server.log | sed -u 's/^/[server] /'
+" &
+server_log_stream_pid=$!
+# INT/TERM re-enter through exit so the EXIT trap always runs and
+# the streamer never outlives this script.
+trap 'kill "$server_log_stream_pid" 2>/dev/null' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+echo "Streaming the remote server log (local pid" \
+     "${server_log_stream_pid})"
+
+# ---------------------------------------------------------------
+# Local SSH tunnel: 127.0.0.1:17044 -> appeal box 127.0.0.1:17044.
+# Kill any previous tunnel first so the forward is never stale.
+#
+# The tunnel is not optional: the policy server runs in the NHN
+# GPU-hub container, which exposes no routable address of its own.
+# The hub's HTTPS entry point (https://cl1.gpuhub.nhncloud.com:50030/
+# FiF42P8A3y/) cannot serve as --server_address either -- the value
+# goes straight into grpc.insecure_channel(), which parses
+# "host:port" only, and gRPC carries the service/method in the
+# HTTP/2 :path, leaving no room for the proxy's path prefix.
+# ---------------------------------------------------------------
+pkill -f "ssh.*-L ${SERVER_PORT}:127.0.0.1:${SERVER_PORT}" \
+    && sleep 1
+ssh -N -f -C "${ssh_opts[@]}" \
+    -o ExitOnForwardFailure=yes \
+    -L "${SERVER_PORT}:127.0.0.1:${SERVER_PORT}" "$SSH_DEST" \
+    || { echo "ERROR: could not open the SSH tunnel" >&2; exit 1; }
+echo "SSH tunnel up on ${SERVER_ADDRESS}"
+
+# ---------------------------------------------------------------
+# Wait until the server answers through the tunnel. The tunnel
+# listener accepts TCP even while the remote server is still
+# booting, so a plain port probe gives false positives; gRPC
+# channel readiness is the real end-to-end check (grpc retries
+# internally until the timeout).
+# ---------------------------------------------------------------
+echo "Waiting for the policy server to become ready ..."
+python3 - <<PY || { echo "ERROR: server not ready in 120 s" >&2; exit 1; }
+import grpc
+
+channel = grpc.insecure_channel("${SERVER_ADDRESS}")
+grpc.channel_ready_future(channel).result(timeout=120)
+print("gRPC server ready on ${SERVER_ADDRESS}")
+PY
+
+# ---------------------------------------------------------------
+# Robot client. This moves the FR5 -- everything above is setup.
+# ---------------------------------------------------------------
 python3 -m lerobot.async_inference.robot_client \
     --server_address="${SERVER_ADDRESS}" \
     --robot.type=fairino_follower \
@@ -151,7 +241,7 @@ python3 -m lerobot.async_inference.robot_client \
     --policy_type=pi05 \
     --policy_device=cuda \
     --actions_per_chunk="${ACTIONCHUNK}" \
-    --chunk_size_threshold=0.6 \
+    --chunk_size_threshold=0.7 \
     --aggregate_fn_name=weighted_average \
     --debug_visualize_queue_size=false \
     --task="${TASK}" \

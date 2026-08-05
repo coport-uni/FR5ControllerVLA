@@ -3554,3 +3554,36 @@ page size is 30, which truncates this author's listing -- pass
 - [x] Append LP §3 Q23 (`hf models list` pages at 30) and §4 W10
       (`rebase --autostash` reverts live IDE edits; `--continue`
       reports plain unstaged changes as a merge conflict).
+
+## Port the remote-server automation to the Pi0.5 client (2026-08-05)
+
+Context: the user asked that `9__run_client_pi05.sh` open and shut
+down the remote policy server by itself, the way the ACT (#112) and
+Pi0 (#121) clients already do. Today the Pi0.5 client assumes the
+server and the SSH tunnel are already up by hand -- it only documents
+the tunnel command in a comment and dials `127.0.0.1:17044` blind, so
+a stale tunnel or a dead server surfaces as a gRPC error after the
+robot has already been connected.
+
+The port is the four-step block from `9__run_client_pi0.sh`:
+restart the remote server over SSH (LP §G12: background a SIMPLE
+command only), stream `outputs/policy_server.log` back with a
+`[server]` prefix under an EXIT trap, restart the local
+`-L 17044:127.0.0.1:17044` tunnel (LP §E17: gRPC cannot ride the
+hub's HTTPS path proxy), then block on gRPC channel readiness
+instead of a plain TCP probe. Exclusive-ownership caveat from
+LP §G13 applies unchanged.
+
+- [x] Add the SSH config block (key, dest, port, remote repo path,
+      SERVER_PORT) after the checkpoint/TASK section, replacing the
+      standalone `SERVER_ADDRESS` assignment near the top.
+- [x] Port the server restart, log streamer + EXIT/INT/TERM traps,
+      tunnel restart, and gRPC readiness probe from the Pi0 client.
+- [x] Rewrite the header comment to describe the automation and keep
+      the Pi0.5-specific notes (chunk 50, language conditioning,
+      gated paligemma tokenizer on the server, LP §E15).
+- [x] Verify: `bash -n`; diff the automation block against
+      `9__run_client_pi0.sh` to confirm it is byte-identical apart
+      from the policy-specific lines.
+- [x] `gh issue create` (#127); commit + push explicit paths
+      (LP §W2).
