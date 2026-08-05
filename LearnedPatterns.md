@@ -686,6 +686,85 @@
 
 ---
 
+### Q20. VLA constructors random-init billions of parameters before loading
+
+- **Problem**: Starting the async policy server with a Pi0 checkpoint
+  took about three minutes (`Time taken to put policy on cuda:
+  111.37 s`), paid again on every run because the client restarts the
+  server. Measured split: imports 6.7 s, constructor 120.7 s,
+  8.9 GB safetensors read 1.3 s, `.to(cuda)` ~0 s.
+- **Cause**: `PI0Policy.from_pretrained` calls `cls(config)` before
+  reading the checkpoint, and `PaliGemmaWithExpertModel.__init__`
+  random-initializes 4.03 B parameters in float32 on the CPU, casts
+  the graph to bfloat16, and uploads ~9 GB to the GPU -- all of it
+  overwritten by `load_state_dict` moments later. Suppressing only
+  the random-init math still cost 54 s (the float32 allocation plus
+  the bfloat16 copy).
+- **Fix**: Build the skeleton under
+  `accelerate.init_empty_weights(include_buffers=False)` and load with
+  `load_state_dict(..., assign=True)`, reading the safetensors
+  straight onto the target device. `nn.Module.to` must be neutralized
+  during construction, since both policy constructors end with a
+  device move and a dtype cast that cannot touch meta tensors.
+  `include_buffers=False` is required: the six non-persistent buffers
+  (`position_ids`, `embed_scale`, rotary `inv_freq` /
+  `original_inv_freq`) never appear in a checkpoint, so nothing would
+  materialize them. Result: 103.2 s -> 2.0 s, all 784 tensors
+  bit-identical.
+- **Rule**: Never let a multi-billion-parameter model initialize real
+  weights it is about to overwrite -- build on meta, load with
+  `assign=True`, and assert afterwards that nothing is still on meta.
+  (from Pi0 load time, 2026-08-04, gh #123)
+
+---
+
+### Q21. `assign=True` takes the dtype from the checkpoint, not the config
+
+- **Problem**: The meta-init fix above was weight-identical on the Hub
+  checkpoints but would have silently made every fine-tune float32,
+  ignoring `--policy.dtype=bfloat16` and doubling model memory.
+- **Cause**: `load_state_dict(assign=True)` replaces the parameter
+  object, so the loaded tensor's dtype wins. `models/pi0_base_v051compat`
+  and `models/pi05_base_v051compat` are stored as pure float32 (777 and
+  812 F32 tensors); the old copy-based load quietly cast them into the
+  constructor's bfloat16 parameters instead.
+- **Fix**: `apply_precision_layout(precision)` re-derives the dtype
+  layout after loading. It must cast only where the dtype is *wrong*:
+  re-running the constructor's `to(bfloat16)` + float32-keep-list would
+  round-trip the vision path through float32 -> bfloat16 -> float32 and
+  lose precision on real weights (harmless on the random weights it was
+  written for). Verified bit-exact on both a float32 base checkpoint and
+  a mixed-dtype Hub checkpoint.
+- **Rule**: Always re-apply the configured dtype layout after an
+  `assign=True` load, and cast only tensors whose dtype differs.
+  (from Pi0 load time, 2026-08-04, gh #123)
+
+---
+
+### Q22. The pi0 vision-tower remap was never ported to pi05
+
+- **Problem**: Loading `models/pi05_base_v051compat` failed on every
+  vision-tower key. Before the loud-failure change of Q20 it did not
+  fail at all -- `from_pretrained` caught the error, printed a single
+  `Warning: Could not load state dict:` line, and returned a pi05
+  whose vision encoder was still randomly initialized.
+- **Cause**: The checkpoint stores 437 keys under the nested
+  `vision_tower.vision_model.*` naming; transformers 5.11 flattens the
+  model side to `vision_tower.*` (435 keys). pi0 got a remap for this
+  in gh #88, but `PI05Policy._fix_pytorch_state_dict_keys` was never
+  updated, so pi05 kept hitting the original bug in silence.
+- **Fix**: Port the pi0 remap verbatim, including its guard (rewrite
+  only when the checkpoint naming is absent from the model and the
+  rewritten naming is present, so matching checkpoints pass through
+  untouched). `models/pi05_base_v051compat` then loads with 0 missing
+  and 0 unexpected keys.
+- **Rule**: Always apply a checkpoint-compatibility fix to every
+  policy that shares the backbone -- pi0 and pi05 wrap the same
+  PaliGemma and diverge only by copy-paste drift.
+  (from Pi0 load time, 2026-08-04, gh #123)
+
+---
+
 ## §4. Workflow Lessons
 
 ### W1. `Closes #N` in commit message auto-closes the issue

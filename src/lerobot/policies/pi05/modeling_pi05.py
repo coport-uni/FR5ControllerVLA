@@ -50,6 +50,7 @@ from lerobot.configs.policies import PreTrainedConfig
 from lerobot.policies.pi05.configuration_pi05 import DEFAULT_IMAGE_SIZE, PI05Config
 from lerobot.policies.pretrained import PreTrainedPolicy, T
 from lerobot.policies.rtc.modeling_rtc import RTCProcessor
+from lerobot.policies.utils import assert_materialized, empty_weights_init
 from lerobot.utils.constants import (
     ACTION,
     OBS_LANGUAGE_ATTENTION_MASK,
@@ -332,6 +333,18 @@ def get_gemma_config(variant: str) -> GemmaConfig:  # see openpi `gemma.py: get_
         raise ValueError(f"Unknown variant: {variant}")
 
 
+# Keep the full vision path in float32 so we never toggle (toggle
+# causes optimizer "same dtype" error). Saves memory vs full float32;
+# more memory than only 3 params.
+_params_to_keep_float32 = [
+    "vision_tower",
+    "multi_modal_projector",
+    "input_layernorm",
+    "post_attention_layernorm",
+    "model.norm",
+]
+
+
 class PaliGemmaWithExpertModel(
     nn.Module
 ):  # see openpi `gemma_pytorch.py: PaliGemmaWithExpertModel` this class is almost a exact copy of PaliGemmaWithExpertModel in openpi
@@ -403,19 +416,50 @@ class PaliGemmaWithExpertModel(
         else:
             raise ValueError(f"Invalid precision: {precision}")
 
-        # Keep full vision path in float32 so we never toggle (toggle causes optimizer
-        # "same dtype" error). Saves memory vs full float32; more memory than only 3 params.
-        params_to_keep_float32 = [
-            "vision_tower",
-            "multi_modal_projector",
-            "input_layernorm",
-            "post_attention_layernorm",
-            "model.norm",
-        ]
+        for name, param in self.named_parameters():
+            if any(selector in name for selector in _params_to_keep_float32):
+                param.data = param.data.to(dtype=torch.float32)
+
+    def apply_precision_layout(self, precision: Literal["bfloat16", "float32"] = "bfloat16"):
+        """Give every tensor the dtype the constructor would have set.
+
+        ``from_pretrained`` builds this module on the meta device and
+        lets the checkpoint tensors replace its parameters, so the
+        dtype comes from whatever the checkpoint was saved in -- the
+        openpi base checkpoints are pure float32. Re-deriving the
+        layout here keeps ``--policy.dtype`` authoritative.
+
+        Unlike [`to_bfloat16_for_selected_params`], which runs on
+        freshly initialized weights, this method casts a tensor only
+        when its dtype is wrong. A checkpoint already saved in this
+        layout is therefore never round-tripped through a lossy
+        float32 -> bfloat16 -> float32 cast.
+
+        Args:
+            precision: Either ``"bfloat16"`` or ``"float32"``, taken
+                from the policy config.
+
+        Raises:
+            ValueError: If ``precision`` is neither of the two.
+        """
+        if precision == "bfloat16":
+            target_dtype = torch.bfloat16
+        elif precision == "float32":
+            target_dtype = torch.float32
+        else:
+            raise ValueError(f"Invalid precision: {precision}")
 
         for name, param in self.named_parameters():
-            if any(selector in name for selector in params_to_keep_float32):
-                param.data = param.data.to(dtype=torch.float32)
+            keep_float32 = target_dtype is torch.bfloat16 and any(
+                selector in name for selector in _params_to_keep_float32
+            )
+            wanted_dtype = torch.float32 if keep_float32 else target_dtype
+            if param.is_floating_point() and param.dtype != wanted_dtype:
+                param.data = param.data.to(dtype=wanted_dtype)
+
+        for buffer in self.buffers():
+            if buffer.is_floating_point() and buffer.dtype != target_dtype:
+                buffer.data = buffer.data.to(dtype=target_dtype)
 
     def _set_requires_grad(self):
         if self.freeze_vision_encoder:
@@ -972,9 +1016,13 @@ class PI05Policy(PreTrainedPolicy):
                 **kwargs,
             )
 
-        # Initialize model without loading weights
+        # Initialize model without loading weights. The skeleton is
+        # built on the meta device: every parameter below is about to
+        # be replaced by a checkpoint tensor, so random-initializing
+        # 4 B of them costs two minutes of startup and buys nothing.
         # Check if dataset_stats were provided in kwargs
-        model = cls(config, **kwargs)
+        with empty_weights_init():
+            model = cls(config, **kwargs)
 
         # Load state dict (expects keys with "model." prefix)
         try:
@@ -995,12 +1043,15 @@ class PI05Policy(PreTrainedPolicy):
                 )
                 from safetensors.torch import load_file
 
-                original_state_dict = load_file(resolved_file)
+                # Read straight onto the target device so the weights
+                # are never staged through host memory.
+                original_state_dict = load_file(resolved_file, device=str(config.device))
                 print("✓ Loaded state dict from model.safetensors")
             except Exception as e:
-                print(f"Could not load state dict from remote files: {e}")
-                print("Returning model without loading pretrained weights")
-                return model
+                raise RuntimeError(
+                    f"Could not read model.safetensors from {pretrained_name_or_path}. "
+                    "The model skeleton holds no weights and cannot be used."
+                ) from e
 
             # First, fix any key differences (see openpi model.py, _fix_pytorch_state_dict_keys)
             fixed_state_dict = model._fix_pytorch_state_dict_keys(original_state_dict, model.config)
@@ -1020,8 +1071,11 @@ class PI05Policy(PreTrainedPolicy):
             if remap_count > 0:
                 print(f"Remapped {remap_count} state dict keys")
 
-            # Load the remapped state dict into the model
-            missing_keys, unexpected_keys = model.load_state_dict(remapped_state_dict, strict=strict)
+            # Load the remapped state dict into the model. assign=True
+            # is required: the parameters hold no storage to copy into.
+            missing_keys, unexpected_keys = model.load_state_dict(
+                remapped_state_dict, strict=strict, assign=True
+            )
 
             if missing_keys:
                 print(f"Missing keys when loading state dict: {len(missing_keys)} keys")
@@ -1046,8 +1100,21 @@ class PI05Policy(PreTrainedPolicy):
             if not missing_keys and not unexpected_keys:
                 print("All keys loaded successfully!")
 
+            # The device move and the dtype cast at the end of the
+            # constructor were suppressed while the parameters were on
+            # meta, so restore both here: the device for the buffers,
+            # which were built on the CPU, and the dtype layout for
+            # the parameters, which arrived with the checkpoint's own
+            # dtype rather than the one the config asks for.
+            model.to(config.device)
+            model.model.paligemma_with_expert.apply_precision_layout(config.dtype)
+
+            # A key the checkpoint did not cover leaves a meta tensor
+            # behind. Fail here rather than deep inside a forward pass.
+            assert_materialized(model)
+
         except Exception as e:
-            print(f"Warning: Could not load state dict: {e}")
+            raise RuntimeError(f"Could not load the weights of {pretrained_name_or_path}: {e}") from e
 
         return model
 
@@ -1059,8 +1126,37 @@ class PI05Policy(PreTrainedPolicy):
 
         fixed_state_dict = {}
 
+        # Keys the instantiated model actually expects. Checkpoint keys
+        # may still lack the "model." prefix at this stage (it is added
+        # by the caller afterwards), so membership is checked both ways.
+        expected_keys = set(self.state_dict().keys())
+
+        def _is_expected(candidate_key):
+            return candidate_key in expected_keys or f"model.{candidate_key}" in expected_keys
+
+        vision_tower_remap_count = 0
+
         for key, value in state_dict.items():
             new_key = key
+
+            # transformers >= 5.x flattened PaliGemma's SigLIP path
+            # (vision_tower.vision_model.* -> vision_tower.*). Ported
+            # from pi0 (gh #88), which hit this first: without the
+            # remap every vision-tower tensor misses and the encoder
+            # starts from random init. Remap only when the checkpoint
+            # naming is absent from the model and the rewritten naming
+            # is present, so checkpoints matching the installed
+            # transformers pass through unchanged (both directions
+            # covered).
+            if ".vision_tower." in key and not _is_expected(key):
+                if ".vision_tower.vision_model." in key:
+                    candidate = key.replace(".vision_tower.vision_model.", ".vision_tower.")
+                else:
+                    candidate = key.replace(".vision_tower.", ".vision_tower.vision_model.")
+                if _is_expected(candidate):
+                    new_key = candidate
+                    vision_tower_remap_count += 1
+                    key = new_key  # let the checks below see the fixed name
 
             # Handle layer norm structure changes: .weight -> .dense.weight + .dense.bias
             # For gemma expert layers
@@ -1110,6 +1206,12 @@ class PI05Policy(PreTrainedPolicy):
                 ] = value.clone()
 
             fixed_state_dict[new_key] = value
+
+        if vision_tower_remap_count:
+            logging.info(
+                f"Remapped {vision_tower_remap_count} vision-tower keys to the installed "
+                "transformers naming (vision_tower.vision_model.* <-> vision_tower.*)."
+            )
 
         return fixed_state_dict
 

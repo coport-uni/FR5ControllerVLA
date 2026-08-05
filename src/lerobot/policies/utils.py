@@ -16,6 +16,8 @@
 
 import logging
 from collections import deque
+from contextlib import contextmanager
+from itertools import chain
 
 import numpy as np
 import torch
@@ -92,6 +94,74 @@ def log_model_loading_keys(missing_keys: list[str], unexpected_keys: list[str]) 
         logging.warning(f"Missing key(s) when loading model: {missing_keys}")
     if unexpected_keys:
         logging.warning(f"Unexpected key(s) when loading model: {unexpected_keys}")
+
+
+@contextmanager
+def empty_weights_init():
+    """Build a model skeleton whose parameters carry no data.
+
+    The large VLA policies spend most of their load time in the
+    constructor rather than in the checkpoint read: pi0 random-
+    initializes 4.03 B parameters in float32 on the CPU and casts
+    them to bfloat16, only for ``from_pretrained`` to overwrite
+    every one of them moments later. Allocating the parameters on
+    the meta device skips that work entirely (120.7 s -> 0.1 s on
+    the FR5 pi0 checkpoint).
+
+    Buffers are still allocated for real. Those of pi0 and pi05 are
+    non-persistent (rotary ``inv_freq``, ``embed_scale``,
+    ``position_ids``), so they never appear in a checkpoint and
+    nothing would materialize them afterwards.
+
+    ``nn.Module.to`` is neutralized for the duration because the
+    policy constructors end with a device move and a dtype cast,
+    and moving a meta tensor raises ``NotImplementedError``. Both
+    are redundant here -- the checkpoint supplies the final device
+    and dtype of every parameter.
+
+    Yields:
+        None. Models built inside the context hold meta parameters
+        and must be loaded with ``load_state_dict(..., assign=True)``
+        before use.
+    """
+    from accelerate import init_empty_weights
+
+    original_to = nn.Module.to
+
+    def skip_to(self, *args, **kwargs):
+        return self
+
+    with init_empty_weights(include_buffers=False):
+        nn.Module.to = skip_to
+        try:
+            yield
+        finally:
+            nn.Module.to = original_to
+
+
+def assert_materialized(model: nn.Module) -> None:
+    """Raise if any tensor of ``model`` is still on the meta device.
+
+    A skeleton built by [`empty_weights_init`] is unusable until a
+    checkpoint replaces its parameters. Loading with ``strict=False``
+    would leave a mismatched key on meta and the failure would only
+    surface much later, deep inside a forward pass.
+
+    Args:
+        model: The policy to check, after its weights were loaded.
+
+    Raises:
+        RuntimeError: If at least one parameter or buffer still has
+            no data, listing the first offending keys.
+    """
+    unmaterialized = [
+        name for name, tensor in chain(model.named_parameters(), model.named_buffers()) if tensor.is_meta
+    ]
+    if unmaterialized:
+        raise RuntimeError(
+            f"{len(unmaterialized)} tensor(s) were not materialized by the "
+            f"checkpoint and hold no data: {unmaterialized[:5]}"
+        )
 
 
 # TODO(Steven): Move this function to a proper preprocessor step

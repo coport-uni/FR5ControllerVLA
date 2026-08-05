@@ -3462,3 +3462,65 @@ the server box.
 - [ ] USER ACTION -- pull on the appeal box and restart the policy
       server, then re-run `9__run_client_pi0.sh` to confirm chunks
       actually flow (only one operator at a time, LP §G13).
+
+## Speed up Pi0/Pi05 checkpoint loading (2026-08-04)
+
+User question: is a ~3 minute Pi0 model load normal? Measured on the
+appeal box (task1 pi0 checkpoint, warm page cache): imports 6.7 s,
+`PI0Policy(config)` constructor 120.7 s, 8.9 GB safetensors read to
+CUDA 1.3 s, `.to(cuda)` ~0 s. The constructor random-initializes
+4.03 B parameters in float32 on the CPU and casts them to bfloat16
+before `from_pretrained` overwrites every one of them -- two minutes
+of pure waste on every server start, paid again on each run because
+`9__run_client_pi0.sh` restarts the server.
+
+- [ ] Add `empty_weights_init()` and `assert_materialized()` to
+      `src/lerobot/policies/utils.py`, next to the existing
+      `log_model_loading_keys`. The context manager wraps
+      `accelerate.init_empty_weights(include_buffers=False)` and
+      neutralizes `nn.Module.to` for the duration, since both policy
+      constructors end in `self.model.to(config.device)` and a
+      bfloat16 cast that cannot touch meta tensors.
+- [ ] Build the skeleton on meta in `PI0Policy.from_pretrained`, load
+      the checkpoint straight to the target device, and pass
+      `assign=True` so the checkpoint tensors replace the meta
+      placeholders. Verified in advance: 0 missing / 0 unexpected
+      keys, only 6 non-persistent buffers left unmaterialized.
+- [ ] Restore those buffers after loading (`model.to(config.device)`
+      plus a bfloat16 cast of floating-point buffers only) so the
+      final dtype layout matches the old path exactly.
+- [ ] Fail loudly through `assert_materialized()` if anything is left
+      on meta, instead of silently serving random weights (LP §Q13).
+- [ ] Apply the identical change to `PI05Policy.from_pretrained`
+      (`modeling_pi05.py` is line-for-line equivalent here).
+- [ ] Verify bit-exact equivalence in
+      `claude_test/debug_pi0_meta_load.py`: same checkpoint loaded
+      both ways, `torch.equal` on every state_dict entry plus dtype
+      and device checks on every parameter and buffer.
+- [ ] `ruff check` + `ruff format --check`; `pytest -k "pi0 or pi05"`.
+- [ ] Append LP §3 entry; `gh issue create`; commit + push explicit
+      paths (LP §W2).
+- [ ] USER ACTION -- pull on the appeal box and restart the policy
+      server; confirm `Time taken to put policy on cuda:` drops from
+      ~111 s to a few seconds and chunks still flow (LP §G13).
+
+## Fix Pi05 silently loading a random vision encoder (2026-08-04)
+
+Surfaced while verifying the load-time fix above: `PI05Policy` never
+received the vision-tower key remap that `PI0Policy` got in gh #88.
+`models/pi05_base_v051compat` stores 437 keys under the nested
+`vision_tower.vision_model.*` naming, while transformers 5.11 flattens
+the model side to `vision_tower.*` (435 keys), so every vision-tower
+tensor missed. The old code swallowed the resulting `load_state_dict`
+error with a `Warning:` print and returned a model whose vision
+encoder was still random (LP Q13 again); the new loud failure is what
+exposed it.
+
+- [ ] Port the pi0 vision-tower remap into
+      `PI05Policy._fix_pytorch_state_dict_keys`, including the
+      "remap only when the checkpoint naming is absent from the model
+      and the rewritten naming is present" guard so checkpoints that
+      already match the installed transformers pass through.
+- [ ] Verify: `models/pi05_base_v051compat` loads with 0 missing and
+      0 unexpected keys, and the old and new load paths agree on all
+      819 tensors.
