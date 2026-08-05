@@ -763,6 +763,24 @@
   PaliGemma and diverge only by copy-paste drift.
   (from Pi0 load time, 2026-08-04, gh #123)
 
+### Q23. `hf models list` pages at 30 results and truncates silently
+
+- **Problem**: Building the Pi0.5 client checkpoint list from
+  `hf models list --author coport-uni` returned 30 repos and stopped
+  mid-2026-07, hiding every checkpoint pushed after that date --
+  including the task2 200-episode Pi0.5 model the script already
+  pinned.
+- **Cause**: The CLI applies a default page size (30) and prints the
+  first page only. Nothing in the output marks the cut, so the listing
+  reads as complete.
+- **Fix**: Pass an explicit `--limit` (`--limit 500`), which returned
+  42 repos; cross-check the count with `wc -l` before treating a
+  listing as exhaustive.
+- **Rule**: Always pass `--limit` to `hf models list` / `hf datasets
+  list` when the result feeds a "every checkpoint we have" claim --
+  a short listing is a page boundary, not an empty shelf.
+  (from Pi0.5 client checkpoint list, 2026-08-05, gh #125)
+
 ---
 
 ## §4. Workflow Lessons
@@ -878,6 +896,31 @@
   pushed secret — GitHub keeps the old commit reachable by SHA
   until garbage collection, so always rotate the credential and
   treat it as compromised. (from ToDo#123)
+
+### W10. `rebase --autostash` yanks the user's live IDE edits mid-task
+
+- **Problem**: A push was rejected (the appeal box had pushed first),
+  so `git rebase --autostash origin/main` ran. The autostash reverted
+  the user's uncommitted client-script edits while they were still
+  editing in the IDE; they re-edited the reverted files, and
+  `git rebase --continue` then died with "You must edit all merge
+  conflicts and then mark them as resolved using git add" even though
+  `git ls-files -u` was empty.
+- **Cause**: Two compounding traps. The autostash window is not
+  atomic -- anyone editing the worktree during the rebase edits a
+  reverted file. And `rebase --continue` refuses on *unstaged* changes
+  of any kind, reporting them with the merge-conflict wording; the
+  message names the wrong problem.
+- **Fix**: Copy every dirty file to the scratchpad, `git checkout --`
+  them so the worktree matches the index, `git rebase --continue` (the
+  autostash then applies cleanly), and restore the backups afterwards
+  -- keeping the newer worktree copy where it superseded the autostash
+  and the autostash copy where the user had not re-made the edit.
+- **Rule**: Never trust `git ls-files -u` to explain a
+  `rebase --continue` refusal -- check `git diff --stat` for unstaged
+  work first; and always snapshot dirty files before an autostash
+  rebase, because the user may be editing them at that moment.
+  (from Pi0.5 client checkpoint list, 2026-08-05, gh #125)
 
 ---
 

@@ -3551,3 +3551,6 @@ page size is 30, which truncates this author's listing -- pass
       ACT/Pi0 clients.
 - [x] Verify derivation for all nine Pi0.5 checkpoints; `bash -n`.
 - [x] `gh issue create` (#125); commit + push explicit paths (LP §W2).
+- [x] Append LP §3 Q23 (`hf models list` pages at 30) and §4 W10
+      (`rebase --autostash` reverts live IDE edits; `--continue`
+      reports plain unstaged changes as a merge conflict).
