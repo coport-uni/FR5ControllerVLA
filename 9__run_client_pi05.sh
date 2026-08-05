@@ -19,7 +19,10 @@
 #     override them).
 #   - Pi0.5 is language-conditioned: the tokenizer step reads
 #     observation["task"], so --task must repeat the dataset's
-#     single_task string verbatim (5__fr5_record_task2.sh).
+#     single_task string verbatim (5__fr5_record_task2.sh). It is
+#     derived from the checkpoint repo name below, which encodes
+#     that same string, so switching checkpoints switches the
+#     instruction with it.
 #   - Dataset fps is 20, so client fps = server fps = 20.
 #
 # Server-side prerequisites (the server loads the checkpoint, not this
@@ -69,20 +72,70 @@ conda activate lerobot
 # The port must also match the --port that 8__run_server.sh binds.
 SERVER_ADDRESS="127.0.0.1:17040"
 
-# Note the "_pi5_b200" suffix, NOT "_pi05_b200" as in the training
-# script: "<JOB_NAME>_pi05_b200" is 97 chars and the Hub caps repo names
-# at 96 (LearnedPatterns Q18), so the run's own --policy.push_to_hub
-# failed silently. The checkpoint was uploaded by hand under the
-# one-char-shorter name, which lands on exactly 96.
-PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_pi5_b200"
+# ---------------------------------------------------------------
+# Checkpoint selection. TASK is derived from the repo name below;
+# switching checkpoints is a one-line change here.
+# ---------------------------------------------------------------
+ACTIONCHUNK=50
 
-# Local fallback. This path must exist on the SERVER box, which is where
-# the policy is actually loaded -- not on the machine running this
-# client.
+# Every FR5 Pi0.5 checkpoint on the Hub under coport-uni as of
+# 2026-08-05 (hf models list --author coport-uni --limit 500 -- the
+# default page size is 30 and truncates this listing). Uncomment one.
+#
+# task1 -- move the brown glass bottle to the designated location:
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi05_b200_model"
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_pi05_b200_model"
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi05_b200_model"
+#
+# task2 -- transfer the gray tablets between brown bottles (no
+# 100-episode Pi0.5 variant on the Hub). The 200-episode repo ends in
+# "_pi5_b200", NOT "_pi05_b200" as in the training script:
+# "<JOB_NAME>_pi05_b200" is 97 chars and the Hub caps repo names at 96
+# (LearnedPatterns Q18), so the run's own --policy.push_to_hub failed
+# silently and the checkpoint was uploaded by hand under the
+# one-char-shorter name, which lands on exactly 96:
+# PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50_pi05_b200"
+PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_pi5_b200"
+#
+# task3 -- turn the silver air valve 90 degrees counterclockwise:
+# PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50_pi05_b200_model"
+# PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_100_pi05_b200_model"
+# PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_200_pi05_b200_model"
+#
+# Legacy red-marker checkpoints (single-camera era, kept for
+# reference -- they predate the top_left/top_right/hand layout below):
+# PRETRAINED="coport-uni/FR5_pick_red_colored_marker_to_box_pi05_model_model"
+# PRETRAINED="coport-uni/FR5_pick_red_colored_marker_to_box_pi05_adv_model"
+#
+# Local fallback. This path must exist on the SERVER box, which is
+# where the policy is actually loaded -- not on the machine running
+# this client. TASK cannot be derived from a path like this one, so
+# use the manual override below with it.
 # PRETRAINED="outputs/train/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_pi05_b200/checkpoints/last/pretrained_model"
 
-# Shorter-dataset variants of the same task (both fit the 96-char cap):
-# PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50_pi05_b200"
+derive_task_from_repo() {
+    # Turn a checkpoint repo id into the dataset's natural-language
+    # task string: drop the namespace, the FR5_/taskN_ prefix and
+    # the _<episodes>_<policy>_<hardware>/_model suffix, then map
+    # underscores to spaces. Handles all naming generations:
+    #   FR5_task2_transfer_..._brown_bottle_200_pi5_b200
+    #   FR5_task1_move_..._designated_location_50_pi05_b200_model
+    #   FR5_pick_red_colored_marker_to_box_pi05_adv_model
+    local name="${1##*/}"
+    name="${name#FR5_}"
+    name="$(sed -E -e 's/^task[0-9]+_//' \
+                   -e 's/_(act|pi05|pi5|pi0|smovla22|smovla)_.*$//' \
+                   -e 's/_model$//' \
+                   -e 's/_[0-9]+$//' <<< "$name")"
+    printf '%s\n' "${name//_/ }"
+}
+
+TASK="$(derive_task_from_repo "$PRETRAINED")"
+
+# TASK="manual override"      # uncomment to bypass auto-derivation
+
+echo "PRETRAINED=${PRETRAINED}"
+echo "TASK=${TASK}"
 
 python3 -m lerobot.async_inference.robot_client \
     --server_address="${SERVER_ADDRESS}" \
@@ -97,11 +150,11 @@ python3 -m lerobot.async_inference.robot_client \
     --pretrained_name_or_path="${PRETRAINED}" \
     --policy_type=pi05 \
     --policy_device=cuda \
-    --actions_per_chunk=50 \
+    --actions_per_chunk="${ACTIONCHUNK}" \
     --chunk_size_threshold=0.6 \
     --aggregate_fn_name=weighted_average \
     --debug_visualize_queue_size=false \
-    --task="transfer the gray tablets from the brown bottle into another brown bottle" \
+    --task="${TASK}" \
     --fps=20
 
 # Tuning notes (docs/source/async.mdx):

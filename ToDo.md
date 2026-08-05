@@ -3524,3 +3524,30 @@ exposed it.
 - [ ] Verify: `models/pi05_base_v051compat` loads with 0 missing and
       0 unexpected keys, and the old and new load paths agree on all
       819 tensors.
+
+## Port the Hub checkpoint list to the Pi0.5 client (2026-08-05)
+
+Context: the user asked to reflect their Hugging Face pretrained
+models in `9__run_client_pi05.sh`, the same change already made for
+ACT (#115/#116) and Pi0 (#117). The script currently pins one repo
+and hardcodes `--task`. `hf models list --author coport-uni --limit
+500` returns nine FR5 Pi0.5 repos: task1 50/100/200 and task3
+50/100/200 (`_pi05_b200_model`), task2 50 (`_pi05_b200`) and 200
+(`_pi5_b200`, the one-char-shorter name forced by the Hub's 96-char
+cap, see LP §Q18), plus the two legacy red-marker repos
+(`pi05_model_model`, `pi05_adv_model`). Task2 has no 100-episode
+Pi0.5 variant on the Hub. Keep the task2 200 checkpoint active so
+current behaviour is unchanged. Note the default `hf models list`
+page size is 30, which truncates this author's listing -- pass
+`--limit`.
+
+- [x] Introduce the full grouped Hub list in `9__run_client_pi05.sh`;
+      keep the task2 200 `_pi5_b200` checkpoint active.
+- [x] Copy `derive_task_from_repo()` from the Pi0 client and set
+      `TASK` from it, so switching checkpoints also switches the
+      language instruction (Pi0.5 is language-conditioned); echo
+      both vars.
+- [x] Hoist `ACTIONCHUNK=50` to a named variable, matching the
+      ACT/Pi0 clients.
+- [x] Verify derivation for all nine Pi0.5 checkpoints; `bash -n`.
+- [x] `gh issue create` (#125); commit + push explicit paths (LP §W2).
