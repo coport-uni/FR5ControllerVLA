@@ -3805,3 +3805,39 @@ tries succeeded and one failed.
 - [x] Append the results to the section 6 table in
       `outputs/evaluation/analysis/README.md`. Seven verified items,
       all matching; the xlsx success records hold up.
+
+## Audit the Pi0.5 inference setup against the training records (2026-08-06)
+
+Context: the user asked whether `9__run_client_pi05.sh` is correctly
+configured given the training scripts and what is on the Hub. Read-only
+audit; nothing changed yet.
+
+Verdict: the inference setup is correct. Every runtime-relevant setting
+on the client matches the selected checkpoint and its dataset --
+`policy_type=pi05`, `actions_per_chunk=50` against `n_action_steps=50`,
+the three camera keys `top_left`/`top_right`/`hand` against the model's
+`input_features`, `--fps=20` against the dataset's 20 fps, and the
+auto-derived TASK string byte-for-byte against `meta/tasks.parquet`.
+The `_pi5_` vs `_pi05_` naming is deliberate and correct: only task2
+crosses the Hub's 96-character repo-name cap (97 with `_pi05_b200`), so
+its 100 and 200 repos drop one character.
+
+Findings worth fixing, none of which block a run:
+
+- [ ] The client comment above the task2 block still says "no
+      100-episode Pi0.5 variant on the Hub", but that repo was
+      uploaded 2026-08-05 and is exactly what the active line selects.
+      The comment now contradicts the code beneath it.
+- [ ] `7__train_pi05_task2_b200.sh` pushes to `${JOB_NAME}_pi5_b200`
+      while its `--output_dir` and `--job_name` say `_pi05_b200`, so
+      `train_config.json` records a job name that no repo matches.
+      This is the root of the naming confusion.
+- [ ] All three pi05 training scripts hardcode `JOB_NAME=..._200`, so
+      the 50- and 100-episode runs cannot be reproduced from the
+      scripts as committed. Consider taking the episode count as an
+      argument.
+- [ ] The three task2 checkpoints were uploaded by hand and carry no
+      model card, hence no `lerobot`/`pi05` tags and no dataset link.
+      Inference is unaffected -- all eight required files are present
+      and the weights are 9.35 GB like every other Pi0.5 checkpoint --
+      but tag-filtered Hub listings miss them.
