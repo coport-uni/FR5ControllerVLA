@@ -3769,3 +3769,46 @@ identical 9,354,045,072 B `model.safetensors` size (~9.35 GB each,
       in-flight `modeling_pi0.py` / `modeling_pi05.py` edits stay
       uncommitted. Issue creation declined by the user ("upload only");
       only this ToDo entry is committed.
+
+## Roll the pi05 inference path back to stock LeRobot (2026-08-06)
+
+User asked to revert **only** the pi05 inference environment to the
+original LeRobot code, leaving pi0 alone. `modeling_pi05.py` is the one
+pi05 file this fork ever modified (commit `7d67abb0` plus the in-flight
+gh #124 edits), so the rollback is a full restore of that file to
+`e489ba24`, the last upstream commit that touched it.
+
+Scope confirmed with the user: `pi_gemma.py` keeps its
+`create_causal_mask` probe (see LP §Q19) because pi0 shares that module,
+and `pi0/modeling_pi0.py` keeps the GPU-init loader of gh #124
+(see LP §Q20). `processor_pi05.py` and `configuration_pi05.py` are
+already pure upstream.
+
+What the rollback gives up, deliberately:
+
+- GPU-init skeleton + on-device safetensors read (LP §Q20): pi05 server
+  startup goes back to ~150 s of CPU random-init per launch.
+- Fail-loud checkpoint load (LP §Q20): a read or key failure returns to
+  a printed warning plus a randomly initialized policy.
+- The vision-tower key remap ported in gh #123 (LP §Q22): under
+  transformers 5.x a checkpoint stored with the nested
+  `vision_tower.vision_model.*` naming -- `models/pi05_base_v051compat`
+  is one -- again lands on a random vision encoder in silence.
+
+- [x] Restore `src/lerobot/policies/pi05/modeling_pi05.py` from
+      `e489ba24` into the worktree only (index untouched).
+- [x] Confirm the file is byte-identical to upstream and that nothing
+      references the symbols it dropped.
+- [x] `ruff check` + `ruff format --check` on the restored file.
+- [x] Check whether the pi05 checkpoint actually served at inference
+      stores nested or flattened vision-tower keys, so the user knows
+      whether LP §Q22 bites this rollback in practice. Verdict: all six
+      fine-tuned pi05 checkpoints (task1/task2 x 50/100/200) store the
+      flattened `vision_tower.*` naming (437 keys, 0 nested), so serving
+      them needs no remap. Only `models/pi05_base_v051compat` is nested
+      (437 nested, 0 flat) -- i.e. LP §Q22 now bites pi05 *training
+      init* from base, not inference from a fine-tune.
+- [x] `gh issue create` -- issue #136. The restored
+      `modeling_pi05.py` stays uncommitted until the FR5 hardware run
+      confirms pi05 inference (LP §W4); only this ToDo entry is
+      committed.
