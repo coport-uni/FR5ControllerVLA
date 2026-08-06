@@ -337,6 +337,13 @@
 
 ---
 
+### G15a. A short robot excursion is a failure mode, not noise
+
+- **Problem**: The eval-video segmenter classified every away-from-home span under ~12 s as a "transit" (homing move) and dropped it, reporting 5 attempts for `task2_act_100.webm` when the operators had logged 10.
+- **Cause**: Reasoned from the video alone that a span too short to reach the props could not be a rollout. It can: the policy leaves home, aborts, and drives straight back. The operators already had a name for it -- `갑자기 원점으로 돌아감` -- which appears four times in the `data.xlsx` notes for that one condition.
+- **Fix**: Count every away-from-home span as an attempt and only *flag* the short ones (`kind=quick_return`). After the change 11 spans were detected against 10 logged tries, and all four `갑자기 원점으로 돌아감` notes lined up with flagged spans.
+- **Rule**: Never let a detector discard a category it cannot explain; flag it and let the reviewer decide, because a dropped attempt is invisible in the output while a spurious one is not. Always read the operators' own note vocabulary before deciding what counts as signal.
+
 ### G15. Overhead eval video: motion energy cannot bound an attempt
 
 - **Problem**: Segmenting `outputs/evaluation/*.webm` into attempts by frame-difference motion energy either merged four operator resets into one 134 s span or chopped single rollouts into fragments.

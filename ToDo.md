@@ -3680,3 +3680,11 @@ idle-gap merging hid four resets inside one 134 s span.
 - [ ] `ruff check` / `ruff format --check`, commit, update the
       issue, and append a LearnedPatterns entry if a reusable
       lesson surfaces.
+
+- [x] Correction after the user supplied the filled `data.xlsx` ACT/100
+      rows: the 8-12 s spans dropped as "transits" are the operators'
+      `갑자기 원점으로 돌아감` failure mode, and the `2` suffix in notes
+      like `아예 못 집음 2` confirms one 회차 is two tries. Every
+      away-from-home span now counts as an attempt and short ones are
+      only flagged (`kind=quick_return`). 11 detected vs 10 logged; see
+      LP §2 G15a.

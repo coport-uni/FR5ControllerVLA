@@ -30,9 +30,10 @@ Motion energy alone is not enough -- a policy that stalls mid-attempt
 would be split in two, and a bystander at the laptop keeps the bottom
 of the frame busy from beginning to end.
 
-Not every trip away from home is a rollout. Between runs the arm also
-swings out and straight back without reaching the props; those
-transits are labelled as such and left out of the statistics.
+Every trip away from home counts as an attempt, including the ones
+that end in seconds because the policy turned round and drove back --
+the operators log that as its own failure mode. Such spans are only
+flagged, never dropped.
 
 Elapsed time is recorded, never scored. Nothing here compares a
 duration against a threshold or turns one into a score.
@@ -89,21 +90,14 @@ _still_percentile = 50.0
 # Spans shorter than this are camera noise, not arm movements at all.
 _min_span_s = 5.0
 
-# Leaving home does not by itself mean a rollout started. Between runs
-# the arm also swings out and straight back -- moving to a start pose,
-# being jogged, recovering from a fault -- without ever reaching the
-# props. Those transits are several times shorter than a rollout, so
-# the two separate cleanly by duration; the split is taken from the
-# recording's own spans rather than from a hard-coded number, and only
-# applied when there are enough spans for the split to mean anything.
-_min_spans_for_transit_split = 6
-
-# How much longer the shortest rollout must be than the longest
-# transit before the two are called separate populations. Below this
-# the recording is treated as all attempts: mislabelling a rollout as
-# a transit would drop it from the report entirely, which is a far
-# worse error than leaving a stray transit in for the reviewer to see.
-_min_transit_ratio = 2.0
+# Some rollouts end within seconds: the policy leaves home, thinks
+# better of it and drives straight back. The operators log this as its
+# own failure mode ("갑자기 원점으로 돌아감"), so these count as
+# attempts like any other -- they are flagged only to draw the
+# reviewer's eye, never to drop them from the report. An earlier
+# version treated them as noise and silently lost six of eleven
+# attempts on task2_act_100.
+_quick_return_max_s = 20.0
 
 # A trial ("회차") in the evaluation protocol is two consecutive
 # attempts, so attempts are paired when trial numbers are assigned.
@@ -363,55 +357,22 @@ def find_attempts(
     return spans, threshold
 
 
-def classify_spans(spans: list[tuple[float, float]], transit_max_s: float | None) -> list[str]:
-    """Label each span ``"attempt"`` or ``"transit"`` by its duration.
+def classify_spans(spans: list[tuple[float, float]], quick_return_max_s: float) -> list[str]:
+    """Flag each span ``"rollout"`` or ``"quick_return"`` by duration.
+
+    Both are attempts and both are counted. The flag exists because a
+    rollout that ends in seconds nearly always ended the same way --
+    the arm turned round and drove back to home -- and saying so up
+    front saves the reviewer opening the contact sheet to find out.
 
     Args:
         spans: ``(start_s, end_s)`` pairs.
-        transit_max_s: Explicit cut-off, or ``None`` to derive one from
-            the spans themselves.
+        quick_return_max_s: Longest span still called a quick return.
 
     Returns:
-        One label per span. Everything is an ``"attempt"`` when there
-        are too few spans to split, so a short recording is never
-        silently emptied out.
+        One flag per span.
     """
-    durations = [end - start for start, end in spans]
-    if transit_max_s is None:
-        transit_max_s = _find_transit_cutoff(durations)
-    if transit_max_s is None:
-        return ["attempt"] * len(durations)
-    return ["transit" if duration <= transit_max_s else "attempt" for duration in durations]
-
-
-def _find_transit_cutoff(durations: list[float]) -> float | None:
-    """Return the duration below which spans are transits, if any.
-
-    The cut is placed at the widest *ratio* gap in the sorted
-    durations, because what separates the two populations is a factor
-    -- a transit is a few seconds, a rollout is a minute or two -- not
-    a fixed number of seconds. A histogram method such as Otsu is the
-    wrong tool here: on the dozen or so spans in one recording its
-    answer turns on the bin width rather than on the data.
-
-    Args:
-        durations: Span lengths in seconds, in any order.
-
-    Returns:
-        The cut-off in seconds, or ``None`` when the recording has too
-        few spans to split or no gap wide enough to be believable --
-        in which case every span is treated as an attempt rather than
-        being discarded on a weak signal.
-    """
-    if len(durations) < _min_spans_for_transit_split:
-        return None
-    ordered = np.sort(np.array(durations, dtype=float))
-    ratios = ordered[1:] / ordered[:-1]
-    widest = int(np.argmax(ratios))
-    if ratios[widest] < _min_transit_ratio:
-        return None
-    # Geometric midpoint of the gap, so the cut sits clear of both ends.
-    return float(np.sqrt(ordered[widest] * ordered[widest + 1]))
+    return ["quick_return" if end - start <= quick_return_max_s else "rollout" for start, end in spans]
 
 
 def describe_video(video_path: Path) -> tuple[str, str, str]:
@@ -438,14 +399,13 @@ def describe_video(video_path: Path) -> tuple[str, str, str]:
 def build_attempts(video_path: Path, spans: list[tuple[float, float]], kinds: list[str]) -> list[Attempt]:
     """Attach condition metadata and trial numbering to raw spans.
 
-    Transits keep their place in the timeline but are left out of the
-    attempt numbering, so ``attempt_index`` counts rollouts only.
+    Every span away from home is an attempt, however brief. Attempts
+    are then paired into trials in recording order, following the
+    evaluation protocol where one 회차 is two consecutive tries.
     """
     task, model, dataset_size = describe_video(video_path)
     attempts = []
-    position = 0
-    for (start_s, end_s), kind in zip(spans, kinds, strict=True):
-        is_attempt = kind == "attempt"
+    for position, ((start_s, end_s), kind) in enumerate(zip(spans, kinds, strict=True)):
         attempts.append(
             Attempt(
                 video=video_path.name,
@@ -453,15 +413,14 @@ def build_attempts(video_path: Path, spans: list[tuple[float, float]], kinds: li
                 model=model,
                 dataset_size=dataset_size,
                 kind=kind,
-                trial_index=position // _attempts_per_trial + 1 if is_attempt else 0,
-                attempt_in_trial=position % _attempts_per_trial + 1 if is_attempt else 0,
-                attempt_index=position + 1 if is_attempt else 0,
+                trial_index=position // _attempts_per_trial + 1,
+                attempt_in_trial=position % _attempts_per_trial + 1,
+                attempt_index=position + 1,
                 start_s=round(start_s, 2),
                 end_s=round(end_s, 2),
                 duration_s=round(end_s - start_s, 2),
             )
         )
-        position += is_attempt
     return attempts
 
 
@@ -694,10 +653,7 @@ def build_report(attempts: list[Attempt], task_name: str | None) -> str:
     Returns:
         The report as Markdown.
     """
-    n_transit = sum(1 for attempt in attempts if attempt.kind == "transit")
-    attempts = [attempt for attempt in attempts if attempt.kind == "attempt"]
-    if not attempts:
-        raise ValueError("no rows labelled as attempts")
+    n_quick = sum(1 for attempt in attempts if attempt.kind == "quick_return")
     head = attempts[0]
     title = task_name or head.task
     lines = [
@@ -760,11 +716,11 @@ def build_report(attempts: list[Attempt], task_name: str | None) -> str:
         f"| 성공 수행 소요시간 | {format_stats(success_durations)} |",
         f"| 2연속 성공 회차 수 | {n_paired} / {len(trials)} |",
         f"| 판정 보류 | {n_pending} |",
-        f"| 제외된 이동 구간 (transit) | {n_transit} |",
+        f"| 즉시 복귀 (quick_return) | {n_quick} |",
         "",
-        "`transit`은 로봇이 홈 자세를 벗어났다가 작업물에 닿지 않고 "
-        "곧바로 돌아온 구간이다. 수행으로 세지 않으며 위 통계에서 "
-        "빠져 있다.",
+        "`quick_return`은 홈 자세를 벗어난 지 수 초 만에 되돌아온 "
+        "수행이다. 다른 수행과 똑같이 집계하며, 검수 시 눈에 띄게 "
+        "표시만 해 둔 것이다.",
         "",
     ]
     return "\n".join(lines)
@@ -778,7 +734,7 @@ def run_segment(args: argparse.Namespace) -> int:
     template = find_home_template(frames, motion)
     home_distance = smooth(measure_home_distance(frames, template), args.sample_fps)
     spans, threshold = find_attempts(home_distance, args.sample_fps, args.min_duration)
-    kinds = classify_spans(spans, args.transit_max_duration)
+    kinds = classify_spans(spans, args.quick_return_max_duration)
     attempts = build_attempts(video_path, spans, kinds)
 
     directory = analysis_dir(video_path, args.out_root)
@@ -792,22 +748,16 @@ def run_segment(args: argparse.Namespace) -> int:
     )
 
     total_s = len(frames) / args.sample_fps
-    n_transit = sum(1 for attempt in attempts if attempt.kind == "transit")
-    print(
-        f"{video_path.name}: {total_s / 60:.1f} min, "
-        f"{len(attempts) - n_transit} attempts, {n_transit} transits"
-    )
+    n_quick = sum(1 for attempt in attempts if attempt.kind == "quick_return")
+    print(f"{video_path.name}: {total_s / 60:.1f} min, {len(attempts)} attempts ({n_quick} quick returns)")
     for attempt in attempts:
-        label = (
-            f"#{attempt.attempt_index:02d} trial {attempt.trial_index}-{attempt.attempt_in_trial}"
-            if attempt.kind == "attempt"
-            else "--  transit         "
-        )
+        flag = "  <- quick return" if attempt.kind == "quick_return" else ""
+        label = f"#{attempt.attempt_index:02d} trial {attempt.trial_index}-{attempt.attempt_in_trial}"
         print(
             f"  {label}  "
             f"{format_clock(attempt.start_s)} -> "
             f"{format_clock(attempt.end_s)}  "
-            f"{attempt.duration_s:6.1f} s"
+            f"{attempt.duration_s:6.1f} s{flag}"
         )
     print(f"wrote {directory / 'episodes.csv'}")
     return 0
@@ -841,10 +791,7 @@ def run_sheets(args: argparse.Namespace) -> int:
     # reviewer can check the classifier rather than take it on trust.
     rendered = 0
     for attempt in attempts:
-        if attempt.kind == "attempt":
-            stem = f"attempt_{attempt.attempt_index:02d}"
-        else:
-            stem = f"transit_{int(attempt.start_s):05d}s"
+        stem = f"attempt_{attempt.attempt_index:02d}"
         render_contact_sheet(video_path, attempt, args.sheet_roi, args.keyframes, sheets_dir / f"{stem}.jpg")
         rendered += 1
         if args.clips:
@@ -855,7 +802,7 @@ def run_sheets(args: argparse.Namespace) -> int:
     labels_path = directory / "labels.csv"
     if not labels_path.exists():
         for attempt in attempts:
-            attempt.notes = _pending_note if attempt.kind == "attempt" else ""
+            attempt.notes = _pending_note
         write_attempts(attempts, labels_path)
         print(f"wrote {labels_path} -- fill in {', '.join(_label_columns)}")
     print(f"rendered {rendered} sheets into {sheets_dir}")
@@ -918,13 +865,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="shortest away-from-home span to keep at all, in seconds",
     )
     segment.add_argument(
-        "--transit-max-duration",
+        "--quick-return-max-duration",
         type=float,
-        default=None,
-        help=(
-            "spans no longer than this are labelled transits rather "
-            "than attempts (default: split the recording's own spans)"
-        ),
+        default=_quick_return_max_s,
+        help="attempts no longer than this are flagged as quick returns",
     )
     segment.set_defaults(handler=run_segment)
 
