@@ -3587,3 +3587,43 @@ LP §G13 applies unchanged.
       from the policy-specific lines.
 - [x] `gh issue create` (#127); commit + push explicit paths
       (LP §W2).
+
+## Commit the evaluation run outputs and client checkpoint switches (2026-08-06)
+
+Context: the user asked to commit, push, and merge the day's work
+via a PR. The four code commits from 2026-08-05 (#125, #127, and the
+two Pi0 fixes) are already on `main` and pushed, so this task covers
+only what is left in the working tree: the active-checkpoint
+switches in the three client scripts, the `.claude/settings.json`
+permission additions accumulated over that session, and the
+untracked evaluation artifacts under `outputs/evaluation/`.
+
+The evaluation artifacts are 11 `.webm` recordings totalling ~470 MB
+(largest 67 MB), plus `Figure_6.png` and the paper-data spreadsheet.
+`.gitattributes` routes `*.mp4` through Git LFS but not `*.webm`, and
+`git lfs ls-files` is empty -- the three already-tracked webm files
+went in as raw blobs, which is part of why `.git` is at 1.6 GB. The
+user chose to route the new recordings through LFS. Every file is
+under GitHub's 100 MB hard limit (LP §W3), so LFS is a size-growth
+decision, not a push-blocker.
+
+Caveat to confirm before pushing: `git-lfs` is not installed on this
+machine and `sudo` needs a password, so the binary has to go into
+`~/.local/bin` from the upstream release tarball. The three existing
+raw-blob webm files stay as they are -- adding the pattern does not
+retroactively convert committed blobs, so the directory will hold a
+mix of raw and LFS-backed recordings.
+
+- [ ] Install `git-lfs` v3.7.0 into `~/.local/bin` (no sudo), then
+      `git lfs install --local` so hooks land in this repo only.
+- [ ] Cut `chore/evaluation-outputs` from `main`; do not commit the
+      remaining work directly to `main` since the user asked for a PR.
+- [ ] Track `*.webm` in `.gitattributes` and stage the 11 recordings
+      through LFS; verify with `git lfs ls-files` before committing.
+- [ ] Commit the three client checkpoint switches, the settings.json
+      permissions, `Figure_6.png`, and the spreadsheet, staging every
+      path explicitly (LP §W2).
+- [ ] `gh issue create`; push the branch, `gh pr create`, then
+      `gh pr merge` once the LFS upload succeeds.
+- [ ] Append an LP §4 entry if the LFS bootstrap surfaces a reusable
+      lesson (user-space install, mixed raw/LFS directories).

@@ -85,7 +85,7 @@ ACTIONCHUNK=50
 # task1 -- move the brown glass bottle to the designated location:
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi05_b200_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_pi05_b200_model"
-PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi05_b200_model"
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi05_b200_model"
 #
 # task2 -- transfer the gray tablets between brown bottles (no
 # 100-episode Pi0.5 variant on the Hub). The 200-episode repo ends in
