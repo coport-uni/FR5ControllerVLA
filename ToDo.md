@@ -3962,6 +3962,19 @@ Read-only diagnosis; nothing changed yet.
       against 46.1 % and 52.1 %. On task1 the action is essentially
       the state, so "echo the state" is a near-optimal solution -- and
       a training loss of 0.005 is what that solution scores.
+- [x] Explain the 50-episode checkpoint, which the user reports does
+      attempt the task while 100 and 200 freeze. It is not the data
+      statistics: all three task1 datasets are the same on every
+      metric (action-vs-state gap 1.08 / 1.21 / 1.06 deg, stationary
+      60.2 / 60.4 / 58.6 %, state clipping 28.4 / 29.5 / 31.7 %), and
+      the training configs are identical bar the GPU split. What does
+      change is data volume, and with it positional diversity:
+      36473 / 64223 / 119190 frames, i.e. 500 / 284 / 152 epochs at
+      the fixed 30000 steps. The most-trained checkpoint is the one
+      that still moves, so this is not overfitting -- it reads as a
+      memorised near-fixed trajectory surviving at 50 episodes and
+      dying once the bottle placement varies enough to require real
+      visual localisation.
 - [ ] Leading hypothesis, consistent with every measurement so far:
       Pi0.5 is the only policy that cannot echo the state, because it
       reads state only as 32 coarse tokens over [-1, 1] with 25-29 %
