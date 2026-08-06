@@ -19,3 +19,7 @@
 *.json !text !filter !merge !diff
 tests/artifacts/cameras/*.png filter=lfs diff=lfs merge=lfs -text
 *.bag filter=lfs diff=lfs merge=lfs -text
+# Evaluation screen recordings run tens of megabytes each. The three
+# recordings committed before this line landed remain raw blobs --
+# the pattern only applies to files staged from here on.
+*.webm filter=lfs diff=lfs merge=lfs -text

@@ -75,9 +75,9 @@ ACTIONCHUNK=50
 # 2026-07-30 (hf models list --author coport-uni). Uncomment one.
 #
 # task1 -- move the brown glass bottle to the designated location:
-PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi0_b200_model"
+# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi0_b200_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_pi0_b200_model"
-# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi0_b200_model"
+PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi0_b200_model"
 #
 # task2 -- transfer the gray tablets between brown bottles:
 # PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50_pi0_b200"
