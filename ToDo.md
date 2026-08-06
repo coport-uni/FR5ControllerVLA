@@ -3928,10 +3928,28 @@ Read-only diagnosis; nothing changed yet.
       Pi0.5-only handicap and the leading explanation for
       "Pi0.5 worse than ACT/Pi0", though still not for
       "task1 worse than task2/task3".
-- [ ] Run the task2 or task3 Pi0.5 checkpoint under today's setup as a
-      controlled A/B. If they now fail too, the regression is
-      environmental and dates from today; if they still work, it is
-      task1-specific and the wandb curve is the next check.
+- [x] Run the task2 or task3 Pi0.5 checkpoint under today's setup as a
+      controlled A/B. The user reports task2/task3 Pi0.5 did work, so
+      the failure is task1-specific and not environmental.
+- [x] Check the training runs. All three 200-episode Pi0.5 runs
+      completed 30000 steps and converged the same way (loss at 24K:
+      task1 0.005, task2 0.006, task3 0.003). The task1 run is healthy;
+      no divergence, no early stop, no underfit.
+- [x] Test the "task1 needs closed-loop precision while task2/task3 can
+      be replayed open-loop" story. It is false. Resampling every
+      episode onto a common phase axis, the across-episode spread is
+      task1 4.73 deg mean / 12.93 deg peak, task2 7.75 / 47.94, task3
+      5.01 / 25.31. task1 is the most stereotyped of the three, so it
+      is not the one that demands the most servoing.
+- [ ] Ask the user what the failure actually looks like. Every
+      hypothesis so far was formed without a description of the
+      symptom, and two of them died on measurement.
+- [ ] Offline A/B on the GPU box, once it is free of live rollouts:
+      run the task1 Pi0.5, task1 Pi0 and task3 Pi0.5 checkpoints over
+      held-out frames of their own datasets and compare predicted
+      against recorded actions. This separates "the checkpoint is bad"
+      from "the rollout stack degrades a good checkpoint" and is the
+      only decisive test left.
 - [ ] Confirm whether the 22:24 task3 Pi0.5 recordings
       (`task3_pi05_50_half1/2.webm`) already show the degraded
       behaviour -- they were made after the 22:14 camera move and
