@@ -3841,3 +3841,58 @@ Findings worth fixing, none of which block a run:
       Inference is unaffected -- all eight required files are present
       and the weights are 9.35 GB like every other Pi0.5 checkpoint --
       but tag-filtered Hub listings miss them.
+
+## Diagnose the task1 Pi0.5 rollout failure (2026-08-06)
+
+Context: the user ran `9__run_client_pi05.sh` with the task1
+200-episode checkpoint, saw poor rollouts, and asked whether the
+startup log explains it. Raising `--chunk_size_threshold` from the
+locally edited 0.1 back to 0.7 changed nothing, and Pi0.5 rollouts on
+task2 and task3 were fine, so the cause has to be task1-specific.
+Read-only diagnosis; nothing changed yet.
+
+- [x] Clear the startup-log warnings. All benign: gradient
+      checkpointing is re-enabled from the checkpoint config but every
+      branch is gated on `self.training` and `predict_action_chunk`
+      runs under `self.eval()`; the `patch_embedding` message only
+      logs and passes the key through; the HF 307/302/404 lines are
+      normal Hub traffic.
+- [x] Measure the runtime from the remote server log. Server-side
+      inference is 0.14 s (0.15 s after the `inference_latency` floor)
+      and never the bottleneck. At threshold 0.1 the client asked for a
+      chunk every 49 timesteps -- 2.45 s of open-loop -- and at 0.7 the
+      accepted-observation gaps alternate 14 / 49, i.e. half the cycles
+      still drain the whole chunk because the server drops observations
+      whose state is within L2 < 1 of the last processed one
+      (`observations_similar`). Effective execution rate measured from
+      the timestep deltas: 16 actions/s at 0.1, 10.4 actions/s at 0.7,
+      against a 20 fps target. The observation path (three raw
+      640x480 frames, ~2.8 MB pickled, uploaded over the SSH tunnel)
+      runs inline in the control loop, which is what costs the rest.
+- [x] Reject the normalization hypothesis as the task1 differentiator.
+      Pi0.5 discretizes the state into 256 bins over [-1, 1]
+      (`processor_pi05.py`), so its default is QUANTILES, but all three
+      `7__train_pi05_task*_b200.sh` override STATE/ACTION to MEAN_STD
+      and all six Hub checkpoints carry it. Clipping under MEAN_STD is
+      the same for every task (task1 29.1 %, task2 24.7 %, task3
+      29.3 % of state values outside [-1, 1], spread sample over the
+      full parquet range), so it handicaps every Pi0.5 run equally and
+      cannot explain task1 alone. An earlier 41 % figure for task1 was
+      a sampling artifact from reading only the first 3 of 49 files.
+- [x] Rule out the remaining task1-specific wiring: `train_config.json`
+      points at the right dataset, the auto-derived TASK string matches
+      `meta/tasks.parquet` byte-for-byte, steps/seed match the working
+      task3 run, and the live start pose from the log sits inside the
+      dataset's per-joint episode-start range on all six joints.
+- [ ] Check the wandb curve for `..._200_pi05_b200` (task1) against
+      task3's -- an underfit or diverged run is the leading remaining
+      explanation, and it is the one check that needs no hardware.
+- [ ] Compare a live `top_left`/`top_right` frame against a task1
+      dataset frame once the cameras are free. task2/task3 Pi0.5 were
+      evaluated in earlier sessions, so scene or camera drift since
+      then is the other candidate.
+- [ ] Separately: the datasets already ship `q01`/`q99`, so the
+      MEAN_STD override can simply be dropped. Worth fixing on its own
+      merits even though it is not the task1 cause.
+- [ ] Separately: file the async-runtime findings (inline observation
+      upload, `observations_similar` drops) as their own issue.
