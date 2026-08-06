@@ -3614,16 +3614,21 @@ raw-blob webm files stay as they are -- adding the pattern does not
 retroactively convert committed blobs, so the directory will hold a
 mix of raw and LFS-backed recordings.
 
-- [ ] Install `git-lfs` v3.7.0 into `~/.local/bin` (no sudo), then
+- [x] Install `git-lfs` v3.7.0 into `~/.local/bin` (no sudo), then
       `git lfs install --local` so hooks land in this repo only.
-- [ ] Cut `chore/evaluation-outputs` from `main`; do not commit the
+- [x] Cut `chore/evaluation-outputs` from `main`; do not commit the
       remaining work directly to `main` since the user asked for a PR.
-- [ ] Track `*.webm` in `.gitattributes` and stage the 11 recordings
+- [x] Track `*.webm` in `.gitattributes` and stage the 11 recordings
       through LFS; verify with `git lfs ls-files` before committing.
-- [ ] Commit the three client checkpoint switches, the settings.json
+      (Ten recordings, not eleven -- the count above included
+      `Figure_6.png` and the spreadsheet.)
+- [x] Commit the three client checkpoint switches, the settings.json
       permissions, `Figure_6.png`, and the spreadsheet, staging every
-      path explicitly (LP §W2).
-- [ ] `gh issue create`; push the branch, `gh pr create`, then
-      `gh pr merge` once the LFS upload succeeds.
-- [ ] Append an LP §4 entry if the LFS bootstrap surfaces a reusable
+      path explicitly (LP §W2). The spreadsheet was renamed to
+      `data.xlsx` mid-task, which broke the first `git add`.
+- [x] `gh issue create` (#128); push the branch, `gh pr create`
+      (#129), then `gh pr merge` once the LFS upload succeeds
+      (a44bf8e4, merged f329ad8d).
+- [x] Append an LP §4 entry if the LFS bootstrap surfaces a reusable
       lesson (user-space install, mixed raw/LFS directories).
+      Appended §5 E19 and §4 W11.

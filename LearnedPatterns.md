@@ -924,6 +924,19 @@
 
 ---
 
+### W11. An LFS pattern never converts already-committed blobs
+
+- **Problem**: `outputs/evaluation/` held three webm recordings as raw
+  git blobs; adding `*.webm` to `.gitattributes` left them raw, so the
+  directory now mixes raw-blob and LFS-backed files.
+- **Cause**: `.gitattributes` filters apply when a file is staged, not
+  retroactively. Objects already in history are untouched.
+- **Fix**: Accepted the mix. Converting needs `git lfs migrate import`
+  plus a force-push, which rewrites every downstream commit.
+- **Rule**: Always add the LFS pattern BEFORE the first large file of
+  that type is committed; once it is in history only a rewrite fixes it.
+  (from ToDo#131)
+
 ## §5. Environment Specifics
 
 ### E1. Fairino network defaults — follower 192.168.58.2 / leader 192.168.59.2
@@ -1221,6 +1234,21 @@
   streaming, gh #113)
 
 ---
+
+### E19. git-lfs is absent on the controller; install it user-space
+
+- **Problem**: `git lfs` was not a git command on the control machine,
+  and `sudo apt install git-lfs` could not run -- sudo needs a password
+  that a non-interactive session cannot supply.
+- **Cause**: The box ships git without the LFS extension, and package
+  installs require an interactive sudo.
+- **Fix**: Untarred the upstream `git-lfs-linux-amd64-v3.7.0` release
+  into `~/.local/bin`, then `git lfs install --local` to scope hooks to
+  this repository rather than touching `~/.gitconfig`.
+- **Rule**: Always prefer the user-space release tarball plus
+  `git lfs install --local` when sudo is unavailable; never assume the
+  controller has LFS just because the repo declares LFS patterns.
+  (from ToDo#131)
 
 ## §99. Uncategorized
 
