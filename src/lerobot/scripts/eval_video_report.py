@@ -68,19 +68,31 @@ _signal_height = 120
 # or a compression artefact cannot open or close an attempt.
 _smooth_s = 2.0
 
-# Region of interest as (x0, y0, x1, y1) fractions of the frame. The
-# default frames the robot workspace of the fixed overhead camera used
-# for every recording in outputs/evaluation/. It excludes the bottom
-# strip, where a bystander at the laptop moves throughout the session.
-_workspace_roi = (0.10, 0.00, 0.78, 0.80)
+# Regions of interest are (x0, y0, x1, y1) fractions of the frame.
+#
+# The detection ROI frames the arm. Per-pixel motion maps over one
+# recording per task show the three camera framings differ less than
+# they look: in all of them the arm sweeps a vertical band around
+# x 0.33-0.58, and all of them have an operator hotspot at x > 0.90,
+# y > 0.68 that has to stay outside the ROI. Sweeping four candidate
+# ROIs over the three tasks changed no attempt count at all, so one
+# band serves every task and the value below is deliberately shared.
+_workspace_roi = (0.28, 0.03, 0.62, 0.92)
 
-# Contact sheets are framed differently from the detection ROI. What
-# decides success is the props on the bench, which sit low in the
-# frame, whereas what decides the attempt boundary is the arm, which
-# sits high. Reviewing needs the bench; detecting needs the arm. At
-# 640x480 the props are small, so this crop is deliberately tight --
-# a wider one leaves the gripper and the bottles too coarse to call.
-_sheet_roi = (0.18, 0.42, 0.60, 0.92)
+# The contact-sheet crop is what genuinely varies per task, because it
+# has to frame the props rather than the arm, and the props sit in a
+# different place in each scene. At 640x480 they are small, so these
+# crops are tight -- a wider one leaves the gripper too coarse to tell
+# a grasp from a near miss.
+_sheet_rois = {
+    # Bottle on its pedestal and the round target it must be moved to.
+    "task1": (0.24, 0.42, 0.62, 0.98),
+    # Source and destination bottles, sitting higher up the bench.
+    "task2": (0.18, 0.42, 0.60, 0.92),
+    # Silver air valve and the fixtures either side of it.
+    "task3": (0.28, 0.40, 0.66, 0.92),
+}
+_default_sheet_roi = (0.20, 0.40, 0.64, 0.96)
 
 # A frame is "still" if its motion is below this percentile. Half is a
 # deliberate over-estimate: the home template is refined afterwards, so
@@ -97,7 +109,13 @@ _min_span_s = 5.0
 # reviewer's eye, never to drop them from the report. An earlier
 # version treated them as noise and silently lost six of eleven
 # attempts on task2_act_100.
-_quick_return_max_s = 20.0
+#
+# The cut-off is per task because a normal rollout lasts very
+# different amounts of time in each: task2 rollouts run past a minute,
+# while task1 and task3 rollouts finish in twenty-odd seconds, so the
+# same threshold would flag their genuine attempts.
+_quick_return_max_s = {"task1": 15.0, "task2": 20.0, "task3": 15.0}
+_default_quick_return_max_s = 15.0
 
 # A trial ("회차") in the evaluation protocol is two consecutive
 # attempts, so attempts are paired when trial numbers are assigned.
@@ -355,6 +373,23 @@ def find_attempts(
         if stop - start >= min_samples
     ]
     return spans, threshold
+
+
+def resolve_quick_return_max(task: str, override: float | None) -> float:
+    """Return the quick-return cut-off for a task.
+
+    Args:
+        task: Task identifier such as ``"task2"``.
+        override: Explicit cut-off from the CLI, or ``None``.
+
+    Returns:
+        The override when given, otherwise the task's preset, falling
+        back to the shortest preset for an unrecognised task so that
+        nothing is flagged that a known task would not have flagged.
+    """
+    if override is not None:
+        return override
+    return _quick_return_max_s.get(task, _default_quick_return_max_s)
 
 
 def classify_spans(spans: list[tuple[float, float]], quick_return_max_s: float) -> list[str]:
@@ -734,7 +769,8 @@ def run_segment(args: argparse.Namespace) -> int:
     template = find_home_template(frames, motion)
     home_distance = smooth(measure_home_distance(frames, template), args.sample_fps)
     spans, threshold = find_attempts(home_distance, args.sample_fps, args.min_duration)
-    kinds = classify_spans(spans, args.quick_return_max_duration)
+    task = args.task or describe_video(video_path)[0]
+    kinds = classify_spans(spans, resolve_quick_return_max(task, args.quick_return_max_duration))
     attempts = build_attempts(video_path, spans, kinds)
 
     directory = analysis_dir(video_path, args.out_root)
@@ -785,6 +821,8 @@ def run_sheets(args: argparse.Namespace) -> int:
             directory / "timeline.png",
         )
 
+    task = args.task or describe_video(video_path)[0]
+    sheet_roi = args.sheet_roi or _sheet_rois.get(task, _default_sheet_roi)
     sheets_dir = directory / "sheets"
     sheets_dir.mkdir(parents=True, exist_ok=True)
     # Transits are rendered too, at their own numbering, so that a
@@ -792,7 +830,7 @@ def run_sheets(args: argparse.Namespace) -> int:
     rendered = 0
     for attempt in attempts:
         stem = f"attempt_{attempt.attempt_index:02d}"
-        render_contact_sheet(video_path, attempt, args.sheet_roi, args.keyframes, sheets_dir / f"{stem}.jpg")
+        render_contact_sheet(video_path, attempt, sheet_roi, args.keyframes, sheets_dir / f"{stem}.jpg")
         rendered += 1
         if args.clips:
             clips_dir = sheets_dir / "clips"
@@ -867,8 +905,13 @@ def build_parser() -> argparse.ArgumentParser:
     segment.add_argument(
         "--quick-return-max-duration",
         type=float,
-        default=_quick_return_max_s,
-        help="attempts no longer than this are flagged as quick returns",
+        default=None,
+        help="attempts no longer than this are flagged as quick returns (default: per task)",
+    )
+    segment.add_argument(
+        "--task",
+        default=None,
+        help="task preset to use (default: read from the filename)",
     )
     segment.set_defaults(handler=run_segment)
 
@@ -878,8 +921,13 @@ def build_parser() -> argparse.ArgumentParser:
     sheets.add_argument(
         "--sheet-roi",
         type=parse_roi,
-        default=_sheet_roi,
-        help="region framing the props, as x0,y0,x1,y1 frame fractions",
+        default=None,
+        help="region framing the props, x0,y0,x1,y1 fractions (default: per task)",
+    )
+    sheets.add_argument(
+        "--task",
+        default=None,
+        help="task preset to use (default: read from the filename)",
     )
     sheets.add_argument(
         "--keyframes",

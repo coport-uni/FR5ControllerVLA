@@ -3688,3 +3688,53 @@ idle-gap merging hid four resets inside one 134 s span.
       away-from-home span now counts as an attempt and short ones are
       only flagged (`kind=quick_return`). 11 detected vs 10 logged; see
       LP §2 G15a.
+
+## Analyse all evaluation recordings and cross-check data.xlsx (2026-08-06)
+
+Context: the user filled in the remaining `data.xlsx` rows (ACT and
+Pi0 complete for all three tasks; Pi0.5 still empty and has no
+recordings) and asked for the other videos to be analysed and the
+analysis plus cross-check written up as a markdown file. Tuning the
+evaluator per task comes first.
+
+There are 17 recordings, one short of the 18 the sheet implies:
+`task2_pi0_50.webm` was never saved even though its Pouring/Pi0/50
+rows are filled.
+
+Per-task motion maps (mean |frame diff| per pixel, one video per
+task) show the three camera framings are closer than they look: the
+arm occupies x 0.33-0.58 in all three, and every task has a bright
+operator hotspot at x > 0.90, y > 0.68 that must stay outside the
+detection ROI. What genuinely differs per task is where the props
+sit, which is what the contact-sheet crop has to frame.
+
+- [ ] Add per-task presets (detection ROI + contact-sheet crop),
+      selected from the filename and overridable with `--task`.
+      Tune each against its own recording, checking the timeline is
+      a clean square wave (see LP §2 G15).
+- [ ] Run `segment` over all 17 recordings; record attempt counts
+      and per-attempt durations.
+- [ ] Cross-check each condition against `data.xlsx`: detected
+      attempts vs 5 회차 x 2 시도 (plus the 무효 runs noted in four
+      conditions), and detected quick returns vs the
+      `갑자기 원점으로 돌아감` / `원점으로 돌아감` / `중간에 복귀함`
+      notes.
+- [ ] Spot-check contact sheets wherever the count disagrees, rather
+      than assuming the detector or the sheet is right.
+- [ ] Write `outputs/evaluation/analysis/README.md` with per-task
+      timing tables, the cross-check, and every disagreement stated
+      explicitly.
+
+- [x] Correction to the note above: `task2_pi0_50.webm` was not
+      missing after all -- the user added it at 19:35, so all 18
+      conditions have a recording and all 18 were analysed.
+- [x] Per-task tuning done. The detection ROI turned out **not** to
+      need per-task values (four candidate ROIs changed no attempt
+      count on any task); the contact-sheet crop and the quick-return
+      cut-off do, and are now per-task presets read from the filename.
+- [x] All 18 segmented and cross-checked: exact on 8/18 conditions,
+      within +/-1 on 14/18. Every disagreement traces to the arm
+      using more than one rest pose. Two alternative algorithms were
+      implemented and measured (stillness split, multi-rest-pose) and
+      both were far worse, so the single-home-template method stands.
+      Write-up in `outputs/evaluation/analysis/README.md`.
