@@ -3941,9 +3941,37 @@ Read-only diagnosis; nothing changed yet.
       task1 4.73 deg mean / 12.93 deg peak, task2 7.75 / 47.94, task3
       5.01 / 25.31. task1 is the most stereotyped of the three, so it
       is not the one that demands the most servoing.
-- [ ] Ask the user what the failure actually looks like. Every
-      hypothesis so far was formed without a description of the
-      symptom, and two of them died on measurement.
+- [x] Ask the user what the failure actually looks like. Answer: the
+      arm does not move at all, or only trembles in place.
+- [x] Verify the checkpoint's normalization statistics. The stored
+      unnormalizer stats match each checkpoint's own dataset exactly
+      for task1 50/100/200 and task3 200, so the frozen arm is not a
+      stats mix-up. Processor pipelines are identical across
+      checkpoints too.
+- [x] Check the follower's ramp limiter as a cause of the frozen arm.
+      `send_action` moves at most `max_servo_speed / servo_hz` =
+      0.9 deg per call, and the recorded motion exceeds that on 9.8 %
+      (task1), 23.5 % (task2), 21.2 % (task3) of frames -- task1 needs
+      the ramp least, so the limiter does not single it out. It does
+      cap the arm at ~9-18 deg/s at the measured 10-20 Hz loop rate,
+      which is worth fixing on its own.
+- [x] Measure what makes task1 different. Two numbers do it. The gap
+      between the commanded action and the current state averages
+      1.23 deg on task1 against 20.02 deg on task2 and 7.61 deg on
+      task3, and 59.9 % of task1 frames are stationary (<0.05 deg)
+      against 46.1 % and 52.1 %. On task1 the action is essentially
+      the state, so "echo the state" is a near-optimal solution -- and
+      a training loss of 0.005 is what that solution scores.
+- [ ] Leading hypothesis, consistent with every measurement so far:
+      Pi0.5 is the only policy that cannot echo the state, because it
+      reads state only as 32 coarse tokens over [-1, 1] with 25-29 %
+      of values saturated by the MEAN_STD override, while ACT and Pi0
+      receive it as a continuous vector. On task1 that is fatal
+      (the target IS the state, 1.23 deg away) and on task2/task3 it
+      is survivable (the target is 20/7.6 deg away, so motion has to
+      come from the images anyway). Explains the symptom, why only
+      Pi0.5, why only task1, why `_half` behaves identically, and why
+      the training loss looked healthy.
 - [ ] Offline A/B on the GPU box, once it is free of live rollouts:
       run the task1 Pi0.5, task1 Pi0 and task3 Pi0.5 checkpoints over
       held-out frames of their own datasets and compare predicted
