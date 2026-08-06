@@ -3757,3 +3757,25 @@ sit, which is what the contact-sheet crop has to frame.
       -- `=(E6="TRUE")*2+...` compares a boolean to a string and so
       always yields 0. It is currently harmless in 65 of 66 cells only
       because those rows are all-FALSE; all 45 Pi0.5 cells carry it.
+
+## Correct the scoring defects found in data.xlsx (2026-08-06)
+
+Context: cross-checking the video analysis against `data.xlsx` (#131)
+cleared the success/failure records -- every row checked against the
+video matched -- but surfaced arithmetic and formula defects in the
+sheet itself. Registered as #132. Not applied yet: the user may have
+the workbook open, and overwriting it would clobber their edits.
+
+- [ ] Fix `Pouring` r35 총점 6 -> 4 (disagrees with its own booleans;
+      the only such row out of 88).
+- [ ] Fix `Pouring` r24 총점 0 -> 4.
+- [ ] Replace `=(E6="TRUE")*2+...` with `=E6*2+F6*4+G6*4` in all 66
+      cells. Comparing a boolean to the text "TRUE" is never equal in
+      Excel, so the formula always yields 0. Harmless in 65 cells only
+      because those rows are all-FALSE; all 45 Pi0.5 cells carry it,
+      so scoring breaks the moment Pi0.5 is filled in.
+- [ ] Fill `Pouring` Pi0/50 4회차 and 5회차 -- `task2_pi0_50.webm`
+      exists and was analysed (11 attempts).
+- [ ] Confirm with the user before writing to the workbook, then
+      re-run the audit so every stored score equals
+      `2*180초 + 4*성공 + 4*2연속`.
