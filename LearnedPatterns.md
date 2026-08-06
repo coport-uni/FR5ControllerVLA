@@ -337,6 +337,13 @@
 
 ---
 
+### G14a. Episode timings are wrong at the recording boundary
+
+- **Problem**: The last "attempt" of `task3_pi0_200` measured 9.8 s against a 33-45 s norm for that task, and was flagged as a quick return -- a failure mode it did not have.
+- **Cause**: The recording is 1027 s long and that span runs 1017-1027 s. It was not a short attempt; the operator stopped recording on top of a normal one. Eight of eighteen recordings end mid-attempt and five begin mid-attempt, because recording start/stop is manual and independent of the robot.
+- **Fix**: Flag any span touching either end of the recording (within 3 s) as `truncated`, keep it out of the duration statistics, mark it `+` in the report to show the value is a lower bound, and never let it be classified by duration. `task3_pi0_200` went from 33.4 +/- 9.0 s to 36.1 +/- 3.8 s once the artifact was removed.
+- **Rule**: Always treat the first and last episode of a manually-started recording as censored data; never let a boundary-clipped duration feed a statistic or a duration-based classifier. (from ToDo#last)
+
 ### G15a. A short robot excursion is a failure mode, not noise
 
 - **Problem**: The eval-video segmenter classified every away-from-home span under ~12 s as a "transit" (homing move) and dropped it, reporting 5 attempts for `task2_act_100.webm` when the operators had logged 10.

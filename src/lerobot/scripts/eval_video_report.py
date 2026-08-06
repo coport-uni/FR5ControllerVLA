@@ -117,6 +117,14 @@ _min_span_s = 5.0
 _quick_return_max_s = {"task1": 15.0, "task2": 20.0, "task3": 15.0}
 _default_quick_return_max_s = 15.0
 
+# An attempt touching either end of the recording was cut off by the
+# camera, not by the robot: the operator started recording late or
+# stopped it early. Its duration is a lower bound, so it is flagged
+# and left out of the timing statistics. Without this, the last
+# attempt of task3_pi0_200 reads as a 9.8 s quick return when the
+# recording simply ended on top of it.
+_edge_tolerance_s = 3.0
+
 # A trial ("회차") in the evaluation protocol is two consecutive
 # attempts, so attempts are paired when trial numbers are assigned.
 _attempts_per_trial = 2
@@ -148,6 +156,7 @@ class Attempt:
     model: str
     dataset_size: str
     kind: str
+    truncated: str
     trial_index: int
     attempt_in_trial: int
     attempt_index: int
@@ -392,7 +401,7 @@ def resolve_quick_return_max(task: str, override: float | None) -> float:
     return _quick_return_max_s.get(task, _default_quick_return_max_s)
 
 
-def classify_spans(spans: list[tuple[float, float]], quick_return_max_s: float) -> list[str]:
+def classify_spans(spans: list[tuple[float, float]], quick_return_max_s: float, total_s: float) -> list[str]:
     """Flag each span ``"rollout"`` or ``"quick_return"`` by duration.
 
     Both are attempts and both are counted. The flag exists because a
@@ -407,7 +416,17 @@ def classify_spans(spans: list[tuple[float, float]], quick_return_max_s: float) 
     Returns:
         One flag per span.
     """
-    return ["quick_return" if end - start <= quick_return_max_s else "rollout" for start, end in spans]
+    return [
+        "quick_return"
+        if end - start <= quick_return_max_s and not is_truncated(start, end, total_s)
+        else "rollout"
+        for start, end in spans
+    ]
+
+
+def is_truncated(start_s: float, end_s: float, total_s: float) -> bool:
+    """Return whether a span was cut off by the recording boundary."""
+    return start_s <= _edge_tolerance_s or end_s >= total_s - _edge_tolerance_s
 
 
 def describe_video(video_path: Path) -> tuple[str, str, str]:
@@ -431,7 +450,12 @@ def describe_video(video_path: Path) -> tuple[str, str, str]:
     )
 
 
-def build_attempts(video_path: Path, spans: list[tuple[float, float]], kinds: list[str]) -> list[Attempt]:
+def build_attempts(
+    video_path: Path,
+    spans: list[tuple[float, float]],
+    kinds: list[str],
+    total_s: float,
+) -> list[Attempt]:
     """Attach condition metadata and trial numbering to raw spans.
 
     Every span away from home is an attempt, however brief. Attempts
@@ -448,6 +472,7 @@ def build_attempts(video_path: Path, spans: list[tuple[float, float]], kinds: li
                 model=model,
                 dataset_size=dataset_size,
                 kind=kind,
+                truncated="yes" if is_truncated(start_s, end_s, total_s) else "",
                 trial_index=position // _attempts_per_trial + 1,
                 attempt_in_trial=position % _attempts_per_trial + 1,
                 attempt_index=position + 1,
@@ -689,6 +714,7 @@ def build_report(attempts: list[Attempt], task_name: str | None) -> str:
         The report as Markdown.
     """
     n_quick = sum(1 for attempt in attempts if attempt.kind == "quick_return")
+    n_cut = sum(1 for attempt in attempts if attempt.truncated)
     head = attempts[0]
     title = task_name or head.task
     lines = [
@@ -713,10 +739,12 @@ def build_report(attempts: list[Attempt], task_name: str | None) -> str:
     for attempt in attempts:
         verdict = is_success(attempt)
         verdicts[(attempt.trial_index, attempt.attempt_in_trial)] = verdict
-        durations.append(attempt.duration_s)
+        if not attempt.truncated:
+            durations.append(attempt.duration_s)
+            if verdict is True:
+                success_durations.append(attempt.duration_s)
         if verdict is True:
             n_success += 1
-            success_durations.append(attempt.duration_s)
         elif verdict is None:
             n_pending += 1
         mark = {True: "성공", False: "실패", None: "보류"}[verdict]
@@ -724,7 +752,7 @@ def build_report(attempts: list[Attempt], task_name: str | None) -> str:
             f"| {attempt.trial_index} | {attempt.attempt_in_trial} "
             f"| {format_clock(attempt.start_s)} "
             f"| {format_clock(attempt.end_s)} "
-            f"| {attempt.duration_s:.1f} | {mark} "
+            f"| {attempt.duration_s:.1f}{'+' if attempt.truncated else ''} | {mark} "
             f"| {attempt.failure_mode or '-'} | {attempt.notes or '-'} |"
         )
 
@@ -747,11 +775,15 @@ def build_report(attempts: list[Attempt], task_name: str | None) -> str:
         f"| 총 수행 수 | {n_total} |",
         f"| 성공 수 | {n_success} |",
         f"| 성공률 (판정 완료분 기준) | {rate} |",
-        f"| 전체 소요시간 | {format_stats(durations)} |",
+        f"| 전체 소요시간 (완결 수행 기준) | {format_stats(durations)} |",
         f"| 성공 수행 소요시간 | {format_stats(success_durations)} |",
         f"| 2연속 성공 회차 수 | {n_paired} / {len(trials)} |",
         f"| 판정 보류 | {n_pending} |",
         f"| 즉시 복귀 (quick_return) | {n_quick} |",
+        f"| 녹화에 잘린 수행 | {n_cut} |",
+        "",
+        "소요시간 통계는 녹화 경계에 잘리지 않은 수행만으로 낸 것이다. "
+        "잘린 수행은 표에서 `+`로 표시했고 그 값은 하한이다.",
         "",
         "`quick_return`은 홈 자세를 벗어난 지 수 초 만에 되돌아온 "
         "수행이다. 다른 수행과 똑같이 집계하며, 검수 시 눈에 띄게 "
@@ -770,8 +802,9 @@ def run_segment(args: argparse.Namespace) -> int:
     home_distance = smooth(measure_home_distance(frames, template), args.sample_fps)
     spans, threshold = find_attempts(home_distance, args.sample_fps, args.min_duration)
     task = args.task or describe_video(video_path)[0]
-    kinds = classify_spans(spans, resolve_quick_return_max(task, args.quick_return_max_duration))
-    attempts = build_attempts(video_path, spans, kinds)
+    total_s = len(frames) / args.sample_fps
+    kinds = classify_spans(spans, resolve_quick_return_max(task, args.quick_return_max_duration), total_s)
+    attempts = build_attempts(video_path, spans, kinds, total_s)
 
     directory = analysis_dir(video_path, args.out_root)
     write_attempts(attempts, directory / "episodes.csv")
@@ -783,11 +816,15 @@ def run_segment(args: argparse.Namespace) -> int:
         sample_fps=args.sample_fps,
     )
 
-    total_s = len(frames) / args.sample_fps
     n_quick = sum(1 for attempt in attempts if attempt.kind == "quick_return")
-    print(f"{video_path.name}: {total_s / 60:.1f} min, {len(attempts)} attempts ({n_quick} quick returns)")
+    n_cut = sum(1 for attempt in attempts if attempt.truncated)
+    print(
+        f"{video_path.name}: {total_s / 60:.1f} min, {len(attempts)} attempts "
+        f"({n_quick} quick returns, {n_cut} truncated)"
+    )
     for attempt in attempts:
         flag = "  <- quick return" if attempt.kind == "quick_return" else ""
+        flag += "  <- truncated" if attempt.truncated else ""
         label = f"#{attempt.attempt_index:02d} trial {attempt.trial_index}-{attempt.attempt_in_trial}"
         print(
             f"  {label}  "

@@ -3738,3 +3738,22 @@ sit, which is what the contact-sheet crop has to frame.
       implemented and measured (stillness split, multi-rest-pose) and
       both were far worse, so the single-home-template method stands.
       Write-up in `outputs/evaluation/analysis/README.md`.
+
+- [x] Cross-checked the video analysis against `data.xlsx` in both
+      directions. Found and fixed a real measurement bug: attempts
+      touching the recording boundary were being timed as if complete.
+      Eight recordings end mid-attempt and five begin mid-attempt, so
+      13 durations were lower bounds presented as measurements. They
+      are now flagged `truncated` and excluded from the statistics
+      (see LP §2 G14a).
+- [x] Verified xlsx success records against the video for the
+      conditions with a reliable 회차 mapping -- task1_pi0_200 1회차
+      (성공) and 2회차 (실패), task3_act_50 4회차, and all 11 attempts
+      of task2_act_100. All matched. This also settled the meaning of
+      `2회 연속 성공`: both tries of a 회차 must succeed.
+- [x] Audit of data.xlsx itself found two real errors (Pouring r35
+      총점 6 vs 4 from its booleans; Pouring r24 총점 0 vs 4), two
+      unfilled rows (Pouring Pi0/50 4-5회차), and a latent formula bug
+      -- `=(E6="TRUE")*2+...` compares a boolean to a string and so
+      always yields 0. It is currently harmless in 65 of 66 cells only
+      because those rows are all-FALSE; all 45 Pi0.5 cells carry it.
