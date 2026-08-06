@@ -4003,3 +4003,46 @@ Read-only diagnosis; nothing changed yet.
       merits even though it is not the task1 cause.
 - [ ] Separately: file the async-runtime findings (inline observation
       upload, `observations_similar` drops) as their own issue.
+- [x] Test the user's SSH-bandwidth hypothesis by measuring the link.
+      Measured 2026-08-06 with the live key and the same tunnel flags
+      the client uses (`ssh -N -f -C -L 17044:127.0.0.1:17044`), on a
+      spare port so the running server was untouched. Incompressible
+      50 MB through the command channel: 1.08 s including ~0.4 s of
+      session setup. Same 50 MB through the `-C` port-forward:
+      1.015 s, i.e. 49 MB/s. Twenty real pickled observations built
+      from the three live camera frames (2.64 MB each, 52.7 MB total)
+      through the same forward: 1.013 s, i.e. 52 MB/s. TCP-handshake
+      RTT to the box, median 11 ms over 8 samples (ICMP is blocked, so
+      no ping). The link is not starved: ~400 Mbit/s with a 11 ms RTT.
+- [x] Convert that to the per-iteration cost, which is where it does
+      bite. The observation carries raw pixels -- there is no JPEG or
+      any other encoder anywhere in the path, `send_bytes_in_chunks`
+      only splits the pickle into 2 MB gRPC frames -- so 3 x 640x480x3
+      is 2.64 MB on the wire, about 50 ms at the measured rate, plus
+      the RTT and the server-side deserialization. `SendObservations`
+      is a client-streaming RPC whose return waits on the server, and
+      `control_loop_observation` calls it inline in the control loop
+      (`robot_client.py:459`), so one upload consumes a whole 50 ms
+      control period at 20 fps. That is exactly the 10.4 actions/s
+      measured earlier against the 20 fps target: the SSH path is the
+      reason the loop runs at half rate.
+- [x] Rule the link out as the task1 differentiator all the same.
+      The payload is byte-identical across tasks and policies -- same
+      three cameras, same 2.64 MB, same tunnel -- and task2/task3
+      Pi0.5 plus task1 ACT/Pi0 all ran over it. Pi0 uses the same
+      chunk 50 / threshold 0.7 as Pi0.5, so it loads the link
+      identically and still works, while ACT (chunk 100 / threshold
+      0.6, 40 steps of margin against Pi0.5's 15) loads it less. The
+      signature is wrong too: a starved link empties the queue, and an
+      empty queue sets `must_go` (`robot_client.py:430`), which forces
+      inference past the `observations_similar` filter and returns a
+      full 50-action chunk. The arm would move in 2.5 s bursts
+      separated by stalls, not stand still. And no link effect can
+      distinguish the 50-episode checkpoint, which moves, from the
+      100/200 ones, which do not, on identical bytes.
+- [ ] Fix the halved loop rate on its own merits (not the task1 bug):
+      JPEG-encode the frames before pickling -- 2.64 MB drops to
+      ~150 KB, ~3 ms on the wire -- or move `send_observation` off the
+      control thread. This compounds with the 0.9 deg-per-call ramp
+      limiter, which caps the arm near 9 deg/s at the current 10 Hz
+      instead of ~18 deg/s at the intended 20 Hz.
