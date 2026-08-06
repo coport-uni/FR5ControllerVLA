@@ -659,6 +659,15 @@
   stderr, so a clean training log never proves the model reached the
   Hub — verify with `list_models`. (from task2 h200 push, 2026-07-21,
   gh #103)
+- **Recurrence (2026-08-05, gh #126)**: the same cap hit the task2 Pi0.5
+  runs. `${JOB_NAME}_100_pi05_b200` is 97 chars, so the 100- and
+  200-episode pushes were silently lost while the 50-episode one
+  (`_50_pi05_b200`, 96) squeezed through. Contracting `pi05` -> `pi5`
+  buys the one character back, which is why those Hub repos read `pi5`
+  while their `config.json` still says `"type": "pi05"` -- the repo name
+  is cosmetic, but the policy type must not be edited or the checkpoint
+  stops loading. Upload the untouched local `pretrained_model` folder
+  and leave every file byte-identical.
 
 ### Q19. transformers v5 dropped `create_causal_mask(cache_position=)`
 
@@ -700,21 +709,27 @@
   overwritten by `load_state_dict` moments later. Suppressing only
   the random-init math still cost 54 s (the float32 allocation plus
   the bfloat16 copy).
-- **Fix**: Build the skeleton under
-  `accelerate.init_empty_weights(include_buffers=False)` and load with
-  `load_state_dict(..., assign=True)`, reading the safetensors
-  straight onto the target device. `nn.Module.to` must be neutralized
-  during construction, since both policy constructors end with a
-  device move and a dtype cast that cannot touch meta tensors.
-  `include_buffers=False` is required: the six non-persistent buffers
-  (`position_ids`, `embed_scale`, rotary `inv_freq` /
-  `original_inv_freq`) never appear in a checkpoint, so nothing would
-  materialize them. Result: 103.2 s -> 2.0 s, all 784 tensors
-  bit-identical.
-- **Rule**: Never let a multi-billion-parameter model initialize real
-  weights it is about to overwrite -- build on meta, load with
-  `assign=True`, and assert afterwards that nothing is still on meta.
-  (from Pi0 load time, 2026-08-04, gh #123)
+- **Fix**: Build the skeleton inside `with torch.device(config.device)`
+  and read the safetensors straight onto the same device. The cost is
+  not arithmetic, it is the **CPU RNG running sequentially** over
+  4.03 B elements; the CUDA RNG is parallel, so the identical work
+  finishes in seconds. Measured: 102.5 s -> 1.8 s (pi0 Hub, 56.5x),
+  114.4 s -> 8.1 s (pi0 base), 114.6 s -> 7.2 s (pi05 base), with
+  every tensor, module flag and forward output identical.
+  A first attempt (gh #123) instead *skipped* init via
+  `accelerate.init_empty_weights` + `load_state_dict(assign=True)`.
+  It benchmarked the same and passed a bit-for-bit check, but was
+  reverted after failing in the field (see Q23): skipping init forces
+  a chain of compensations -- neutralizing `nn.Module.to`, restoring
+  buffer device and dtype by hand, re-deriving the dtype layout (Q21),
+  and breaking weight tying, since `assign=True` replaces a parameter
+  rather than filling it. Initializing on the accelerator needs none
+  of them, because every tensor stays real.
+- **Rule**: Never let a multi-billion-parameter model random-init on
+  the CPU weights it is about to overwrite -- build it on the
+  accelerator first. Reach for meta-device tricks only if that is not
+  enough, and price in the compensations they drag along.
+  (from Pi0 load time, 2026-08-04, gh #123; revised 2026-08-05, gh #124)
 
 ---
 
@@ -737,7 +752,11 @@
   a mixed-dtype Hub checkpoint.
 - **Rule**: Always re-apply the configured dtype layout after an
   `assign=True` load, and cast only tensors whose dtype differs.
-  (from Pi0 load time, 2026-08-04, gh #123)
+  Better still, avoid `assign=True`: the current loader (gh #124)
+  builds real tensors on the GPU and loads with ordinary copy
+  semantics, so the constructor's dtype layout simply survives and
+  there is nothing to re-derive.
+  (from Pi0 load time, 2026-08-04, gh #123; revised 2026-08-05, gh #124)
 
 ---
 
@@ -762,6 +781,39 @@
   policy that shares the backbone -- pi0 and pi05 wrap the same
   PaliGemma and diverge only by copy-paste drift.
   (from Pi0 load time, 2026-08-04, gh #123)
+
+---
+
+### Q23. Bit-identical weights do not prove two load paths are equivalent
+
+- **Problem**: The meta-device load of gh #123 shipped behind a
+  harness that compared every parameter and buffer of the old and new
+  paths for dtype, device and `torch.equal` -- 784 / 784 / 819 tensors,
+  PASS on all three checkpoints. It still failed in real use on both
+  pi0 and pi05, with an error recalled as image-embedding related, and
+  the whole commit was reverted. No log survived, so the exact defect
+  was never identified.
+- **Cause**: A `state_dict` comparison only sees stored tensors. It
+  cannot see per-module `training` flags or `requires_grad` (both set
+  by the constructor via `_set_requires_grad`, which also calls
+  `.eval()` on the vision tower), anything held as a plain attribute
+  rather than a registered buffer, weight tying collapsed by
+  `assign=True`, or a forward pass that branches on
+  `weight.dtype` -- which pi0 does in at least three places
+  (`modeling_pi0.py:292`, `:693`, `:770`). Every one of those survives
+  a bit-for-bit PASS and changes what the model actually computes.
+- **Fix**: `claude_test/debug_pi0_fast_load.py` now also compares
+  per-module `training` and per-parameter `requires_grad`, and runs
+  both models on the same synthetic observation with the RNG pinned
+  (`torch.manual_seed` + `torch.cuda.manual_seed_all` immediately
+  before each call, since pi0 samples flow-matching noise) and
+  requires the action chunks to be equal.
+- **Rule**: Never accept tensor equality as proof that a load-path
+  change is behaviour-preserving -- compare the forward output under a
+  fixed seed, and finish on hardware. A randomly initialized vision
+  encoder produces valid-range actions and is invisible to every
+  check except watching the robot.
+  (from Pi0 load time, 2026-08-05, gh #124)
 
 ---
 

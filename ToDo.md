@@ -3524,3 +3524,111 @@ exposed it.
 - [ ] Verify: `models/pi05_base_v051compat` loads with 0 missing and
       0 unexpected keys, and the old and new load paths agree on all
       819 tensors.
+
+## Restore the meta-device load reverted after the pi05 image error (2026-08-05)
+
+The working tree currently reverts `7d67abb0` and the two ToDo items
+above were never completed. The revert was deliberate: after the
+meta-device load went in, a checkpoint failed with what the user
+recalls as an image-embedding error, so the whole change was rolled
+back and checkpoint loading returned to ~120 s.
+
+Diagnosis: the meta path did not break the model, it exposed the
+pi05 bug already recorded in the section above. `PI05Policy`
+`_fix_pytorch_state_dict_keys` still lacks the vision-tower remap
+that `PI0Policy` received in gh #88 (`modeling_pi0.py:1099-1171`).
+Under the old path the missed vision-tower keys were swallowed by a
+`Warning: Could not load state dict` print and the policy ran with a
+random vision encoder -- valid-range actions driven by meaningless
+image embeddings, which is the "actions are fine but the behaviour is
+wrong" symptom (LP Q13). Under the meta path those tensors stay on
+the meta device and `assert_materialized` fails loudly instead. The
+revert re-hid the random vision encoder and gave up the 120.7 s ->
+0.1 s win with it.
+
+- [ ] Confirm which policy produced the error (pi0 or pi05) and on
+      which checkpoint, so the fix is verified against the case that
+      actually failed.
+- [ ] Restore `7d67abb0` on a working branch: `empty_weights_init` and
+      `assert_materialized` in `policies/utils.py`, the meta skeleton
+      and `assign=True` load in `modeling_pi0.py` / `modeling_pi05.py`,
+      and `claude_test/debug_pi0_meta_load.py`.
+- [ ] Port the pi0 vision-tower remap into `PI05Policy`, carrying the
+      "remap only when the checkpoint naming is absent from the model
+      and the rewritten naming is present" guard (the open item above).
+- [ ] Close the verification gap that let this through: extend
+      `debug_pi0_meta_load.py` to compare the two paths on forward
+      output for a fixed seed and fixed input, not only on stored
+      parameters and buffers. Bit-for-bit tensor equality passed while
+      the behaviour was wrong (see LP Q13, LP §3).
+- [ ] Run the harness on `models/pi05_base_v051compat` and on the pi0
+      checkpoint from `9__run_client.sh`; require 0 missing / 0
+      unexpected keys and matching forward output on both.
+- [ ] `ruff check` + `ruff format --check` on every touched file.
+- [ ] Append the LP §3 entry: a loud loader turning a silent
+      `strict=False` failure into a hard error is the loader working,
+      not regressing -- fix the exposed bug rather than reverting.
+- [ ] `gh issue create`; commit + push explicit paths (LP §W2).
+- [ ] USER ACTION -- restart the policy server and confirm the load
+      time drops to a few seconds and the robot follows the task
+      visually (the vision encoder is only observable in behaviour).
+
+## Initialize Pi0/Pi05 on the GPU instead of skipping init (2026-08-05)
+
+Supersedes the entry directly above, which was written around restoring
+`7d67abb0` as-is. User direction: rather than skipping initialization,
+find a way to make initialization fast. Also reported that the error
+appeared on pi0 as well as pi05, so the missing pi05 vision-tower remap
+does not explain it on its own, and no matching error text survives in
+the session transcripts.
+
+The 120.7 s constructor is not arithmetic, it is the CPU RNG running
+sequentially over 4.03 B elements; CUDA's RNG is parallel. Building the
+skeleton inside `with torch.device(config.device)` keeps every tensor
+real, so none of the meta path's compensations are needed -- no
+`assign=True` letting the checkpoint dictate dtype, no neutralized
+`nn.Module.to`, no hand-restored buffer device/dtype, no
+`assert_materialized`, and no broken weight tying. The model comes out
+of the same code path as the original slow load, with only the
+allocation device changed.
+
+- [ ] Wrap the skeleton build in `PI0Policy.from_pretrained` with
+      `torch.device(config.device)`; keep the straight-to-device
+      `load_file(..., device=...)` from `7d67abb0`.
+- [ ] Same for `PI05Policy.from_pretrained`, and restore the
+      vision-tower key remap that gh #123 ported and the revert removed
+      (mirrors `modeling_pi0.py:1099-1171`, guard included).
+- [ ] Keep the loud `RuntimeError` on load failure; it is orthogonal to
+      the init strategy and is what exposed the pi05 bug (LP Q13).
+- [ ] Restore `claude_test/debug_pi0_meta_load.py` as
+      `debug_pi0_fast_load.py` and close the verification gap that let
+      this through: compare the two paths on forward output under a
+      fixed seed, not only on stored parameters and buffers. The old
+      bit-for-bit check passed while the field behaviour was wrong.
+- [ ] Verify on the pi0 hub checkpoint and `pi05_base_v051compat` with
+      `CUDA_VISIBLE_DEVICES=1,2` (the user is on the first GPU).
+- [ ] `ruff check` + `ruff format --check`; `pytest -k "pi0 or pi05"`.
+- [ ] Append LP §3; update `claude_test/README.md`; `gh issue create`;
+      commit + push explicit paths (LP §W2).
+- [ ] USER ACTION -- restart the policy server and confirm the load
+      drops to seconds and the robot visually follows the task.
+
+## Upload task2 100-episode pi05 model to the Hub as `pi5` (2026-08-05)
+
+`outputs/train/FR5_task2_..._100_pi05_b200` finished training (30K steps,
+`checkpoints/last -> 030000`) but never reached the Hub: the intended
+repo name is 97 chars, one past the Hub's 96-char maximum (see LP §Q18).
+Contracting `pi05` -> `pi5` lands it at exactly 96, which is the same
+workaround already applied to the sibling `_200_pi5_b200` repo. Only the
+repo name changes -- that repo's `config.json` still reads
+`"type": "pi05"` and its inner `repo_id` still spells `pi05`, so the
+checkpoint files are uploaded byte-for-byte with no rewriting.
+
+- [x] Create `coport-uni/FR5_task2_..._100_pi5_b200` (public, model repo).
+- [x] Upload `checkpoints/last/pretrained_model` (7 files, 8.8 GB) with
+      `HfApi.upload_folder`; do not upload `training_state`.
+- [x] Leave `config.json` / `train_config.json` untouched so the upload
+      matches the `_200_pi5_b200` precedent.
+- [x] Verify all 7 files land and sizes match local (LP §Q18: a clean
+      log never proves the model reached the Hub).
+- [x] `gh issue create`; commit the ToDo entry.
