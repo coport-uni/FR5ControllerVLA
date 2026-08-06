@@ -3632,3 +3632,140 @@ checkpoint files are uploaded byte-for-byte with no rewriting.
 - [x] Verify all 7 files land and sizes match local (LP §Q18: a clean
       log never proves the model reached the Hub).
 - [x] `gh issue create`; commit the ToDo entry.
+
+## Revert pi05 to the upstream LeRobot state (2026-08-06)
+
+User direction: take pi05 back to untouched upstream LeRobot. pi0 keeps
+the gh #124 GPU-init path under test; pi05 becomes the control arm.
+
+Two load-time optimizations reached pi05 only by being applied "to both
+policies" alongside pi0 -- first the meta-device skeleton (gh #123,
+committed as `7d67abb0`), then its uncommitted replacement (gh #124).
+gh #123 already failed in the field on both policies (LP §Q23) and
+gh #124 is not yet hardware-verified, so pi05 carries risk it never
+needed. `7d67abb0` is the only commit after `a07b1d76` to touch pi05,
+and `a07b1d76` is the last upstream commit to touch it, so reverting to
+`a07b1d76` loses no upstream work.
+
+Removes four fork changes: the `torch.device(config.device)` skeleton,
+the straight-to-device `load_file(..., device=...)`, the loud
+`RuntimeError` on load failure, and the vision-tower key remap.
+
+Reverting the last two together restores the silent-failure bug of
+LP §Q13 / §Q22: upstream defaults to `strict=True`, the outer `except`
+swallows the mismatch into one `Warning: Could not load state dict`
+line, and the caller gets a fully random-initialized policy. Scope of
+the regression, checked against the local HF cache: the
+`coport-uni/...pi5...` Hub checkpoints already store the flattened
+transformers-v5 naming so serving is unaffected, but
+`models/pi05_base_v051compat` stores 437 keys under the nested
+`vision_tower.vision_model.*` naming, so training from base breaks.
+Accepted per user direction; step 3 below makes it loud on the record
+instead of leaving it to surface mid-training.
+
+- [ ] `git checkout a07b1d76 -- src/lerobot/policies/pi05/modeling_pi05.py`
+- [ ] Leave `policies/utils.py` as-is -- `empty_weights_init` and
+      `assert_materialized` stay deleted, nothing references them after
+      the revert.
+- [ ] Leave `modeling_pi0.py` untouched (keeps gh #124).
+- [ ] `ruff check` + `ruff format --check` on the reverted file. An
+      unused `torch`/`logging` import would mean the revert was
+      incomplete, not something to patch.
+- [ ] Verify the revert is exact: `git diff a07b1d76 -- <file>` prints
+      nothing.
+- [ ] Add `claude_test/debug_pi05_upstream_load.py`: load the task2
+      `_200_pi5_b200` repo, then compare `vision_tower...layer_norm1.weight`
+      and `language_model...input_layernorm.weight` against the
+      safetensors on disk with `torch.equal`. A clean log is not proof
+      the encoder is real (LP §Q13).
+- [ ] Record what `models/pi05_base_v051compat` does after the revert,
+      so the next person training pi05 from base knows the remap must be
+      re-applied first.
+- [ ] Append LP §4; update `claude_test/README.md` (new script row, and
+      note `--policy pi05` on `debug_pi0_fast_load.py` now compares two
+      identical paths); `gh issue create`.
+- [ ] USER ACTION -- restart the policy server against a pi05 checkpoint
+      and confirm the FR5 still executes the task. Hold the
+      `modeling_pi05.py` commit until this passes.
+
+## Verify the three task1 pi05 checkpoints match their Hub repos (2026-08-06)
+
+User asked whether the online and local copies of all three task1 pi05
+models are the same. The three are the 50 / 100 / 200-episode runs of
+`FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location`,
+pushed during training via `--policy.repo_id=.../{JOB}_pi05_b200_model`.
+Unlike task2, task1 names fit under the 96-char Hub cap, so no
+`pi05` -> `pi5` contraction applies (see LP §Q18).
+
+A clean upload log is not evidence the bytes arrived (LP §Q18), so the
+check compares content hashes. The Hub publishes one per file already:
+`lfs.sha256` for LFS entries and a git blob sha1 (`blob_id`) for the
+plain text ones, so nothing needs downloading and hash equality proves
+bit-identity more strongly than a per-tensor `torch.equal` sweep would.
+
+Read-only probe done while planning: all three repos exist, carry the 7
+local files plus a generated `.gitattributes` and `README.md`, and every
+size matches local to the byte including the 9,354,045,072 B
+`model.safetensors`. The three weight hashes differ from each other, so
+these are three distinct uploads and not one file pushed three times.
+
+- [ ] Add `claude_test/verify_pi05_task1_hub_parity.py`: list each repo
+      with `HfApi.list_repo_tree(expand=True)`, then hash the local file
+      with sha256 (LFS) or git-blob sha1 (plain) and compare. Stream the
+      9.35 GB weights in chunks; no download, no CUDA, no policy build.
+- [ ] Treat `.gitattributes` / `README.md` as expected hub-only files;
+      fail only on a size, hash, or missing-file mismatch.
+- [ ] Cross-check the three weight hashes differ, so "all identical"
+      cannot come from three copies of the same file.
+- [ ] Run it over all three models and record the verdict here.
+- [ ] `ruff check` + `ruff format --check`; add the script row to
+      `claude_test/README.md`.
+- [ ] `gh issue create`; commit + push explicit paths (LP §W2). The
+      in-flight `modeling_pi0.py` / `modeling_pi05.py` edits stay
+      uncommitted.
+
+## Upload the task1 pi05 step-15000 checkpoints as `_half` (2026-08-06)
+
+User asked to publish the mid-training checkpoint of all three task1
+pi05 runs (50 / 100 / 200 episodes) under a repo name ending in `_half`
+instead of `_model`. Each run trained 30000 steps with `save_freq=3000`,
+so `checkpoints/015000` is exactly the halfway point -- hence the name.
+The existing `..._pi05_b200_model` repos hold `checkpoints/last`
+(= 030000) and are left untouched; `_half` is a second, parallel repo
+per run.
+
+Name budget (LP §Q18): the longest new repo id is 91 chars
+(`..._200_pi05_b200_half`), under the Hub's 96-char cap, so no
+`pi05` -> `pi5` contraction is needed here.
+
+Local checkpoints confirmed present before starting: all three
+`015000/pretrained_model` dirs carry the same 7 files, with an
+identical 9,354,045,072 B `model.safetensors` size (~9.35 GB each,
+~28 GB total upload). `training_state` is not uploaded, matching the
+`_model` precedent.
+
+- [x] Create `coport-uni/{JOB}_pi05_b200_half` for 50 / 100 / 200
+      (public, model repos).
+- [x] Upload each `checkpoints/015000/pretrained_model` (7 files) with
+      `HfApi.upload_folder`; no `training_state`, no file rewriting --
+      `config.json` / `train_config.json` stay byte-identical so the
+      checkpoint still loads as `"type": "pi05"`.
+- [x] Verify with `claude_test/verify_pi05_task1_hub_parity.py`,
+      extended to take the checkpoint step and repo suffix, since a
+      clean upload log never proves the bytes arrived (LP §Q18).
+      Done by importing its `read_hub_tree` / `compare_checkpoint` from
+      a throwaway wrapper rather than editing the committed script;
+      all three repos report IDENTICAL on all 7 files.
+- [x] Cross-check the three `model.safetensors` hashes differ from each
+      other AND from the matching `_model` repos, so "identical" cannot
+      come from one file pushed everywhere or from the 030000 weights
+      being uploaded by mistake. Verdict: 3 of 3 distinct
+      (`8a35bd89...`, `0c83d2d2...`, `73c08627...`), each differing
+      from its `_model` sibling.
+- [x] `ruff check` + `ruff format --check` on the touched script;
+      update `claude_test/README.md`. Both scripts stayed in the
+      scratchpad and pass ruff, so no `claude_test/` row was needed.
+- [ ] `gh issue create`; commit + push explicit paths (LP §W2). The
+      in-flight `modeling_pi0.py` / `modeling_pi05.py` edits stay
+      uncommitted. Issue creation declined by the user ("upload only");
+      only this ToDo entry is committed.
