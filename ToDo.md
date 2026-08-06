@@ -3887,10 +3887,40 @@ Read-only diagnosis; nothing changed yet.
 - [ ] Check the wandb curve for `..._200_pi05_b200` (task1) against
       task3's -- an underfit or diverged run is the leading remaining
       explanation, and it is the one check that needs no hardware.
-- [ ] Compare a live `top_left`/`top_right` frame against a task1
+- [x] Compare a live `top_left`/`top_right` frame against a task1
       dataset frame once the cameras are free. task2/task3 Pi0.5 were
       evaluated in earlier sessions, so scene or camera drift since
-      then is the other candidate.
+      then is the other candidate. FOUND IT: the live PTZ framing
+      matches none of the three training framings. Every training
+      frame of `top_left` and `top_right` shows the robot's black
+      energy chain and a wider field; both live views are tighter and
+      the chain is out of frame. Edge IoU against the live frame is
+      0.099 (task1), 0.264 (task2), 0.165 (task3) for `top_left`.
+      Any checkpoint fed an out-of-distribution viewpoint fails the
+      same way, which is exactly the reported symptom -- the `_half`
+      checkpoint behaving identically to the final one.
+- [x] Establish the timeline. `1__setup_camera.sh` was re-run at
+      22:14:21 (ffmpeg writer PIDs 35165-35167 date from then), which
+      calls `goto_preset_all_ipcamera.py` and sends every camera to
+      "Preset 1". The task3 Pi0.5 runs that worked were recorded at
+      21:25 and 21:55, before it; the failing task1 runs are 22:35 and
+      22:43, after it.
+- [x] Note a second defect from the same re-run: the 21:47:41 writers
+      (PIDs 7656/7657/7659) were never torn down, so two ffmpeg
+      processes are writing each of `/dev/video18/19/20` right now.
+      This is LP §G6 recurring. A period-2 frame test on the live
+      device was inconclusive because the scene was static, so the
+      duplicate writers are a defect to clear, not a proven cause.
+- [ ] Re-point the cameras at the task1 recording framing (re-teach
+      "Preset 1" or restore the saved position), then re-verify with
+      the live-vs-dataset side-by-side before re-running the rollout.
+- [ ] Confirm whether the 22:24 task3 Pi0.5 recordings
+      (`task3_pi05_50_half1/2.webm`) already show the degraded
+      behaviour -- they were made after the 22:14 camera move and
+      would date the regression precisely.
+- [ ] Add a preflight frame check to the client scripts, or at least
+      to the eval procedure, so a moved PTZ preset cannot silently
+      invalidate a rollout session.
 - [ ] Separately: the datasets already ship `q01`/`q99`, so the
       MEAN_STD override can simply be dropped. Worth fixing on its own
       merits even though it is not the task1 cause.

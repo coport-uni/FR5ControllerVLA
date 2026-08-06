@@ -809,6 +809,28 @@
   a short listing is a page boundary, not an empty shelf.
   (from Pi0.5 client checkpoint list, 2026-08-05, gh #125)
 
+### Q24. A moved PTZ preset breaks every checkpoint identically
+
+- **Problem**: task1 Pi0.5 rollouts failed with the same symptom for
+  both the final and the mid-training (`_half`) checkpoint, while
+  task2 and task3 Pi0.5 rollouts an hour earlier were fine.
+- **Cause**: `1__setup_camera.sh` calls
+  `goto_preset_all_ipcamera.py`, which sends every HikVision PTZ to
+  "Preset 1". Re-running it at 22:14 moved the cameras off the
+  framing the datasets were recorded at -- every training frame of
+  `top_left`/`top_right` shows the robot's energy chain and a wider
+  field, both live views were tighter with the chain out of frame.
+  The policy was fed a viewpoint it never saw in training.
+- **Fix**: Restore the recording framing (re-teach "Preset 1"), then
+  verify by decoding frame 0 of
+  `videos/observation.images.<cam>/chunk-000/file-000.mp4` from the
+  dataset and putting it side by side with a live grab off
+  `/dev/video18/19`.
+- **Rule**: Never trust identical symptoms across different
+  checkpoints to be a policy problem -- when weights change and
+  behaviour does not, compare the observation against the training
+  distribution first. (from task1 Pi0.5 rollout, 2026-08-06, gh #135)
+
 ---
 
 ## §4. Workflow Lessons
