@@ -337,6 +337,20 @@
 
 ---
 
+### G15. Overhead eval video: motion energy cannot bound an attempt
+
+- **Problem**: Segmenting `outputs/evaluation/*.webm` into attempts by frame-difference motion energy either merged four operator resets into one 134 s span or chopped single rollouts into fragments.
+- **Cause**: Two false assumptions about the fixed overhead camera. The bottom-right of the frame is never quiet -- a bystander sits at the laptop for the whole session -- so an "operator intrusion" ROI fires constantly; and a policy that stalls mid-rollout goes quiet, so idle time is not a boundary either.
+- **Fix**: Segment on deviation from the arm's parked home pose instead (`src/lerobot/scripts/eval_video_report.py`). Build the home template from the tight cluster of still frames -- a plain median blends home with working poses and destroys the contrast -- then take every away-from-home span as an attempt. Props are reset while the arm is parked, so resets fall outside attempts for free.
+- **Rule**: Always segment robot episodes by pose state against a learned rest template, never by raw motion energy, when the camera also sees humans. (from ToDo#last)
+
+### G16. Otsu is the wrong splitter for a dozen values
+
+- **Problem**: Classifying ~11 span durations into short transits and real rollouts put an 11.75 s span in the rollout group while every 11.0 s span went to transits, even though the nearest real rollout was 57.8 s.
+- **Cause**: Otsu maximises between-class variance over a 256-bin histogram. With 11 points that variance is flat across the whole empty gap, so `argmax` returns a bin edge decided by the bin width rather than by the data.
+- **Fix**: Split at the widest *ratio* gap in the sorted values (`sorted[1:] / sorted[:-1]`), cut at the geometric midpoint, and refuse to split when the widest gap is under 2x -- treating everything as a rollout is far safer than dropping one from the report.
+- **Rule**: Never use histogram thresholding on a handful of samples; split at the largest gap in the sorted values and require that gap to be decisive. (from ToDo#last)
+
 ## §3. Library Quirks
 
 ### Q1. Fairino ServoJ 7-param signature (firmware V3.9.1)
