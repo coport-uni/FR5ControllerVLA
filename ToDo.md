@@ -3632,3 +3632,51 @@ mix of raw and LFS-backed recordings.
 - [x] Append an LP §4 entry if the LFS bootstrap surfaces a reusable
       lesson (user-space install, mixed raw/LFS directories).
       Appended §5 E19 and §4 W11.
+
+## Measure per-attempt time and success from evaluation videos (2026-08-06)
+
+Context: `outputs/evaluation/` holds 21 recordings (task1-3 x
+{act, pi0} x {50, 100, 200}, each 13-30 min, VP8 640x480 30fps).
+Success and notes are currently transcribed by hand into
+`data.xlsx` while replaying each video end to end, and the time
+each attempt takes is never measured at all. The user asked for a
+way to get both **from the video file alone** -- no robot or server
+logs -- and for one video to be worked through as a example.
+
+Confirmed requirements: video-only input; **no scoring** -- the
+elapsed time is recorded, never compared against a threshold or
+turned into points; Claude judges success from rendered keyframe
+contact sheets and a human reviews the CSV; one trial ("회차")
+equals two consecutive attempts; the worked example is
+`task2_act_100.webm`.
+
+Prototyping confirmed the approach before planning: decoding at
+4 fps / 160x120 gray through a single `ffmpeg` pipe processes a
+20-minute video in seconds, the camera is fixed so frame
+differencing is stable, and the operator's hand entering the frame
+to reset the scene is the reliable attempt boundary -- plain
+idle-gap merging hid four resets inside one 134 s span.
+
+- [ ] Write `src/lerobot/scripts/eval_video_report.py` with three
+      subcommands: `segment` (motion signals -> `episodes.csv`),
+      `sheets` (keyframe contact sheets + `timeline.png`), and
+      `report` (`labels.csv` -> `report.md`). Keep the two stages
+      separate so thresholds can be retuned without re-rendering.
+- [ ] Split motion energy into a workspace ROI and an operator ROI;
+      treat operator intrusion as the attempt boundary. Expose the
+      ROIs and thresholds as CLI arguments, no magic numbers.
+- [ ] Add `10__analyze_evaluation.sh` following the numbered root
+      script convention, and ignore the regenerable review images
+      under `outputs/evaluation/analysis/**/sheets/` (see LP §5 E19
+      for how this directory is tracked).
+- [ ] Run the example end to end on `task2_act_100.webm`; verify
+      the detected boundaries against `timeline.png` and confirm
+      `duration_s` against extracted clips.
+- [ ] Label each attempt from the contact sheets, leaving `success`
+      blank with a "판정 보류" note where the sheet is inconclusive
+      rather than guessing.
+- [ ] Cross-check the resulting success pattern against the
+      `data.xlsx` ACT/100 rows and report any disagreement.
+- [ ] `ruff check` / `ruff format --check`, commit, update the
+      issue, and append a LearnedPatterns entry if a reusable
+      lesson surfaces.

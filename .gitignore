@@ -184,6 +184,10 @@ outputs/datasets/
 # train logs, which would otherwise be caught by the global `*.log`
 # rule. Wandb run dirs are still excluded by the global `wandb/` rule.
 outputs/smoke_logs/
+# Evaluation review images and clips are regenerable from the
+# recordings; only the CSVs, timeline and report are tracked.
+outputs/evaluation/analysis/**/sheets/
+outputs/evaluation/analysis/**/signals.npz
 outputs/train/*/checkpoints/
 !outputs/train/*/train_*.log
 
