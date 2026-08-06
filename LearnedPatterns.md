@@ -975,6 +975,24 @@
 
 ---
 
+### W10a. Bulk checkbox edits on `ToDo.md` hit concurrent sessions
+
+- **Problem**: A script that flipped every `- [ ]` to `- [x]` from its
+  own ToDo heading to end-of-file also checked off a section a second,
+  concurrently running Claude session had appended seconds earlier,
+  marking that session's unfinished work as done.
+- **Cause**: `ToDo.md` is append-only and shared, so "everything after
+  my heading" is not a stable boundary -- another session can append
+  past it between the write and the edit. Two other `claude` processes
+  were live on the same checkout.
+- **Fix**: Restored the foreign section to `- [ ]` (none of the files
+  its items claimed to create existed) and left that section
+  uncommitted for its own session to handle.
+- **Rule**: Always bound a `ToDo.md` edit to the span between your own
+  heading and the next `## ` heading, and check `ps -eo cmd | grep
+  claude` before assuming the working tree is yours alone; never edit
+  from a heading to end-of-file. (from ToDo#137)
+
 ### W11. An LFS pattern never converts already-committed blobs
 
 - **Problem**: `outputs/evaluation/` held three webm recordings as raw
@@ -1300,6 +1318,23 @@
   `git lfs install --local` when sudo is unavailable; never assume the
   controller has LFS just because the repo declares LFS patterns.
   (from ToDo#131)
+
+### E20. Evaluation recordings alone fill the free GitHub LFS tier
+
+- **Problem**: Publishing the second batch of rollout screen recordings
+  pushed 485 MB of LFS objects on top of the 464 MB already stored,
+  landing the repository near 950 MB against GitHub's 1 GiB free tier.
+- **Cause**: The recordings are raw VP8/VP9 screen captures of whole
+  eval sessions -- tens of megabytes each, 29 of them so far -- and one
+  session per task x model x dataset size means the matrix keeps
+  growing.
+- **Fix**: None applied; the push fit. The headroom was measured with
+  `du -sh .git/lfs` before pushing so the ceiling was a known risk
+  rather than a failed push.
+- **Rule**: Always measure `du -sh .git/lfs` plus the staged size
+  before pushing a recording batch, and expect the next batch to need
+  a data pack or downscaled captures; never assume LFS storage is
+  free-form. (from ToDo#137)
 
 ## §99. Uncategorized
 
