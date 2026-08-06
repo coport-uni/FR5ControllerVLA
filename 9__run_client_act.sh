@@ -68,14 +68,14 @@ ACTIONCHUNK=40
 # task2 -- transfer the gray tablets between brown bottles (the
 # 200-episode variant is still training, not on the Hub yet):
 # PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_50_act_h200"
-PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_act_h200"
+# PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_100_act_h200"
 # PRETRAINED="coport-uni/FR5_task2_transfer_the_gray_tablets_from_the_brown_bottle_into_another_brown_bottle_200_act_h200"
 
 # task1 -- move the brown glass bottle to the designated location
 # (no 50-episode ACT variant on the Hub):
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_act_h200_model"
-# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_act_h200_model"
+PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_act_h200_model"
 
 # task3 -- turn the silver air valve 90 degrees counterclockwise:
 # PRETRAINED="coport-uni/FR5_task3_turn_the_sliver_air_valve_90_degress_counterclockwise_50_act_h200_model"

@@ -229,6 +229,6 @@ python3 -m lerobot.async_inference.robot_client \
     --actions_per_chunk="${ACTIONCHUNK}" \
     --chunk_size_threshold=0.7 \
     --aggregate_fn_name=weighted_average \
-    --debug_visualize_queue_size=true \
+    --debug_visualize_queue_size=false \
     --task="${TASK}" \
     --fps=20

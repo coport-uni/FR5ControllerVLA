@@ -83,7 +83,7 @@ ACTIONCHUNK=50
 # default page size is 30 and truncates this listing). Uncomment one.
 #
 # task1 -- move the brown glass bottle to the designated location:
-# PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi05_b200_model"
+PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_50_pi05_b200_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_100_pi05_b200_model"
 # PRETRAINED="coport-uni/FR5_task1_move_the_brown_colored_glass_bottle_to_the_designated_location_200_pi05_b200_model"
 #
@@ -246,6 +246,10 @@ python3 -m lerobot.async_inference.robot_client \
     --debug_visualize_queue_size=false \
     --task="${TASK}" \
     --fps=20
+
+# move the brown colored glass bottle to the designated location
+# transfer the gray tablets from the brown bottle into another brown bottle
+# turn the sliver air valve 90 degress counterclockwise
 
 # Tuning notes (docs/source/async.mdx):
 #   - chunk_size_threshold 0.5-0.6 is the documented sweet spot. At
