@@ -3911,9 +3911,27 @@ Read-only diagnosis; nothing changed yet.
       This is LP §G6 recurring. A period-2 frame test on the live
       device was inconclusive because the scene was static, so the
       duplicate writers are a defect to clear, not a proven cause.
-- [ ] Re-point the cameras at the task1 recording framing (re-teach
-      "Preset 1" or restore the saved position), then re-verify with
-      the live-vs-dataset side-by-side before re-running the rollout.
+- [x] RETRACTED. The camera conclusion above is wrong. Multi-scale
+      template matching of static patches from the training frame into
+      the live frame returns median scale 1.00 with a +3/-2 px
+      (`top_left`) and -4/-0 px (`top_right`) offset over 15-16
+      confident patches: the PTZ never moved. What changed is scene
+      content -- the energy chain re-routed, table objects rearranged
+      -- which an edge-IoU side-by-side cannot distinguish from a
+      viewpoint change. Recorded as LP §3 Q24, rewritten accordingly.
+- [ ] Back to the open question the retraction leaves: ACT and Pi0 on
+      task1 work on the same images, same state and same runtime that
+      Pi0.5 fails on. The only input path that differs is the state --
+      Pi0.5 discretizes it into 256 bins over [-1, 1] while ACT and
+      Pi0 consume it continuously through a projection where MEAN_STD
+      is the correct normalization. That makes the MEAN_STD override a
+      Pi0.5-only handicap and the leading explanation for
+      "Pi0.5 worse than ACT/Pi0", though still not for
+      "task1 worse than task2/task3".
+- [ ] Run the task2 or task3 Pi0.5 checkpoint under today's setup as a
+      controlled A/B. If they now fail too, the regression is
+      environmental and dates from today; if they still work, it is
+      task1-specific and the wandb curve is the next check.
 - [ ] Confirm whether the 22:24 task3 Pi0.5 recordings
       (`task3_pi05_50_half1/2.webm`) already show the degraded
       behaviour -- they were made after the 22:14 camera move and
