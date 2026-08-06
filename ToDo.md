@@ -3779,3 +3779,29 @@ the workbook open, and overwriting it would clobber their edits.
 - [ ] Confirm with the user before writing to the workbook, then
       re-run the audit so every stored score equals
       `2*180초 + 4*성공 + 4*2연속`.
+
+## Verify three more xlsx rows against the video (2026-08-06)
+
+Context: the user asked to leave `data.xlsx` untouched (#132 stays
+open, unapplied) and instead extend the video cross-check by three
+more randomly drawn rows.
+
+Sampled from the 27 rows whose 회차 mapping is trustworthy -- the
+six conditions where detected attempts equal the logged 5회차 x 2시도
+with no 무효 -- minus the three already verified. Rows drawn:
+`task1_pi0_100` 5회차, `task1_pi0_100` 4회차, `task1_act_100` 4회차.
+
+All three are `성공=True, 2연속=False`, so the prediction under the
+confirmed reading of `2회 연속 성공` is sharp: exactly one of the two
+tries succeeded and one failed.
+
+- [x] Review both contact sheets for each of the three rows.
+- [x] Record whether exactly one try succeeded, and whether the 비고
+      matches the failing try. All three matched: task1_act_100 4회차
+      (시도1 눕힌 채 방치 -> 작업자 회수, 시도2 안착), task1_pi0_100
+      4회차 (시도1 141.8초 재파지 실패, 시도2 안착), task1_pi0_100
+      5회차 (시도1 26초 들고만 있다 회수, 시도2 안착). Registered as
+      #133.
+- [x] Append the results to the section 6 table in
+      `outputs/evaluation/analysis/README.md`. Seven verified items,
+      all matching; the xlsx success records hold up.
