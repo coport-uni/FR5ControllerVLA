@@ -3709,17 +3709,25 @@ size matches local to the byte including the 9,354,045,072 B
 `model.safetensors`. The three weight hashes differ from each other, so
 these are three distinct uploads and not one file pushed three times.
 
-- [ ] Add `claude_test/verify_pi05_task1_hub_parity.py`: list each repo
+- [x] Add `claude_test/verify_pi05_task1_hub_parity.py`: list each repo
       with `HfApi.list_repo_tree(expand=True)`, then hash the local file
       with sha256 (LFS) or git-blob sha1 (plain) and compare. Stream the
       9.35 GB weights in chunks; no download, no CUDA, no policy build.
-- [ ] Treat `.gitattributes` / `README.md` as expected hub-only files;
+- [x] Treat `.gitattributes` / `README.md` as expected hub-only files;
       fail only on a size, hash, or missing-file mismatch.
-- [ ] Cross-check the three weight hashes differ, so "all identical"
-      cannot come from three copies of the same file.
-- [ ] Run it over all three models and record the verdict here.
-- [ ] `ruff check` + `ruff format --check`; add the script row to
-      `claude_test/README.md`.
+- [x] Cross-check the three weight hashes differ, so "all identical"
+      cannot come from three copies of the same file. Verdict: 3 of 3
+      distinct (`b0d731ac...`, `8b75545c...`, `4e56f626...`).
+- [x] Run it over all three models and record the verdict here.
+      Rerun 2026-08-06 after the `_half` upload: all three `_model`
+      repos IDENTICAL on all 7 files. The same comparison against the
+      three `_half` repos (step 015000) is also IDENTICAL, and every
+      `_half` weight hash differs from its `_model` sibling.
+- [x] `ruff check` + `ruff format --check`; add the script row to
+      `claude_test/README.md`. `ruff` is absent from this box's PATH,
+      so both ran through `uvx ruff@0.14.1`, the version pinned in
+      `.pre-commit-config.yaml`; one over-length `add_argument` line
+      was wrapped.
 - [ ] `gh issue create`; commit + push explicit paths (LP §W2). The
       in-flight `modeling_pi0.py` / `modeling_pi05.py` edits stay
       uncommitted.
