@@ -4046,3 +4046,33 @@ Read-only diagnosis; nothing changed yet.
       control thread. This compounds with the 0.9 deg-per-call ramp
       limiter, which caps the arm near 9 deg/s at the current 10 Hz
       instead of ~18 deg/s at the intended 20 Hz.
+
+## Publish the completed evaluation recordings and scores (2026-08-07)
+
+The user finished screen-recording the remaining rollout sessions and
+finished scoring them in `outputs/evaluation/data.xlsx`. Push both to
+GitHub, along with the client-script working state left over from the
+eval sessions.
+
+- [ ] Commit the 16 new evaluation recordings through Git LFS
+      (see LP §2 G3). 485 MB across task1 Pi0.5, task2 ACT/Pi0/Pi0.5
+      and task3 Pi0.5. `*.webm` is already an LFS pattern, so the only
+      check needed is that the staged entries are pointers, not blobs.
+- [ ] Flag the LFS storage headroom. The remote already holds ~464 MB
+      of LFS objects; this push lands near 950 MB against GitHub's
+      1 GiB free tier.
+- [ ] Commit the `data.xlsx` update. The Pi0.5 rows are now filled in
+      across all three sheets, and the completion criterion on the
+      Pick and Place sheet moved from 60 s to 180 s, which recomputes
+      the Summary means, standard deviations and CVs.
+- [ ] Commit the client-script working state: the checkpoint selection
+      swaps in `9__run_client_act.sh` and `9__run_client_pi05.sh`, and
+      `debug_visualize_queue_size=false` in `9__run_client_pi0.sh`.
+- [ ] Repair two accidental edits in `9__run_client_pi05.sh` before it
+      is committed -- a stray Korean character inside the server-launch
+      `echo`, and a task string hardcoded over `--task="${TASK}"`,
+      which defeated the auto-derivation at line 123.
+- [ ] Drop the two SmolVLA client scripts that the working tree
+      already deleted.
+- [ ] Commit the accumulated `.claude/settings.json` permission
+      entries from the recent SSH diagnostic work.
