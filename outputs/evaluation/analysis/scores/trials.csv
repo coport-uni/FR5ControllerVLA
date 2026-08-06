@@ -1,0 +1,136 @@
+task,task_label,sheet,sheet_row,model,dataset,trial,in_time,success,consecutive,score_recorded,score_rubric,failure_modes,note
+task1,Pick and Place,Pick and Place,6,ACT,50,1회차,True,True,False,6.0,6.0,drop,병을 떨어트림
+task1,Pick and Place,Pick and Place,7,ACT,50,2회차,False,False,False,0.0,0.0,grasp_failure,병을 못 집음 x2
+task1,Pick and Place,Pick and Place,8,ACT,50,3회차,True,True,True,10.0,10.0,positive_remark,"아슬아슬하게넣음,"
+task1,Pick and Place,Pick and Place,9,ACT,50,4회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,10,ACT,50,5회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,11,ACT,100,1회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,12,ACT,100,2회차,True,True,False,6.0,6.0,drop,중간에 병을 떨어트림
+task1,Pick and Place,Pick and Place,13,ACT,100,3회차,True,True,False,6.0,6.0,collision_or_push;drop,"좀 부딪히면서 감, 중간에 병을 떨어트림"
+task1,Pick and Place,Pick and Place,14,ACT,100,4회차,True,True,False,6.0,6.0,drop,중간에 병을 떨어트림
+task1,Pick and Place,Pick and Place,15,ACT,100,5회차,True,True,False,6.0,6.0,drop;positive_remark,"아슬아슬하게넣음, 중간에 병을 떨어트림,"
+task1,Pick and Place,Pick and Place,16,ACT,200,1회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,17,ACT,200,2회차,True,True,False,6.0,6.0,drop,중간에 병을 떨어트림
+task1,Pick and Place,Pick and Place,18,ACT,200,3회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,19,ACT,200,4회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,20,ACT,200,5회차,True,True,False,6.0,6.0,drop,중간에 병을 떨어트림
+task1,Pick and Place,Pick and Place,21,Pi0,50,1회차,True,True,True,10.0,10.0,positive_remark,보정해서 성공함
+task1,Pick and Place,Pick and Place,22,Pi0,50,2회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,23,Pi0,50,3회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,24,Pi0,50,4회차,True,True,True,10.0,10.0,hesitation;positive_remark,"병을 놓고 멈칫히다가 성공함, 병을 끓어서 성공함"
+task1,Pick and Place,Pick and Place,25,Pi0,50,5회차,True,True,False,6.0,6.0,drop;operator_event,무효 한 번 있음: 이미 목적지에 병이 있어 아예 작동 안했음. 병을 떨어트림.
+task1,Pick and Place,Pick and Place,26,Pi0,100,1회차,True,True,True,10.0,10.0,collision_or_push;positive_remark,병을 부딧혔지만 성공함
+task1,Pick and Place,Pick and Place,27,Pi0,100,2회차,True,True,True,10.0,10.0,,
+task1,Pick and Place,Pick and Place,28,Pi0,100,3회차,True,True,False,6.0,6.0,placement_failure,병을 못넘
+task1,Pick and Place,Pick and Place,29,Pi0,100,4회차,True,True,False,6.0,6.0,grasp_failure,병을 다시 집으려했지만 실패함
+task1,Pick and Place,Pick and Place,30,Pi0,100,5회차,True,True,False,6.0,6.0,placement_failure,병을 못넘
+task1,Pick and Place,Pick and Place,31,Pi0,200,1회차,True,True,False,6.0,6.0,grasp_failure,병을 잘 못 집음
+task1,Pick and Place,Pick and Place,32,Pi0,200,2회차,False,False,False,0.0,0.0,placement_failure,병을 못넘 2
+task1,Pick and Place,Pick and Place,33,Pi0,200,3회차,False,False,False,0.0,0.0,placement_failure,병을 못넘 2
+task1,Pick and Place,Pick and Place,34,Pi0,200,4회차,True,True,False,6.0,6.0,gripper_close_failure,그리퍼를 못 닫음
+task1,Pick and Place,Pick and Place,35,Pi0,200,5회차,True,True,False,6.0,6.0,gripper_close_failure,그리퍼를 못 닫음
+task1,Pick and Place,Pick and Place,36,Pi0.5,50,1회차,False,False,False,0.0,0.0,grasp_failure,병을 집으려고 하지만 못 잡음 * 2
+task1,Pick and Place,Pick and Place,37,Pi0.5,50,2회차,False,False,False,0.0,0.0,grasp_failure,병을 집으려고 하지만 못 잡음 * 2
+task1,Pick and Place,Pick and Place,38,Pi0.5,50,3회차,False,False,False,0.0,0.0,grasp_failure,병을 집으려고 하지만 못 잡음 * 2
+task1,Pick and Place,Pick and Place,39,Pi0.5,50,4회차,False,False,False,0.0,0.0,grasp_failure,병을 집으려고 하지만 못 잡음 * 2
+task1,Pick and Place,Pick and Place,40,Pi0.5,50,5회차,False,False,False,0.0,0.0,grasp_failure,병을 집으려고 하지만 못 잡음 * 2
+task1,Pick and Place,Pick and Place,41,Pi0.5,100,1회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함  * 2
+task1,Pick and Place,Pick and Place,42,Pi0.5,100,2회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함  * 2
+task1,Pick and Place,Pick and Place,43,Pi0.5,100,3회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함  * 2
+task1,Pick and Place,Pick and Place,44,Pi0.5,100,4회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함  * 2
+task1,Pick and Place,Pick and Place,45,Pi0.5,100,5회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함  * 2
+task1,Pick and Place,Pick and Place,46,Pi0.5,200,1회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함 * 2
+task1,Pick and Place,Pick and Place,47,Pi0.5,200,2회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함 * 2
+task1,Pick and Place,Pick and Place,48,Pi0.5,200,3회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함 * 2
+task1,Pick and Place,Pick and Place,49,Pi0.5,200,4회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함 * 2
+task1,Pick and Place,Pick and Place,50,Pi0.5,200,5회차,False,False,False,0.0,0.0,motion_instability,아예 진동만함 * 2
+task2,Pouring,Pouring,6,ACT,50,1회차,False,False,False,0.0,0.0,grasp_failure,아예 못 집음 2
+task2,Pouring,Pouring,7,ACT,50,2회차,False,True,False,4.0,4.0,grasp_failure;return_failure,"아예 못 집음, 병을 반납 못함"
+task2,Pouring,Pouring,8,ACT,50,3회차,False,True,False,4.0,4.0,grasp_failure;return_failure,"병을 반납 못함, 아예 못 집음"
+task2,Pouring,Pouring,9,ACT,50,4회차,False,False,False,0.0,0.0,grasp_failure,아예 못 집음 2
+task2,Pouring,Pouring,10,ACT,50,5회차,False,False,False,0.0,0.0,grasp_failure,아예 못 집음 2
+task2,Pouring,Pouring,11,ACT,100,1회차,False,True,False,4.0,4.0,partial_progress;return_failure,"병을 집기만 함, 병을 반납 못함"
+task2,Pouring,Pouring,12,ACT,100,2회차,False,False,False,0.0,0.0,grasp_failure;hesitation,"시작에 머뭇거리고 병을 못 뺌, 아예 못 집음"
+task2,Pouring,Pouring,13,ACT,100,3회차,False,False,False,0.0,0.0,premature_home_return,갑자기 원점으로 돌아감 2
+task2,Pouring,Pouring,14,ACT,100,4회차,False,False,False,0.0,0.0,grasp_failure;premature_home_return,"갑자기 원점으로 돌아감, 병을 못 뺌,"
+task2,Pouring,Pouring,15,ACT,100,5회차,False,False,False,0.0,0.0,grasp_failure;premature_home_return,병을 못 집음. 갑자기 원점으로 돌아감
+task2,Pouring,Pouring,16,ACT,200,1회차,False,False,False,0.0,0.0,grasp_failure,병을 못 듬 2
+task2,Pouring,Pouring,17,ACT,200,2회차,True,True,False,6.0,6.0,grasp_failure,병을 못 듬 걱정되도 인내심 가져야함
+task2,Pouring,Pouring,18,ACT,200,3회차,True,True,True,10.0,10.0,positive_remark,갑자기 잘함!
+task2,Pouring,Pouring,19,ACT,200,4회차,True,True,True,10.0,10.0,operator_event;positive_remark,"무효1번: 카메라선 손상, 깔때기 방해가 있어도 정상 수행함"
+task2,Pouring,Pouring,20,ACT,200,5회차,True,True,False,6.0,6.0,placement_failure,병을 못 넘
+task2,Pouring,Pouring,21,Pi0,50,1회차,False,False,False,0.0,0.0,drop;grasp_failure,병을 못 집음 병을 놓침
+task2,Pouring,Pouring,22,Pi0,50,2회차,False,False,False,0.0,0.0,grasp_failure,병을 못 집음 2
+task2,Pouring,Pouring,23,Pi0,50,3회차,False,False,False,0.0,0.0,incomplete_pour;partial_progress;premature_home_return,"원점으로 돌아감, 집었지만 못 부음"
+task2,Pouring,Pouring,24,Pi0,50,4회차,False,False,False,0.0,0.0,grasp_failure;incomplete_pour,다 못 부음 병을 못 집음
+task2,Pouring,Pouring,25,Pi0,50,5회차,False,False,False,0.0,0.0,placement_failure,병을 못 이동시킴
+task2,Pouring,Pouring,26,Pi0,100,1회차,False,False,False,0.0,0.0,hesitation;incomplete_pour,"다  못 부음, 중간에 걸림"
+task2,Pouring,Pouring,27,Pi0,100,2회차,False,False,False,0.0,0.0,no_termination;premature_home_return,"중간에 복귀함, 다 부었지만 계속 부음"
+task2,Pouring,Pouring,28,Pi0,100,3회차,False,False,False,0.0,0.0,grasp_failure;premature_home_return,"병을 못 집음, 중간에 복귀함"
+task2,Pouring,Pouring,29,Pi0,100,4회차,False,True,False,4.0,4.0,no_termination;placement_failure;return_failure,"다 부었지만 계속 부어 복귀 못함, 병을 못 넣음"
+task2,Pouring,Pouring,30,Pi0,100,5회차,False,True,False,4.0,4.0,no_termination;operator_event,"무효 1번, 다 부었지만 계속 부음,"
+task2,Pouring,Pouring,31,Pi0,200,1회차,True,True,False,6.0,6.0,grasp_failure,병을 못 집음
+task2,Pouring,Pouring,32,Pi0,200,2회차,True,True,True,10.0,10.0,,
+task2,Pouring,Pouring,33,Pi0,200,3회차,True,True,False,6.0,6.0,collision_or_push;return_failure,"병을 좀 세게넘, 병을 반납 못함"
+task2,Pouring,Pouring,34,Pi0,200,4회차,False,False,False,0.0,0.0,grasp_failure,병을 못 집음 2
+task2,Pouring,Pouring,35,Pi0,200,5회차,False,True,False,6.0,4.0,no_termination;return_failure,"병을 반납 못함, 다 부었지만 계속 부어 복귀 못함"
+task2,Pouring,Pouring,36,Pi0.5,50,1회차,False,False,False,0.0,0.0,collision_or_push;drop,"병을 놓침, 병을 밈"
+task2,Pouring,Pouring,37,Pi0.5,50,2회차,False,False,False,0.0,0.0,collision_or_push,주변을 침  병을 누름
+task2,Pouring,Pouring,38,Pi0.5,50,3회차,False,False,False,0.0,0.0,collision_or_push;grasp_failure,병을 누름 병을 못 잡음
+task2,Pouring,Pouring,39,Pi0.5,50,4회차,False,False,False,0.0,0.0,collision_or_push;operator_event;premature_home_return,"지금 부터 녹화함 ㅠ, 병을 누름 원점으로돌아가다 병을 찍음"
+task2,Pouring,Pouring,40,Pi0.5,50,5회차,False,False,False,0.0,0.0,grasp_failure,병을 어예 못 잡음 2
+task2,Pouring,Pouring,41,Pi0.5,100,1회차,False,False,False,0.0,0.0,grasp_failure;partial_progress;positive_remark,"처음보는 테크닉을 집음. 근데 성공 못함., 병을 집지만 들진 못함"
+task2,Pouring,Pouring,42,Pi0.5,100,2회차,False,False,False,0.0,0.0,collision_or_push;partial_progress;release_failure,"병을 세게임,  병을 집었지만 못 놓았음"
+task2,Pouring,Pouring,43,Pi0.5,100,3회차,False,False,False,0.0,0.0,collision_or_push,"병을 밈,"
+task2,Pouring,Pouring,44,Pi0.5,100,4회차,False,False,False,0.0,0.0,grasp_failure,"병을 가져다가 다시넘, 병을 못 집음"
+task2,Pouring,Pouring,45,Pi0.5,100,5회차,False,False,False,0.0,0.0,collision_or_push;grasp_failure,"병을 밈, 병을 아예  못 잡음"
+task2,Pouring,Pouring,46,Pi0.5,200,1회차,False,True,False,4.0,4.0,drop;grasp_failure,"병을 복귀하다가 떨어트림, 병을 못 잡음"
+task2,Pouring,Pouring,47,Pi0.5,200,2회차,False,False,False,0.0,0.0,grasp_failure,병을 못 잡음 2
+task2,Pouring,Pouring,48,Pi0.5,200,3회차,False,False,False,0.0,0.0,grasp_failure,병을 못 잡음 2
+task2,Pouring,Pouring,49,Pi0.5,200,4회차,False,True,False,4.0,4.0,grasp_failure;operator_event;placement_failure,"병을 못 넘, 무효 1반, 병을 못 집음"
+task2,Pouring,Pouring,50,Pi0.5,200,5회차,False,False,False,0.0,0.0,drop;grasp_failure,병을 못 잡음 병을 놓침
+task3,Valve,밸브 조작,6,ACT,50,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,7,ACT,50,2회차,True,True,True,10.0,10.0,hesitation,살짝 돌릴때 버벅이는 것 같음
+task3,Valve,밸브 조작,8,ACT,50,3회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,9,ACT,50,4회차,True,True,False,6.0,6.0,grasp_failure,밸브를 잘 못 집고 꺽음
+task3,Valve,밸브 조작,10,ACT,50,5회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,11,ACT,100,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,12,ACT,100,2회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,13,ACT,100,3회차,True,True,True,10.0,10.0,hesitation,중간에 좀 멈춰있었음
+task3,Valve,밸브 조작,14,ACT,100,4회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,15,ACT,100,5회차,True,True,False,6.0,6.0,collision_or_push;operator_event,"밸브를 찍음, 모터 부하로 로봇 재시가함"
+task3,Valve,밸브 조작,16,ACT,200,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,17,ACT,200,2회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,18,ACT,200,3회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,19,ACT,200,4회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,20,ACT,200,5회차,True,True,True,10.0,10.0,positive_remark,전반적으로 밸브를 더 잘 돌리는 듯 함
+task3,Valve,밸브 조작,21,Pi0,50,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,22,Pi0,50,2회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,23,Pi0,50,3회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,24,Pi0,50,4회차,True,True,False,6.0,6.0,misperception;operator_event,"무효 1번, 모델이 이미 밸브가 돌아가 있음을 인지함, 밸브 위치를 잘 못 인식함"
+task3,Valve,밸브 조작,25,Pi0,50,5회차,False,False,False,0.0,0.0,misperception,밸브 위치를 잘 못 인식함 * 2
+task3,Valve,밸브 조작,26,Pi0,100,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,27,Pi0,100,2회차,True,True,False,6.0,6.0,collision_or_push,밸브를 찍음
+task3,Valve,밸브 조작,28,Pi0,100,3회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,29,Pi0,100,4회차,False,False,False,0.0,0.0,hesitation,밸브 근처에서 머뭇거림 * 2
+task3,Valve,밸브 조작,30,Pi0,100,5회차,True,True,False,6.0,6.0,hesitation,밸브 근처에서 머뭇거림
+task3,Valve,밸브 조작,31,Pi0,200,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,32,Pi0,200,2회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,33,Pi0,200,3회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,34,Pi0,200,4회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,35,Pi0,200,5회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,36,Pi0.5,50,1회차,False,False,False,0.0,0.0,motion_instability,모션이 튐  *2
+task3,Valve,밸브 조작,37,Pi0.5,50,2회차,False,False,False,0.0,0.0,grasp_failure,밸브를 못 잡음 * 2
+task3,Valve,밸브 조작,38,Pi0.5,50,3회차,False,False,False,0.0,0.0,grasp_failure,밸브를 못 잡음 * 2
+task3,Valve,밸브 조작,39,Pi0.5,50,4회차,False,False,False,0.0,0.0,grasp_failure;operator_event,노파심에 카메라 재부팅함.  밸브를 못 잡음 * 2
+task3,Valve,밸브 조작,40,Pi0.5,50,5회차,False,False,False,0.0,0.0,grasp_failure,밸브를 못 잡음 * 2
+task3,Valve,밸브 조작,41,Pi0.5,100,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,42,Pi0.5,100,2회차,True,True,False,10.0,6.0,collision_or_push,간신히 넣음 밸브를 찍음
+task3,Valve,밸브 조작,43,Pi0.5,100,3회차,False,False,False,0.0,0.0,motion_instability;operator_event,약간 로봇이 들려서 수리함 모션이 튀면서 안됨 * 2
+task3,Valve,밸브 조작,44,Pi0.5,100,4회차,False,False,False,0.0,0.0,collision_or_push;motion_instability,"밸브를 찍음, 모션이 튐"
+task3,Valve,밸브 조작,45,Pi0.5,100,5회차,False,False,False,0.0,0.0,motion_instability;operator_event,혹시몰라 재부팅 해봤는데도 여전함 모션이 튐 * 2
+task3,Valve,밸브 조작,46,Pi0.5,200,1회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,47,Pi0.5,200,2회차,True,True,True,10.0,10.0,operator_event,무효1 복사하다가 실수로 정지함.
+task3,Valve,밸브 조작,48,Pi0.5,200,3회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,49,Pi0.5,200,4회차,True,True,True,10.0,10.0,,
+task3,Valve,밸브 조작,50,Pi0.5,200,5회차,True,True,True,10.0,10.0,,

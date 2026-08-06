@@ -4054,25 +4054,67 @@ finished scoring them in `outputs/evaluation/data.xlsx`. Push both to
 GitHub, along with the client-script working state left over from the
 eval sessions.
 
-- [ ] Commit the 16 new evaluation recordings through Git LFS
+- [x] Commit the 16 new evaluation recordings through Git LFS
       (see LP §2 G3). 485 MB across task1 Pi0.5, task2 ACT/Pi0/Pi0.5
       and task3 Pi0.5. `*.webm` is already an LFS pattern, so the only
       check needed is that the staged entries are pointers, not blobs.
-- [ ] Flag the LFS storage headroom. The remote already holds ~464 MB
+- [x] Flag the LFS storage headroom. The remote already holds ~464 MB
       of LFS objects; this push lands near 950 MB against GitHub's
       1 GiB free tier.
-- [ ] Commit the `data.xlsx` update. The Pi0.5 rows are now filled in
+- [x] Commit the `data.xlsx` update. The Pi0.5 rows are now filled in
       across all three sheets, and the completion criterion on the
       Pick and Place sheet moved from 60 s to 180 s, which recomputes
       the Summary means, standard deviations and CVs.
-- [ ] Commit the client-script working state: the checkpoint selection
+- [x] Commit the client-script working state: the checkpoint selection
       swaps in `9__run_client_act.sh` and `9__run_client_pi05.sh`, and
       `debug_visualize_queue_size=false` in `9__run_client_pi0.sh`.
-- [ ] Repair two accidental edits in `9__run_client_pi05.sh` before it
+- [x] Repair two accidental edits in `9__run_client_pi05.sh` before it
       is committed -- a stray Korean character inside the server-launch
       `echo`, and a task string hardcoded over `--task="${TASK}"`,
       which defeated the auto-derivation at line 123.
-- [ ] Drop the two SmolVLA client scripts that the working tree
+- [x] Drop the two SmolVLA client scripts that the working tree
       already deleted.
-- [ ] Commit the accumulated `.claude/settings.json` permission
+- [x] Commit the accumulated `.claude/settings.json` permission
       entries from the recent SSH diagnostic work.
+
+## Analyse the completed evaluation scores for trends (2026-08-07)
+
+Context: `outputs/evaluation/data.xlsx` is now fully scored -- 135 trials
+across 3 tasks x 3 models x 3 dataset sizes x 5 회차. The workbook's
+`Summary` sheet only carries mean / SD / CV per condition, which is the
+weakest reading available: the total score is an ordinal 0/4/6/10 scale
+over n=5, so the CV is undefined at 0 and reports 223.6 % in one cell,
+and the summary discards the three rubric components, the 비고 failure
+notes and the known confounds. The user asked for the trends and a
+proper analysis. The xlsx itself stays untouched (#132 remains open and
+unapplied).
+
+- [x] Write `claude_test/eval_score_analysis.py`: load the three raw
+      sheets into one tidy frame, recompute every total from the rubric
+      `2*완료 + 4*성공 + 4*2연속`, and emit CSVs plus figures under
+      `outputs/evaluation/analysis/scores/`.
+- [x] Report the two rows whose stored total disagrees with its own
+      booleans. `Pouring` r35 (Pi0/200/5회차) stores 6 against a rubric
+      4 -- already known as #132 -- and `밸브 조작` r42 (Pi0.5/100/2회차)
+      stores 10 with `2회 연속 성공 = False` against a rubric 6, which is
+      new since the Pi0.5 rows were filled in. Per the user, recompute
+      from the rubric rather than edit the workbook.
+- [x] Replace the CV with Wilson 95 % intervals on the three component
+      rates. Wilson is defined at 0/5 and 5/5, where the CV is not.
+- [x] Classify the 100 non-empty 비고 notes into failure modes by
+      keyword, and print every unmatched note so the taxonomy can be
+      audited instead of trusted.
+- [x] Cross-check the `180초 내 완료` flag against the measured
+      durations in `outputs/evaluation/analysis/README.md` for the 18
+      ACT/Pi0 conditions. The criteria banner rows still read 40초 /
+      40초 / 60초 while the column header reads 180초, so establish
+      which reading the recorded flags actually follow.
+- [x] Write the report at `outputs/evaluation/analysis/scores/README.md`
+      covering task difficulty, the non-monotonic data scaling, the
+      score decomposition, the per-model failure signatures, and the
+      confounds.
+- [x] Flag the confounded cells explicitly: the task1 Pi0.5 all-zero
+      column is the open subject of #135 (the arm does not move at all),
+      so it measures a deployment defect and not Pi0.5's capability, and
+      the task3 Pi0.5 50-episode zeros carry a camera-reboot note from
+      the same session.
