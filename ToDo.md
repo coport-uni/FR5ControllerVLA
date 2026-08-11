@@ -4118,3 +4118,36 @@ unapplied).
       so it measures a deployment defect and not Pi0.5's capability, and
       the task3 Pi0.5 50-episode zeros carry a camera-reboot note from
       the same session.
+
+## Fairino SDK upgrade feasibility analysis (2026-08-11)
+
+Analysis-only task: compare the bundled Fairino Python SDK against the
+latest upstream (https://github.com/FAIR-INNOVATION/fairino-python-sdk)
+and report what an update would improve. No code change requested.
+
+- [x] Identify the bundled SDK version. Finding: `Robot.py` is
+      byte-identical to upstream tag `v2.2.1_robot3.9.1` (2025-12-25),
+      which exactly matches our controller firmware V3.9.1. The stale
+      `README.txt` inside the bundle (V2.0.9, 2024-02) misled the
+      version check; only the changelog file is outdated (see LP §1 R1
+      for the twin-copy hazard -- both `robots/fairino/` and
+      `robots/fairino_follower/` carry the same bundle).
+- [x] Enumerate upstream changes v2.2.1 -> v2.2.8 (2026-07-24):
+      v2.2.2/3 add TCP-calibration helpers, `MoveStationary`,
+      `GetInverseKinExaxis`; v2.2.4 (robot 3.9.4) adds a UDP command
+      channel on port 20007 (`cmdType=1` on ServoJ/ServoMoveStart/End)
+      plus `ServoJV` velocity servo; v2.2.5 (robot 3.9.5) replaces the
+      20004 TCP state feed with a CNDE protocol on port 20005 and adds
+      `SetReConnectParam`/`reconnect`; v2.2.7/8 add `ServoMIT`
+      joint-impedance servo and dexterous-hand APIs.
+- [x] Assess impact on our call surface (ServoJ via raw XMLRPC,
+      ServoMoveStart/End, RobotEnable, ResetAllError, Mode,
+      GetActualJointPosDegree, gripper calls): upgrading the SDK alone
+      on firmware V3.9.1 buys nothing -- every new transport (UDP
+      20007, CNDE 20005) needs a matching controller upgrade, and
+      v2.2.8's `GetActualJointPosDegree` regresses from a cached
+      state-package read to a blocking XMLRPC round-trip, which would
+      hurt the 20 Hz control loop.
+- [x] Record the conclusion: SDK and firmware version-lock pairwise;
+      hold at v2.2.1 until the controller is flashed to >= V3.9.5,
+      then re-evaluate for the UDP servo path.
